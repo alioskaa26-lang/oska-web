@@ -1,0 +1,2253 @@
+{
+ "products": [
+  {
+   "id": "panther-silver",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Taşlı",
+    "en": "Silver tone · Stone set"
+   },
+   "image": "panther-silver.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Karşılıklı panter başları, taşlı detaylar ve hareketli altıgen örgü. Heykelsi bir silüette güçlü bir ifade.",
+    "en": "Facing panther heads, stone-set details and articulated hexagonal links. A sculptural silhouette with a bold presence."
+   },
+   "code": "P001"
+  },
+  {
+   "id": "panther-gold",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Altın ton · Benekli",
+    "en": "Gold tone · Spotted"
+   },
+   "image": "panther-gold.jpeg",
+   "swatch": "gold",
+   "description": {
+    "tr": "Panter desenini vurgulayan koyu taşlar, yeşil göz detayları ve altın tonunda örgü yapı.",
+    "en": "Dark stones trace the panther’s pattern, complemented by green eye details and gold-toned articulated links."
+   },
+   "code": "P002"
+  },
+  {
+   "id": "panther-dark",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Siyah ton · Taşlı",
+    "en": "Dark tone · Stone set"
+   },
+   "image": "panther-dark.jpeg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Koyu yüzeyler ve taşlı panter başları. Renkli göz detaylarıyla tamamlanan güçlü, maskülen bir tasarım.",
+    "en": "Dark surfaces and stone-set panther heads. Colored eye details complete a strong, masculine design."
+   },
+   "code": "P003"
+  },
+  {
+   "id": "panther-smoke",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Koyu ton · Berrak taş",
+    "en": "Dark tone · Clear stones"
+   },
+   "image": "oska-019.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Karşılıklı panter başları ve taş detayları, hareketli altıgen örgüyle birleşir. Güçlü bir silüet, özenle işlenmiş yüzeyler.",
+    "en": "Facing panther heads and stone-set details meet articulated hexagonal links. A bold silhouette with carefully worked surfaces."
+   },
+   "code": "P004"
+  },
+  {
+   "id": "panther-silver-spotted",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Altın benek",
+    "en": "Silver tone · Gold spots"
+   },
+   "image": "oska-041.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Karşılıklı panter başları ve taş detayları, hareketli altıgen örgüyle birleşir. Güçlü bir silüet, özenle işlenmiş yüzeyler.",
+    "en": "Facing panther heads and stone-set details meet articulated hexagonal links. A bold silhouette with carefully worked surfaces."
+   },
+   "code": "P005"
+  },
+  {
+   "id": "panther-gold-clear",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Altın ton · Berrak taş",
+    "en": "Gold tone · Clear stones"
+   },
+   "image": "oska-047.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Karşılıklı panter başları ve taş detayları, hareketli altıgen örgüyle birleşir. Güçlü bir silüet, özenle işlenmiş yüzeyler.",
+    "en": "Facing panther heads and stone-set details meet articulated hexagonal links. A bold silhouette with carefully worked surfaces."
+   },
+   "code": "P006"
+  },
+  {
+   "id": "panther-gold-black",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Koyu ton · Altın benek",
+    "en": "Dark tone · Gold spots"
+   },
+   "image": "oska-054.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Karşılıklı panter başları ve taş detayları, hareketli altıgen örgüyle birleşir. Güçlü bir silüet, özenle işlenmiş yüzeyler.",
+    "en": "Facing panther heads and stone-set details meet articulated hexagonal links. A bold silhouette with carefully worked surfaces."
+   },
+   "code": "P007"
+  },
+  {
+   "id": "panther-green",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Koyu ton · Yeşil taş",
+    "en": "Dark tone · green stones"
+   },
+   "image": "aa126-card.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Renkli taşlarla belirginleşen panter başları ve koyu altıgen örgü. Güçlü bir form, dikkat çekici detaylar.",
+    "en": "Colored stones accent panther heads and dark hexagonal links. A bold form with distinctive details."
+   },
+   "code": "P008"
+  },
+  {
+   "id": "panther-orange",
+   "collection": "panther",
+   "name": {
+    "tr": "Panter",
+    "en": "Panther"
+   },
+   "finish": {
+    "tr": "Koyu ton · Turuncu taş",
+    "en": "Dark tone · orange stones"
+   },
+   "image": "aa127-card.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Renkli taşlarla belirginleşen panter başları ve koyu altıgen örgü. Güçlü bir form, dikkat çekici detaylar.",
+    "en": "Colored stones accent panther heads and dark hexagonal links. A bold form with distinctive details."
+   },
+   "code": "P009"
+  },
+  {
+   "id": "mesh-silver",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü",
+    "en": "Mesh"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Geniş sade form",
+    "en": "Silver tone · Wide polished profile"
+   },
+   "image": "mesh-silver.jpeg",
+   "swatch": "silver",
+   "description": {
+    "tr": "Altıgen halkaların ritmiyle şekillenen sade bir bileklik. Cilalı yüzey, örgünün hareketli yapısını öne çıkarır.",
+    "en": "A clean bracelet defined by a rhythm of hexagonal links. The polished surface emphasizes its articulated construction."
+   },
+   "square": true,
+   "code": "P010"
+  },
+  {
+   "id": "mesh-gold",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü",
+    "en": "Mesh"
+   },
+   "finish": {
+    "tr": "Altın ton · Geniş taşlı form",
+    "en": "Gold tone · Wide stone-set profile"
+   },
+   "image": "mesh-gold.jpeg",
+   "swatch": "gold",
+   "description": {
+    "tr": "Altın tonundaki altıgen örgü, sıra sıra taş detaylarıyla buluşur. Dokusu ve ışığıyla dikkat çeken bir form.",
+    "en": "Gold-toned hexagonal links meet rows of stone-set details. A distinctive form shaped by texture and light."
+   },
+   "square": true,
+   "code": "P011"
+  },
+  {
+   "id": "mesh-pave-wide",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Geniş form",
+    "en": "Silver tone · Wide profile"
+   },
+   "image": "mesh-pave-wide.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Geniş altıgen örgü yüzeyine yerleşen berrak taşlar. Işığı vurgulayan, güçlü ve hareketli bir form.",
+    "en": "Clear stones follow the wide hexagonal links, bringing light to a bold, articulated silhouette."
+   },
+   "code": "P012"
+  },
+  {
+   "id": "mesh-pave-dark",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Mavi taş",
+    "en": "Silver tone · Blue stones"
+   },
+   "image": "mesh-pave-dark.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Parlak gümüş tonlu altıgenler içinde koyu mavi taşlar. Geometrik dokuya derinlik katan bir karşıtlık.",
+    "en": "Deep blue stones sit within polished silver-toned hexagons, adding depth to the geometric texture."
+   },
+   "code": "P013"
+  },
+  {
+   "id": "mesh-pave-ruby",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Koyu ton · Kırmızı taş",
+    "en": "Dark tone · Red stones"
+   },
+   "image": "mesh-pave-ruby.jpeg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Koyu yüzeyli altıgen örgü, kırmızı tonlu taşlarla belirginleşir. Rengi ve dokusuyla karakter sahibi bir bileklik.",
+    "en": "Red-toned stones accent dark hexagonal links in a bracelet defined by rich color and texture."
+   },
+   "code": "P014"
+  },
+  {
+   "id": "mesh-polished-gold",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü",
+    "en": "Mesh"
+   },
+   "finish": {
+    "tr": "Altın ton · Sade",
+    "en": "Gold tone · Polished"
+   },
+   "image": "mesh-polished-gold.jpeg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Altın tonunda cilalı altıgen halkalar. Hareketli yapısı ve kesintisiz yüzeyiyle sade bir ifade.",
+    "en": "Polished gold-toned hexagonal links create a clean expression through an articulated, continuous surface."
+   },
+   "code": "P015"
+  },
+  {
+   "id": "mesh-pave-silver",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Gümüş ton · İnce form",
+    "en": "Silver tone · Slim profile"
+   },
+   "image": "mesh-pave-silver.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Berrak taşlarla vurgulanan ince altıgen örgü. Dengeli oranlar, ışık ve hareket bir arada.",
+    "en": "Clear stones accent slender hexagonal links, bringing proportion, light and movement together."
+   },
+   "code": "P016"
+  },
+  {
+   "id": "mesh-pave-blue",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Koyu ton · Mavi taş",
+    "en": "Dark tone · Blue stones"
+   },
+   "image": "oska-011.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P017"
+  },
+  {
+   "id": "mesh-black-pave",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Koyu ton · Siyah taş",
+    "en": "Dark tone · Black stones"
+   },
+   "image": "oska-016.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P018"
+  },
+  {
+   "id": "mesh-pave-pink-silver",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Pembe taş",
+    "en": "Silver tone · Pink stones"
+   },
+   "image": "oska-018.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P019"
+  },
+  {
+   "id": "mesh-polished-gold-wide",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü",
+    "en": "Mesh"
+   },
+   "finish": {
+    "tr": "Altın ton · Geniş sade form",
+    "en": "Gold tone · Wide polished profile"
+   },
+   "image": "oska-020.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P020"
+  },
+  {
+   "id": "mesh-pave-smoke",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Koyu ton · Berrak taş",
+    "en": "Dark tone · Clear stones"
+   },
+   "image": "oska-021.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P021"
+  },
+  {
+   "id": "mesh-polished-dark-wide",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü",
+    "en": "Mesh"
+   },
+   "finish": {
+    "tr": "Koyu ton · Geniş sade form",
+    "en": "Dark tone · Wide polished profile"
+   },
+   "image": "oska-022.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P022"
+  },
+  {
+   "id": "mesh-pave-green-gold",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Altın ton · Yeşil taş",
+    "en": "Gold tone · Green stones"
+   },
+   "image": "oska-023.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P023"
+  },
+  {
+   "id": "mesh-pave-gold-narrow",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Pavé",
+    "en": "Mesh Pavé"
+   },
+   "finish": {
+    "tr": "Altın ton · İnce taşlı form",
+    "en": "Gold tone · Slim stone-set profile"
+   },
+   "image": "oska-024.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P024"
+  },
+  {
+   "id": "mesh-pave-linear",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Çizgi",
+    "en": "Linear Mesh"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Taşlı çizgi",
+    "en": "Silver tone · Stone-set line"
+   },
+   "image": "oska-010.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P025"
+  },
+  {
+   "id": "mesh-pave-center",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Ritim",
+    "en": "Rhythm Mesh"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Dönüşümlü taş",
+    "en": "Silver tone · Alternating stones"
+   },
+   "image": "oska-068.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P026"
+  },
+  {
+   "id": "mesh-dots-black",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Nokta",
+    "en": "Dotted Mesh"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Siyah taş",
+    "en": "Silver tone · Black stones"
+   },
+   "image": "oska-004.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Hareketli altıgen örgü, yüzeyin ışığını ve dokusunu öne çıkarır. Malzeme, kaplama ve ölçü seçenekleri koleksiyonunuza göre değerlendirilir.",
+    "en": "Articulated hexagonal links emphasize the surface texture and light. Materials, finishes and sizing can be discussed for your collection."
+   },
+   "code": "P027"
+  },
+  {
+   "id": "mesh-bands-silver",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Bant",
+    "en": "Mesh Bands"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Berrak taş",
+    "en": "Silver tone · Clear stones"
+   },
+   "image": "mesh-bands-silver.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Cilalı altıgen örgü üzerinde üç taşlı bant. Sade yüzeylerle ışıltılı detaylar dengeli bir ritimde buluşur.",
+    "en": "Three stone-set bands punctuate polished hexagonal links, balancing clean surfaces with sparkling details."
+   },
+   "code": "P028"
+  },
+  {
+   "id": "mesh-bands-gold",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Bant",
+    "en": "Mesh Bands"
+   },
+   "finish": {
+    "tr": "Altın ton · Siyah taş",
+    "en": "Gold tone · Black stones"
+   },
+   "image": "mesh-bands-gold.jpeg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Altın tonlu cilalı örgüyü vurgulayan siyah taşlı bantlar. Belirgin detaylarla tamamlanan akıcı bir silüet.",
+    "en": "Black stone-set bands accent polished gold-toned links, giving definition to a fluid silhouette."
+   },
+   "code": "P029"
+  },
+  {
+   "id": "mesh-arabesque",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Arabesk",
+    "en": "Mesh Arabesque"
+   },
+   "finish": {
+    "tr": "Koyu ton · Altın motif",
+    "en": "Dark tone · Gold motif"
+   },
+   "image": "mesh-arabesque.jpeg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Koyu örgü üzerinde altın tonlu kıvrımlı motif. Berrak taşlarla çevrelenen plaka, tasarımın odağını oluşturur.",
+    "en": "A gold-toned scrolling motif stands against dark links. A border of clear stones frames the central plate."
+   },
+   "code": "P030"
+  },
+  {
+   "id": "mesh-plate-dark",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Siyah taş",
+    "en": "Silver tone · Black stones"
+   },
+   "image": "mesh-plate-dark.jpeg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Gümüş tonlu altıgen örgü, siyah taşlarla tamamlanan uzun bir plakaya bağlanır. Sade ve güçlü bir merkez detay.",
+    "en": "Silver-toned hexagonal links meet an elongated black stone-set plate, creating a clean, bold focal point."
+   },
+   "code": "P031"
+  },
+  {
+   "id": "mesh-arabesque-wide",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Arabesk",
+    "en": "Mesh Arabesque"
+   },
+   "finish": {
+    "tr": "Koyu ton · Geniş plaka",
+    "en": "Dark tone · Wide plate"
+   },
+   "image": "oska-001.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P032"
+  },
+  {
+   "id": "mesh-plate-gold",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Altın ton · Çerçeveli siyah taş",
+    "en": "Gold tone · Framed black stones"
+   },
+   "image": "oska-003.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P033"
+  },
+  {
+   "id": "mesh-plate-silver",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Çerçeveli berrak taş",
+    "en": "Silver tone · Framed clear stones"
+   },
+   "image": "oska-005.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P034"
+  },
+  {
+   "id": "mesh-plate-blue",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Koyu ton · Mavi plaka",
+    "en": "Dark tone · Blue plate"
+   },
+   "image": "oska-025.jpg",
+   "swatch": "dark",
+   "square": false,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P035"
+  },
+  {
+   "id": "mesh-bands-ruby",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Bant",
+    "en": "Mesh Bands"
+   },
+   "finish": {
+    "tr": "Koyu ton · Pembe taş",
+    "en": "Dark tone · Pink stones"
+   },
+   "image": "oska-026.jpg",
+   "swatch": "dark",
+   "square": false,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P036"
+  },
+  {
+   "id": "mesh-arabesque-ruby",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Arabesk",
+    "en": "Mesh Arabesque"
+   },
+   "finish": {
+    "tr": "Koyu ton · Pembe çerçeve",
+    "en": "Dark tone · Pink border"
+   },
+   "image": "oska-028.jpg",
+   "swatch": "dark",
+   "square": false,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P037"
+  },
+  {
+   "id": "mesh-arabesque-green",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Arabesk",
+    "en": "Mesh Arabesque"
+   },
+   "finish": {
+    "tr": "Koyu ton · Yeşil çerçeve",
+    "en": "Dark tone · Green border"
+   },
+   "image": "oska-029.jpg",
+   "swatch": "dark",
+   "square": false,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P038"
+  },
+  {
+   "id": "mesh-plate-clear-dark",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Koyu ton · Berrak taş",
+    "en": "Dark tone · Clear stones"
+   },
+   "image": "oska-032.jpg",
+   "swatch": "dark",
+   "square": false,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P039"
+  },
+  {
+   "id": "mesh-plate-gold-black-wide",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Altın ton · Geniş siyah taş",
+    "en": "Gold tone · Wide black stones"
+   },
+   "image": "oska-050.jpg",
+   "swatch": "gold",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P040"
+  },
+  {
+   "id": "mesh-plate-clear-wide",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Geniş berrak taş",
+    "en": "Silver tone · Wide clear stones"
+   },
+   "image": "oska-062.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P041"
+  },
+  {
+   "id": "mesh-plate-black-wide",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Gümüş ton · Geniş siyah taş",
+    "en": "Silver tone · Wide black stones"
+   },
+   "image": "oska-064.jpg",
+   "swatch": "silver",
+   "square": true,
+   "description": {
+    "tr": "Altıgen örgü üzerinde öne çıkan merkez detaylar. Taş, yüzey ve motifin birlikteliği tasarıma kendine özgü bir ifade kazandırır.",
+    "en": "Distinctive central details accent hexagonal links. Stones, surfaces and motifs give the design its individual expression."
+   },
+   "code": "P042"
+  },
+  {
+   "id": "horse-polished",
+   "collection": "horse",
+   "name": {
+    "tr": "At Figürü",
+    "en": "Equestrian"
+   },
+   "finish": {
+    "tr": "Koyu ton · Altın detay",
+    "en": "Dark tone · Gold detail"
+   },
+   "image": "oska-017.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Heykelsi at figürü, altın tonlu detaylarla vurgulanır. Hareketli altıgen örgüyle tamamlanan karakter sahibi bir tasarım.",
+    "en": "A sculptural horse motif is accented with gold-toned details, complemented by articulated hexagonal links."
+   },
+   "code": "P043"
+  },
+  {
+   "id": "horse-pave",
+   "collection": "horse",
+   "name": {
+    "tr": "At Figürü",
+    "en": "Equestrian"
+   },
+   "finish": {
+    "tr": "Koyu ton · Taşlı örgü",
+    "en": "Dark tone · Stone-set links"
+   },
+   "image": "oska-058.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Heykelsi at figürü, altın tonlu detaylarla vurgulanır. Hareketli altıgen örgüyle tamamlanan karakter sahibi bir tasarım.",
+    "en": "A sculptural horse motif is accented with gold-toned details, complemented by articulated hexagonal links."
+   },
+   "code": "P044"
+  },
+  {
+   "id": "mesh-bands-dark-clear",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Bant",
+    "en": "Mesh Bands"
+   },
+   "finish": {
+    "tr": "Koyu ton · Berrak taş bantlar",
+    "en": "Dark tone · Clear stone bands"
+   },
+   "image": "pinterest-615937686541904734.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Cilalı altıgen örgü üzerinde üç taşlı bant. Sade yüzeylerle ışıltılı detaylar dengeli bir ritimde buluşur.",
+    "en": "Three stone-set bands punctuate polished hexagonal links, balancing clean surfaces with sparkling details."
+   },
+   "code": "P045"
+  },
+  {
+   "id": "mesh-rhythm-dark",
+   "collection": "mesh",
+   "name": {
+    "tr": "Örgü Ritim",
+    "en": "Rhythm Mesh"
+   },
+   "finish": {
+    "tr": "Koyu ton · Dönüşümlü taşlı örgü",
+    "en": "Dark tone · Alternating stone-set links"
+   },
+   "image": "pinterest-615937686541736724.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Altıgen halkaların ritmiyle şekillenen sade bir bileklik. Cilalı yüzey, örgünün hareketli yapısını öne çıkarır.",
+    "en": "A clean bracelet defined by a rhythm of hexagonal links. The polished surface emphasizes its articulated construction."
+   },
+   "code": "P046"
+  },
+  {
+   "id": "mesh-plate-orange",
+   "collection": "signature",
+   "name": {
+    "tr": "Örgü Plaka",
+    "en": "Mesh Plate"
+   },
+   "finish": {
+    "tr": "Koyu ton · Turuncu taş",
+    "en": "Dark tone · Orange stones"
+   },
+   "image": "pinterest-615937686541671947.jpg",
+   "swatch": "dark",
+   "square": true,
+   "description": {
+    "tr": "Cilalı altıgen örgü üzerinde üç taşlı bant. Sade yüzeylerle ışıltılı detaylar dengeli bir ritimde buluşur.",
+    "en": "Three stone-set bands punctuate polished hexagonal links, balancing clean surfaces with sparkling details."
+   },
+   "code": "P047"
+  }
+ ],
+ "editorial": {
+  "id": "atelier",
+  "collection": "atelierNav",
+  "editorial": true,
+  "name": {
+   "tr": "OSKA Atölyesi",
+   "en": "The OSKA Atelier"
+  },
+  "finish": {
+   "tr": "Tasarım · Doku · Üretim",
+   "en": "Design · Texture · Craft"
+  },
+  "image": "atelier.jpeg",
+  "description": {
+   "tr": "Model çalışmalarından son ürüne. OSKA atölyesinden üretim ve koleksiyon detayları.",
+   "en": "From model studies to finished pieces. Production and collection details from the OSKA atelier."
+  }
+ },
+ "mediaGalleries": {
+  "panther-silver": [
+   {
+    "type": "image",
+    "src": "assets/panther-silver-detail.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-006.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-037.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-077.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-038.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/panther-editorial.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa113-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa113-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa113-07.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa113-08.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa113-09.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/otta-aa113-film.mp4",
+    "poster": "assets/panther-silver.jpeg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-077.mp4",
+    "poster": "assets/oska-077.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/pinterest-615937686563325245.mp4",
+    "poster": "assets/panther-silver.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686560855806.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686552998509.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686566069172.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686557384041.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686565176417.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686559817853.jpg"
+   }
+  ],
+  "panther-gold": [
+   {
+    "type": "image",
+    "src": "assets/panther-gold-detail.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/panther-gold-lifestyle.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-035.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-080.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-038.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/panther-editorial.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa124-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa124-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa124-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa124-07.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa124-08.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/otta-aa124-film.mp4",
+    "poster": "assets/panther-gold.jpeg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-080.mp4",
+    "poster": "assets/oska-080.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/pinterest-615937686562143193.mp4",
+    "poster": "assets/panther-gold.jpeg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/pinterest-615937686558745364.mp4",
+    "poster": "assets/panther-gold.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686558135171.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686553194546.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686560587864.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686557484954.png"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686568399667.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686566069172.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686560288112.png"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686557384041.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686559817853.jpg"
+   }
+  ],
+  "panther-dark": [
+   {
+    "type": "image",
+    "src": "assets/panther-dark-detail.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-009.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-081.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-038.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/panther-editorial.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa123-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa123-03.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-video-075.mp4",
+    "poster": "assets/owner-video-075-poster.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-081.mp4",
+    "poster": "assets/oska-081.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686566069172.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686557384041.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686559817853.jpg"
+   }
+  ],
+  "mesh-silver": [
+   {
+    "type": "image",
+    "src": "assets/oska-008.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-082.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-04.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-07.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-08.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-09.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa115-10.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/otta-aa115-film.mp4",
+    "poster": "assets/mesh-silver.jpeg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-video-074.mp4",
+    "poster": "assets/owner-video-074-poster.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-082.mp4",
+    "poster": "assets/oska-082.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/pinterest-615937686561241304.mp4",
+    "poster": "assets/mesh-silver.jpeg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686559508114.jpg"
+   }
+  ],
+  "mesh-gold": [
+   {
+    "type": "image",
+    "src": "assets/oska-015.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-04.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-07.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-08.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa112-09.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686559508114.jpg"
+   }
+  ],
+  "mesh-pave-wide": [
+   {
+    "type": "image",
+    "src": "assets/oska-040.jpg"
+   }
+  ],
+  "mesh-pave-dark": [
+   {
+    "type": "image",
+    "src": "assets/oska-079.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-04.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa064-07.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-079.mp4",
+    "poster": "assets/oska-079.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686557281521.jpg"
+   }
+  ],
+  "mesh-bands-silver": [
+   {
+    "type": "image",
+    "src": "assets/oska-012.jpg"
+   }
+  ],
+  "mesh-pave-ruby": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa108-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa108-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa108-04.jpg"
+   }
+  ],
+  "mesh-bands-gold": [],
+  "mesh-polished-gold": [
+   {
+    "type": "image",
+    "src": "assets/oska-013.jpg"
+   }
+  ],
+  "mesh-pave-silver": [
+   {
+    "type": "image",
+    "src": "assets/oska-002.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-049.jpg"
+   }
+  ],
+  "mesh-arabesque": [
+   {
+    "type": "image",
+    "src": "assets/oska-014.jpg"
+   }
+  ],
+  "mesh-plate-dark": [
+   {
+    "type": "image",
+    "src": "assets/oska-007.jpg"
+   }
+  ],
+  "mesh-arabesque-wide": [
+   {
+    "type": "image",
+    "src": "assets/oska-045.jpg"
+   }
+  ],
+  "mesh-plate-gold": [],
+  "mesh-plate-silver": [
+   {
+    "type": "image",
+    "src": "assets/oska-063.jpg"
+   }
+  ],
+  "mesh-pave-blue": [
+   {
+    "type": "image",
+    "src": "assets/oska-072.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa120-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa120-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa120-04.jpg"
+   }
+  ],
+  "mesh-black-pave": [
+   {
+    "type": "image",
+    "src": "assets/oska-036.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-043.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-video-073.mp4",
+    "poster": "assets/owner-video-073-poster.jpg"
+   }
+  ],
+  "horse-polished": [
+   {
+    "type": "image",
+    "src": "assets/oska-061.jpg"
+   }
+  ],
+  "mesh-pave-pink-silver": [],
+  "panther-smoke": [],
+  "mesh-polished-gold-wide": [
+   {
+    "type": "image",
+    "src": "assets/oska-070.jpg"
+   }
+  ],
+  "mesh-pave-smoke": [],
+  "mesh-polished-dark-wide": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa067-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa067-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa067-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa067-04.jpg"
+   }
+  ],
+  "mesh-pave-green-gold": [],
+  "mesh-pave-gold-narrow": [
+   {
+    "type": "image",
+    "src": "assets/oska-055.jpg"
+   }
+  ],
+  "mesh-plate-blue": [
+   {
+    "type": "image",
+    "src": "assets/oska-033.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-033.mp4",
+    "poster": "assets/oska-033.jpg"
+   }
+  ],
+  "mesh-bands-ruby": [
+   {
+    "type": "image",
+    "src": "assets/oska-027.jpg"
+   }
+  ],
+  "mesh-arabesque-ruby": [
+   {
+    "type": "image",
+    "src": "assets/oska-030.jpg"
+   }
+  ],
+  "mesh-arabesque-green": [
+   {
+    "type": "image",
+    "src": "assets/oska-031.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-034.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-034.mp4",
+    "poster": "assets/oska-034.jpg"
+   }
+  ],
+  "mesh-plate-clear-dark": [
+   {
+    "type": "image",
+    "src": "assets/pinterest-615937686541706221.jpg"
+   }
+  ],
+  "panther-silver-spotted": [],
+  "panther-gold-clear": [],
+  "panther-gold-black": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-04.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-05.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-06.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-07.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa114-08.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/otta-aa114-film.mp4",
+    "poster": "assets/oska-054.jpg"
+   }
+  ],
+  "mesh-plate-gold-black-wide": [],
+  "mesh-plate-clear-wide": [],
+  "mesh-plate-black-wide": [],
+  "mesh-pave-linear": [
+   {
+    "type": "image",
+    "src": "assets/oska-057.jpg"
+   }
+  ],
+  "mesh-pave-center": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa121-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa121-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa121-04.jpg"
+   }
+  ],
+  "mesh-dots-black": [
+   {
+    "type": "image",
+    "src": "assets/oska-044.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-052.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-078.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa111-01.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa111-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa111-03.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa111-04.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/owner-live-078.mp4",
+    "poster": "assets/oska-078.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/products/pinterest-615937686563059805.mp4",
+    "poster": "assets/oska-004.jpg"
+   }
+  ],
+  "horse-pave": [],
+  "atelier": [
+   {
+    "type": "image",
+    "src": "assets/oska-076.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/oska-083.jpg"
+   },
+   {
+    "type": "video",
+    "src": "videos/atelier/oska-craft-film.mp4",
+    "poster": "videos/atelier/atelier-poster.jpg"
+   }
+  ],
+  "panther-green": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa126-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa126-04.jpg"
+   }
+  ],
+  "panther-orange": [
+   {
+    "type": "image",
+    "src": "assets/otta-aa127-02.jpg"
+   },
+   {
+    "type": "image",
+    "src": "assets/otta-aa127-04.jpg"
+   }
+  ],
+  "mesh-bands-dark-clear": [],
+  "mesh-rhythm-dark": [],
+  "mesh-plate-orange": []
+ },
+ "sitePresentation": {
+  "sections": {
+   "5": true,
+   "featured-panther": true
+  },
+  "tiles": {},
+  "categoryTiles": {
+   "women-rings": "/media/37b6e185-4d80-4617-bc6e-ada9c3cf8d1e",
+   "women-necklaces": "/media/f1098008-0f4f-447f-87a2-cc5f2b70d762",
+   "women-earrings": "/media/377ae9a6-59c3-4e8d-84c4-0eb2ed5b2f62",
+   "women-bracelets": "/media/e1b6cfda-e87b-4f4e-9a43-d4c29968e86d",
+   "men-rings": "/media/78167555-5d3b-4811-bda8-2e25584e81ca",
+   "men-necklaces": "/media/005500eb-63ab-4c35-8a9e-dcc30572b30c",
+   "men-bracelets": "/media/8f577644-b206-40d5-ba2a-1600975bf213",
+   "men-earrings": "/media/b769245e-6682-449d-bab1-f1e036105341"
+  },
+  "slideshowImages": {},
+  "collections": [
+   {
+    "id": "panther",
+    "code": "C001",
+    "name": {
+     "tr": "Panther",
+     "en": "Panther"
+    },
+    "description": {
+     "tr": "Heykelsi panter figürleri ve hareketli örgüler.",
+     "en": "Sculptural panther motifs and articulated links."
+    },
+    "image": "assets/panther-silver.jpeg",
+    "hidden": false
+   },
+   {
+    "id": "mesh",
+    "code": "C002",
+    "name": {
+     "tr": "Hexagon",
+     "en": "Hexagon"
+    },
+    "description": {
+     "tr": "Altıgen örgünün farklı yüzey ve taşlarla yorumu.",
+     "en": "Articulated hexagonal links, in a range of finishes and stone settings."
+    },
+    "image": "assets/mesh-silver.jpeg",
+    "hidden": false
+   },
+   {
+    "id": "signature",
+    "code": "C003",
+    "name": {
+     "tr": "Signature",
+     "en": "Signature"
+    },
+    "description": {
+     "tr": "Örgü üzerinde renk, motif ve merkez detaylar.",
+     "en": "Color, pattern and distinctive central details."
+    },
+    "image": "assets/mesh-arabesque.jpeg",
+    "hidden": false
+   },
+   {
+    "id": "horse",
+    "code": "C004",
+    "name": {
+     "tr": "Equestrian",
+     "en": "Equestrian"
+    },
+    "description": {
+     "tr": "Heykelsi at figürleriyle tamamlanan bileklikler.",
+     "en": "Bracelets finished with sculptural equestrian motifs."
+    },
+    "image": "assets/oska-017.jpg",
+    "hidden": false
+   }
+  ],
+  "texts": {
+   "productFilms": {
+    "tr": "",
+    "en": ""
+   },
+   "atelierFilms": {
+    "tr": "",
+    "en": ""
+   }
+  },
+  "links": {},
+  "customSections": [],
+  "campaigns": {},
+  "featured": {
+   "panther": [
+    "panther-silver",
+    "panther-gold",
+    "panther-dark",
+    "panther-gold-black"
+   ],
+   "mesh": [
+    "mesh-silver",
+    "mesh-gold",
+    "mesh-pave-wide",
+    "mesh-pave-dark"
+   ]
+  },
+  "structure": {
+   "fields": {
+    "skip": "T001",
+    "announcement": "T002",
+    "wholesaleNav": "T003",
+    "instagramNav": "T004",
+    "collectionsNav": "T005",
+    "filmsNav": "T006",
+    "atelierNav": "T007",
+    "bespokeNav": "T008",
+    "selection": "T009",
+    "discoverCollection": "T010",
+    "backHome": "T011",
+    "all": "T012",
+    "atelierCaption": "T013",
+    "atelierEyebrow": "T014",
+    "atelierTitle": "T015",
+    "atelierText": "T016",
+    "atelierText2": "T017",
+    "atelierGallery": "T018",
+    "atelierBrand": "T019",
+    "atelierCity": "T020",
+    "filmEyebrow": "T021",
+    "filmLibraryTitle": "T022",
+    "productFilms": "T023",
+    "atelierFilms": "T024",
+    "allFilms": "T025",
+    "bespokeEyebrow": "T026",
+    "bespokeTitle": "T027",
+    "bespokeIntro": "T028",
+    "service1Title": "T029",
+    "service1Text": "T030",
+    "service2Title": "T031",
+    "service2Text": "T032",
+    "service3Title": "T033",
+    "service3Text": "T034",
+    "bespokeButton": "T035",
+    "contactEyebrow": "T036",
+    "contactTitle": "T037",
+    "contactText": "T038",
+    "contactButton": "T039",
+    "brandName": "T040",
+    "footerText": "T041",
+    "instagramHandle": "T042",
+    "copyright": "T043",
+    "footerB2B": "T044",
+    "backTop": "T045",
+    "detailType": "T046",
+    "bracelet": "T047",
+    "detailOptions": "T048",
+    "detailOptionsText": "T049",
+    "inquiryButton": "T050",
+    "inquiryLabel": "T051",
+    "copy": "T052",
+    "openInstagram": "T053",
+    "collectionsTitle": "T054",
+    "womenShelf": "T055",
+    "womenShelfIntro": "T056",
+    "womenRings": "T057",
+    "womenNecklaces": "T058",
+    "womenEarrings": "T059",
+    "womenBracelets": "T060",
+    "menShelf": "T061",
+    "menShelfIntro": "T062",
+    "menRings": "T063",
+    "menNecklaces": "T064",
+    "menBracelets": "T065",
+    "menEarrings": "T066",
+    "slideshowEyebrow": "T067",
+    "slideshowTitle": "T068",
+    "slideshowText": "T069",
+    "slideshowLink": "T070",
+    "slideshowPause": "T071",
+    "slideshowPlay": "T072",
+    "slideshowPrev": "T073",
+    "slideshowNext": "T074",
+    "detailCode": "T075",
+    "catalogButton": "T076",
+    "trustEyebrow": "T077"
+   },
+   "links": {
+    "L001": "#contact",
+    "L002": "#home",
+    "L003": "https://www.instagram.com/oskasilver/",
+    "L004": "#collections",
+    "L005": "#collection-panther",
+    "L006": "#collection-mesh",
+    "L007": "#collection-signature",
+    "L008": "#collection-horse",
+    "L009": "#films",
+    "L010": "#atelier",
+    "L011": "#bespoke",
+    "L012": "#collections",
+    "L013": "#collections",
+    "L014": "#collections",
+    "L015": "#collections",
+    "L016": "#collections",
+    "L017": "#collections",
+    "L018": "#collections",
+    "L019": "#collections"
+   },
+   "collections": [
+    {
+     "id": "panther",
+     "code": "C001",
+     "name": {
+      "tr": "Panther",
+      "en": "Panther"
+     },
+     "description": {
+      "tr": "Heykelsi panter figürleri ve hareketli örgüler.",
+      "en": "Sculptural panther motifs and articulated links."
+     },
+     "image": "assets/panther-silver.jpeg",
+     "hidden": false
+    },
+    {
+     "id": "mesh",
+     "code": "C002",
+     "name": {
+      "tr": "Hexagon",
+      "en": "Hexagon"
+     },
+     "description": {
+      "tr": "Altıgen örgünün farklı yüzey ve taşlarla yorumu.",
+      "en": "Articulated hexagonal links, in a range of finishes and stone settings."
+     },
+     "image": "assets/mesh-silver.jpeg",
+     "hidden": false
+    },
+    {
+     "id": "signature",
+     "code": "C003",
+     "name": {
+      "tr": "Signature",
+      "en": "Signature"
+     },
+     "description": {
+      "tr": "Örgü üzerinde renk, motif ve merkez detaylar.",
+      "en": "Color, pattern and distinctive central details."
+     },
+     "image": "assets/mesh-arabesque.jpeg",
+     "hidden": false
+    },
+    {
+     "id": "horse",
+     "code": "C004",
+     "name": {
+      "tr": "Equestrian",
+      "en": "Equestrian"
+     },
+     "description": {
+      "tr": "Heykelsi at figürleriyle tamamlanan bileklikler.",
+      "en": "Bracelets finished with sculptural equestrian motifs."
+     },
+     "image": "assets/oska-017.jpg",
+     "hidden": false
+    }
+   ],
+   "categoryShelves": [
+    {
+     "id": "women",
+     "code": "C101",
+     "labelKey": "womenShelf",
+     "introKey": "womenShelfIntro",
+     "items": [
+      {
+       "id": "women-rings",
+       "code": "C101.1",
+       "nameKey": "womenRings",
+       "image": "assets/oska-070.jpg",
+       "linkId": "L012"
+      },
+      {
+       "id": "women-necklaces",
+       "code": "C101.2",
+       "nameKey": "womenNecklaces",
+       "image": "assets/oska-083.jpg",
+       "linkId": "L013"
+      },
+      {
+       "id": "women-earrings",
+       "code": "C101.3",
+       "nameKey": "womenEarrings",
+       "image": "assets/oska-077.jpg",
+       "linkId": "L014"
+      },
+      {
+       "id": "women-bracelets",
+       "code": "C101.4",
+       "nameKey": "womenBracelets",
+       "image": "assets/panther-editorial.jpeg",
+       "linkId": "L015"
+      }
+     ]
+    },
+    {
+     "id": "men",
+     "code": "C102",
+     "labelKey": "menShelf",
+     "introKey": "menShelfIntro",
+     "items": [
+      {
+       "id": "men-rings",
+       "code": "C102.1",
+       "nameKey": "menRings",
+       "image": "assets/oska-072.jpg",
+       "linkId": "L016"
+      },
+      {
+       "id": "men-necklaces",
+       "code": "C102.2",
+       "nameKey": "menNecklaces",
+       "image": "assets/oska-035.jpg",
+       "linkId": "L017"
+      },
+      {
+       "id": "men-bracelets",
+       "code": "C102.3",
+       "nameKey": "menBracelets",
+       "image": "assets/oska-081.jpg",
+       "linkId": "L018"
+      },
+      {
+       "id": "men-earrings",
+       "code": "C102.4",
+       "nameKey": "menEarrings",
+       "image": "assets/oska-033.jpg",
+       "linkId": "L019"
+      }
+     ]
+    }
+   ],
+   "atelierSlideshow": [
+    {
+     "id": "istanbul-lamps",
+     "code": "S101",
+     "image": "assets/kapalicarsi-lamps.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Işıkların ritmi · Kapalıçarşı",
+      "en": "The rhythm of light · Grand Bazaar"
+     },
+     "alt": {
+      "tr": "Kapalıçarşı'da renkli mozaik lambalar",
+      "en": "Colorful mosaic lamps inside the Grand Bazaar"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "istanbul-arcade",
+     "code": "S102",
+     "image": "assets/istanbul-arcade.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Kubbe altında · İstanbul",
+      "en": "Beneath the domes · Istanbul"
+     },
+     "alt": {
+      "tr": "İstanbul'da tarihi bir iç mekân ve kubbeler",
+      "en": "Historic domes and arches in Istanbul"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "bazaar-passage",
+     "code": "S103",
+     "image": "assets/kapalicarsi-passage.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Çarşının içinden · Kapalıçarşı",
+      "en": "Through the arcade · Grand Bazaar"
+     },
+     "alt": {
+      "tr": "Kapalıçarşı'nın kemerli ana geçidi",
+      "en": "The vaulted main passage of the Grand Bazaar"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "yerebatan-cistern",
+     "code": "S104",
+     "image": "assets/yerebatan-cistern.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Taş, ışık ve su · İstanbul",
+      "en": "Stone, light and water · Istanbul"
+     },
+     "alt": {
+      "tr": "Yerebatan Sarnıcı'nın sütunlu iç mekânı",
+      "en": "The columned interior of the Basilica Cistern"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "beyazit-gate",
+     "code": "S105",
+     "image": "assets/kapalicarsi-beyazit-gate.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Beyazıt kapısı · Kapalıçarşı",
+      "en": "Beyazıt Gate · Grand Bazaar"
+     },
+     "alt": {
+      "tr": "Kapalıçarşı Beyazıt kapısı ve girişindeki kalabalık",
+      "en": "The Beyazıt Gate entrance to the Grand Bazaar"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "galata-view",
+     "code": "S106",
+     "image": "assets/istanbul-galata-view.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Galata'dan bakış · İstanbul",
+      "en": "A view from Galata · Istanbul"
+     },
+     "alt": {
+      "tr": "Galata Kulesi'nden İstanbul ve Haliç manzarası",
+      "en": "Istanbul and the Golden Horn from Galata"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "suleymaniye-view",
+     "code": "S107",
+     "image": "assets/istanbul-suleymaniye-view.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Siluet ve deniz · İstanbul",
+      "en": "Silhouette and sea · Istanbul"
+     },
+     "alt": {
+      "tr": "İstanbul silueti ve Boğaz manzarası",
+      "en": "Istanbul's skyline across the Bosphorus"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "golden-hour",
+     "code": "S108",
+     "image": "assets/istanbul-golden-hour.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Akşam ışığı · Tarihî yarımada",
+      "en": "Golden hour · Historic peninsula"
+     },
+     "alt": {
+      "tr": "Gün batımında İstanbul'un tarihî yarımadası",
+      "en": "Istanbul's historic peninsula at golden hour"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    },
+    {
+     "id": "bazaar-rooftops",
+     "code": "S109",
+     "image": "assets/kapalicarsi-rooftops.jpeg",
+     "fallback": "assets/atelier.jpeg",
+     "fit": "cover",
+     "caption": {
+      "tr": "Çatılarda iz bırakan tarih · Kapalıçarşı",
+      "en": "History across the rooftops · Grand Bazaar"
+     },
+     "alt": {
+      "tr": "Kapalıçarşı çatılarının ve İstanbul siluetinin havadan görünümü",
+      "en": "Aerial view of the Grand Bazaar rooftops and Istanbul skyline"
+     },
+     "credit": "OSKA arşivi",
+     "creditUrl": ""
+    }
+   ],
+   "sections": [
+    {
+     "id": "announcement",
+     "code": "B001",
+     "selector": ".announcement",
+     "title": "Üst duyuru"
+    },
+    {
+     "id": "header",
+     "code": "B002",
+     "selector": "header.header",
+     "title": "Logo ve menü"
+    },
+    {
+     "id": "2",
+     "code": "2",
+     "selector": "#hero-campaign",
+     "title": "Açılış videosu"
+    },
+    {
+     "id": "1.1",
+     "code": "1.1",
+     "selector": "#collection-overview",
+     "title": "Koleksiyon fotoğrafları"
+    },
+    {
+     "id": "featured-panther",
+     "code": "B003",
+     "selector": "#featured-panther",
+     "title": "Panther ürün seçkisi"
+    },
+    {
+     "id": "3",
+     "code": "3",
+     "selector": "#mid-campaign",
+     "title": "Ortadaki video"
+    },
+    {
+     "id": "featured-mesh",
+     "code": "B004",
+     "selector": "#featured-mesh",
+     "title": "Hexagon ürün seçkisi"
+    },
+    {
+     "id": "atelier-slideshow",
+     "code": "B008",
+     "selector": "#atelier-slideshow",
+     "title": "Kapalıçarşı ve atölye slaytı"
+    },
+    {
+     "id": "6",
+     "code": "6",
+     "selector": "#atelier",
+     "title": "Atölye"
+    },
+    {
+     "id": "5",
+     "code": "5",
+     "selector": "#films",
+     "title": "Video galerisi"
+    },
+    {
+     "id": "bespoke",
+     "code": "B005",
+     "selector": "#bespoke",
+     "title": "Markalara özel"
+    },
+    {
+     "id": "contact",
+     "code": "B006",
+     "selector": "#contact",
+     "title": "İletişim"
+    },
+    {
+     "id": "footer",
+     "code": "B007",
+     "selector": "footer",
+     "title": "Alt bilgi"
+    }
+   ]
+  }
+ }
+}
