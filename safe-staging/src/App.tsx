@@ -141,7 +141,7 @@ const copy = {
       'Erkek',
       'Koleksiyonlar',
       'Üretim',
-      'Private Label',
+      'Özel Etiket',
       'OSKA Dünyası',
     ],
     heroEyebrow: 'İSTANBUL’DA ÜRETİLDİ',
@@ -212,9 +212,150 @@ const routeMap: Record<string, string> = {
   Manufacturing: 'manufacturing',
   Üretim: 'manufacturing',
   'Private Label': 'private-label',
+  'Özel Etiket': 'private-label',
   'OSKA World': 'world',
   'OSKA Dünyası': 'world',
 };
+
+type MegaLink = [string, string];
+type MegaColumn = { label: string; links: MegaLink[] };
+
+function getMegaMenu(route: string, lang: Lang): {
+  title: string;
+  intro: string;
+  columns: MegaColumn[];
+} {
+  const tr = lang === 'tr';
+  const categoryLinks = (audience?: 'women' | 'men'): MegaLink[] => [
+    [tr ? 'Bileklikler' : 'Bracelets', audience ? `${audience}/bracelets` : 'bracelets'],
+    [tr ? 'Yüzükler' : 'Rings', audience ? `${audience}/rings` : 'rings'],
+    [tr ? 'Kolyeler' : 'Necklaces', audience ? `${audience}/necklaces` : 'necklaces'],
+    [tr ? 'Küpeler' : 'Earrings', audience ? `${audience}/earrings` : 'earrings'],
+  ];
+
+  if (route === 'women') {
+    return {
+      title: tr ? 'Kadın' : 'Women',
+      intro: tr
+        ? 'Kadın koleksiyonlarını ürün ailesine göre doğrudan keşfedin.'
+        : 'Explore women’s collections directly by product family.',
+      columns: [
+        { label: tr ? 'Kadın kategorileri' : 'Women by category', links: categoryLinks('women') },
+        {
+          label: tr ? 'Koleksiyonlar' : 'Collections',
+          links: [['Panther', 'collections'], ['Mesh', 'collections'], ['Signature', 'collections']],
+        },
+        {
+          label: tr ? 'Markalar için' : 'For brands',
+          links: [[tr ? 'Üretim' : 'Manufacturing', 'manufacturing'], [tr ? 'Özel Etiket' : 'Private Label', 'private-label'], ['RFQ', 'contact']],
+        },
+      ],
+    };
+  }
+
+  if (route === 'men') {
+    return {
+      title: tr ? 'Erkek' : 'Men',
+      intro: tr
+        ? 'Erkek koleksiyonlarını ürün ailesine göre doğrudan keşfedin.'
+        : 'Explore men’s collections directly by product family.',
+      columns: [
+        { label: tr ? 'Erkek kategorileri' : 'Men by category', links: categoryLinks('men') },
+        {
+          label: tr ? 'Koleksiyonlar' : 'Collections',
+          links: [['Panther', 'collections'], ['Mesh', 'collections'], ['Signature', 'collections']],
+        },
+        {
+          label: tr ? 'Markalar için' : 'For brands',
+          links: [[tr ? 'Üretim' : 'Manufacturing', 'manufacturing'], [tr ? 'Özel Etiket' : 'Private Label', 'private-label'], ['RFQ', 'contact']],
+        },
+      ],
+    };
+  }
+
+  if (route === 'collections') {
+    return {
+      title: tr ? 'Koleksiyonlar' : 'Collections',
+      intro: tr
+        ? 'Panther, Mesh ve Signature ürün ailelerini tek merkezden keşfedin.'
+        : 'Explore Panther, Mesh and Signature product families from one place.',
+      columns: [
+        {
+          label: tr ? 'Öne çıkanlar' : 'Featured',
+          links: [['Panther', 'collections'], ['Mesh', 'collections'], ['Signature', 'collections']],
+        },
+        { label: tr ? 'Kategoriye göre' : 'By category', links: categoryLinks() },
+        {
+          label: tr ? 'Devam et' : 'Continue',
+          links: [[tr ? 'Üretim' : 'Manufacturing', 'manufacturing'], [tr ? 'Özel Etiket' : 'Private Label', 'private-label'], ['RFQ', 'contact']],
+        },
+      ],
+    };
+  }
+
+  if (route === 'manufacturing') {
+    return {
+      title: tr ? 'Üretim' : 'Manufacturing',
+      intro: tr
+        ? 'Malzeme, geliştirme, numune, üretim ve kalite kontrol yollarına doğrudan erişin.'
+        : 'Go directly to materials, development, sampling, production and quality-control paths.',
+      columns: [
+        {
+          label: tr ? 'Malzeme / kaplama' : 'Material / finish',
+          links: [
+            [tr ? '925 ayar gümüş' : 'Sterling silver', 'manufacturing'],
+            [tr ? 'Pirinç / bronz' : 'Brass / bronze', 'manufacturing'],
+            [tr ? 'Altın geliştirme' : 'Gold development', 'manufacturing'],
+            [tr ? 'Taş / laboratuvarda yetiştirilmiş' : 'Stone / lab-grown', 'manufacturing'],
+          ],
+        },
+        {
+          label: tr ? 'Üretim yolları' : 'Production paths',
+          links: [[tr ? 'Üretim genel bakış' : 'Manufacturing overview', 'manufacturing'], [tr ? 'Özel Etiket' : 'Private Label', 'private-label'], [tr ? 'Teklif / RFQ' : 'Quote / RFQ', 'contact']],
+        },
+        { label: tr ? 'Ürün aileleri' : 'Product families', links: categoryLinks() },
+      ],
+    };
+  }
+
+  if (route === 'private-label') {
+    return {
+      title: tr ? 'Özel Etiket' : 'Private Label',
+      intro: tr
+        ? 'Markanıza özel ürün geliştirme, numune ve üretim sürecini yönetin.'
+        : 'Manage brand-specific development, sampling and production.',
+      columns: [
+        {
+          label: tr ? 'Başlangıç' : 'Start',
+          links: [[tr ? 'Özel Etiket genel bakış' : 'Private Label overview', 'private-label'], [tr ? 'Üretim' : 'Manufacturing', 'manufacturing'], [tr ? 'Teklif / RFQ' : 'Quote / RFQ', 'contact']],
+        },
+        { label: tr ? 'Ürün aileleri' : 'Product families', links: categoryLinks() },
+        {
+          label: tr ? 'Koleksiyon yönü' : 'Collection direction',
+          links: [['Panther', 'collections'], ['Mesh', 'collections'], ['Signature', 'collections']],
+        },
+      ],
+    };
+  }
+
+  return {
+    title: tr ? 'OSKA Dünyası' : 'OSKA World',
+    intro: tr
+      ? 'İstanbul atölyesi, koleksiyon hikâyeleri ve OSKA’nın üretim dünyasını keşfedin.'
+      : 'Explore the Istanbul atelier, collection stories and the OSKA production world.',
+    columns: [
+      {
+        label: tr ? 'Keşfet' : 'Explore',
+        links: [[tr ? 'OSKA Dünyası' : 'OSKA World', 'world'], [tr ? 'Koleksiyonlar' : 'Collections', 'collections'], [tr ? 'Üretim' : 'Manufacturing', 'manufacturing']],
+      },
+      { label: tr ? 'Kategoriye göre' : 'By category', links: categoryLinks() },
+      {
+        label: tr ? 'İletişim' : 'Contact',
+        links: [[tr ? 'Özel Etiket' : 'Private Label', 'private-label'], ['RFQ', 'contact']],
+      },
+    ],
+  };
+}
 
 function useHashRoute() {
   const read = () => window.location.hash.replace(/^#\/?/, '') || 'home';
@@ -313,6 +454,8 @@ function Header({
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const activeRoute = activeMenu ? routeMap[activeMenu] : null;
+  const megaMenu = activeRoute ? getMegaMenu(activeRoute, lang) : null;
   const searchTriggerRef = useRef<HTMLButtonElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
@@ -417,6 +560,8 @@ function Header({
             {t.nav.map(item => (
               <button
                 key={item}
+                type="button"
+                data-nav-route={routeMap[item]}
                 onClick={() => {
                   go(routeMap[item]);
                   setActiveMenu(null);
@@ -429,69 +574,32 @@ function Header({
               </button>
             ))}
           </nav>
-          {activeMenu && (
-            <div className="mega-menu" aria-label={`${activeMenu} menu`}>
+          {activeMenu && megaMenu && (
+            <div className="mega-menu" aria-label={`${megaMenu.title} menu`}>
               <div className="mega-menu-grid">
                 <div className="mega-intro">
                   <span className="eyebrow">OSKA SILVER</span>
-                  <h2>{activeMenu}</h2>
-                  <p>
-                    {lang === 'en'
-                      ? 'A premium discovery path from product family and material direction to verified detail, development and RFQ.'
-                      : 'Ürün ailesi ve malzeme yönünden doğrulanmış detay, geliştirme ve RFQ’ya uzanan premium keşif yolu.'}
-                  </p>
+                  <h2>{megaMenu.title}</h2>
+                  <p>{megaMenu.intro}</p>
                 </div>
-                <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'Shop by category' : 'Kategoriye göre'}</span>
-                  {[
-                    [lang === 'en' ? 'Bracelets' : 'Bileklik', 'bracelets'],
-                    [lang === 'en' ? 'Rings' : 'Yüzük', 'rings'],
-                    [lang === 'en' ? 'Necklaces' : 'Kolye', 'necklaces'],
-                    [lang === 'en' ? 'Earrings' : 'Küpe', 'earrings'],
-                  ].map(([label, route]) => (
-                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
-                      {label}<ArrowRight size={14} />
-                    </button>
-                  ))}
-                </div>
-                <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'Material / finish' : 'Malzeme / kaplama'}</span>
-                  {[
-                    [lang === 'en' ? 'Sterling silver' : '925 gümüş', 'manufacturing'],
-                    [lang === 'en' ? 'Brass / bronze' : 'Pirinç / bronz', 'manufacturing'],
-                    [lang === 'en' ? 'Gold development' : 'Altın geliştirme', 'manufacturing'],
-                    [lang === 'en' ? 'Stone / lab-grown' : 'Taş / lab-grown', 'manufacturing'],
-                  ].map(([label, route]) => (
-                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
-                      {label}<ArrowRight size={14} />
-                    </button>
-                  ))}
-                </div>
-                <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'Featured' : 'Öne çıkanlar'}</span>
-                  {[
-                    ['Panther', 'collections'],
-                    ['Mesh', 'collections'],
-                    ['Signature', 'collections'],
-                    [lang === 'en' ? 'All collections' : 'Tüm koleksiyonlar', 'collections'],
-                  ].map(([label, route]) => (
-                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
-                      {label}<ArrowRight size={14} />
-                    </button>
-                  ))}
-                </div>
-                <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'For brands' : 'Markalar için'}</span>
-                  {[
-                    [lang === 'en' ? 'Manufacturing' : 'Üretim', 'manufacturing'],
-                    ['Private Label', 'private-label'],
-                    [lang === 'en' ? 'Contact / RFQ' : 'İletişim / RFQ', 'contact'],
-                  ].map(([label, route]) => (
-                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
-                      {label}<ArrowRight size={14} />
-                    </button>
-                  ))}
-                </div>
+                {megaMenu.columns.map(column => (
+                  <div className="mega-column" key={column.label}>
+                    <span className="mega-label">{column.label}</span>
+                    {column.links.map(([label, route]) => (
+                      <button
+                        type="button"
+                        key={`${column.label}-${label}`}
+                        onClick={() => {
+                          go(route);
+                          setActiveMenu(null);
+                        }}
+                      >
+                        {label}
+                        <ArrowRight size={14} />
+                      </button>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -549,6 +657,8 @@ function Header({
               {t.nav.map(item => (
                 <button
                   key={item}
+                  type="button"
+                  data-mobile-nav-route={routeMap[item]}
                   onClick={() => {
                     go(routeMap[item]);
                     setOpen(false);
