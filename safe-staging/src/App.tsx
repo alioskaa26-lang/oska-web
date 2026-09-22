@@ -207,6 +207,15 @@ type ManualSettings = {
   categoryMedia: Record<CategoryKey, string>;
   categoryStoryTr: Record<CategoryKey, string>;
   categoryStoryEn: Record<CategoryKey, string>;
+  primaryProductCount: number;
+  secondaryProductCount: number;
+  productRailCardWidth: number;
+  productRailGap: number;
+  heroTitleTr: string;
+  heroTitleEn: string;
+  heroBodyTr: string;
+  heroBodyEn: string;
+  heroMediaUrl: string;
   customSections: CustomSection[];
 };
 
@@ -281,10 +290,19 @@ const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
     necklaces: 'A necklace edit built around chain, pendant and proportion.',
     earrings: 'An earring edit shaped by lightness, movement and modern brilliance.',
   },
+  primaryProductCount: 5,
+  secondaryProductCount: 5,
+  productRailCardWidth: 240,
+  productRailGap: 18,
+  heroTitleTr: 'Kalıcı iş ortaklıkları\niçin mücevher.',
+  heroTitleEn: 'Jewelry made for\nlasting partnerships.',
+  heroBodyTr: 'Koleksiyon, private-label geliştirme ve kontrollü üretim için premium B2B katalog.',
+  heroBodyEn: 'A premium B2B catalogue for collections, private-label development and controlled production.',
+  heroMediaUrl: '',
   customSections: [],
 };
 
-const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v3';
+const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v4';
 
 function readManualSettings(): ManualSettings {
   try {
@@ -302,6 +320,15 @@ function readManualSettings(): ManualSettings {
       categoryMedia: { ...DEFAULT_MANUAL_SETTINGS.categoryMedia, ...(saved.categoryMedia || {}) },
       categoryStoryTr: { ...DEFAULT_MANUAL_SETTINGS.categoryStoryTr, ...(saved.categoryStoryTr || {}) },
       categoryStoryEn: { ...DEFAULT_MANUAL_SETTINGS.categoryStoryEn, ...(saved.categoryStoryEn || {}) },
+      primaryProductCount: Number(saved.primaryProductCount ?? DEFAULT_MANUAL_SETTINGS.primaryProductCount),
+      secondaryProductCount: Number(saved.secondaryProductCount ?? DEFAULT_MANUAL_SETTINGS.secondaryProductCount),
+      productRailCardWidth: Number(saved.productRailCardWidth ?? DEFAULT_MANUAL_SETTINGS.productRailCardWidth),
+      productRailGap: Number(saved.productRailGap ?? DEFAULT_MANUAL_SETTINGS.productRailGap),
+      heroTitleTr: saved.heroTitleTr ?? DEFAULT_MANUAL_SETTINGS.heroTitleTr,
+      heroTitleEn: saved.heroTitleEn ?? DEFAULT_MANUAL_SETTINGS.heroTitleEn,
+      heroBodyTr: saved.heroBodyTr ?? DEFAULT_MANUAL_SETTINGS.heroBodyTr,
+      heroBodyEn: saved.heroBodyEn ?? DEFAULT_MANUAL_SETTINGS.heroBodyEn,
+      heroMediaUrl: saved.heroMediaUrl ?? DEFAULT_MANUAL_SETTINGS.heroMediaUrl,
       customSections: Array.isArray(saved.customSections) ? saved.customSections : [],
     };
   } catch {
@@ -1001,7 +1028,15 @@ function SearchPage({ lang, go }: { lang: Lang; go: (r: string) => void }) {
   );
 }
 
-function Hero({ lang, go }: { lang: Lang; go: (r: string) => void }) {
+function Hero({
+  lang,
+  go,
+  manual,
+}: {
+  lang: Lang;
+  go: (r: string) => void;
+  manual: ManualSettings;
+}) {
   const t = copy[lang];
   const [paused, setPaused] = useState(false);
   return (
@@ -1010,16 +1045,29 @@ function Hero({ lang, go }: { lang: Lang; go: (r: string) => void }) {
       aria-label={lang === 'en' ? 'Single hero video region' : 'Tek hero video alanı'}
     >
       <div className="hero-safe-media" aria-hidden="true">
+        {manual.heroMediaUrl &&
+          (manual.heroMediaUrl.toLowerCase().match(/\.(mp4|webm)(\?|$)/) ? (
+            <video
+              className="hero-editor-media"
+              src={manual.heroMediaUrl}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ) : (
+            <img className="hero-editor-media" src={manual.heroMediaUrl} alt="" />
+          ))}
         <div className="hero-grain" />
       </div>
       <div className="hero-copy">
         <span className="eyebrow light">{t.heroEyebrow}</span>
         <h1>
-          {t.heroTitle.split('\n').map(line => (
+          {(lang === 'en' ? manual.heroTitleEn : manual.heroTitleTr).split('\n').map(line => (
             <span key={line}>{line}</span>
           ))}
         </h1>
-        <p>{t.heroBody}</p>
+        <p>{lang === 'en' ? manual.heroBodyEn : manual.heroBodyTr}</p>
         <div className="hero-actions">
           <button className="button light" onClick={() => go('collections')}>
             {t.heroCta}
@@ -1058,8 +1106,8 @@ function Home({
   manual: ManualSettings;
 }) {
   const t = copy[lang];
-  const primaryProducts = PRODUCTS.slice(0, 5);
-  const secondaryProducts = PRODUCTS.slice(1, 6);
+  const primaryProducts = PRODUCTS.slice(0, Math.max(1, manual.primaryProductCount));
+  const secondaryProducts = PRODUCTS.slice(1, 1 + Math.max(1, manual.secondaryProductCount));
   const sectionStyle = (key: HomeSectionKey) => ({
     order: manual.sectionOrder.indexOf(key),
     marginTop: `${manual.sectionSpacing[key]}px`,
@@ -1122,7 +1170,7 @@ function Home({
   return (
     <div className="home-layout">
       <div className="home-editable-section home-hero-shell" data-home-section="hero" style={sectionStyle('hero')}>
-        <Hero lang={lang} go={go} />
+        <Hero lang={lang} go={go} manual={manual} />
       </div>
 
       <section
@@ -1139,7 +1187,13 @@ function Home({
             {lang === 'en' ? 'View all' : 'Tümünü gör'} <ArrowRight size={16} />
           </button>
         </div>
-        <div className="product-rail">
+        <div
+          className="product-rail"
+          style={{
+            ['--editor-card-width' as string]: `${manual.productRailCardWidth}px`,
+            ['--editor-rail-gap' as string]: `${manual.productRailGap}px`,
+          }}
+        >
           {primaryProducts.map(p => (
             <ProductCard
               key={p.slug}
@@ -1287,7 +1341,13 @@ function Home({
             {lang === 'en' ? 'Collections' : 'Koleksiyonlar'} <ArrowRight size={16} />
           </button>
         </div>
-        <div className="product-rail">
+        <div
+          className="product-rail"
+          style={{
+            ['--editor-card-width' as string]: `${manual.productRailCardWidth}px`,
+            ['--editor-rail-gap' as string]: `${manual.productRailGap}px`,
+          }}
+        >
           {secondaryProducts.map(p => (
             <ProductCard
               key={p.slug}
