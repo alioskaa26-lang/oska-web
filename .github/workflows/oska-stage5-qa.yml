@@ -1,0 +1,36 @@
+name: OSKA Stage 5 QA
+
+on:
+  push:
+    branches:
+      - oska-web-stage5-qa-20260922
+    paths:
+      - 'safe-staging/**'
+      - '.github/workflows/oska-stage5-qa.yml'
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: safe-staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: safe-staging/package.json
+      - run: npm install
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/oska-vite.log 2>&1 &
+          sleep 4
+          npm run qa:visual
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oska-stage5-qa-screenshots
+          path: safe-staging/qa
