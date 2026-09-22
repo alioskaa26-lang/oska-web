@@ -55,6 +55,42 @@ for (const viewport of viewports) {
       fullPage: true,
     });
 
+    if (viewport.width === 1280) {
+      const navRoutes = ['women', 'men', 'collections', 'manufacturing', 'private-label', 'world'];
+      for (const target of navRoutes) {
+        await page.goto(base + '#/home', { waitUntil: 'networkidle' });
+        const nav = page.locator(`[data-nav-route="${target}"]`);
+        if (!(await nav.count())) {
+          failures.push(`1280/${lang}: missing top nav route ${target}`);
+          continue;
+        }
+        await nav.click();
+        await page.waitForFunction(
+          expected => location.hash === `#/${expected}`,
+          target
+        );
+        if (await page.evaluate(expected => location.hash !== `#/${expected}`, target)) {
+          failures.push(`1280/${lang}: top nav failed for ${target}`);
+        }
+      }
+
+      await page.goto(base + '#/home', { waitUntil: 'networkidle' });
+      const manufacturingNav = page.locator('[data-nav-route="manufacturing"]');
+      await manufacturingNav.hover();
+      const manufacturingMenu = page.locator('.mega-menu');
+      if (!(await manufacturingMenu.getByText(lang === 'en' ? 'Manufacturing overview' : 'Üretim genel bakış').count())) {
+        failures.push(`1280/${lang}: manufacturing mega-menu content incorrect`);
+      }
+
+      await page.goto(base + '#/home', { waitUntil: 'networkidle' });
+      const collectionsNav = page.locator('[data-nav-route="collections"]');
+      await collectionsNav.hover();
+      const collectionsMenu = page.locator('.mega-menu');
+      if (!(await collectionsMenu.getByText('Panther').count())) {
+        failures.push(`1280/${lang}: collections mega-menu content incorrect`);
+      }
+    }
+
     if (lang === 'en') {
       await page.locator('.lang-button').click();
       await page.waitForTimeout(100);
