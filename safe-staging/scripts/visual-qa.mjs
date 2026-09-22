@@ -38,6 +38,25 @@ for (const viewport of viewports) {
       failures.push(`${viewport.name}: expected html lang ${lang}, got ${htmlLang}`);
     }
 
+    const expectedNav = lang === 'tr'
+      ? ['Kadın', 'Erkek', 'Koleksiyonlar', 'Üretim', 'Özel Etiket', 'OSKA Dünyası']
+      : ['Women', 'Men', 'Collections', 'Manufacturing', 'Private Label', 'OSKA World'];
+    const expectedHero = lang === 'tr'
+      ? 'Kalıcı iş ortaklıkları'
+      : 'Jewelry made for';
+
+    await page.goto(base + '#/home', { waitUntil: 'networkidle' });
+    const navText = await page.locator('.desktop-nav').innerText().catch(() => '');
+    for (const label of expectedNav) {
+      if (!navText.includes(label)) {
+        failures.push(`${viewport.name}/${lang}: missing localized nav label "${label}"`);
+      }
+    }
+    const heroText = await page.locator('.hero').innerText().catch(() => '');
+    if (!heroText.includes(expectedHero)) {
+      failures.push(`${viewport.name}/${lang}: hero copy did not switch language`);
+    }
+
     for (const route of routes) {
       await page.goto(base + '#/' + route, { waitUntil: 'networkidle' });
       const overflow = await page.evaluate(
