@@ -3118,24 +3118,30 @@ function App() {
       <a className="skip-link" href="#main">
         {lang === 'en' ? 'Skip to content' : 'İçeriğe geç'}
       </a>
-      <Header
-        key={`header-${lang}`}
-        lang={lang}
-        setLang={setLang}
-        favoritesCount={favorites.size}
-        go={go}
-      />
+      {route !== 'admin' && (
+        <Header
+          key={`header-${lang}`}
+          lang={lang}
+          setLang={setLang}
+          favoritesCount={favorites.size}
+          go={go}
+        />
+      )}
       <div id="main" key={`main-${lang}`}>{content}</div>
-      <Footer key={`footer-${lang}`} lang={lang} go={go} />
-      <button
-        className="manual-panel-trigger"
-        onClick={() => go('admin')}
-        aria-label={lang === 'en' ? 'Open manual site control' : 'Manuel site kontrolünü aç'}
-      >
-        <SlidersHorizontal size={18} />
-        <span>{lang === 'en' ? 'CONTROL' : 'PANEL'}</span>
-      </button>
-      <DigitalGuide lang={lang} go={go} />
+      {route !== 'admin' && (
+        <>
+          <Footer key={`footer-${lang}`} lang={lang} go={go} />
+          <button
+            className="manual-panel-trigger"
+            onClick={() => go('admin')}
+            aria-label={lang === 'en' ? 'Open visual editor' : 'Görsel editörü aç'}
+          >
+            <SlidersHorizontal size={18} />
+            <span>{lang === 'en' ? 'EDIT' : 'DÜZENLE'}</span>
+          </button>
+          <DigitalGuide lang={lang} go={go} />
+        </>
+      )}
     </div>
   );
 }
