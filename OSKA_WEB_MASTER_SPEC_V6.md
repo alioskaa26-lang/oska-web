@@ -291,3 +291,103 @@ Production is not considered done until all gates pass.
 - Existing Digital Guide is not yet a live grounded AI concierge.
 - New safe working branch: oska-web-cms-i18n-20260922
 - Do not break the current published staging while the CMS/i18n/AI work is under QA.
+
+
+## Differentiators beyond the reference site
+These are additive features that must not disturb the reference site's familiar page flow:
+
+### 1. Buyer Room / shareable board
+- Buyer can build a shortlist across collections.
+- Generate a shareable buyer-board link with selected products, notes and target material/finish.
+- Optional private/gated collection access for selected B2B buyers.
+- Export a clean line-sheet/PDF later from the same data source.
+- Convert the board directly into RFQ / sample request.
+
+### 2. Multimodal AI concierge
+- Text + optional image/reference upload.
+- Buyer can upload a screenshot/reference and ask for the nearest OSKA product family or private-label development route.
+- AI may search only approved OSKA catalog/content for factual product answers.
+- It can propose a curated collection brief (example: 12-piece men's sterling-silver assortment), but every generated proposal remains a draft until human approval.
+- AI conversation follows the site's current locale without mixed-language UI.
+
+### 3. Visual search
+- Search by uploaded product/reference image where rights and privacy allow.
+- Return visually related OSKA products/collections and a private-label path rather than pretending an unverified match is exact.
+
+### 4. Product-truth + campaign-truth separation
+Every media asset is tagged:
+- EXACT PRODUCT: geometry/material/stone placement must match the actual product.
+- EDITORIAL: artistic campaign interpretation; cannot be used as technical product proof.
+- CONCEPT: not yet approved for manufacturing.
+This distinction is visible in admin and used by AI grounding.
+
+### 5. Rights / provenance ledger
+For every purchased/generated asset:
+- source
+- license
+- purchase/reference id
+- allowed commercial usage
+- model/CAD origin
+- derivative/redesign status
+- approval status
+This is mandatory before public publish.
+
+### 6. Product data single source of truth
+Central product records feed PLP, PDP, search, AI, RFQ, SEO and translations. No duplicate product facts hard-coded in separate components.
+
+### 7. Content completeness score
+Admin flags missing:
+- TR
+- EN
+- hero/media
+- alt text
+- product code
+- collection
+- material/finish
+- story
+- SEO title/description
+- rights/provenance
+Incomplete records can stay draft but cannot silently appear as finished public content.
+
+### 8. Visual-regression reference lab
+Automated screenshots at desktop/tablet/mobile for:
+- header/mega menus
+- hero
+- home sections
+- Women/Men
+- collection pages
+- PLP
+- PDP
+- search
+- RFQ
+- footer
+Compare every build against the approved visual baseline; fail QA on unintended drift.
+
+### 9. B2B smart inquiry basket
+Shortlist is not a retail cart. It stores:
+- product references
+- requested material/finish
+- quantity direction
+- buyer note
+- sample yes/no
+- customization/private-label interest
+Then sends one structured RFQ.
+
+### 10. Fit / size intelligence
+- ring-size guide
+- bracelet/wrist fit guide
+- necklace length visualization
+- dimensions in localized units where needed
+- AI explains fit only from verified product dimensions
+
+### 11. Region layer separate from language
+Language and market are separate concepts. A user can use English in Türkiye or Arabic in Qatar later without corrupting content architecture.
+
+### 12. Failure-proof publishing
+- draft -> preview -> QA -> publish
+- rollback
+- media fallback
+- broken-link checker
+- missing-translation gate
+- schema validator
+- no publish when required product-truth or rights fields are missing
