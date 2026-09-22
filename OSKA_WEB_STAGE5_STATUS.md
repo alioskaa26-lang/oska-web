@@ -59,3 +59,11 @@ Stage 6 hero/video final preparation is documented separately. Actual hero media
 - Static preview workflow `35718931911`: SUCCESS.
 - Production/DNS untouched. Existing hero/video sources untouched.
 - Remaining ordered phase: final owned hero/video media integration after approved OSKA media is available.
+
+
+## 2026-09-22 manual-control decision
+- User review rule: compare OSKA against the reference section by section; no section is accepted automatically.
+- Manual control is now a product requirement: visibility, language and later content/media controls must remain user-reviewable.
+- TR and EN are separate copy sets. Mixed-language visible labels are treated as a QA defect.
+- Category discovery must expose Women / Men sub-links (for example Kadın Bileklikleri / Erkek Bileklikleri), not only a single generic category CTA.
+- Stage preview now includes a browser-local manual control panel foundation and gender sub-links. Production persistence/authentication remains a later controlled integration.
