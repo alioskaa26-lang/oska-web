@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% if page_title != blank %}{{ page_title }} – {% endif %}{{ shop.name }}</title>
+  {{ 'oska.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="oska-template-{{ template.name | handle }}">
+  <a class="oska-skip-link" href="#MainContent">Skip to content</a>
+  {% section 'oska-header' %}
+  <main id="MainContent" role="main">{{ content_for_layout }}</main>
+  {% section 'oska-b2b-concierge' %}
+  {% section 'oska-footer' %}
+</body>
+</html>
