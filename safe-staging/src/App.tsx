@@ -275,11 +275,21 @@ function Header({
   const searchTriggerRef = useRef<HTMLButtonElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
-  const wasOpenRef = useRef(false);
-  const wasSearchOpenRef = useRef(false);
 
-  const closeDrawer = () => setOpen(false);
-  const closeSearch = () => setSearchOpen(false);
+  const restoreFocus = (ref: { current: HTMLButtonElement | null }) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => ref.current?.focus({ preventScroll: true }));
+    });
+  };
+
+  const closeDrawer = () => {
+    setOpen(false);
+    restoreFocus(menuTriggerRef);
+  };
+  const closeSearch = () => {
+    setSearchOpen(false);
+    restoreFocus(searchTriggerRef);
+  };
 
   useEffect(() => {
     const onEsc = (event: KeyboardEvent) => {
@@ -301,29 +311,6 @@ function Header({
     };
   }, [open, searchOpen]);
 
-  useEffect(() => {
-    if (open) {
-      wasOpenRef.current = true;
-      return;
-    }
-    if (wasOpenRef.current) {
-      wasOpenRef.current = false;
-      const frame = requestAnimationFrame(() => menuTriggerRef.current?.focus());
-      return () => cancelAnimationFrame(frame);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (searchOpen) {
-      wasSearchOpenRef.current = true;
-      return;
-    }
-    if (wasSearchOpenRef.current) {
-      wasSearchOpenRef.current = false;
-      const frame = requestAnimationFrame(() => searchTriggerRef.current?.focus());
-      return () => cancelAnimationFrame(frame);
-    }
-  }, [searchOpen]);
   return (
     <>
       <div className="announcement">{t.announcement}</div>
