@@ -2001,7 +2001,7 @@ function CollectionsPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow="COLLECTIONS"
+        eyebrow={lang === 'en' ? 'COLLECTIONS' : 'KOLEKSİYONLAR'}
         title={
           lang === 'en'
             ? 'A clear collection architecture.'
@@ -2030,7 +2030,7 @@ function CollectionsPage({
                   : 'Odaklı koleksiyon hikâyesi, doğrulanmış ürünler ve teklife net geçiş.'}
               </p>
               <button className="link-button" onClick={() => go('bracelets')}>
-                View products <ArrowRight size={16} />
+                {lang === 'en' ? 'View products' : 'Ürünleri gör'} <ArrowRight size={16} />
               </button>
             </div>
           </article>
@@ -2050,7 +2050,7 @@ function ManufacturingPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow="MANUFACTURING"
+        eyebrow={lang === 'en' ? 'MANUFACTURING' : 'ÜRETİM'}
         title={
           lang === 'en'
             ? 'Controlled development from brief to QC.'
@@ -2065,19 +2065,15 @@ function ManufacturingPage({
       <section className="section capability-layout">
         <MediaBlock label={lang === 'en' ? 'OSKA workshop media slot' : 'OSKA atölye medya alanı'} tall />
         <div>
-          <span className="eyebrow">WORKFLOW</span>
+          <span className="eyebrow">{lang === 'en' ? 'WORKFLOW' : 'İŞ AKIŞI'}</span>
           <h2>
             {lang === 'en' ? 'Six controlled stages.' : 'Altı kontrollü aşama.'}
           </h2>
           <ol className="numbered-list">
-            {[
-              'Brief',
-              'CAD / Design development',
-              'Sample',
-              'Approval',
-              'Production',
-              'QC & Packing',
-            ].map((s, i) => (
+            {(lang === 'en'
+              ? ['Brief', 'CAD / Design development', 'Sample', 'Approval', 'Production', 'QC & Packing']
+              : ['Brief', 'CAD / Tasarım geliştirme', 'Numune', 'Onay', 'Üretim', 'Kalite kontrol ve paketleme']
+            ).map((s, i) => (
               <li key={s}>
                 <span>0{i + 1}</span>
                 {s}
@@ -2091,7 +2087,7 @@ function ManufacturingPage({
       </section>
       <section className="editorial full-editorial dark-editorial">
         <div className="editorial-copy wide">
-          <span className="eyebrow light">MATERIAL / FINISH / DETAIL</span>
+          <span className="eyebrow light">{lang === 'en' ? 'MATERIAL / FINISH / DETAIL' : 'MALZEME / KAPLAMA / DETAY'}</span>
           <h2>
             {lang === 'en'
               ? 'Specifications before promises.'
@@ -2118,7 +2114,7 @@ function PrivateLabelPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow="PRIVATE LABEL / OEM"
+        eyebrow={lang === 'en' ? 'PRIVATE LABEL / OEM' : 'ÖZEL ETİKET / OEM'}
         title={
           lang === 'en'
             ? 'Built for brands that need a production partner.'
@@ -2132,7 +2128,10 @@ function PrivateLabelPage({
       />
       <section className="section process-section">
         <div className="process-grid four">
-          {['Brief', 'Develop', 'Approve sample', 'Produce'].map((s, i) => (
+          {(lang === 'en'
+            ? ['Brief', 'Develop', 'Approve sample', 'Produce']
+            : ['Brief', 'Geliştir', 'Numuneyi onayla', 'Üret']
+          ).map((s, i) => (
             <article key={s}>
               <span>0{i + 1}</span>
               <h3>{s}</h3>
@@ -2151,7 +2150,7 @@ function PrivateLabelPage({
           tall
         />
         <div className="editorial-copy">
-          <span className="eyebrow">FOR BRANDS</span>
+          <span className="eyebrow">{lang === 'en' ? 'FOR BRANDS' : 'MARKALAR İÇİN'}</span>
           <h2>
             {lang === 'en'
               ? 'One route from reference to RFQ.'
@@ -2176,7 +2175,7 @@ function WorldPage({ lang }: { lang: Lang }) {
   return (
     <main className="page">
       <PageHero
-        eyebrow="OSKA WORLD"
+        eyebrow={lang === 'en' ? 'OSKA WORLD' : 'OSKA DÜNYASI'}
         title={
           lang === 'en'
             ? 'Istanbul craft, presented without cliché.'
@@ -2212,7 +2211,7 @@ function FavoritesPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow="SHORTLIST"
+        eyebrow={lang === 'en' ? 'SHORTLIST' : 'KISA LİSTE'}
         title={
           lang === 'en'
             ? 'Favorites / client shortlist'
@@ -2295,7 +2294,7 @@ function ContactPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow="CONTACT / RFQ"
+        eyebrow={lang === 'en' ? 'CONTACT / RFQ' : 'İLETİŞİM / RFQ'}
         title={
           lang === 'en'
             ? 'Start with the project brief.'
