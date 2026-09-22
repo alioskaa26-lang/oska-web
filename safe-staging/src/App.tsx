@@ -2621,7 +2621,7 @@ function ManualControlPanel({
   };
 
   const readUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: any,
     apply: (value: string) => void
   ) => {
     const file = event.target.files?.[0];
