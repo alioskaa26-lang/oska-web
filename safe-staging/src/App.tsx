@@ -263,7 +263,12 @@ const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
   },
   categoryScale: { bracelets: 100, rings: 100, necklaces: 100, earrings: 100 },
   categoryPositionY: { bracelets: 0, rings: 0, necklaces: 0, earrings: 0 },
-  categoryMedia: { bracelets: '', rings: '', necklaces: '', earrings: '' },
+  categoryMedia: {
+    bracelets: '/assets/categories/bracelets.webp',
+    rings: '/assets/categories/rings.webp',
+    necklaces: '/assets/categories/necklaces.webp',
+    earrings: '/assets/categories/earrings.webp',
+  },
   categoryStoryTr: {
     bracelets: 'Panther detayları, güçlü duruş ve karakterli yüzeylerle geliştirilen bileklik seçkisi.',
     rings: 'Heykelsi formlar, dengeli oranlar ve karakterli yüzeylerle geliştirilen yüzük seçkisi.',
@@ -279,7 +284,7 @@ const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
   customSections: [],
 };
 
-const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v2';
+const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v3';
 
 function readManualSettings(): ManualSettings {
   try {
