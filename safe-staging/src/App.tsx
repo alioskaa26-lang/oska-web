@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -2558,7 +2558,18 @@ function ManualControlPanel({
     service: ['B2B contact', 'B2B iletişim'],
   };
 
-  const visibilityKey: Record<HomeSectionKey, keyof ManualSettings> = {
+  type VisibilitySettingKey =
+    | 'showHero'
+    | 'showPrimaryRail'
+    | 'showPantherEditorial'
+    | 'showCategories'
+    | 'showMeshEditorial'
+    | 'showSecondaryRail'
+    | 'showBrand'
+    | 'showExplore'
+    | 'showProcess'
+    | 'showService';
+  const visibilityKey: Record<HomeSectionKey, VisibilitySettingKey> = {
     hero: 'showHero',
     primaryRail: 'showPrimaryRail',
     pantherEditorial: 'showPantherEditorial',
@@ -2621,7 +2632,7 @@ function ManualControlPanel({
   };
 
   const readUpload = (
-    event: any,
+    event: ChangeEvent<HTMLInputElement>,
     apply: (value: string) => void
   ) => {
     const file = event.target.files?.[0];
@@ -2690,8 +2701,8 @@ function ManualControlPanel({
               >
                 <span className="visual-editor-section-number">{String(index + 1).padStart(2, '0')}</span>
                 <span>{lang === 'en' ? sectionLabels[key][0] : sectionLabels[key][1]}</span>
-                <span className={Boolean(manual[visibilityKey[key]]) ? 'status-on' : 'status-off'}>
-                  {Boolean(manual[visibilityKey[key]]) ? '●' : '○'}
+                <span className={manual[visibilityKey[key]] ? 'status-on' : 'status-off'}>
+                  {manual[visibilityKey[key]] ? '●' : '○'}
                 </span>
               </button>
             ))}
