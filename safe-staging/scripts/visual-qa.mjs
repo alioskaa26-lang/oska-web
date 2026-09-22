@@ -70,6 +70,8 @@ for (const viewport of viewports) {
     failures.push(`${viewport.name}: search did not lock body scroll`);
   }
   await page.keyboard.press('Escape');
+  await page.locator('.search-overlay').waitFor({ state: 'detached' });
+  await page.waitForFunction(() => document.activeElement?.classList.contains('search-trigger'));
   if (!(await page.locator('.search-trigger').evaluate(el => el === document.activeElement))) {
     failures.push(`${viewport.name}: search focus did not return to trigger`);
   }
@@ -79,10 +81,13 @@ for (const viewport of viewports) {
     if (!(await page.evaluate(() => document.body.style.overflow === 'hidden'))) {
       failures.push(`${viewport.name}: drawer did not lock body scroll`);
     }
+    await page.waitForFunction(() => Boolean(document.activeElement?.closest('.mobile-drawer')));
     if (!(await page.evaluate(() => Boolean(document.activeElement?.closest('.mobile-drawer'))))) {
       failures.push(`${viewport.name}: drawer did not receive initial focus`);
     }
     await page.keyboard.press('Escape');
+    await page.locator('.drawer-backdrop').waitFor({ state: 'detached' });
+    await page.waitForFunction(() => document.activeElement?.classList.contains('mobile-menu-button'));
     if (!(await page.locator('.mobile-menu-button').evaluate(el => el === document.activeElement))) {
       failures.push(`${viewport.name}: drawer focus did not return to trigger`);
     }
