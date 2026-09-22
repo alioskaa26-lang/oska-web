@@ -1915,6 +1915,10 @@ function ServiceSection({ lang, go }: { lang: Lang; go: (r: string) => void }) {
       lang === 'en' ? 'Private Label Consultation' : 'Private Label Görüşmesi',
       'private-label',
     ],
+    [
+      lang === 'en' ? 'Production Consultation' : 'Üretim Görüşmesi',
+      'manufacturing',
+    ],
   ];
   return (
     <section className="service-section">
