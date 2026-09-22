@@ -275,15 +275,11 @@ function Header({
   const searchTriggerRef = useRef<HTMLButtonElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
+  const wasOpenRef = useRef(false);
+  const wasSearchOpenRef = useRef(false);
 
-  const closeDrawer = () => {
-    setOpen(false);
-    requestAnimationFrame(() => menuTriggerRef.current?.focus());
-  };
-  const closeSearch = () => {
-    setSearchOpen(false);
-    requestAnimationFrame(() => searchTriggerRef.current?.focus());
-  };
+  const closeDrawer = () => setOpen(false);
+  const closeSearch = () => setSearchOpen(false);
 
   useEffect(() => {
     const onEsc = (event: KeyboardEvent) => {
@@ -306,12 +302,28 @@ function Header({
   }, [open, searchOpen]);
 
   useEffect(() => {
-    if (!open) return;
-    const frame = requestAnimationFrame(() => {
-      drawerRef.current?.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')?.focus();
-    });
-    return () => cancelAnimationFrame(frame);
+    if (open) {
+      wasOpenRef.current = true;
+      return;
+    }
+    if (wasOpenRef.current) {
+      wasOpenRef.current = false;
+      const frame = requestAnimationFrame(() => menuTriggerRef.current?.focus());
+      return () => cancelAnimationFrame(frame);
+    }
   }, [open]);
+
+  useEffect(() => {
+    if (searchOpen) {
+      wasSearchOpenRef.current = true;
+      return;
+    }
+    if (wasSearchOpenRef.current) {
+      wasSearchOpenRef.current = false;
+      const frame = requestAnimationFrame(() => searchTriggerRef.current?.focus());
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [searchOpen]);
   return (
     <>
       <div className="announcement">{t.announcement}</div>
@@ -471,6 +483,7 @@ function Header({
               <span className="eyebrow">OSKA SILVER</span>
               <button
                 className="icon-button"
+                autoFocus
                 onClick={closeDrawer}
                 aria-label={lang === 'en' ? 'Close menu' : 'Menüyü kapat'}
               >
