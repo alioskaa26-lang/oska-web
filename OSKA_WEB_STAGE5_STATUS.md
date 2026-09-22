@@ -28,3 +28,18 @@ Therefore the new Stage 5 patch is validated and preserved on the safe branch bu
 
 ## Next stage
 Stage 6 hero/video final preparation is documented separately. Actual hero media binding must wait for verified authoritative OSKA media sources and must remain non-destructive.
+
+
+## 2026-09-22 Stage 5 verified continuation
+
+- Authoritative QA run: GitHub Actions `35716333364` — SUCCESS.
+- Verified gates: ESLint, TypeScript, Vite build, 1280/820/390, EN/TR, route coverage, horizontal overflow, overlay body-lock/focus return, runtime console/page errors.
+- Focus restoration fix commit: `a3a93ee2f16eb95fa20ffe8ef66d2096191064ae`.
+- Free isolated static artifact branch: `oska-stage5-static-preview`.
+- Static artifact workflow run: `35716683029` — SUCCESS.
+- Artifact-only branch commit: `82e464c35164f233e601f0fce36fa43bc1f4cfb8` (index + assets + .nojekyll only).
+- GitHub Pages is not enabled at repository-settings level; official Pages URL therefore remains optional/manual setup, not a code blocker.
+- AppDeploy/Vercel credits are not required for preserving or building Stage 5.
+- Production publish/DNS: untouched.
+- Existing hero/video sources: untouched.
+- Remaining ordered phase: hero/video final preparation and controlled integration only after approved media is available.
