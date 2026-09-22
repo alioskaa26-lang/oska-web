@@ -374,9 +374,9 @@ button {
 }
 .hero {
   position: relative;
-  min-height: min(760px, calc(100vh - 146px));
-  aspect-ratio: 16 / 9;
-  max-height: 860px;
+  height: var(--hero-height-desktop, 720px);
+  min-height: 360px;
+  max-height: none;
   color: white;
   overflow: hidden;
   background: #161513;
@@ -2477,6 +2477,9 @@ button {
   box-shadow: 0 18px 60px rgba(0,0,0,0.14);
   transition: width 180ms ease;
 }
+.visual-editor-browser.tablet {
+  width: 768px;
+}
 .visual-editor-browser.mobile {
   width: 390px;
 }
@@ -2730,5 +2733,17 @@ button {
   .visual-editor-inspector {
     border-left: 0;
     border-top: 1px solid #ddd;
+  }
+}
+
+/* CMS-controlled responsive hero heights */
+@media (max-width: 1100px) {
+  .hero {
+    height: var(--hero-height-tablet, 620px);
+  }
+}
+@media (max-width: 560px) {
+  .hero {
+    height: var(--hero-height-mobile, 540px);
   }
 }
