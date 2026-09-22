@@ -1,15 +1,30 @@
-# OSKA WEB — Stage 5 QA continuation
+# OSKA WEB — Stage 5 QA result
 
-Authoritative upstream staging: `oska-web-safe-staging-8ud231` version `1790039448920`.
+Authoritative deployed staging remains `oska-web-safe-staging-8ud231` version `1790039448920`.
 
-This branch preserves that staging source under `safe-staging/` and applies only the next unfinished Stage 5 work:
-- visible EN/TR cleanup across PLP/PDP/footer/helper labels
-- 390px header density reduction; Favorites moves into the mobile drawer on narrow screens
-- search and mobile drawer initial focus, focus containment, Escape close, focus return and body-scroll lock
-- responsive footer accordion behavior
-- exact 1280 / 820 / 390 automated EN/TR route/overflow/runtime QA harness
-- build gate remains lint + typecheck + Vite build
+Safe continuation branch: `oska-web-stage5-qa-20260922`.
 
-Hero/video source contract is unchanged. No cart/checkout. No production publish or DNS mutation.
+## PASS
+GitHub Actions run `35715246019` passed end to end on commit `1e20e07b800692f0bc2689be5272cc87863f4519`:
+- ESLint PASS
+- TypeScript PASS
+- Vite build PASS
+- Playwright Chromium PASS
+- EN/TR routes PASS
+- exact 1280 / 820 / 390 viewport checks PASS
+- horizontal overflow checks PASS
+- search overlay focus/body-lock/Escape/focus-return PASS
+- mobile drawer focus/body-lock/Escape/focus-return PASS
+- 390 header overlap guard PASS
+- runtime console/page-error gate PASS
 
-Provider blocker: AppDeploy stated its daily deployment budget resets at 2026-09-23T00:00:00Z. Until then, this branch is the safe continuation source and the existing AppDeploy preview remains the last deployed version.
+Applied Stage 5 work includes EN/TR visible-copy cleanup, 390 header density correction, narrow-mobile Favorites relocation into the drawer, overlay accessibility lifecycle, responsive footer accordion behavior and automated regression coverage.
+
+Hero/video media source contract remains unchanged. No cart/checkout. No production publish or DNS mutation.
+
+## External deployment blocker
+AppDeploy write/deploy budget is blocked until the provider-stated reset at `2026-09-23T00:00:00Z`.
+Therefore the new Stage 5 patch is validated and preserved on the safe branch but is not yet the live AppDeploy preview.
+
+## Next stage
+Stage 6 hero/video final preparation is documented separately. Actual hero media binding must wait for verified authoritative OSKA media sources and must remain non-destructive.
