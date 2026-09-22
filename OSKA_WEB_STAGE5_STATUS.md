@@ -43,3 +43,19 @@ Stage 6 hero/video final preparation is documented separately. Actual hero media
 - Production publish/DNS: untouched.
 - Existing hero/video sources: untouched.
 - Remaining ordered phase: hero/video final preparation and controlled integration only after approved media is available.
+
+
+## 2026-09-22 premium-reference refinement
+
+- Continued from Stage 5; no restart.
+- Live David Yurman information architecture re-checked as reference for reusable patterns only.
+- Homepage rhythm refined to: campaign hero → collection rail → editorial campaign → category discovery → second campaign → second collection rail → brand/private-label story → More to Explore → atelier process → B2B concierge → footer.
+- Desktop mega menu expanded to category + material/finish + featured collections + brand services.
+- Product rails tightened toward premium five-up desktop behavior with responsive tablet/mobile widths.
+- Added three-card More to Explore editorial section.
+- B2B concierge expanded to five service paths without cart/checkout.
+- Latest validated source commit: `f75ccf255d856de2db68b82ac90f12f815eed043`.
+- QA run `35718931822`: SUCCESS (lint, typecheck, build, 1280/820/390, EN/TR, routes, overflow, focus/ESC, runtime).
+- Static preview workflow `35718931911`: SUCCESS.
+- Production/DNS untouched. Existing hero/video sources untouched.
+- Remaining ordered phase: final owned hero/video media integration after approved OSKA media is available.
