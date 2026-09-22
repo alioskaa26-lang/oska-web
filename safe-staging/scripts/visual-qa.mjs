@@ -9,7 +9,7 @@ const viewports = [
 ];
 const routes = [
   'home','women','men','collections','bracelets','product/panther-bracelet-silver',
-  'manufacturing','private-label','contact','search-page','favorites'
+  'manufacturing','private-label','contact','search-page','favorites','admin'
 ];
 
 await fs.mkdir('qa', { recursive: true });
@@ -78,6 +78,17 @@ for (const viewport of viewports) {
       if (overflow) failures.push(`${viewport.name}/${lang}/${route}: horizontal overflow`);
       if (!(await page.locator('#main').count())) {
         failures.push(`${viewport.name}/${lang}/${route}: missing main`);
+      }
+      if (route === 'admin') {
+        if (!(await page.locator('.visual-editor-workspace').count())) {
+          failures.push(`${viewport.name}/${lang}/admin: visual editor workspace missing`);
+        }
+        if (!(await page.locator('.visual-editor-canvas').count())) {
+          failures.push(`${viewport.name}/${lang}/admin: live preview missing`);
+        }
+        if (!(await page.locator('.visual-editor-inspector').count())) {
+          failures.push(`${viewport.name}/${lang}/admin: inspector missing`);
+        }
       }
     }
 
