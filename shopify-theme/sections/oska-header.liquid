@@ -1,0 +1,21 @@
+{% if section.settings.announcement != blank %}
+  <div class="oska-announcement">{{ section.settings.announcement }}</div>
+{% endif %}
+<header class="oska-header">
+  <div class="oska-header__row">
+    <div><a href="{{ routes.search_url }}">Search</a></div>
+    <a class="oska-brand" href="{{ routes.root_url }}">OSKA</a>
+    <div class="oska-tools">
+      <a href="/pages/contact-rfq">RFQ</a>
+      <a href="{{ routes.search_url }}">Search</a>
+    </div>
+  </div>
+  <nav class="oska-nav" aria-label="Primary">
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+</header>
+{% schema %}
+{"name":"OSKA Header","settings":[{"type":"text","id":"announcement","label":"Announcement","default":"Istanbul atelier · B2B catalogue · Private label & production"},{"type":"link_list","id":"menu","label":"Main menu","default":"main-menu"}]}
+{% endschema %}
