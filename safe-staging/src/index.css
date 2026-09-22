@@ -214,8 +214,8 @@ button {
 }
 .mega-menu-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1fr;
-  gap: clamp(28px, 4vw, 70px);
+  grid-template-columns: 1.15fr repeat(4, minmax(0, 1fr));
+  gap: clamp(22px, 2.4vw, 42px);
   max-width: 1500px;
   margin: 0 auto;
 }
