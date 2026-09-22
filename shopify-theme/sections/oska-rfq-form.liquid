@@ -1,0 +1,19 @@
+<section class="oska-section oska-rfq">
+  <div>
+    <div class="oska-eyebrow">REQUEST FOR QUOTATION</div>
+    <h2>{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.body }}</p>
+  </div>
+  {% form 'contact' %}
+    {% if form.posted_successfully? %}<p role="status">{{ 'contact.form.success' | t }}</p>{% endif %}
+    {{ form.errors | default_errors }}
+    <label>{{ 'contact.form.company' | t }}<input name="contact[company]" required></label>
+    <label>{{ 'contact.form.email' | t }}<input type="email" name="contact[email]" required></label>
+    <label>{{ 'contact.form.market' | t }}<input name="contact[market]"></label>
+    <label>{{ 'contact.form.message' | t }}<textarea name="contact[body]" rows="6" required></textarea></label>
+    <button class="oska-button" type="submit">{{ 'contact.form.submit' | t }}</button>
+  {% endform %}
+</section>
+{% schema %}
+{"name":"OSKA RFQ Form","settings":[{"type":"text","id":"heading","label":"Heading","default":"Tell us what you need."},{"type":"textarea","id":"body","label":"Body","default":"Share company, market, category, material or finish direction, target quantity and project context."}],"presets":[{"name":"OSKA RFQ Form"}]}
+{% endschema %}
