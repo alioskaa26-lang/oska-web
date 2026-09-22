@@ -2332,7 +2332,6 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
-          manual={manual}
         />
       );
     if (route === 'rings' || route === 'necklaces' || route === 'earrings')
@@ -2350,7 +2349,6 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
-          manual={manual}
         />
       );
     if (route === 'contact')
@@ -2374,7 +2372,6 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
-          manual={manual}
         />
       );
     return (
@@ -2383,6 +2380,7 @@ function App() {
         go={go}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        manual={manual}
       />
     );
   })();
