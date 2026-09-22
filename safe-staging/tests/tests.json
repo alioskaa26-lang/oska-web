@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Use premium navigation to browse catalogue and open a product",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "desktop mega-menu",
+      "single-hero landing",
+      "bracelet catalogue",
+      "product detail",
+      "B2B CTA hierarchy"
+    ],
+    "description": "Verifies the core B2B discovery flow uses the desktop mega-menu to reach a verified bracelet PDP without retail checkout controls.",
+    "steps": [
+      "Open the Men desktop navigation menu and choose Bracelets",
+      "Open Panther Bracelet"
+    ],
+    "expected": "The bracelet PDP shows a sticky information panel with Request a quotation, Request sample and Produce for my brand actions, with no cart or checkout control."
+  },
+  {
+    "name": "Save and review a client shortlist",
+    "viewport": "desktop",
+    "covers": [
+      "favorites toggle",
+      "local shortlist persistence",
+      "favorites route"
+    ],
+    "description": "Verifies a product can be saved locally and reviewed from the Favorites shortlist.",
+    "steps": [
+      "Open Bracelets and save one product with the heart control",
+      "Open Favorites from the header"
+    ],
+    "expected": "The saved product appears in the Favorites / client shortlist and the header count reflects the saved item."
+  },
+  {
+    "name": "Use mobile navigation and switch language",
+    "viewport": "mobile",
+    "covers": [
+      "mobile drawer",
+      "responsive navigation",
+      "EN/TR switching",
+      "44px touch targets"
+    ],
+    "description": "Verifies the mobile navigation pattern and bilingual control work without relying on hover behavior.",
+    "steps": [
+      "Open the mobile menu and navigate to Manufacturing",
+      "Switch the interface language to Turkish"
+    ],
+    "expected": "The Manufacturing page remains usable at mobile width and the global interface changes to Turkish without horizontal overflow."
+  },
+  {
+    "name": "Reject incomplete RFQ without fake success",
+    "viewport": "desktop",
+    "covers": [
+      "RFQ validation",
+      "truthful staging state",
+      "no fake success"
+    ],
+    "description": "Verifies the staging RFQ form blocks incomplete input and never claims an unsent request succeeded.",
+    "steps": [
+      "Open Contact / RFQ",
+      "Submit the form without completing company, valid email and project message"
+    ],
+    "expected": "A visible validation message requests the missing required information and no success message appears."
+  },
+  {
+    "name": "Search the verified catalogue and use the digital guide",
+    "viewport": "mobile",
+    "covers": [
+      "search page",
+      "verified search results",
+      "digital guide",
+      "private-label navigation"
+    ],
+    "description": "Verifies search and the deterministic OSKA Digital Guide provide useful navigation without inventing catalogue or AI behavior.",
+    "steps": [
+      "Open Search from the footer and search for Panther",
+      "Open a verified Panther result",
+      "Open the OSKA Digital Guide and choose Private label"
+    ],
+    "expected": "A verified Panther product opens from search, then the guide opens the Private Label page and presents itself as verified site guidance rather than a live generative assistant."
+  }
+]
