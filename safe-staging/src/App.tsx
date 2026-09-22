@@ -161,6 +161,31 @@ const copy = {
   },
 };
 
+type HomeSectionKey =
+  | 'hero'
+  | 'primaryRail'
+  | 'pantherEditorial'
+  | 'categories'
+  | 'meshEditorial'
+  | 'secondaryRail'
+  | 'brand'
+  | 'explore'
+  | 'process'
+  | 'service';
+
+type CategoryKey = 'bracelets' | 'rings' | 'necklaces' | 'earrings';
+
+type CustomSection = {
+  id: string;
+  visible: boolean;
+  titleTr: string;
+  titleEn: string;
+  bodyTr: string;
+  bodyEn: string;
+  mediaUrl: string;
+  route: string;
+};
+
 type ManualSettings = {
   defaultLang: Lang;
   showHero: boolean;
@@ -174,7 +199,29 @@ type ManualSettings = {
   showProcess: boolean;
   showService: boolean;
   showGenderLinks: boolean;
+  sectionOrder: HomeSectionKey[];
+  sectionScale: Record<HomeSectionKey, number>;
+  sectionSpacing: Record<HomeSectionKey, number>;
+  categoryScale: Record<CategoryKey, number>;
+  categoryPositionY: Record<CategoryKey, number>;
+  categoryMedia: Record<CategoryKey, string>;
+  categoryStoryTr: Record<CategoryKey, string>;
+  categoryStoryEn: Record<CategoryKey, string>;
+  customSections: CustomSection[];
 };
+
+const HOME_SECTION_KEYS: HomeSectionKey[] = [
+  'hero',
+  'primaryRail',
+  'pantherEditorial',
+  'categories',
+  'meshEditorial',
+  'secondaryRail',
+  'brand',
+  'explore',
+  'process',
+  'service',
+];
 
 const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
   defaultLang: 'tr',
@@ -189,14 +236,69 @@ const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
   showProcess: true,
   showService: true,
   showGenderLinks: true,
+  sectionOrder: [...HOME_SECTION_KEYS],
+  sectionScale: {
+    hero: 100,
+    primaryRail: 100,
+    pantherEditorial: 100,
+    categories: 100,
+    meshEditorial: 100,
+    secondaryRail: 100,
+    brand: 100,
+    explore: 100,
+    process: 100,
+    service: 100,
+  },
+  sectionSpacing: {
+    hero: 0,
+    primaryRail: 0,
+    pantherEditorial: 0,
+    categories: 0,
+    meshEditorial: 0,
+    secondaryRail: 0,
+    brand: 0,
+    explore: 0,
+    process: 0,
+    service: 0,
+  },
+  categoryScale: { bracelets: 100, rings: 100, necklaces: 100, earrings: 100 },
+  categoryPositionY: { bracelets: 0, rings: 0, necklaces: 0, earrings: 0 },
+  categoryMedia: { bracelets: '', rings: '', necklaces: '', earrings: '' },
+  categoryStoryTr: {
+    bracelets: 'Panther detayları, güçlü duruş ve karakterli yüzeylerle geliştirilen bileklik seçkisi.',
+    rings: 'Heykelsi formlar, dengeli oranlar ve karakterli yüzeylerle geliştirilen yüzük seçkisi.',
+    necklaces: 'Zincir, pendant ve oran dengesiyle geliştirilen kolye seçkisi.',
+    earrings: 'Hafiflik, hareket ve modern ışıltıyla geliştirilen küpe seçkisi.',
+  },
+  categoryStoryEn: {
+    bracelets: 'A bracelet edit shaped by Panther details, strong presence and characterful surfaces.',
+    rings: 'A ring edit shaped by sculptural forms, balanced proportions and characterful surfaces.',
+    necklaces: 'A necklace edit built around chain, pendant and proportion.',
+    earrings: 'An earring edit shaped by lightness, movement and modern brilliance.',
+  },
+  customSections: [],
 };
 
-const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v1';
+const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v2';
 
 function readManualSettings(): ManualSettings {
   try {
     const saved = JSON.parse(localStorage.getItem(MANUAL_SETTINGS_KEY) || '{}');
-    return { ...DEFAULT_MANUAL_SETTINGS, ...saved };
+    return {
+      ...DEFAULT_MANUAL_SETTINGS,
+      ...saved,
+      sectionOrder: Array.isArray(saved.sectionOrder)
+        ? [...saved.sectionOrder, ...HOME_SECTION_KEYS.filter(key => !saved.sectionOrder.includes(key))]
+        : [...HOME_SECTION_KEYS],
+      sectionScale: { ...DEFAULT_MANUAL_SETTINGS.sectionScale, ...(saved.sectionScale || {}) },
+      sectionSpacing: { ...DEFAULT_MANUAL_SETTINGS.sectionSpacing, ...(saved.sectionSpacing || {}) },
+      categoryScale: { ...DEFAULT_MANUAL_SETTINGS.categoryScale, ...(saved.categoryScale || {}) },
+      categoryPositionY: { ...DEFAULT_MANUAL_SETTINGS.categoryPositionY, ...(saved.categoryPositionY || {}) },
+      categoryMedia: { ...DEFAULT_MANUAL_SETTINGS.categoryMedia, ...(saved.categoryMedia || {}) },
+      categoryStoryTr: { ...DEFAULT_MANUAL_SETTINGS.categoryStoryTr, ...(saved.categoryStoryTr || {}) },
+      categoryStoryEn: { ...DEFAULT_MANUAL_SETTINGS.categoryStoryEn, ...(saved.categoryStoryEn || {}) },
+      customSections: Array.isArray(saved.customSections) ? saved.customSections : [],
+    };
   } catch {
     return DEFAULT_MANUAL_SETTINGS;
   }
