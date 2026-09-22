@@ -216,6 +216,13 @@ type ManualSettings = {
   heroBodyTr: string;
   heroBodyEn: string;
   heroMediaUrl: string;
+  heroHeightDesktop: number;
+  heroHeightTablet: number;
+  heroHeightMobile: number;
+  heroObjectFit: 'cover' | 'contain';
+  heroPositionX: number;
+  heroPositionY: number;
+  aiEditNote: string;
   customSections: CustomSection[];
 };
 
@@ -299,6 +306,13 @@ const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
   heroBodyTr: 'Koleksiyon, private-label geliştirme ve kontrollü üretim için premium B2B katalog.',
   heroBodyEn: 'A premium B2B catalogue for collections, private-label development and controlled production.',
   heroMediaUrl: '',
+  heroHeightDesktop: 720,
+  heroHeightTablet: 620,
+  heroHeightMobile: 540,
+  heroObjectFit: 'cover',
+  heroPositionX: 50,
+  heroPositionY: 50,
+  aiEditNote: '',
   customSections: [],
 };
 
@@ -329,6 +343,13 @@ function readManualSettings(): ManualSettings {
       heroBodyTr: saved.heroBodyTr ?? DEFAULT_MANUAL_SETTINGS.heroBodyTr,
       heroBodyEn: saved.heroBodyEn ?? DEFAULT_MANUAL_SETTINGS.heroBodyEn,
       heroMediaUrl: saved.heroMediaUrl ?? DEFAULT_MANUAL_SETTINGS.heroMediaUrl,
+      heroHeightDesktop: Number(saved.heroHeightDesktop ?? DEFAULT_MANUAL_SETTINGS.heroHeightDesktop),
+      heroHeightTablet: Number(saved.heroHeightTablet ?? DEFAULT_MANUAL_SETTINGS.heroHeightTablet),
+      heroHeightMobile: Number(saved.heroHeightMobile ?? DEFAULT_MANUAL_SETTINGS.heroHeightMobile),
+      heroObjectFit: saved.heroObjectFit === 'contain' ? 'contain' : 'cover',
+      heroPositionX: Number(saved.heroPositionX ?? DEFAULT_MANUAL_SETTINGS.heroPositionX),
+      heroPositionY: Number(saved.heroPositionY ?? DEFAULT_MANUAL_SETTINGS.heroPositionY),
+      aiEditNote: saved.aiEditNote ?? DEFAULT_MANUAL_SETTINGS.aiEditNote,
       customSections: Array.isArray(saved.customSections) ? saved.customSections : [],
     };
   } catch {
@@ -1043,6 +1064,11 @@ function Hero({
     <section
       className={`hero ${paused ? 'paused' : ''}`}
       aria-label={lang === 'en' ? 'Single hero video region' : 'Tek hero video alanı'}
+      style={{
+        ['--hero-height-desktop' as string]: `${manual.heroHeightDesktop}px`,
+        ['--hero-height-tablet' as string]: `${manual.heroHeightTablet}px`,
+        ['--hero-height-mobile' as string]: `${manual.heroHeightMobile}px`,
+      }}
     >
       <div className="hero-safe-media" aria-hidden="true">
         {manual.heroMediaUrl &&
@@ -1050,13 +1076,25 @@ function Hero({
             <video
               className="hero-editor-media"
               src={manual.heroMediaUrl}
+              style={{
+                objectFit: manual.heroObjectFit,
+                objectPosition: `${manual.heroPositionX}% ${manual.heroPositionY}%`,
+              }}
               autoPlay
               muted
               loop
               playsInline
             />
           ) : (
-            <img className="hero-editor-media" src={manual.heroMediaUrl} alt="" />
+            <img
+              className="hero-editor-media"
+              src={manual.heroMediaUrl}
+              alt=""
+              style={{
+                objectFit: manual.heroObjectFit,
+                objectPosition: `${manual.heroPositionX}% ${manual.heroPositionY}%`,
+              }}
+            />
           ))}
         <div className="hero-grain" />
       </div>
@@ -2543,7 +2581,7 @@ function ManualControlPanel({
 }) {
   const [selectedSection, setSelectedSection] = useState<HomeSectionKey>('hero');
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('bracelets');
-  const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
+  const [previewMode, setPreviewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
   const sectionLabels: Record<HomeSectionKey, [string, string]> = {
     hero: ['Hero', 'Hero'],
@@ -2674,6 +2712,9 @@ function ManualControlPanel({
           <div className="visual-editor-device">
             <button className={previewMode === 'desktop' ? 'active' : ''} onClick={() => setPreviewMode('desktop')}>
               {lang === 'en' ? 'Desktop' : 'Masaüstü'}
+            </button>
+            <button className={previewMode === 'tablet' ? 'active' : ''} onClick={() => setPreviewMode('tablet')}>
+              {lang === 'en' ? 'Tablet' : 'Tablet'}
             </button>
             <button className={previewMode === 'mobile' ? 'active' : ''} onClick={() => setPreviewMode('mobile')}>
               {lang === 'en' ? 'Mobile' : 'Mobil'}
@@ -2836,6 +2877,33 @@ function ManualControlPanel({
                   />
                 </label>
               </div>
+              <label>
+                <span>{lang === 'en' ? 'Desktop hero height' : 'Masaüstü hero yüksekliği'} <b>{manual.heroHeightDesktop}px</b></span>
+                <input type="range" min="420" max="980" step="10" value={manual.heroHeightDesktop} onChange={e => update('heroHeightDesktop', Number(e.target.value))} />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Tablet hero height' : 'Tablet hero yüksekliği'} <b>{manual.heroHeightTablet}px</b></span>
+                <input type="range" min="380" max="860" step="10" value={manual.heroHeightTablet} onChange={e => update('heroHeightTablet', Number(e.target.value))} />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Mobile hero height' : 'Mobil hero yüksekliği'} <b>{manual.heroHeightMobile}px</b></span>
+                <input type="range" min="340" max="760" step="10" value={manual.heroHeightMobile} onChange={e => update('heroHeightMobile', Number(e.target.value))} />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Media fit' : 'Medya yerleşimi'}</span>
+                <select value={manual.heroObjectFit} onChange={e => update('heroObjectFit', e.target.value as 'cover' | 'contain')}>
+                  <option value="cover">{lang === 'en' ? 'Fill / crop' : 'Doldur / kırp'}</option>
+                  <option value="contain">{lang === 'en' ? 'Fit entire media' : 'Medyanın tamamını göster'}</option>
+                </select>
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Horizontal focal point' : 'Yatay odak'} <b>{manual.heroPositionX}%</b></span>
+                <input type="range" min="0" max="100" value={manual.heroPositionX} onChange={e => update('heroPositionX', Number(e.target.value))} />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Vertical focal point' : 'Dikey odak'} <b>{manual.heroPositionY}%</b></span>
+                <input type="range" min="0" max="100" value={manual.heroPositionY} onChange={e => update('heroPositionY', Number(e.target.value))} />
+              </label>
             </div>
           )}
 
@@ -2963,6 +3031,24 @@ function ManualControlPanel({
               </label>
             </div>
           )}
+
+          <div className="visual-editor-control-group">
+            <h3>{lang === 'en' ? 'AI edit instruction' : 'Yapay zekâ düzenleme notu'}</h3>
+            <label>
+              <span>{lang === 'en' ? 'Write the change you want for this section' : 'Bu bölümde istediğin değişikliği yaz'}</span>
+              <textarea
+                rows={4}
+                value={manual.aiEditNote}
+                placeholder={lang === 'en' ? 'Example: Make this section shorter on mobile and move the focal point up.' : 'Örnek: Mobilde bu bölümü kısalt ve odak noktasını biraz yukarı taşı.'}
+                onChange={e => update('aiEditNote', e.target.value)}
+              />
+            </label>
+            <small>
+              {lang === 'en'
+                ? 'Saved with the editor state. The live AI execution backend will apply these notes only after human approval.'
+                : 'Editör durumuyla birlikte kaydedilir. Canlı AI yürütme katmanı bu notları yalnız insan onayı sonrası uygulayacak.'}
+            </small>
+          </div>
 
           <div className="visual-editor-save-state">
             <span>●</span>
