@@ -1,0 +1,24 @@
+name: OSKA Shopify Theme Check
+
+on:
+  push:
+    branches:
+      - oska-shopify-theme-migration
+    paths:
+      - 'shopify-theme/**'
+      - '.github/workflows/oska-shopify-theme-check.yml'
+  pull_request:
+    paths:
+      - 'shopify-theme/**'
+
+jobs:
+  theme-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shopify Theme Check
+        uses: shopify/theme-check-action@v2
+        with:
+          theme_root: './shopify-theme'
+          token: ${{ github.token }}
+          base: oska-web-stage5-qa-20260922
