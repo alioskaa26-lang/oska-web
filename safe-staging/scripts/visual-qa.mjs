@@ -63,14 +63,14 @@ for (const viewport of viewports) {
 
   await page.goto(base + '#/home', { waitUntil: 'networkidle' });
   await page.locator('.search-trigger').click();
-  if (!(await page.locator('.search-panel input').isFocused())) {
+  if (!(await page.locator('.search-panel input').evaluate(el => el === document.activeElement))) {
     failures.push(`${viewport.name}: search did not receive initial focus`);
   }
   if (!(await page.evaluate(() => document.body.style.overflow === 'hidden'))) {
     failures.push(`${viewport.name}: search did not lock body scroll`);
   }
   await page.keyboard.press('Escape');
-  if (!(await page.locator('.search-trigger').isFocused())) {
+  if (!(await page.locator('.search-trigger').evaluate(el => el === document.activeElement))) {
     failures.push(`${viewport.name}: search focus did not return to trigger`);
   }
 
@@ -83,7 +83,7 @@ for (const viewport of viewports) {
       failures.push(`${viewport.name}: drawer did not receive initial focus`);
     }
     await page.keyboard.press('Escape');
-    if (!(await page.locator('.mobile-menu-button').isFocused())) {
+    if (!(await page.locator('.mobile-menu-button').evaluate(el => el === document.activeElement))) {
       failures.push(`${viewport.name}: drawer focus did not return to trigger`);
     }
   }
