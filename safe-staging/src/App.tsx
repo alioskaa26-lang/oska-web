@@ -621,7 +621,11 @@ function Header({
           <div className="header-tools">
             <button
               className="lang-button"
-              onClick={() => setLang(lang === 'en' ? 'tr' : 'en')}
+              onClick={() => {
+                setActiveMenu(null);
+                setSearchOpen(false);
+                setLang(lang === 'en' ? 'tr' : 'en');
+              }}
               aria-label={lang === 'en' ? 'Change language' : 'Dili değiştir'}
             >
               <Globe2 size={16} /> {lang.toUpperCase()}
@@ -792,7 +796,13 @@ function Header({
               >
                 {t.quote}
               </button>
-              <button onClick={() => setLang(lang === 'en' ? 'tr' : 'en')}>
+              <button
+                onClick={() => {
+                  setActiveMenu(null);
+                  setLang(lang === 'en' ? 'tr' : 'en');
+                  setOpen(false);
+                }}
+              >
                 {lang === 'en' ? 'Türkçe' : 'English'}
               </button>
             </div>
@@ -2992,13 +3002,14 @@ function App() {
         {lang === 'en' ? 'Skip to content' : 'İçeriğe geç'}
       </a>
       <Header
+        key={`header-${lang}`}
         lang={lang}
         setLang={setLang}
         favoritesCount={favorites.size}
         go={go}
       />
-      <div id="main">{content}</div>
-      <Footer lang={lang} go={go} />
+      <div id="main" key={`main-${lang}`}>{content}</div>
+      <Footer key={`footer-${lang}`} lang={lang} go={go} />
       <button
         className="manual-panel-trigger"
         onClick={() => go('admin')}
