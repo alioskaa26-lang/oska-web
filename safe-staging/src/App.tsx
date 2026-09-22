@@ -396,12 +396,12 @@ function Header({
                   <h2>{activeMenu}</h2>
                   <p>
                     {lang === 'en'
-                      ? 'Move from collection discovery to verified product detail, development capability and RFQ without a retail checkout detour.'
-                      : 'Perakende ödeme akışına sapmadan koleksiyon keşfinden doğrulanmış ürün detayına, üretim kabiliyetine ve RFQ’ya ilerleyin.'}
+                      ? 'A premium discovery path from product family and material direction to verified detail, development and RFQ.'
+                      : 'Ürün ailesi ve malzeme yönünden doğrulanmış detay, geliştirme ve RFQ’ya uzanan premium keşif yolu.'}
                   </p>
                 </div>
                 <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'Categories' : 'Kategoriler'}</span>
+                  <span className="mega-label">{lang === 'en' ? 'Shop by category' : 'Kategoriye göre'}</span>
                   {[
                     [lang === 'en' ? 'Bracelets' : 'Bileklik', 'bracelets'],
                     [lang === 'en' ? 'Rings' : 'Yüzük', 'rings'],
@@ -414,9 +414,27 @@ function Header({
                   ))}
                 </div>
                 <div className="mega-column">
-                  <span className="mega-label">{lang === 'en' ? 'Collections' : 'Koleksiyonlar'}</span>
-                  {['Panther', 'Mesh', 'Signature'].map(label => (
-                    <button key={label} onClick={() => { go('collections'); setActiveMenu(null); }}>
+                  <span className="mega-label">{lang === 'en' ? 'Material / finish' : 'Malzeme / kaplama'}</span>
+                  {[
+                    [lang === 'en' ? 'Sterling silver' : '925 gümüş', 'manufacturing'],
+                    [lang === 'en' ? 'Brass / bronze' : 'Pirinç / bronz', 'manufacturing'],
+                    [lang === 'en' ? 'Gold development' : 'Altın geliştirme', 'manufacturing'],
+                    [lang === 'en' ? 'Stone / lab-grown' : 'Taş / lab-grown', 'manufacturing'],
+                  ].map(([label, route]) => (
+                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
+                      {label}<ArrowRight size={14} />
+                    </button>
+                  ))}
+                </div>
+                <div className="mega-column">
+                  <span className="mega-label">{lang === 'en' ? 'Featured' : 'Öne çıkanlar'}</span>
+                  {[
+                    ['Panther', 'collections'],
+                    ['Mesh', 'collections'],
+                    ['Signature', 'collections'],
+                    [lang === 'en' ? 'All collections' : 'Tüm koleksiyonlar', 'collections'],
+                  ].map(([label, route]) => (
+                    <button key={label} onClick={() => { go(route); setActiveMenu(null); }}>
                       {label}<ArrowRight size={14} />
                     </button>
                   ))}
