@@ -963,10 +963,10 @@ function Home({
                 <strong>{lang === 'en' ? item.en : item.tr}</strong>
                 {manual.showGenderLinks ? (
                   <div className="category-gender-links">
-                    <button onClick={() => go('women')}>
+                    <button onClick={() => go(`women/${item.key}`)}>
                       {lang === 'en' ? item.womenEn : item.womenTr}
                     </button>
-                    <button onClick={() => go('men')}>
+                    <button onClick={() => go(`men/${item.key}`)}>
                       {lang === 'en' ? item.menEn : item.menTr}
                     </button>
                   </div>
@@ -1202,7 +1202,7 @@ function AudiencePage({
       />
       <section className="section">
         <div className="category-grid">
-          <button className="category-card" onClick={() => go('bracelets')}>
+          <button className="category-card" onClick={() => go(`${type}/bracelets`)}>
             <MediaBlock label="Verified bracelet catalogue media" verified />
             <strong>{lang === 'en' ? 'Bracelets' : 'Bileklik'}</strong>
             <span>
@@ -1210,7 +1210,7 @@ function AudiencePage({
             </span>
           </button>
           {['rings', 'necklaces', 'earrings'].map(r => (
-            <button key={r} className="category-card" onClick={() => go(r)}>
+            <button key={r} className="category-card" onClick={() => go(`${type}/${r}`)}>
               <MediaBlock label={lang === 'en' ? 'Category-specific media pending' : 'Kategoriye özel medya bekleniyor'} />
               <strong>
                 {r === 'rings'
@@ -1261,11 +1261,13 @@ function BraceletsPage({
   go,
   favorites,
   toggleFavorite,
+  audience,
 }: {
   lang: Lang;
   go: (r: string) => void;
   favorites: Set<string>;
   toggleFavorite: (s: string) => void;
+  audience?: 'women' | 'men';
 }) {
   const [finish, setFinish] = useState('All');
   const [collection, setCollection] = useState('All');
@@ -1285,11 +1287,23 @@ function BraceletsPage({
   return (
     <main className="page">
       <PageHero
-        eyebrow={lang === 'en' ? 'BRACELETS' : 'BİLEKLİK'}
+        eyebrow={
+          audience
+            ? lang === 'en'
+              ? `${audience === 'women' ? 'WOMEN' : 'MEN'} · BRACELETS`
+              : `${audience === 'women' ? 'KADIN' : 'ERKEK'} · BİLEKLİKLER`
+            : lang === 'en'
+              ? 'BRACELETS'
+              : 'BİLEKLİKLER'
+        }
         title={
-          lang === 'en'
-            ? 'Bracelets — verified catalogue'
-            : 'Bileklik — doğrulanmış katalog'
+          audience
+            ? lang === 'en'
+              ? `${audience === 'women' ? "Women's" : "Men's"} Bracelets`
+              : `${audience === 'women' ? 'Kadın' : 'Erkek'} Bileklikleri`
+            : lang === 'en'
+              ? 'Bracelets — verified catalogue'
+              : 'Bileklikler — doğrulanmış katalog'
         }
         body={
           lang === 'en'
@@ -1363,10 +1377,12 @@ function CapabilityPage({
   kind,
   lang,
   go,
+  audience,
 }: {
   kind: 'rings' | 'necklaces' | 'earrings';
   lang: Lang;
   go: (r: string) => void;
+  audience?: 'women' | 'men';
 }) {
   const names = {
     rings: ['Rings', 'Yüzük'],
@@ -1374,14 +1390,21 @@ function CapabilityPage({
     earrings: ['Earrings', 'Küpe'],
   } as const;
   const title = names[kind][lang === 'en' ? 0 : 1];
+  const audienceTitle = audience
+    ? lang === 'en'
+      ? `${audience === 'women' ? "Women's" : "Men's"} ${title}`
+      : `${audience === 'women' ? 'Kadın' : 'Erkek'} ${kind === 'rings' ? 'Yüzükleri' : kind === 'necklaces' ? 'Kolyeleri' : 'Küpeleri'}`
+    : title;
   return (
     <main className="page">
       <PageHero
-        eyebrow={title.toUpperCase()}
+        eyebrow={audienceTitle.toUpperCase()}
         title={
-          lang === 'en'
-            ? `${title} — design & manufacturing capability`
-            : `${title} — tasarım ve üretim kabiliyeti`
+          audience
+            ? audienceTitle
+            : lang === 'en'
+              ? `${title} — design & manufacturing capability`
+              : `${title} — tasarım ve üretim kabiliyeti`
         }
         body={
           lang === 'en'
@@ -2323,6 +2346,35 @@ function App() {
           manual={manual}
         />
       );
+    if (
+      route === 'women/bracelets' ||
+      route === 'men/bracelets'
+    ) {
+      const audience = route.startsWith('women/') ? 'women' : 'men';
+      return (
+        <BraceletsPage
+          lang={lang}
+          go={go}
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+          audience={audience}
+        />
+      );
+    }
+    if (
+      route === 'women/rings' ||
+      route === 'men/rings' ||
+      route === 'women/necklaces' ||
+      route === 'men/necklaces' ||
+      route === 'women/earrings' ||
+      route === 'men/earrings'
+    ) {
+      const [audience, kind] = route.split('/') as [
+        'women' | 'men',
+        'rings' | 'necklaces' | 'earrings',
+      ];
+      return <CapabilityPage kind={kind} lang={lang} go={go} audience={audience} />;
+    }
     if (route === 'women' || route === 'men')
       return <AudiencePage type={route} lang={lang} go={go} />;
     if (route === 'bracelets')
