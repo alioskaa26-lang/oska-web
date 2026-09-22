@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - oska-web-stage5-qa-20260922
+      - oska-web-cms-i18n-20260922
     paths:
       - 'safe-staging/**'
       - '.github/workflows/oska-stage5-qa.yml'
