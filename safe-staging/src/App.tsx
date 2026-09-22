@@ -770,21 +770,25 @@ function Home({
   toggleFavorite: (s: string) => void;
 }) {
   const t = copy[lang];
+  const primaryProducts = PRODUCTS.slice(0, 5);
+  const secondaryProducts = PRODUCTS.slice(1, 6);
+
   return (
     <>
       <Hero lang={lang} go={go} />
-      <section className="section product-rail-section">
+
+      <section className="section product-rail-section collection-band">
         <div className="section-head">
           <div>
             <span className="eyebrow">PANTHER · MESH · SIGNATURE</span>
             <h2>{t.discover}</h2>
           </div>
           <button className="link-button" onClick={() => go('bracelets')}>
-            View all <ArrowRight size={16} />
+            {lang === 'en' ? 'View all' : 'Tümünü gör'} <ArrowRight size={16} />
           </button>
         </div>
         <div className="product-rail">
-          {PRODUCTS.slice(0, 4).map(p => (
+          {primaryProducts.map(p => (
             <ProductCard
               key={p.slug}
               product={p}
@@ -795,9 +799,14 @@ function Home({
           ))}
         </div>
       </section>
-      <section className="editorial split-editorial">
+
+      <section className="editorial split-editorial campaign-editorial">
         <MediaBlock
-          label={lang === 'en' ? 'OSKA-owned Panther editorial media slot' : 'OSKA Panther editorial medya alanı'}
+          label={
+            lang === 'en'
+              ? 'OSKA-owned Panther campaign media slot'
+              : 'OSKA Panther kampanya medya alanı'
+          }
           verified
           tall
         />
@@ -810,15 +819,17 @@ function Home({
           </h2>
           <p>
             {lang === 'en'
-              ? 'A focused bracelet language that combines strong silhouettes, surface detail and controlled finish variants.'
-              : 'Güçlü siluetleri, yüzey detayını ve kontrollü renk varyantlarını bir araya getiren odaklı bileklik dili.'}
+              ? 'A focused bracelet language combining strong silhouettes, controlled surfaces and repeatable production detail.'
+              : 'Güçlü siluetleri, kontrollü yüzeyleri ve tekrarlanabilir üretim detayını bir araya getiren odaklı bileklik dili.'}
           </p>
           <button className="link-button" onClick={() => go('collections')}>
-            Explore Panther <ArrowRight size={16} />
+            {lang === 'en' ? 'Explore the collection' : 'Koleksiyonu keşfet'}{' '}
+            <ArrowRight size={16} />
           </button>
         </div>
       </section>
-      <section className="section">
+
+      <section className="section category-section">
         <div className="section-head">
           <div>
             <span className="eyebrow">PRODUCT FAMILIES</span>
@@ -827,7 +838,14 @@ function Home({
         </div>
         <div className="category-grid">
           <button onClick={() => go('bracelets')} className="category-card">
-            <MediaBlock label={lang === 'en' ? 'Verified bracelet catalogue media' : 'Doğrulanmış bileklik katalog medyası'} verified />
+            <MediaBlock
+              label={
+                lang === 'en'
+                  ? 'Verified bracelet catalogue media'
+                  : 'Doğrulanmış bileklik katalog medyası'
+              }
+              verified
+            />
             <strong>{lang === 'en' ? 'Bracelets' : 'Bileklik'}</strong>
             <span>
               {lang === 'en' ? 'View catalogue' : 'Kataloğu gör'}{' '}
@@ -836,7 +854,13 @@ function Home({
           </button>
           {['rings', 'necklaces', 'earrings'].map(key => (
             <button key={key} onClick={() => go(key)} className="category-card">
-              <MediaBlock label={lang === 'en' ? 'Verified category media pending' : 'Doğrulanmış kategori medyası bekleniyor'} />
+              <MediaBlock
+                label={
+                  lang === 'en'
+                    ? 'Category media pending'
+                    : 'Kategori medyası bekleniyor'
+                }
+              />
               <strong>
                 {key === 'rings'
                   ? lang === 'en'
@@ -851,16 +875,15 @@ function Home({
                       : 'Küpe'}
               </strong>
               <span>
-                {lang === 'en'
-                  ? 'Manufacturing capability'
-                  : 'Üretim kabiliyeti'}{' '}
+                {lang === 'en' ? 'Explore capability' : 'Kabiliyeti keşfet'}{' '}
                 <ArrowRight size={15} />
               </span>
             </button>
           ))}
         </div>
       </section>
-      <section className="editorial full-editorial dark-editorial">
+
+      <section className="editorial full-editorial dark-editorial campaign-editorial">
         <div className="editorial-copy wide">
           <span className="eyebrow light">MESH / ARTICULATED</span>
           <h2>
@@ -870,15 +893,48 @@ function Home({
           </h2>
           <p>
             {lang === 'en'
-              ? 'Flexible constructions, repeatable finishing and a production workflow built around approved samples.'
+              ? 'Flexible constructions, repeatable finishing and a production workflow centered on approved samples.'
               : 'Esnek konstrüksiyonlar, tekrarlanabilir yüzey kalitesi ve onaylı numune etrafında kurulan üretim akışı.'}
           </p>
-          <button className="button light" onClick={() => go('manufacturing')}>
-            Manufacturing <ArrowRight size={16} />
-          </button>
+          <div className="hero-actions">
+            <button className="button light" onClick={() => go('manufacturing')}>
+              {lang === 'en' ? 'Discover manufacturing' : 'Üretimi keşfet'}{' '}
+              <ArrowRight size={16} />
+            </button>
+            <button className="button ghost-light" onClick={() => go('contact')}>
+              {t.quote}
+            </button>
+          </div>
         </div>
       </section>
-      <section className="section brand-section">
+
+      <section className="section product-rail-section collection-band secondary-collection-band">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">MESH · SIGNATURE</span>
+            <h2>
+              {lang === 'en' ? 'Discover More' : 'Daha Fazlasını Keşfet'}
+            </h2>
+          </div>
+          <button className="link-button" onClick={() => go('collections')}>
+            {lang === 'en' ? 'Collections' : 'Koleksiyonlar'}{' '}
+            <ArrowRight size={16} />
+          </button>
+        </div>
+        <div className="product-rail">
+          {secondaryProducts.map(p => (
+            <ProductCard
+              key={p.slug}
+              product={p}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              open={slug => go(`product/${slug}`)}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="section brand-section atelier-story">
         <div className="brand-copy">
           <span className="eyebrow">{t.forBrands.toUpperCase()}</span>
           <h2>
@@ -897,10 +953,82 @@ function Home({
           </button>
         </div>
         <MediaBlock
-          label={lang === 'en' ? 'Grand Bazaar workshop / craft media slot' : 'Kapalıçarşı atölye / zanaat medya alanı'}
+          label={
+            lang === 'en'
+              ? 'Grand Bazaar workshop / craft media slot'
+              : 'Kapalıçarşı atölye / zanaat medya alanı'
+          }
           tall
         />
       </section>
+
+      <section className="section explore-section">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">OSKA WORLD</span>
+            <h2>{lang === 'en' ? 'More to Explore' : 'Daha Fazlasını Keşfet'}</h2>
+          </div>
+        </div>
+        <div className="explore-grid">
+          {[
+            {
+              title: lang === 'en' ? 'Collections' : 'Koleksiyonlar',
+              body:
+                lang === 'en'
+                  ? 'Move through Panther, Mesh and Signature as clear product families.'
+                  : 'Panther, Mesh ve Signature ürün aileleri arasında net biçimde ilerleyin.',
+              route: 'collections',
+              media:
+                lang === 'en'
+                  ? 'OSKA collection editorial media'
+                  : 'OSKA koleksiyon editorial medyası',
+            },
+            {
+              title: lang === 'en' ? 'Manufacturing' : 'Üretim',
+              body:
+                lang === 'en'
+                  ? 'See the controlled path from brief and development to QC.'
+                  : 'Brief ve geliştirmeden kalite kontrole uzanan kontrollü yolu görün.',
+              route: 'manufacturing',
+              media:
+                lang === 'en'
+                  ? 'OSKA manufacturing editorial media'
+                  : 'OSKA üretim editorial medyası',
+            },
+            {
+              title: 'Private Label',
+              body:
+                lang === 'en'
+                  ? 'Start a brand-specific development path without a retail checkout detour.'
+                  : 'Perakende ödeme akışına sapmadan markaya özel geliştirme sürecini başlatın.',
+              route: 'private-label',
+              media:
+                lang === 'en'
+                  ? 'OSKA private-label editorial media'
+                  : 'OSKA private-label editorial medyası',
+            },
+          ].map(item => (
+            <article className="explore-card" key={item.title}>
+              <button
+                className="explore-media"
+                onClick={() => go(item.route)}
+                aria-label={item.title}
+              >
+                <MediaBlock label={item.media} tall />
+              </button>
+              <div className="explore-copy">
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <button className="link-button" onClick={() => go(item.route)}>
+                  {lang === 'en' ? 'Explore' : 'Keşfet'}{' '}
+                  <ArrowRight size={15} />
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section process-section">
         <div className="section-head">
           <div>
@@ -929,6 +1057,7 @@ function Home({
           ))}
         </div>
       </section>
+
       <ServiceSection lang={lang} go={go} />
     </>
   );
