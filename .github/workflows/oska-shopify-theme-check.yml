@@ -20,5 +20,3 @@ jobs:
         uses: shopify/theme-check-action@v2
         with:
           theme_root: './shopify-theme'
-          token: ${{ github.token }}
-          base: oska-web-stage5-qa-20260922
