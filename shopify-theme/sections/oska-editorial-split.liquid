@@ -1,0 +1,20 @@
+<section class="oska-editorial">
+  <div class="oska-editorial__media">
+    {% if section.settings.video != blank %}
+      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+    {% elsif section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy' }}
+    {% endif %}
+  </div>
+  <div class="oska-editorial__copy">
+    <div class="oska-eyebrow">{{ section.settings.eyebrow }}</div>
+    <h2>{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.body }}</p>
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <a class="oska-button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Editorial Split","settings":[{"type":"video","id":"video","label":"Video"},{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"eyebrow","label":"Eyebrow","default":"PANTHER COLLECTION"},{"type":"text","id":"heading","label":"Heading","default":"A sculptural signature, built for movement."},{"type":"textarea","id":"body","label":"Body"},{"type":"text","id":"button_label","label":"Button label","default":"Explore the collection"},{"type":"url","id":"button_link","label":"Button link"}],"presets":[{"name":"OSKA Editorial Split"}]}
+{% endschema %}
