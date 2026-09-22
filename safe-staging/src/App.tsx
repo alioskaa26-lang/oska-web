@@ -2541,17 +2541,21 @@ function ManualControlPanel({
   setManual: (v: ManualSettings) => void;
   go: (r: string) => void;
 }) {
+  const [selectedSection, setSelectedSection] = useState<HomeSectionKey>('hero');
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('bracelets');
+  const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
+
   const sectionLabels: Record<HomeSectionKey, [string, string]> = {
     hero: ['Hero', 'Hero'],
-    primaryRail: ['Primary product rail', 'İlk ürün şeridi'],
-    pantherEditorial: ['Panther editorial', 'Panther editoryal'],
-    categories: ['Category section', 'Kategori bölümü'],
-    meshEditorial: ['Mesh editorial', 'Mesh editoryal'],
-    secondaryRail: ['Secondary product rail', 'İkinci ürün şeridi'],
-    brand: ['For Brands section', 'Markalar İçin bölümü'],
-    explore: ['More to Explore', 'Daha Fazlasını Keşfet'],
-    process: ['Process section', 'Süreç bölümü'],
-    service: ['B2B service section', 'B2B hizmet bölümü'],
+    primaryRail: ['Top product rail', 'Üst ürün şeridi'],
+    pantherEditorial: ['Panther story', 'Panther hikâyesi'],
+    categories: ['Categories', 'Kategoriler'],
+    meshEditorial: ['Mesh story', 'Mesh hikâyesi'],
+    secondaryRail: ['Second product rail', 'İkinci ürün şeridi'],
+    brand: ['For Brands', 'Markalar İçin'],
+    explore: ['Explore', 'Keşfet'],
+    process: ['Production steps', 'Üretim adımları'],
+    service: ['B2B contact', 'B2B iletişim'],
   };
 
   const visibilityKey: Record<HomeSectionKey, keyof ManualSettings> = {
@@ -2573,6 +2577,9 @@ function ManualControlPanel({
     necklaces: ['Necklaces', 'Kolyeler'],
     earrings: ['Earrings', 'Küpeler'],
   };
+
+  const selectedIndex = manual.sectionOrder.indexOf(selectedSection);
+  const selectedVisible = Boolean(manual[visibilityKey[selectedSection]]);
 
   const update = <K extends keyof ManualSettings>(key: K, value: ManualSettings[K]) => {
     setManual({ ...manual, [key]: value });
@@ -2613,302 +2620,347 @@ function ManualControlPanel({
     });
   };
 
-  const addCustomSection = () => {
-    const id = `custom-${Date.now()}`;
-    setManual({
-      ...manual,
-      customSections: [
-        ...manual.customSections,
-        {
-          id,
-          visible: true,
-          titleTr: 'Yeni Bölüm',
-          titleEn: 'New Section',
-          bodyTr: 'Bu alanı panelden düzenleyin.',
-          bodyEn: 'Edit this area from the control panel.',
-          mediaUrl: '',
-          route: '',
-        },
-      ],
-    });
+  const readUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    apply: (value: string) => void
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') apply(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
-  const updateCustomSection = (id: string, patch: Partial<CustomSection>) => {
-    setManual({
-      ...manual,
-      customSections: manual.customSections.map(section =>
-        section.id === id ? { ...section, ...patch } : section
-      ),
+  useEffect(() => {
+    const root = document.querySelector('.visual-editor-canvas');
+    if (!root) return;
+    root.querySelectorAll('[data-home-section]').forEach(node => {
+      node.removeAttribute('data-editor-selected');
     });
-  };
-
-  const removeCustomSection = (id: string) => {
-    setManual({
-      ...manual,
-      customSections: manual.customSections.filter(section => section.id !== id),
-    });
-  };
+    const target = root.querySelector(
+      `[data-home-section="${selectedSection}"]`
+    ) as HTMLElement | null;
+    if (target) {
+      target.setAttribute('data-editor-selected', 'true');
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [selectedSection, manual.sectionOrder, selectedVisible]);
 
   return (
-    <main className="manual-panel-page">
-      <div className="manual-panel-head">
-        <div>
-          <span className="eyebrow">OSKA CONTROL</span>
-          <h1>{lang === 'en' ? 'Manual Site Control' : 'Manuel Site Kontrolü'}</h1>
-          <p>
-            {lang === 'en'
-              ? 'Control the site section by section: visibility, order, size, spacing, media and copy.'
-              : 'Siteyi bölüm bölüm yönetin: görünürlük, sıra, boyut, boşluk, medya ve metin.'}
-          </p>
+    <main className="visual-editor-page">
+      <header className="visual-editor-topbar">
+        <div className="visual-editor-brand">
+          <strong>OSKA</strong>
+          <span>{lang === 'en' ? 'VISUAL EDITOR' : 'GÖRSEL EDİTÖR'}</span>
         </div>
-        <div className="manual-panel-head-actions">
-          <button className="button outline" onClick={() => go('home')}>
-            {lang === 'en' ? 'Preview site' : 'Siteyi önizle'}
-          </button>
-          <button className="button dark" onClick={addCustomSection}>
-            {lang === 'en' ? 'Add section' : 'Bölüm ekle'}
-          </button>
-        </div>
-      </div>
-
-      <section className="manual-panel-card">
-        <h2>{lang === 'en' ? 'Language control' : 'Dil kontrolü'}</h2>
-        <div className="manual-language-row">
-          <button className={lang === 'tr' ? 'active' : ''} onClick={() => setLang('tr')}>TR</button>
-          <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
-          <label>
-            {lang === 'en' ? 'Default language' : 'Varsayılan dil'}
-            <select value={manual.defaultLang} onChange={e => update('defaultLang', e.target.value as Lang)}>
-              <option value="tr">Türkçe</option>
-              <option value="en">English</option>
-            </select>
-          </label>
-          <label className="manual-inline-toggle">
-            <input
-              type="checkbox"
-              checked={manual.showGenderLinks}
-              onChange={e => update('showGenderLinks', e.target.checked)}
-            />
-            <span>{lang === 'en' ? 'Show Women / Men links' : 'Kadın / Erkek linklerini göster'}</span>
-          </label>
-        </div>
-        <p className="manual-note">
-          {lang === 'en'
-            ? 'TR and EN remain separate copy sets. Mixed-language output is treated as a defect.'
-            : 'TR ve EN ayrı metin setleridir. Karışık dil çıktısı hata kabul edilir.'}
-        </p>
-      </section>
-
-      <section className="manual-panel-card">
-        <div className="manual-card-title-row">
-          <div>
-            <h2>{lang === 'en' ? 'Homepage order & size' : 'Ana sayfa sıra ve boyut'}</h2>
-            <p>{lang === 'en' ? 'Move, hide, enlarge or tighten each section.' : 'Her bölümü taşıyın, kaldırın, büyütün veya boşluğunu ayarlayın.'}</p>
+        <div className="visual-editor-top-actions">
+          <div className="visual-editor-lang">
+            <button className={lang === 'tr' ? 'active' : ''} onClick={() => setLang('tr')}>TR</button>
+            <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
           </div>
+          <div className="visual-editor-device">
+            <button className={previewMode === 'desktop' ? 'active' : ''} onClick={() => setPreviewMode('desktop')}>
+              {lang === 'en' ? 'Desktop' : 'Masaüstü'}
+            </button>
+            <button className={previewMode === 'mobile' ? 'active' : ''} onClick={() => setPreviewMode('mobile')}>
+              {lang === 'en' ? 'Mobile' : 'Mobil'}
+            </button>
+          </div>
+          <button className="visual-editor-open-site" onClick={() => go('home')}>
+            {lang === 'en' ? 'Open site' : 'Siteyi aç'}
+          </button>
         </div>
-        <div className="manual-section-list">
-          {manual.sectionOrder.map((key, index) => {
-            const visible = Boolean(manual[visibilityKey[key]]);
-            return (
-              <article className="manual-section-row" key={key}>
-                <div className="manual-section-main">
-                  <span className="manual-order-number">{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{lang === 'en' ? sectionLabels[key][0] : sectionLabels[key][1]}</strong>
-                  <label className="manual-visibility">
-                    <input
-                      type="checkbox"
-                      checked={visible}
-                      onChange={e => setSectionVisible(key, e.target.checked)}
-                    />
-                    {lang === 'en' ? 'Visible' : 'Görünür'}
-                  </label>
-                  <div className="manual-order-buttons">
-                    <button type="button" onClick={() => moveSection(key, -1)} disabled={index === 0}>↑</button>
-                    <button type="button" onClick={() => moveSection(key, 1)} disabled={index === manual.sectionOrder.length - 1}>↓</button>
-                  </div>
-                </div>
-                <div className="manual-range-grid">
-                  <label>
-                    <span>{lang === 'en' ? 'Section size' : 'Bölüm boyutu'} · {manual.sectionScale[key]}%</span>
-                    <input
-                      type="range"
-                      min="70"
-                      max="130"
-                      step="1"
-                      value={manual.sectionScale[key]}
-                      onChange={e =>
-                        setManual({
-                          ...manual,
-                          sectionScale: { ...manual.sectionScale, [key]: Number(e.target.value) },
-                        })
-                      }
-                    />
-                  </label>
-                  <label>
-                    <span>{lang === 'en' ? 'Top spacing' : 'Üst boşluk'} · {manual.sectionSpacing[key]}px</span>
-                    <input
-                      type="range"
-                      min="-60"
-                      max="160"
-                      step="4"
-                      value={manual.sectionSpacing[key]}
-                      onChange={e =>
-                        setManual({
-                          ...manual,
-                          sectionSpacing: { ...manual.sectionSpacing, [key]: Number(e.target.value) },
-                        })
-                      }
-                    />
-                  </label>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+      </header>
 
-      <section className="manual-panel-card">
-        <h2>{lang === 'en' ? 'Category photos & stories' : 'Kategori fotoğraf ve hikâyeleri'}</h2>
-        <p className="manual-note">
-          {lang === 'en'
-            ? 'Paste a hosted image path/URL, then control zoom and vertical position without code.'
-            : 'Yayınlanmış görsel yolu/URL’si girin; sonra kodsuz büyütme ve dikey konum ayarı yapın.'}
-        </p>
-        <div className="manual-category-editor-grid">
-          {(Object.keys(categoryLabels) as CategoryKey[]).map(key => (
-            <article className="manual-category-editor" key={key}>
-              <div className="manual-category-editor-head">
-                <strong>{lang === 'en' ? categoryLabels[key][0] : categoryLabels[key][1]}</strong>
-                <button type="button" onClick={() => updateCategoryText('categoryMedia', key, '')}>
-                  {lang === 'en' ? 'Remove photo' : 'Fotoğrafı kaldır'}
-                </button>
-              </div>
+      <div className="visual-editor-workspace">
+        <aside className="visual-editor-sections">
+          <div className="visual-editor-side-title">
+            <span>{lang === 'en' ? 'PAGE' : 'SAYFA'}</span>
+            <strong>{lang === 'en' ? 'Homepage' : 'Ana Sayfa'}</strong>
+          </div>
+          <div className="visual-editor-section-list">
+            {manual.sectionOrder.map((key, index) => (
+              <button
+                type="button"
+                key={key}
+                className={selectedSection === key ? 'active' : ''}
+                onClick={() => setSelectedSection(key)}
+              >
+                <span className="visual-editor-section-number">{String(index + 1).padStart(2, '0')}</span>
+                <span>{lang === 'en' ? sectionLabels[key][0] : sectionLabels[key][1]}</span>
+                <span className={Boolean(manual[visibilityKey[key]]) ? 'status-on' : 'status-off'}>
+                  {Boolean(manual[visibilityKey[key]]) ? '●' : '○'}
+                </span>
+              </button>
+            ))}
+          </div>
+          <button
+            className="visual-editor-reset"
+            onClick={() => {
+              setManual(DEFAULT_MANUAL_SETTINGS);
+              setLang(DEFAULT_MANUAL_SETTINGS.defaultLang);
+              setSelectedSection('hero');
+            }}
+          >
+            {lang === 'en' ? 'Reset preview' : 'Önizlemeyi sıfırla'}
+          </button>
+        </aside>
+
+        <section className="visual-editor-stage">
+          <div className={`visual-editor-browser ${previewMode}`}>
+            <div className="visual-editor-browser-bar">
+              <span />
+              <span />
+              <span />
+              <div>oskajewelry.com · {lang.toUpperCase()}</div>
+            </div>
+            <div className="visual-editor-canvas">
+              <Home
+                lang={lang}
+                go={() => {}}
+                favorites={new Set<string>()}
+                toggleFavorite={() => {}}
+                manual={manual}
+              />
+            </div>
+          </div>
+        </section>
+
+        <aside className="visual-editor-inspector">
+          <div className="visual-editor-inspector-head">
+            <span>{lang === 'en' ? 'EDITING' : 'DÜZENLENEN'}</span>
+            <h2>{lang === 'en' ? sectionLabels[selectedSection][0] : sectionLabels[selectedSection][1]}</h2>
+          </div>
+
+          <div className="visual-editor-quick-actions">
+            <button
+              onClick={() => setSectionVisible(selectedSection, !selectedVisible)}
+              className={selectedVisible ? 'active' : ''}
+            >
+              {selectedVisible
+                ? lang === 'en' ? 'Hide' : 'Gizle'
+                : lang === 'en' ? 'Show' : 'Göster'}
+            </button>
+            <button onClick={() => moveSection(selectedSection, -1)} disabled={selectedIndex <= 0}>↑</button>
+            <button onClick={() => moveSection(selectedSection, 1)} disabled={selectedIndex >= manual.sectionOrder.length - 1}>↓</button>
+          </div>
+
+          <div className="visual-editor-control-group">
+            <label>
+              <span>{lang === 'en' ? 'Section size' : 'Bölüm boyutu'} <b>{manual.sectionScale[selectedSection]}%</b></span>
+              <input
+                type="range"
+                min="70"
+                max="130"
+                value={manual.sectionScale[selectedSection]}
+                onChange={e =>
+                  setManual({
+                    ...manual,
+                    sectionScale: {
+                      ...manual.sectionScale,
+                      [selectedSection]: Number(e.target.value),
+                    },
+                  })
+                }
+              />
+            </label>
+            <label>
+              <span>{lang === 'en' ? 'Top spacing' : 'Üst boşluk'} <b>{manual.sectionSpacing[selectedSection]}px</b></span>
+              <input
+                type="range"
+                min="-60"
+                max="160"
+                step="4"
+                value={manual.sectionSpacing[selectedSection]}
+                onChange={e =>
+                  setManual({
+                    ...manual,
+                    sectionSpacing: {
+                      ...manual.sectionSpacing,
+                      [selectedSection]: Number(e.target.value),
+                    },
+                  })
+                }
+              />
+            </label>
+          </div>
+
+          {selectedSection === 'hero' && (
+            <div className="visual-editor-control-group">
+              <h3>{lang === 'en' ? 'Hero content' : 'Hero içeriği'}</h3>
               <label>
-                <span>{lang === 'en' ? 'Photo / media URL' : 'Fotoğraf / medya URL'}</span>
-                <input
-                  type="text"
-                  value={manual.categoryMedia[key]}
-                  onChange={e => updateCategoryText('categoryMedia', key, e.target.value)}
-                  placeholder="/assets/... or https://..."
+                <span>{lang === 'en' ? 'Title' : 'Başlık'}</span>
+                <textarea
+                  rows={3}
+                  value={lang === 'en' ? manual.heroTitleEn : manual.heroTitleTr}
+                  onChange={e => update(lang === 'en' ? 'heroTitleEn' : 'heroTitleTr', e.target.value)}
                 />
               </label>
               <label>
-                <span>{lang === 'en' ? 'Photo size' : 'Fotoğraf boyutu'} · {manual.categoryScale[key]}%</span>
+                <span>{lang === 'en' ? 'Description' : 'Açıklama'}</span>
+                <textarea
+                  rows={4}
+                  value={lang === 'en' ? manual.heroBodyEn : manual.heroBodyTr}
+                  onChange={e => update(lang === 'en' ? 'heroBodyEn' : 'heroBodyTr', e.target.value)}
+                />
+              </label>
+              <div className="visual-editor-media-box">
+                <span>{lang === 'en' ? 'Hero image / video' : 'Hero fotoğraf / video'}</span>
+                {manual.heroMediaUrl ? (
+                  <div className="visual-editor-media-current">
+                    <strong>{lang === 'en' ? 'Media loaded' : 'Medya yüklendi'}</strong>
+                    <button onClick={() => update('heroMediaUrl', '')}>{lang === 'en' ? 'Remove' : 'Kaldır'}</button>
+                  </div>
+                ) : (
+                  <p>{lang === 'en' ? 'No media selected.' : 'Henüz medya seçilmedi.'}</p>
+                )}
+                <label className="visual-editor-upload">
+                  {lang === 'en' ? 'Choose file' : 'Dosya seç'}
+                  <input
+                    type="file"
+                    accept="image/*,video/mp4,video/webm"
+                    onChange={e => readUpload(e, value => update('heroMediaUrl', value))}
+                  />
+                </label>
+              </div>
+            </div>
+          )}
+
+          {(selectedSection === 'primaryRail' || selectedSection === 'secondaryRail') && (
+            <div className="visual-editor-control-group">
+              <h3>{lang === 'en' ? 'Product rail' : 'Ürün şeridi'}</h3>
+              <label>
+                <span>{lang === 'en' ? 'Product count' : 'Ürün adedi'}</span>
+                <input
+                  type="range"
+                  min="3"
+                  max={PRODUCTS.length}
+                  value={selectedSection === 'primaryRail' ? manual.primaryProductCount : manual.secondaryProductCount}
+                  onChange={e =>
+                    update(
+                      selectedSection === 'primaryRail' ? 'primaryProductCount' : 'secondaryProductCount',
+                      Number(e.target.value)
+                    )
+                  }
+                />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Card width' : 'Kart genişliği'} <b>{manual.productRailCardWidth}px</b></span>
+                <input
+                  type="range"
+                  min="170"
+                  max="360"
+                  value={manual.productRailCardWidth}
+                  onChange={e => update('productRailCardWidth', Number(e.target.value))}
+                />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Card gap' : 'Kart aralığı'} <b>{manual.productRailGap}px</b></span>
+                <input
+                  type="range"
+                  min="6"
+                  max="48"
+                  value={manual.productRailGap}
+                  onChange={e => update('productRailGap', Number(e.target.value))}
+                />
+              </label>
+            </div>
+          )}
+
+          {selectedSection === 'categories' && (
+            <div className="visual-editor-control-group">
+              <h3>{lang === 'en' ? 'Category card' : 'Kategori kartı'}</h3>
+              <div className="visual-editor-category-tabs">
+                {(Object.keys(categoryLabels) as CategoryKey[]).map(key => (
+                  <button
+                    key={key}
+                    className={selectedCategory === key ? 'active' : ''}
+                    onClick={() => setSelectedCategory(key)}
+                  >
+                    {lang === 'en' ? categoryLabels[key][0] : categoryLabels[key][1]}
+                  </button>
+                ))}
+              </div>
+              <div className="visual-editor-category-preview">
+                {manual.categoryMedia[selectedCategory] && (
+                  <img src={manual.categoryMedia[selectedCategory]} alt="" />
+                )}
+              </div>
+              <label className="visual-editor-upload">
+                {lang === 'en' ? 'Change photo' : 'Fotoğraf değiştir'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={e =>
+                    readUpload(e, value =>
+                      updateCategoryText('categoryMedia', selectedCategory, value)
+                    )
+                  }
+                />
+              </label>
+              <label>
+                <span>{lang === 'en' ? 'Photo size' : 'Fotoğraf boyutu'} <b>{manual.categoryScale[selectedCategory]}%</b></span>
                 <input
                   type="range"
                   min="70"
                   max="170"
-                  value={manual.categoryScale[key]}
-                  onChange={e => updateCategoryNumber('categoryScale', key, Number(e.target.value))}
+                  value={manual.categoryScale[selectedCategory]}
+                  onChange={e =>
+                    updateCategoryNumber('categoryScale', selectedCategory, Number(e.target.value))
+                  }
                 />
               </label>
               <label>
-                <span>{lang === 'en' ? 'Vertical position' : 'Dikey konum'} · {manual.categoryPositionY[key]}px</span>
+                <span>{lang === 'en' ? 'Photo position' : 'Fotoğraf konumu'} <b>{manual.categoryPositionY[selectedCategory]}px</b></span>
                 <input
                   type="range"
                   min="-120"
                   max="120"
-                  value={manual.categoryPositionY[key]}
-                  onChange={e => updateCategoryNumber('categoryPositionY', key, Number(e.target.value))}
-                />
-              </label>
-              <label>
-                <span>{lang === 'en' ? 'Story' : 'Hikâye'} · {lang.toUpperCase()}</span>
-                <textarea
-                  rows={4}
-                  value={lang === 'en' ? manual.categoryStoryEn[key] : manual.categoryStoryTr[key]}
+                  value={manual.categoryPositionY[selectedCategory]}
                   onChange={e =>
-                    updateCategoryText(lang === 'en' ? 'categoryStoryEn' : 'categoryStoryTr', key, e.target.value)
+                    updateCategoryNumber('categoryPositionY', selectedCategory, Number(e.target.value))
                   }
                 />
               </label>
-            </article>
-          ))}
-        </div>
-      </section>
+              <label>
+                <span>{lang === 'en' ? 'Story' : 'Hikâye'}</span>
+                <textarea
+                  rows={5}
+                  value={
+                    lang === 'en'
+                      ? manual.categoryStoryEn[selectedCategory]
+                      : manual.categoryStoryTr[selectedCategory]
+                  }
+                  onChange={e =>
+                    updateCategoryText(
+                      lang === 'en' ? 'categoryStoryEn' : 'categoryStoryTr',
+                      selectedCategory,
+                      e.target.value
+                    )
+                  }
+                />
+              </label>
+              <label className="visual-editor-toggle">
+                <input
+                  type="checkbox"
+                  checked={manual.showGenderLinks}
+                  onChange={e => update('showGenderLinks', e.target.checked)}
+                />
+                <span>{lang === 'en' ? 'Show Women / Men links' : 'Kadın / Erkek linklerini göster'}</span>
+              </label>
+            </div>
+          )}
 
-      <section className="manual-panel-card">
-        <div className="manual-card-title-row">
-          <div>
-            <h2>{lang === 'en' ? 'Custom sections' : 'Eklenen bölümler'}</h2>
-            <p>{lang === 'en' ? 'Add campaign, story or collection blocks when needed.' : 'Gerektikçe kampanya, hikâye veya koleksiyon alanı ekleyin.'}</p>
+          <div className="visual-editor-save-state">
+            <span>●</span>
+            {lang === 'en'
+              ? 'Changes are saved automatically in this preview.'
+              : 'Değişiklikler bu önizlemede otomatik kaydedilir.'}
           </div>
-          <button className="button dark" onClick={addCustomSection}>
-            {lang === 'en' ? 'Add new' : 'Yeni ekle'}
-          </button>
-        </div>
-        {!manual.customSections.length && (
-          <p className="manual-note">{lang === 'en' ? 'No custom sections yet.' : 'Henüz ek bölüm yok.'}</p>
-        )}
-        <div className="manual-custom-list">
-          {manual.customSections.map(section => (
-            <article className="manual-custom-card" key={section.id}>
-              <div className="manual-category-editor-head">
-                <label className="manual-inline-toggle">
-                  <input
-                    type="checkbox"
-                    checked={section.visible}
-                    onChange={e => updateCustomSection(section.id, { visible: e.target.checked })}
-                  />
-                  <span>{lang === 'en' ? 'Visible' : 'Görünür'}</span>
-                </label>
-                <button type="button" onClick={() => removeCustomSection(section.id)}>
-                  {lang === 'en' ? 'Delete' : 'Sil'}
-                </button>
-              </div>
-              <div className="manual-custom-fields">
-                <label>
-                  <span>TR {lang === 'en' ? 'title' : 'başlık'}</span>
-                  <input value={section.titleTr} onChange={e => updateCustomSection(section.id, { titleTr: e.target.value })} />
-                </label>
-                <label>
-                  <span>EN title</span>
-                  <input value={section.titleEn} onChange={e => updateCustomSection(section.id, { titleEn: e.target.value })} />
-                </label>
-                <label className="wide">
-                  <span>TR {lang === 'en' ? 'story' : 'hikâye'}</span>
-                  <textarea rows={3} value={section.bodyTr} onChange={e => updateCustomSection(section.id, { bodyTr: e.target.value })} />
-                </label>
-                <label className="wide">
-                  <span>EN story</span>
-                  <textarea rows={3} value={section.bodyEn} onChange={e => updateCustomSection(section.id, { bodyEn: e.target.value })} />
-                </label>
-                <label className="wide">
-                  <span>{lang === 'en' ? 'Media URL' : 'Medya URL'}</span>
-                  <input value={section.mediaUrl} onChange={e => updateCustomSection(section.id, { mediaUrl: e.target.value })} />
-                </label>
-                <label>
-                  <span>{lang === 'en' ? 'Link route' : 'Link hedefi'}</span>
-                  <input value={section.route} onChange={e => updateCustomSection(section.id, { route: e.target.value })} placeholder="collections" />
-                </label>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="manual-panel-card">
-        <h2>{lang === 'en' ? 'Reset / review' : 'Sıfırla / kontrol et'}</h2>
-        <p>
-          {lang === 'en'
-            ? 'Changes are preview controls stored in this browser. Review the site after each block and keep only what you approve.'
-            : 'Değişiklikler bu tarayıcıdaki önizleme kontrolleridir. Her bölümü kontrol edip yalnız onayladığınızı bırakın.'}
-        </p>
-        <div className="manual-reset-actions">
-          <button className="button outline" onClick={() => go('home')}>
-            {lang === 'en' ? 'Review from top' : 'Baştan kontrol et'}
-          </button>
-          <button
-            className="button dark"
-            onClick={() => {
-              setManual(DEFAULT_MANUAL_SETTINGS);
-              setLang(DEFAULT_MANUAL_SETTINGS.defaultLang);
-            }}
-          >
-            {lang === 'en' ? 'Reset all controls' : 'Tüm kontrolleri sıfırla'}
-          </button>
-        </div>
-      </section>
+        </aside>
+      </div>
     </main>
   );
 }
