@@ -50,7 +50,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan oska-stage5-static-preview
-          git rm -rf .
+          git rm -rf . || true
+          git clean -fdx
           cp -R /tmp/oska-stage5-preview/. .
           git add -A
           git commit -m "OSKA Stage 5 static preview"
