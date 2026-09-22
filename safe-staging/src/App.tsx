@@ -161,6 +161,47 @@ const copy = {
   },
 };
 
+type ManualSettings = {
+  defaultLang: Lang;
+  showHero: boolean;
+  showPrimaryRail: boolean;
+  showPantherEditorial: boolean;
+  showCategories: boolean;
+  showMeshEditorial: boolean;
+  showSecondaryRail: boolean;
+  showBrand: boolean;
+  showExplore: boolean;
+  showProcess: boolean;
+  showService: boolean;
+  showGenderLinks: boolean;
+};
+
+const DEFAULT_MANUAL_SETTINGS: ManualSettings = {
+  defaultLang: 'tr',
+  showHero: true,
+  showPrimaryRail: true,
+  showPantherEditorial: true,
+  showCategories: true,
+  showMeshEditorial: true,
+  showSecondaryRail: true,
+  showBrand: true,
+  showExplore: true,
+  showProcess: true,
+  showService: true,
+  showGenderLinks: true,
+};
+
+const MANUAL_SETTINGS_KEY = 'oska-manual-controls-v1';
+
+function readManualSettings(): ManualSettings {
+  try {
+    const saved = JSON.parse(localStorage.getItem(MANUAL_SETTINGS_KEY) || '{}');
+    return { ...DEFAULT_MANUAL_SETTINGS, ...saved };
+  } catch {
+    return DEFAULT_MANUAL_SETTINGS;
+  }
+}
+
 const routeMap: Record<string, string> = {
   Women: 'women',
   Kadın: 'women',
@@ -781,11 +822,13 @@ function Home({
   go,
   favorites,
   toggleFavorite,
+  manual,
 }: {
   lang: Lang;
   go: (r: string) => void;
   favorites: Set<string>;
   toggleFavorite: (s: string) => void;
+  manual: ManualSettings;
 }) {
   const t = copy[lang];
   const primaryProducts = PRODUCTS.slice(0, 5);
@@ -829,7 +872,7 @@ function Home({
           tall
         />
         <div className="editorial-copy">
-          <span className="eyebrow">PANTHER COLLECTION</span>
+          <span className="eyebrow">{lang === 'en' ? 'PANTHER COLLECTION' : 'PANTHER KOLEKSİYONU'}</span>
           <h2>
             {lang === 'en'
               ? 'A sculptural signature, built for movement.'
@@ -850,60 +893,104 @@ function Home({
       <section className="section category-section">
         <div className="section-head">
           <div>
-            <span className="eyebrow">PRODUCT FAMILIES</span>
+            <span className="eyebrow">{lang === 'en' ? 'PRODUCT FAMILIES' : 'ÜRÜN AİLELERİ'}</span>
             <h2>{t.categories}</h2>
           </div>
         </div>
         <div className="category-grid">
-          <button onClick={() => go('bracelets')} className="category-card">
-            <MediaBlock
-              label={
-                lang === 'en'
-                  ? 'Verified bracelet catalogue media'
-                  : 'Doğrulanmış bileklik katalog medyası'
-              }
-              verified
-            />
-            <strong>{lang === 'en' ? 'Bracelets' : 'Bileklik'}</strong>
-            <span>
-              {lang === 'en' ? 'View catalogue' : 'Kataloğu gör'}{' '}
-              <ArrowRight size={15} />
-            </span>
-          </button>
-          {['rings', 'necklaces', 'earrings'].map(key => (
-            <button key={key} onClick={() => go(key)} className="category-card">
-              <MediaBlock
-                label={
-                  lang === 'en'
-                    ? 'Category media pending'
-                    : 'Kategori medyası bekleniyor'
-                }
-              />
-              <strong>
-                {key === 'rings'
-                  ? lang === 'en'
-                    ? 'Rings'
-                    : 'Yüzük'
-                  : key === 'necklaces'
-                    ? lang === 'en'
-                      ? 'Necklaces'
-                      : 'Kolye'
-                    : lang === 'en'
-                      ? 'Earrings'
-                      : 'Küpe'}
-              </strong>
-              <span>
-                {lang === 'en' ? 'Explore capability' : 'Kabiliyeti keşfet'}{' '}
-                <ArrowRight size={15} />
-              </span>
-            </button>
+          {[
+            {
+              key: 'bracelets',
+              en: 'Bracelets',
+              tr: 'Bileklik',
+              womenEn: "Women's Bracelets",
+              womenTr: 'Kadın Bileklikleri',
+              menEn: "Men's Bracelets",
+              menTr: 'Erkek Bileklikleri',
+              verified: true,
+            },
+            {
+              key: 'rings',
+              en: 'Rings',
+              tr: 'Yüzük',
+              womenEn: "Women's Rings",
+              womenTr: 'Kadın Yüzükleri',
+              menEn: "Men's Rings",
+              menTr: 'Erkek Yüzükleri',
+              verified: false,
+            },
+            {
+              key: 'necklaces',
+              en: 'Necklaces',
+              tr: 'Kolye',
+              womenEn: "Women's Necklaces",
+              womenTr: 'Kadın Kolyeleri',
+              menEn: "Men's Necklaces",
+              menTr: 'Erkek Kolyeleri',
+              verified: false,
+            },
+            {
+              key: 'earrings',
+              en: 'Earrings',
+              tr: 'Küpe',
+              womenEn: "Women's Earrings",
+              womenTr: 'Kadın Küpeleri',
+              menEn: "Men's Earrings",
+              menTr: 'Erkek Küpeleri',
+              verified: false,
+            },
+          ].map(item => (
+            <article key={item.key} className="category-card">
+              <button
+                className="category-card-main"
+                onClick={() => go(item.key)}
+                aria-label={lang === 'en' ? item.en : item.tr}
+              >
+                <MediaBlock
+                  label={
+                    item.verified
+                      ? lang === 'en'
+                        ? 'Verified bracelet catalogue media'
+                        : 'Doğrulanmış bileklik katalog medyası'
+                      : lang === 'en'
+                        ? 'Category media pending'
+                        : 'Kategori medyası bekleniyor'
+                  }
+                  verified={item.verified}
+                />
+              </button>
+              <div className="category-card-copy">
+                <strong>{lang === 'en' ? item.en : item.tr}</strong>
+                {manual.showGenderLinks ? (
+                  <div className="category-gender-links">
+                    <button onClick={() => go('women')}>
+                      {lang === 'en' ? item.womenEn : item.womenTr}
+                    </button>
+                    <button onClick={() => go('men')}>
+                      {lang === 'en' ? item.menEn : item.menTr}
+                    </button>
+                  </div>
+                ) : (
+                  <button className="category-single-link" onClick={() => go(item.key)}>
+                    {item.verified
+                      ? lang === 'en'
+                        ? 'View catalogue'
+                        : 'Kataloğu gör'
+                      : lang === 'en'
+                        ? 'Explore capability'
+                        : 'Kabiliyeti keşfet'}{' '}
+                    <ArrowRight size={15} />
+                  </button>
+                )}
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
       <section className="editorial full-editorial dark-editorial campaign-editorial">
         <div className="editorial-copy wide">
-          <span className="eyebrow light">MESH / ARTICULATED</span>
+          <span className="eyebrow light">{lang === 'en' ? 'MESH / ARTICULATED' : 'MESH / HAREKETLİ'}</span>
           <h2>
             {lang === 'en'
               ? 'Engineering movement into metal.'
@@ -983,7 +1070,7 @@ function Home({
       <section className="section explore-section">
         <div className="section-head">
           <div>
-            <span className="eyebrow">OSKA WORLD</span>
+            <span className="eyebrow">{lang === 'en' ? 'OSKA WORLD' : 'OSKA DÜNYASI'}</span>
             <h2>{lang === 'en' ? 'More to Explore' : 'Daha Fazlasını Keşfet'}</h2>
           </div>
         </div>
@@ -1119,7 +1206,7 @@ function AudiencePage({
             <MediaBlock label="Verified bracelet catalogue media" verified />
             <strong>{lang === 'en' ? 'Bracelets' : 'Bileklik'}</strong>
             <span>
-              Catalogue <ArrowRight size={15} />
+              {lang === 'en' ? 'Catalogue' : 'Katalog'} <ArrowRight size={15} />
             </span>
           </button>
           {['rings', 'necklaces', 'earrings'].map(r => (
@@ -1149,7 +1236,7 @@ function AudiencePage({
       <section className="editorial split-editorial">
         <MediaBlock label={lang === 'en' ? `${title} editorial media slot` : `${title} editorial medya alanı`} tall />
         <div className="editorial-copy">
-          <span className="eyebrow">OSKA COLLECTIONS</span>
+          <span className="eyebrow">{lang === 'en' ? 'OSKA COLLECTIONS' : 'OSKA KOLEKSİYONLARI'}</span>
           <h2>
             {lang === 'en'
               ? 'Product families first, then specification.'
@@ -2011,12 +2098,12 @@ function Footer({ lang, go }: { lang: Lang; go: (r: string) => void }) {
         ))}
       </div>
       <div className="footer-bottom">
-        <span>Istanbul · Türkiye</span>
+        <span>{lang === 'en' ? 'Istanbul · Türkiye' : 'İstanbul · Türkiye'}</span>
         <span>EN / TR</span>
         <span>
           {lang === 'en'
             ? 'Staging concept · no production publish'
-            : 'Staging konsepti · production yayını yok'}
+            : 'Önizleme konsepti · canlı yayın yok'}
         </span>
       </div>
     </footer>
@@ -2086,11 +2173,126 @@ function DigitalGuide({ lang, go }: { lang: Lang; go: (r: string) => void }) {
   );
 }
 
+function ManualControlPanel({
+  lang,
+  setLang,
+  manual,
+  setManual,
+  go,
+}: {
+  lang: Lang;
+  setLang: (v: Lang) => void;
+  manual: ManualSettings;
+  setManual: (v: ManualSettings) => void;
+  go: (r: string) => void;
+}) {
+  const toggleItems: Array<[keyof ManualSettings, string, string]> = [
+    ['showHero', 'Hero', 'Hero'],
+    ['showPrimaryRail', 'Primary product rail', 'İlk ürün şeridi'],
+    ['showPantherEditorial', 'Panther editorial', 'Panther editoryal'],
+    ['showCategories', 'Category section', 'Kategori bölümü'],
+    ['showMeshEditorial', 'Mesh editorial', 'Mesh editoryal'],
+    ['showSecondaryRail', 'Secondary product rail', 'İkinci ürün şeridi'],
+    ['showBrand', 'For Brands section', 'Markalar İçin bölümü'],
+    ['showExplore', 'More to Explore', 'Daha Fazlasını Keşfet'],
+    ['showProcess', 'Process section', 'Süreç bölümü'],
+    ['showService', 'B2B service section', 'B2B hizmet bölümü'],
+    ['showGenderLinks', 'Women / Men sub-links', 'Kadın / Erkek alt sekmeleri'],
+  ];
+
+  const update = <K extends keyof ManualSettings>(key: K, value: ManualSettings[K]) => {
+    setManual({ ...manual, [key]: value });
+  };
+
+  return (
+    <main className="manual-panel-page">
+      <div className="manual-panel-head">
+        <div>
+          <span className="eyebrow">OSKA CONTROL</span>
+          <h1>{lang === 'en' ? 'Manual Site Control' : 'Manuel Site Kontrolü'}</h1>
+          <p>
+            {lang === 'en'
+              ? 'Preview controls are intentionally manual. Settings are stored on this browser for now.'
+              : 'Önizleme kontrolleri bilinçli olarak manueldir. Ayarlar şimdilik bu tarayıcıda saklanır.'}
+          </p>
+        </div>
+        <button className="button dark" onClick={() => go('home')}>
+          {lang === 'en' ? 'Back to site' : 'Siteye dön'}
+        </button>
+      </div>
+
+      <section className="manual-panel-card">
+        <h2>{lang === 'en' ? 'Language control' : 'Dil kontrolü'}</h2>
+        <div className="manual-language-row">
+          <button className={lang === 'tr' ? 'active' : ''} onClick={() => setLang('tr')}>TR</button>
+          <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
+          <label>
+            {lang === 'en' ? 'Default language' : 'Varsayılan dil'}
+            <select
+              value={manual.defaultLang}
+              onChange={e => update('defaultLang', e.target.value as Lang)}
+            >
+              <option value="tr">Türkçe</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        </div>
+        <p className="manual-note">
+          {lang === 'en'
+            ? 'TR and EN are treated as separate copy sets. Mixed-language labels are a QA failure.'
+            : 'TR ve EN ayrı metin setleri olarak yönetilir. Karışık dil etiketi QA hatası sayılır.'}
+        </p>
+      </section>
+
+      <section className="manual-panel-card">
+        <h2>{lang === 'en' ? 'Homepage sections' : 'Ana sayfa bölümleri'}</h2>
+        <div className="manual-toggle-grid">
+          {toggleItems.map(([key, en, tr]) => (
+            <label key={String(key)} className="manual-toggle">
+              <span>{lang === 'en' ? en : tr}</span>
+              <input
+                type="checkbox"
+                checked={Boolean(manual[key])}
+                onChange={e => update(key, e.target.checked as ManualSettings[typeof key])}
+              />
+            </label>
+          ))}
+        </div>
+      </section>
+
+      <section className="manual-panel-card">
+        <h2>{lang === 'en' ? 'Working rule' : 'Çalışma kuralı'}</h2>
+        <p>
+          {lang === 'en'
+            ? 'We will compare the reference and OSKA section by section. Nothing is accepted automatically; every visual, text, language and interaction remains manually reviewable.'
+            : 'Referans ile OSKA’yı bölüm bölüm karşılaştıracağız. Hiçbir alan otomatik kabul edilmeyecek; görsel, metin, dil ve etkileşimlerin tamamı manuel kontrolde kalacak.'}
+        </p>
+        <button
+          className="button outline"
+          onClick={() => {
+            setManual(DEFAULT_MANUAL_SETTINGS);
+            setLang(DEFAULT_MANUAL_SETTINGS.defaultLang);
+          }}
+        >
+          {lang === 'en' ? 'Reset preview controls' : 'Önizleme kontrollerini sıfırla'}
+        </button>
+      </section>
+    </main>
+  );
+}
+
 function App() {
   const { route, go } = useHashRoute();
-  const [lang, setLangState] = useState<Lang>(() =>
-    localStorage.getItem('oska-lang') === 'tr' ? 'tr' : 'en'
-  );
+  const [manual, setManualState] = useState<ManualSettings>(() => readManualSettings());
+  const setManual = (next: ManualSettings) => {
+    setManualState(next);
+    localStorage.setItem(MANUAL_SETTINGS_KEY, JSON.stringify(next));
+  };
+  const [lang, setLangState] = useState<Lang>(() => {
+    const stored = localStorage.getItem('oska-lang');
+    if (stored === 'tr' || stored === 'en') return stored;
+    return readManualSettings().defaultLang;
+  });
   const [favorites, setFavorites] = useState<Set<string>>(
     () => new Set(JSON.parse(localStorage.getItem('oska-favorites') || '[]'))
   );
@@ -2118,6 +2320,7 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
+          manual={manual}
         />
       );
     if (route === 'women' || route === 'men')
@@ -2129,6 +2332,7 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
+          manual={manual}
         />
       );
     if (route === 'rings' || route === 'necklaces' || route === 'earrings')
@@ -2146,11 +2350,22 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
+          manual={manual}
         />
       );
     if (route === 'contact')
       return <ContactPage lang={lang} favorites={favorites} />;
     if (route === 'search-page') return <SearchPage lang={lang} go={go} />;
+    if (route === 'admin')
+      return (
+        <ManualControlPanel
+          lang={lang}
+          setLang={setLang}
+          manual={manual}
+          setManual={setManual}
+          go={go}
+        />
+      );
     if (route.startsWith('product/'))
       return (
         <ProductPage
@@ -2159,6 +2374,7 @@ function App() {
           go={go}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
+          manual={manual}
         />
       );
     return (
@@ -2171,7 +2387,23 @@ function App() {
     );
   })();
   return (
-    <div className="app">
+    <div
+      className={[
+        'app',
+        !manual.showHero && 'hide-home-hero',
+        !manual.showPrimaryRail && 'hide-primary-rail',
+        !manual.showPantherEditorial && 'hide-panther-editorial',
+        !manual.showCategories && 'hide-home-categories',
+        !manual.showMeshEditorial && 'hide-mesh-editorial',
+        !manual.showSecondaryRail && 'hide-secondary-rail',
+        !manual.showBrand && 'hide-brand-section',
+        !manual.showExplore && 'hide-explore-section',
+        !manual.showProcess && 'hide-process-section',
+        !manual.showService && 'hide-service-section',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <a className="skip-link" href="#main">
         {lang === 'en' ? 'Skip to content' : 'İçeriğe geç'}
       </a>
@@ -2183,6 +2415,14 @@ function App() {
       />
       <div id="main">{content}</div>
       <Footer lang={lang} go={go} />
+      <button
+        className="manual-panel-trigger"
+        onClick={() => go('admin')}
+        aria-label={lang === 'en' ? 'Open manual site control' : 'Manuel site kontrolünü aç'}
+      >
+        <SlidersHorizontal size={18} />
+        <span>{lang === 'en' ? 'CONTROL' : 'PANEL'}</span>
+      </button>
       <DigitalGuide lang={lang} go={go} />
     </div>
   );
