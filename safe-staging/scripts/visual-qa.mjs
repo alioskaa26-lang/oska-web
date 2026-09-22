@@ -38,6 +38,19 @@ for (const viewport of viewports) {
       failures.push(`${viewport.name}: expected html lang ${lang}, got ${htmlLang}`);
     }
 
+    const categoryImages = page.locator('.manual-category-image');
+    const categoryImageCount = await categoryImages.count();
+    if (categoryImageCount !== 4) {
+      failures.push(`${viewport.name}/${lang}: expected 4 category images, got ${categoryImageCount}`);
+    } else {
+      for (let i = 0; i < categoryImageCount; i += 1) {
+        const loaded = await categoryImages.nth(i).evaluate(
+          el => el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0
+        );
+        if (!loaded) failures.push(`${viewport.name}/${lang}: category image ${i + 1} failed to load`);
+      }
+    }
+
     const expectedNav = lang === 'tr'
       ? ['Kadın', 'Erkek', 'Koleksiyonlar', 'Üretim', 'Özel Etiket', 'OSKA Dünyası']
       : ['Women', 'Men', 'Collections', 'Manufacturing', 'Private Label', 'OSKA World'];
