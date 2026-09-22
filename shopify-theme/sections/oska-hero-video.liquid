@@ -1,0 +1,19 @@
+<section class="oska-hero">
+  {% if section.settings.video != blank %}
+    {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+  {% elsif section.settings.image != blank %}
+    {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', sizes: '100vw' }}
+  {% endif %}
+  <div class="oska-hero__overlay"></div>
+  <div class="oska-hero__copy">
+    {% if section.settings.eyebrow != blank %}<div class="oska-eyebrow">{{ section.settings.eyebrow }}</div>{% endif %}
+    <h1>{{ section.settings.heading }}</h1>
+    {% if section.settings.body != blank %}<p>{{ section.settings.body }}</p>{% endif %}
+    {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+      <a class="oska-button oska-button--light" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Hero Video","settings":[{"type":"video","id":"video","label":"Hero video"},{"type":"image_picker","id":"image","label":"Fallback image"},{"type":"text","id":"eyebrow","label":"Eyebrow","default":"CRAFTED IN ISTANBUL"},{"type":"text","id":"heading","label":"Heading","default":"Jewelry made for lasting partnerships."},{"type":"textarea","id":"body","label":"Body","default":"A premium B2B catalogue for collections, private-label development and controlled production."},{"type":"text","id":"button_label","label":"Button label","default":"Discover collections"},{"type":"url","id":"button_link","label":"Button link"}],"presets":[{"name":"OSKA Hero Video"}]}
+{% endschema %}
