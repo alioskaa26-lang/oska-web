@@ -64,20 +64,20 @@
     "expected": "A visible validation message requests the missing required information and no success message appears."
   },
   {
-    "name": "Search the verified catalogue and use the digital guide",
+    "name": "Search the verified catalogue and use grounded OSKA Concierge",
     "viewport": "mobile",
     "covers": [
       "search page",
       "verified search results",
-      "digital guide",
-      "private-label navigation"
+      "grounded concierge",
+      "RFQ fallback"
     ],
-    "description": "Verifies search and the deterministic OSKA Digital Guide provide useful navigation without inventing catalogue or AI behavior.",
+    "description": "Verifies verified catalogue search remains available and the live concierge never fabricates unverified commercial facts.",
     "steps": [
       "Open Search from the footer and search for Panther",
       "Open a verified Panther result",
-      "Open the OSKA Digital Guide and choose Private label"
+      "Open OSKA Concierge and ask for an unverified price or MOQ"
     ],
-    "expected": "A verified Panther product opens from search, then the guide opens the Private Label page and presents itself as verified site guidance rather than a live generative assistant."
+    "expected": "The verified Panther product opens, then the concierge refuses to invent the requested commercial fact and offers the RFQ handoff."
   }
 ]

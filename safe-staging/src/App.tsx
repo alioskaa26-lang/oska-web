@@ -14,6 +14,10 @@ import {
   SlidersHorizontal,
   X,
 } from 'lucide-react';
+import { AdminPersistenceBridge } from './AdminPersistenceBridge';
+import { LiveConcierge } from './LiveConcierge';
+import { loadPublishedSiteConfig, submitRFQ } from './oskaPlatform';
+import { oskaText } from './oskaLocale';
 
 type Lang = 'en' | 'tr';
 type Product = {
@@ -2266,100 +2270,91 @@ function ContactPage({
   lang: Lang;
   favorites: Set<string>;
 }) {
+  const text = oskaText(lang).rfq;
   const [status, setStatus] = useState('');
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  const [busy, setBusy] = useState(false);
+  const saved = PRODUCTS.filter(p => favorites.has(p.slug)).map(p => p.code);
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    if (
-      !String(data.get('company') || '').trim() ||
-      !String(data.get('email') || '').includes('@') ||
-      !String(data.get('message') || '').trim()
-    ) {
-      setStatus(
-        lang === 'en'
-          ? 'Please complete company, a valid email and project message.'
-          : 'Firma, geçerli e-posta ve proje mesajını tamamlayın.'
-      );
+    if (busy) return;
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const company = String(data.get('company') || '').trim();
+    const email = String(data.get('email') || '').trim();
+    const message = String(data.get('message') || '').trim();
+    const consent = data.get('consent') === 'on';
+    if (!company || !/^\S+@\S+\.\S+$/.test(email) || !message || !consent) {
+      setStatus(text.validation);
       return;
     }
-    setStatus(
-      lang === 'en'
-        ? 'Staging: RFQ transport is intentionally not connected. No request was sent.'
-        : 'Staging: RFQ gönderim bağlantısı bilinçli olarak bağlı değil. Talep gönderilmedi.'
-    );
+    setBusy(true);
+    setStatus('');
+    try {
+      await submitRFQ({
+        company,
+        email,
+        name: String(data.get('name') || '').trim(),
+        phone: String(data.get('phone') || '').trim(),
+        whatsapp: String(data.get('whatsapp') || '').trim(),
+        market: String(data.get('market') || '').trim(),
+        category: String(data.get('category') || '').trim(),
+        materialFinish: String(data.get('materialFinish') || '').trim(),
+        targetQuantity: String(data.get('targetQuantity') || '').trim(),
+        preferredContact: String(data.get('preferredContact') || '').trim(),
+        references: saved,
+        message,
+        consent,
+        website: String(data.get('website') || ''),
+      });
+      setStatus(text.stored);
+      form.reset();
+    } catch {
+      setStatus(text.failed);
+    } finally {
+      setBusy(false);
+    }
   };
-  const saved = PRODUCTS.filter(p => favorites.has(p.slug))
-    .map(p => p.code)
-    .join(', ');
+
   return (
     <main className="page">
-      <PageHero
-        eyebrow={lang === 'en' ? 'CONTACT / RFQ' : 'İLETİŞİM / RFQ'}
-        title={
-          lang === 'en'
-            ? 'Start with the project brief.'
-            : 'Proje brief’i ile başlayın.'
-        }
-        body={
-          lang === 'en'
-            ? 'A truthful staging form: no fake success and no unverified contact channel.'
-            : 'Dürüst staging formu: sahte başarı mesajı ve doğrulanmamış iletişim kanalı yok.'
-        }
-      />
+      <PageHero eyebrow={text.eyebrow} title={text.title} body={text.body} />
       <section className="section form-layout">
         <div>
           <span className="eyebrow">REQUEST FOR QUOTATION</span>
-          <h2>
-            {lang === 'en' ? 'Tell us what you need.' : 'İhtiyacınızı anlatın.'}
-          </h2>
-          <p>
-            {lang === 'en'
-              ? 'Company, market, category, material/finish direction, quantity and context help frame the next step.'
-              : 'Firma, pazar, kategori, malzeme/kaplama yönü, adet ve bağlam sonraki adımı netleştirir.'}
-          </p>
-          {saved && (
+          <h2>{text.introTitle}</h2>
+          <p>{text.introBody}</p>
+          {saved.length > 0 && (
             <div className="shortlist-note">
-              <Check size={16} />{' '}
-              {lang === 'en'
-                ? 'Shortlist references'
-                : 'Kısa liste referansları'}
-              : {saved}
+              <Check size={16} /> {text.shortlist}: {saved.join(', ')}
             </div>
           )}
         </div>
         <form className="rfq-form" onSubmit={submit} noValidate>
+          <label>{text.company}<input name="company" /></label>
+          <label>{text.name}<input name="name" /></label>
+          <label>{text.email}<input name="email" type="email" /></label>
+          <label>{text.phone}<input name="phone" type="tel" /></label>
+          <label>{text.whatsapp}<input name="whatsapp" type="tel" /></label>
+          <label>{text.market}<input name="market" /></label>
+          <label>{text.category}<input name="category" /></label>
+          <label>{text.materialFinish}<input name="materialFinish" /></label>
+          <label>{text.targetQuantity}<input name="targetQuantity" inputMode="numeric" /></label>
           <label>
-            {lang === 'en' ? 'Company' : 'Firma'}
-            <input name="company" />
+            {text.preferredContact}
+            <select name="preferredContact" defaultValue="email">
+              <option value="email">{text.preferredEmail}</option>
+              <option value="whatsapp">{text.preferredWhatsapp}</option>
+              <option value="phone">{text.preferredPhone}</option>
+            </select>
           </label>
-          <label>
-            Email
-            <input name="email" type="email" />
-          </label>
-          <label>
-            {lang === 'en' ? 'Country / market' : 'Ülke / pazar'}
-            <input name="market" />
-          </label>
-          <label>
-            {lang === 'en' ? 'Project message' : 'Proje mesajı'}
-            <textarea name="message" rows={5} />
-          </label>
-          <input
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            className="honeypot"
-            aria-hidden="true"
-          />
-          <button className="button dark" type="submit">
-            {copy[lang].quote}
-            <ArrowRight size={16} />
+          <label className="rfq-message">{text.message}<textarea name="message" rows={5} /></label>
+          <label className="rfq-consent"><input name="consent" type="checkbox" /> <span>{text.consent}</span></label>
+          <input name="website" tabIndex={-1} autoComplete="off" className="honeypot" aria-hidden="true" />
+          <button className="button dark" type="submit" disabled={busy}>
+            {busy ? text.saving : text.submit}<ArrowRight size={16} />
           </button>
-          {status && (
-            <p className="form-status" role="status">
-              {status}
-            </p>
-          )}
+          {status && <p className="form-status" role="status">{status}</p>}
         </form>
       </section>
     </main>
@@ -2502,67 +2497,19 @@ function Footer({ lang, go }: { lang: Lang; go: (r: string) => void }) {
   );
 }
 
-function DigitalGuide({ lang, go }: { lang: Lang; go: (r: string) => void }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="guide">
-      <button
-        className="guide-trigger"
-        onClick={() => setOpen(!open)}
-        aria-label={
-          lang === 'en'
-            ? open
-              ? 'Close digital guide'
-              : 'Open digital guide'
-            : open
-              ? 'Dijital rehberi kapat'
-              : 'Dijital rehberi aç'
-        }
-      >
-        <MessageCircle size={21} />
-      </button>
-      {open && (
-        <div className="guide-panel">
-          <div className="guide-head">
-            <div>
-              <span className="eyebrow">{copy[lang].assistant}</span>
-              <p>{copy[lang].assistantHint}</p>
-            </div>
-            <button
-              className="icon-button"
-              onClick={() => setOpen(false)}
-              aria-label={lang === 'en' ? 'Close digital guide' : 'Dijital rehberi kapat'}
-            >
-              <X size={18} />
-            </button>
-          </div>
-          <div className="guide-actions">
-            {[
-              [
-                lang === 'en' ? 'Show bracelets' : 'Bileklikleri göster',
-                'bracelets',
-              ],
-              ['Panther', 'collections'],
-              ['Private label', 'private-label'],
-              [lang === 'en' ? 'Manufacturing' : 'Üretim', 'manufacturing'],
-              [lang === 'en' ? 'Request quote' : 'Teklif iste', 'contact'],
-            ].map(([label, route]) => (
-              <button
-                key={label}
-                onClick={() => {
-                  go(route);
-                  setOpen(false);
-                }}
-              >
-                {label}
-                <ArrowRight size={15} />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+function DigitalGuide({
+  lang,
+  go,
+  route,
+  favorites,
+}: {
+  lang: Lang;
+  go: (r: string) => void;
+  route: string;
+  favorites: Set<string>;
+}) {
+  const shortlist = PRODUCTS.filter(product => favorites.has(product.slug)).map(product => product.code);
+  return <LiveConcierge lang={lang} route={route} shortlist={shortlist} go={go} />;
 }
 
 function ManualControlPanel({
@@ -2724,6 +2671,8 @@ function ManualControlPanel({
           </button>
         </div>
       </header>
+
+      <AdminPersistenceBridge lang={lang} value={manual} onLoad={next => setManual(next)} />
 
       <div className="visual-editor-workspace">
         <aside className="visual-editor-sections">
@@ -3063,11 +3012,23 @@ function ManualControlPanel({
 
 function App() {
   const { route, go } = useHashRoute();
-  const [manual, setManualState] = useState<ManualSettings>(() => readManualSettings());
+  const [manual, setManualState] = useState<ManualSettings>(() => route === 'admin' ? readManualSettings() : DEFAULT_MANUAL_SETTINGS);
   const setManual = (next: ManualSettings) => {
     setManualState(next);
     localStorage.setItem(MANUAL_SETTINGS_KEY, JSON.stringify(next));
   };
+  useEffect(() => {
+    if (route === 'admin') return;
+    let active = true;
+    loadPublishedSiteConfig()
+      .then(config => {
+        if (active && config) {
+          setManualState({ ...DEFAULT_MANUAL_SETTINGS, ...(config as Partial<ManualSettings>) });
+        }
+      })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, [route]);
   const [lang, setLangState] = useState<Lang>(() => {
     const stored = localStorage.getItem('oska-lang');
     if (stored === 'tr' || stored === 'en') return stored;
@@ -3235,7 +3196,7 @@ function App() {
             <SlidersHorizontal size={18} />
             <span>{lang === 'en' ? 'EDIT' : 'DÜZENLE'}</span>
           </button>
-          <DigitalGuide lang={lang} go={go} />
+          <DigitalGuide lang={lang} go={go} route={route} favorites={favorites} />
         </>
       )}
     </div>

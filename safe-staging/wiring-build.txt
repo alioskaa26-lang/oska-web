@@ -1,0 +1,14 @@
+
+> vite-react-app@0.0.1 build
+> npm run lint && npm run typecheck && vite build
+
+
+> vite-react-app@0.0.1 lint
+> eslint src --max-warnings=0
+
+
+/home/runner/work/oska-web/oska-web/safe-staging/src/App.tsx
+  10:3  error  'MessageCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (1 error, 0 warnings)
+
