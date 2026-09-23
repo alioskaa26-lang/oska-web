@@ -1,0 +1,42 @@
+name: OSKA Wire Production Foundation
+
+on:
+  push:
+    branches:
+      - oska-web-cms-i18n-20260922
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    if: ${{ !contains(github.event.head_commit.message, 'Wire production foundation into safe UI') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: oska-web-cms-i18n-20260922
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply deterministic wiring
+        working-directory: safe-staging
+        run: node scripts/wire-production-foundation.mjs
+      - name: Install
+        working-directory: safe-staging
+        run: npm install
+      - name: Build before commit
+        working-directory: safe-staging
+        run: npm run build
+      - name: Commit wired safe UI
+        run: |
+          if git diff --quiet; then
+            echo "No wiring changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add safe-staging/src/App.tsx safe-staging/tests/tests.json
+          git commit -m "Wire production foundation into safe UI"
+          git push origin HEAD:oska-web-cms-i18n-20260922
