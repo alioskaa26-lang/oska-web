@@ -30,31 +30,31 @@ jobs:
         working-directory: safe-staging
         run: |
           set +e
-          npm run build > wiring-build.log 2>&1
+          npm run build > wiring-build.txt 2>&1
           status=$?
-          echo "$status" > wiring-build-status
+          echo "$status" > wiring-build-status.txt
           if [ "$status" -eq 0 ]; then
-            rm -f wiring-build.log wiring-build-status
+            rm -f wiring-build.txt wiring-build-status.txt
           fi
           exit 0
       - name: Commit wired safe UI
         run: |
-          if git diff --quiet; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No wiring changes needed"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add safe-staging/src/App.tsx safe-staging/tests/tests.json
-          if [ -f safe-staging/wiring-build.log ]; then
-            git add safe-staging/wiring-build.log safe-staging/wiring-build-status
+          if [ -f safe-staging/wiring-build.txt ]; then
+            git add safe-staging/wiring-build.txt safe-staging/wiring-build-status.txt
           fi
           git commit -m "Wire production foundation into safe UI"
           git push origin HEAD:oska-web-cms-i18n-20260922
       - name: Enforce successful build
         working-directory: safe-staging
         run: |
-          if [ -f wiring-build-status ] && [ "$(cat wiring-build-status)" != "0" ]; then
+          if [ -f wiring-build-status.txt ] && [ "$(cat wiring-build-status.txt)" != "0" ]; then
             echo "Wiring build failed; diagnostics were committed for repair."
             exit 1
           fi
