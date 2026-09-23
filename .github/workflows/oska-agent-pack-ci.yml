@@ -1,0 +1,28 @@
+name: OSKA Agent Pack CI
+
+on:
+  pull_request:
+    paths:
+      - "oska-core-agents/**"
+      - ".github/workflows/oska-agent-pack-ci.yml"
+  push:
+    paths:
+      - "oska-core-agents/**"
+      - ".github/workflows/oska-agent-pack-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  agent-pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile
+        run: python -m compileall -q oska-core-agents/runtime
+      - name: Unit tests
+        run: python -m unittest discover -s oska-core-agents/tests -p "test_*.py" -v
