@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "core_architecture": "OSKA OS V1.2",
+  "defaults": {
+    "state_owner": "postgresql",
+    "scheduler_owner": "dbos",
+    "evidence_store": "r2",
+    "external_write": false,
+    "secrets": false,
+    "human_approval_for_t3": true
+  },
+  "agents": [
+    {
+      "id": "market_scout",
+      "name_tr": "Pazar Araştırmacısı",
+      "mission": "Discover candidate companies, channels and market signals for OSKA B2B lead generation.",
+      "primary_inputs": ["country_scope", "material_lane", "channel_scope", "exclusion_rules"],
+      "required_outputs": ["candidate_records", "source_urls", "evidence_snapshots", "discovery_reason"],
+      "capabilities": ["web_read", "marketplace_read", "internal_evidence_write"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T0"
+    },
+    {
+      "id": "lead_scoring_builder",
+      "name_tr": "Lead Skorlama Modeli",
+      "mission": "Score candidate fit separately for brass/bronze, 925 silver, gold and lab-grown lanes using evidence-backed commercial signals.",
+      "primary_inputs": ["candidate_record", "verified_evidence", "material_lane", "price_band_rules"],
+      "required_outputs": ["fit_score", "signal_breakdown", "negative_signals", "confidence", "evidence_refs"],
+      "capabilities": ["internal_read", "internal_compute", "internal_evidence_read"],
+      "untrusted_external_input": false,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "commerce_intelligence",
+      "name_tr": "Ticaret İstihbaratı",
+      "mission": "Verify commercial strength using price, stock, reviews, traffic proxies, marketplace footprint and replenishment signals.",
+      "primary_inputs": ["candidate_record", "known_channels"],
+      "required_outputs": ["commercial_signal_report", "evidence_refs", "freshness", "contradictions"],
+      "capabilities": ["web_read", "marketplace_read", "internal_evidence_write"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T0"
+    },
+    {
+      "id": "sales_pack_agent",
+      "name_tr": "Satış Paketi Hazırlayıcı",
+      "mission": "Prepare an internal customer-specific product/offer/catalog draft; never send it externally.",
+      "primary_inputs": ["verified_lead", "product_catalog", "material_lane", "commercial_context"],
+      "required_outputs": ["internal_offer_draft", "recommended_products", "talking_points", "assumptions"],
+      "capabilities": ["internal_read", "internal_draft"],
+      "untrusted_external_input": false,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "account_brief_agent",
+      "name_tr": "Müşteri Görüşme Hazırlayıcı",
+      "mission": "Prepare a concise account brief before a call or meeting using verified company and contact context.",
+      "primary_inputs": ["verified_lead", "contact_records", "interaction_history"],
+      "required_outputs": ["account_brief", "decision_maker_map", "questions", "risks", "evidence_refs"],
+      "capabilities": ["internal_read", "web_read", "internal_draft"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "lead_qa",
+      "name_tr": "Lead Kalite Kontrolü",
+      "mission": "Independently verify candidate eligibility and block weak or unsupported leads before Sales Ready.",
+      "primary_inputs": ["candidate_record", "all_evidence", "score_report"],
+      "required_outputs": ["decision", "commercial_reason", "strongest_evidence", "missing_evidence", "conflicts"],
+      "capabilities": ["internal_read", "internal_evidence_read", "web_read"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "master_lead_dedup",
+      "name_tr": "Master Lead Tekilleştirme",
+      "mission": "Detect duplicate company records across website, marketplace and social sources and produce a reversible merge plan with lineage.",
+      "primary_inputs": ["candidate_records", "master_lead_records"],
+      "required_outputs": ["duplicate_groups", "canonical_record", "merge_plan", "lineage", "confidence"],
+      "capabilities": ["internal_read", "internal_compute", "reversible_internal_write"],
+      "untrusted_external_input": false,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T2"
+    },
+    {
+      "id": "sales_ops_close",
+      "name_tr": "Satış Operasyon Kapanışı",
+      "mission": "Produce internal daily/weekly/monthly close summaries for leads, offers, orders, collections and open actions.",
+      "primary_inputs": ["pipeline_records", "order_records", "collection_records", "work_orders"],
+      "required_outputs": ["close_report", "exceptions", "open_actions", "reconciliation_notes"],
+      "capabilities": ["internal_read", "internal_compute", "internal_draft"],
+      "untrusted_external_input": false,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "data_auditor",
+      "name_tr": "Veri Denetçisi",
+      "mission": "Find stale, broken, contradictory, duplicated or policy-violating lead data and propose corrections.",
+      "primary_inputs": ["master_lead_records", "evidence_records", "policy_rules"],
+      "required_outputs": ["findings", "severity", "affected_records", "proposed_fix", "evidence_refs"],
+      "capabilities": ["internal_read", "internal_compute", "web_read"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T1"
+    },
+    {
+      "id": "company_verifier",
+      "name_tr": "Şirket Doğrulayıcı",
+      "mission": "Verify that a company/contact is real and commercially relevant using independent source evidence; this is business verification, not a legal compliance determination.",
+      "primary_inputs": ["candidate_record", "claimed_company_details", "claimed_contacts"],
+      "required_outputs": ["verification_status", "identity_evidence", "contact_provenance", "commercial_footprint", "conflicts"],
+      "capabilities": ["web_read", "internal_evidence_write"],
+      "untrusted_external_input": true,
+      "secrets": false,
+      "external_write": false,
+      "default_risk": "T0"
+    }
+  ]
+}
