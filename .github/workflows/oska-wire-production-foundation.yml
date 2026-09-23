@@ -38,13 +38,13 @@ jobs:
         run: npm run build
       - name: Commit wired safe UI
         run: |
-          if [ -z "$(git status --porcelain)" ]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u safe-staging
+          git add safe-staging/src/App.tsx safe-staging/tests/tests.json
+          if git diff --cached --quiet; then
             echo "No wiring changes needed"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add safe-staging/src/App.tsx safe-staging/tests/tests.json
-          git add -u safe-staging/wiring-build.txt safe-staging/wiring-build-status.txt || true
           git commit -m "Wire production foundation into safe UI"
           git push origin HEAD:oska-web-cms-i18n-20260922
