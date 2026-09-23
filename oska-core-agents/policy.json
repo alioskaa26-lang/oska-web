@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "risk_classes": {
+    "T0": {
+      "description": "Read-only research and verification.",
+      "human_approval": false
+    },
+    "T1": {
+      "description": "Internal analysis, scoring and draft creation; no external side effect.",
+      "human_approval": false
+    },
+    "T2": {
+      "description": "Reversible internal write with audit trail, idempotency and retained history.",
+      "human_approval": false
+    },
+    "T3": {
+      "description": "Irreversible, externally visible, privileged or financially/legal consequential action.",
+      "human_approval": true
+    }
+  },
+  "always_t3_actions": [
+    "outbound_send",
+    "external_publish",
+    "payment",
+    "dns_or_domain_change",
+    "secret_change",
+    "permission_change",
+    "authoritative_data_delete",
+    "legal_commitment"
+  ],
+  "conditional_rules": [
+    {
+      "action": "dedup_merge",
+      "risk_if_reversible_with_history": "T2",
+      "risk_otherwise": "T3"
+    },
+    {
+      "action": "master_lead_update",
+      "risk_if_reversible_with_audit": "T2",
+      "risk_otherwise": "T3"
+    }
+  ],
+  "separation_rule": {
+    "forbidden_combination": [
+      "untrusted_external_input",
+      "secrets",
+      "external_write"
+    ],
+    "description": "No single agent may combine untrusted external content, secrets and external write authority."
+  },
+  "evidence_rule": {
+    "model_consensus_is_evidence": false,
+    "minimum_fields": [
+      "source_uri",
+      "captured_at",
+      "sha256_or_snapshot_id",
+      "provenance",
+      "verifier_result"
+    ]
+  }
+}
