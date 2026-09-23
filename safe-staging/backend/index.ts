@@ -50,6 +50,13 @@ type ConciergeBody = {
   message?: string;
 };
 
+type ConciergeStructuredReply = {
+  answer: string;
+  certainty: 'verified' | 'needs_confirmation';
+  handoff: 'none' | 'rfq' | 'whatsapp';
+  suggestedRoutes: string[];
+};
+
 const SITE_VERSIONS = 'oska_site_versions';
 const SITE_POINTER = 'oska_site_pointer';
 const RFQS = 'oska_rfqs';
@@ -104,10 +111,53 @@ function safeWhatsAppUrl(config: Record<string, unknown> | null) {
 
 const highRiskFactIntent = /(price|pricing|cost|usd|eur|try|fiyat|ücret|maliyet|moq|min(?:imum)? order|minimum sipariş|lead[ -]?time|termin|delivery time|stock|stok|capacity|kapasite|dimension|dimensions|ölçü|gram|weight|ağırlık|karat|carat)/i;
 
+const unsupportedCommercialValue = /(?:[$€£]\s?\d|\d+(?:[.,]\d+)?\s?(?:USD|EUR|GBP|TRY|TL|adet|pcs?|pieces?|g|gram|grams?|kg|mm|cm|days?|weeks?|gün|hafta)\b|(?:moq|minimum order|minimum sipariş|lead[ -]?time|termin|stock|stok|capacity|kapasite|dimension|dimensions|ölçü|weight|ağırlık).{0,40}\d)/i;
+
 function confirmationReply(lang: 'en' | 'tr') {
   return lang === 'tr'
     ? 'Bu bilgi doğrulanmış OSKA içeriğinde yer almıyor. Fiyat, MOQ, termin, stok, kapasite ve teknik spesifikasyonlar proje bazında teyit edilir; RFQ ile devam edebilirsiniz.'
     : 'That information is not present in verified OSKA content. Price, MOQ, lead time, stock, capacity and technical specifications are confirmed per project; please continue with an RFQ.';
+}
+
+function normalizeConciergeReply(
+  value: Partial<ConciergeStructuredReply> | null,
+  lang: 'en' | 'tr',
+  whatsappUrl?: string,
+) {
+  const fallback = confirmationReply(lang);
+  const answer = cleanText(value?.answer, 1800);
+  const unsafe = !answer || unsupportedCommercialValue.test(answer);
+  const certainty = unsafe || value?.certainty !== 'verified' ? 'needs_confirmation' : 'verified';
+  let handoff: ConciergeStructuredReply['handoff'] = value?.handoff === 'whatsapp' || value?.handoff === 'rfq' || value?.handoff === 'none'
+    ? value.handoff
+    : 'rfq';
+  if (certainty === 'needs_confirmation' && handoff === 'none') handoff = 'rfq';
+  if (handoff === 'whatsapp' && !whatsappUrl) handoff = 'rfq';
+  const allowedRoutes = new Set([
+    'home',
+    'women',
+    'men',
+    'bracelets',
+    'collections',
+    'manufacturing',
+    'private-label',
+    'world',
+    'search-page',
+    'favorites',
+    'contact',
+  ]);
+  const suggestedRoutes = Array.isArray(value?.suggestedRoutes)
+    ? value.suggestedRoutes.filter(routeName => allowedRoutes.has(routeName)).slice(0, 3)
+    : [];
+  return {
+    answer: unsafe ? fallback : answer,
+    certainty,
+    handoff,
+    suggestedRoutes: certainty === 'needs_confirmation' && !suggestedRoutes.includes('contact')
+      ? [...suggestedRoutes, 'contact'].slice(0, 3)
+      : suggestedRoutes,
+    whatsappUrl: handoff === 'whatsapp' ? whatsappUrl : undefined,
+  };
 }
 
 export const handler = router({
@@ -208,7 +258,9 @@ export const handler = router({
     const company = cleanText(body.company, 160);
     const emailAddress = cleanText(body.email, 240).toLowerCase();
     const message = cleanText(body.message, 4000);
-    if (!company || !/^\S+@\S+\.\S+$/.test(emailAddress) || !message) return error('invalid_rfq', 400);
+    if (!company || !/^\S+@\S+\.\S+$/.test(emailAddress) || !message || body.consent !== true) {
+      return error('invalid_rfq', 400);
+    }
     const references = Array.isArray(body.references)
       ? body.references.map(value => cleanText(value, 80)).filter(Boolean).slice(0, 30)
       : [];
@@ -225,7 +277,7 @@ export const handler = router({
       references,
       message,
       preferredContact: cleanText(body.preferredContact, 80),
-      consent: Boolean(body.consent),
+      consent: true,
       status: 'new',
       source: 'oska-web',
       createdAt: new Date().toISOString(),
@@ -251,13 +303,12 @@ export const handler = router({
     const productSlug = cleanText(body.productSlug, 120);
 
     if (highRiskFactIntent.test(message)) {
-      return json({
+      return json(normalizeConciergeReply({
         answer: confirmationReply(lang),
         certainty: 'needs_confirmation',
         handoff: whatsappUrl ? 'whatsapp' : 'rfq',
         suggestedRoutes: ['contact'],
-        whatsappUrl,
-      });
+      }, lang, whatsappUrl));
     }
 
     const verifiedCatalogue = [
@@ -269,40 +320,39 @@ export const handler = router({
       'OSK-STA-01 Silver Station Mesh Bracelet — Signature collection',
     ].join('\n');
     const verifiedContext = JSON.stringify(publicConfig ?? {});
-    const result = await ai.generate({
-      system: `You are OSKA Concierge for a premium B2B jewelry catalogue. Reply only from the verified context below. Never invent or estimate price, MOQ, lead time, stock, capacity, dimensions, weight, material composition, stones, certifications or other technical specifications. If the requested fact is absent, clearly say it requires confirmation and recommend RFQ. Never imply retail checkout. Keep the answer concise, premium and helpful. Reply in ${lang === 'tr' ? 'Turkish' : 'English'}. Current route: ${route}. Current product slug: ${productSlug || 'none'}. Shortlist: ${shortlist.join(', ') || 'none'}. Verified catalogue:\n${verifiedCatalogue}\nPublished owner-approved site config:\n${verifiedContext}`,
-      prompt: message,
-      schema: {
-        type: 'object',
-        properties: {
-          answer: { type: 'string' },
-          certainty: { type: 'string', enum: ['verified', 'needs_confirmation'] },
-          handoff: { type: 'string', enum: ['none', 'rfq', 'whatsapp'] },
-          suggestedRoutes: { type: 'array', items: { type: 'string' } },
-        },
-        required: ['answer', 'certainty', 'handoff', 'suggestedRoutes'],
-      },
-      maxTokens: 500,
-      temperature: 0.1,
-      thinkingMode: 'FAST',
-    });
-    let parsed: { answer: string; certainty: 'verified' | 'needs_confirmation'; handoff: 'none' | 'rfq' | 'whatsapp'; suggestedRoutes: string[] };
+
     try {
-      parsed = JSON.parse(result.text) as typeof parsed;
+      const result = await ai.generate({
+        system: `You are OSKA Concierge for a premium B2B jewelry catalogue. Reply only from the verified context below. Never invent or estimate price, MOQ, lead time, stock, capacity, dimensions, weight, material composition, stones, certifications or other technical specifications. If the requested fact is absent, clearly say it requires confirmation and recommend RFQ. Never imply retail checkout. Keep the answer concise, premium and helpful. Reply in ${lang === 'tr' ? 'Turkish' : 'English'}. Current route: ${route}. Current product slug: ${productSlug || 'none'}. Shortlist: ${shortlist.join(', ') || 'none'}. Verified catalogue:\n${verifiedCatalogue}\nPublished owner-approved site config:\n${verifiedContext}`,
+        prompt: message,
+        schema: {
+          type: 'object',
+          properties: {
+            answer: { type: 'string' },
+            certainty: { type: 'string', enum: ['verified', 'needs_confirmation'] },
+            handoff: { type: 'string', enum: ['none', 'rfq', 'whatsapp'] },
+            suggestedRoutes: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['answer', 'certainty', 'handoff', 'suggestedRoutes'],
+        },
+        maxTokens: 500,
+        temperature: 0.1,
+        thinkingMode: 'FAST',
+      });
+      let parsed: Partial<ConciergeStructuredReply> | null = null;
+      try {
+        parsed = JSON.parse(result.text) as ConciergeStructuredReply;
+      } catch {
+        parsed = null;
+      }
+      return json(normalizeConciergeReply(parsed, lang, whatsappUrl));
     } catch {
-      parsed = { answer: confirmationReply(lang), certainty: 'needs_confirmation', handoff: 'rfq', suggestedRoutes: ['contact'] };
+      return json(normalizeConciergeReply({
+        answer: confirmationReply(lang),
+        certainty: 'needs_confirmation',
+        handoff: whatsappUrl ? 'whatsapp' : 'rfq',
+        suggestedRoutes: ['contact'],
+      }, lang, whatsappUrl));
     }
-    const allowedRoutes = new Set(['home', 'women', 'men', 'bracelets', 'collections', 'manufacturing', 'private-label', 'world', 'search-page', 'favorites', 'contact']);
-    const suggestedRoutes = Array.isArray(parsed.suggestedRoutes)
-      ? parsed.suggestedRoutes.filter(routeName => allowedRoutes.has(routeName)).slice(0, 3)
-      : [];
-    const handoff = parsed.handoff === 'whatsapp' && !whatsappUrl ? 'rfq' : parsed.handoff;
-    return json({
-      answer: cleanText(parsed.answer, 1800) || confirmationReply(lang),
-      certainty: parsed.certainty === 'verified' ? 'verified' : 'needs_confirmation',
-      handoff,
-      suggestedRoutes,
-      whatsappUrl: handoff === 'whatsapp' ? whatsappUrl : undefined,
-    });
   }],
 });
