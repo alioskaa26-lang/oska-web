@@ -43,7 +43,15 @@ export function LiveConcierge({
       <button
         className="guide-trigger"
         onClick={() => setOpen(value => !value)}
-        aria-label={open ? (lang === 'en' ? 'Close OSKA Concierge' : 'OSKA Concierge kapat') : (lang === 'en' ? 'Open OSKA Concierge' : 'OSKA Concierge aç')}
+        aria-label={
+          open
+            ? lang === 'en'
+              ? 'Close OSKA Concierge'
+              : 'OSKA Concierge kapat'
+            : lang === 'en'
+              ? 'Open OSKA Concierge'
+              : 'OSKA Concierge aç'
+        }
       >
         <MessageCircle size={21} />
       </button>
@@ -54,7 +62,11 @@ export function LiveConcierge({
               <span className="eyebrow">{text.title}</span>
               <p>{text.subtitle}</p>
             </div>
-            <button className="icon-button" onClick={() => setOpen(false)} aria-label={lang === 'en' ? 'Close' : 'Kapat'}>
+            <button
+              className="icon-button"
+              onClick={() => setOpen(false)}
+              aria-label={lang === 'en' ? 'Close' : 'Kapat'}
+            >
               <X size={18} />
             </button>
           </div>
@@ -76,18 +88,32 @@ export function LiveConcierge({
               {!failed && reply?.certainty === 'needs_confirmation' && <small>{text.fallback}</small>}
               <div className="guide-actions">
                 {(failed || reply?.handoff === 'rfq' || reply?.certainty === 'needs_confirmation') && (
-                  <button onClick={() => { go('contact'); setOpen(false); }}>
-                    {text.rfq}<ArrowRight size={15} />
+                  <button
+                    onClick={() => {
+                      go('contact');
+                      setOpen(false);
+                    }}
+                  >
+                    {text.rfq}
+                    <ArrowRight size={15} />
                   </button>
                 )}
                 {reply?.handoff === 'whatsapp' && reply.whatsappUrl && (
                   <a href={reply.whatsappUrl} target="_blank" rel="noreferrer">
-                    {text.whatsapp}<ArrowRight size={15} />
+                    {text.whatsapp}
+                    <ArrowRight size={15} />
                   </a>
                 )}
                 {reply?.suggestedRoutes.map(suggested => (
-                  <button key={suggested} onClick={() => { go(suggested); setOpen(false); }}>
-                    {suggested.replaceAll('-', ' ')}<ArrowRight size={15} />
+                  <button
+                    key={suggested}
+                    onClick={() => {
+                      go(suggested);
+                      setOpen(false);
+                    }}
+                  >
+                    {suggested.replace(/-/g, ' ')}
+                    <ArrowRight size={15} />
                   </button>
                 ))}
               </div>

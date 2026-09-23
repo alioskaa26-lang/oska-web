@@ -8,10 +8,10 @@ declare module '@appdeploy/client' {
   };
 
   export const api: {
-    get(url: string, data?: unknown): Promise<{ data: any }>;
-    post(url: string, data?: unknown): Promise<{ data: any }>;
-    put(url: string, data?: unknown): Promise<{ data: any }>;
-    delete(url: string, data?: unknown): Promise<{ data: any }>;
+    get(url: string, data?: unknown): Promise<{ data: unknown }>;
+    post(url: string, data?: unknown): Promise<{ data: unknown }>;
+    put(url: string, data?: unknown): Promise<{ data: unknown }>;
+    delete(url: string, data?: unknown): Promise<{ data: unknown }>;
   };
 
   export const auth: {

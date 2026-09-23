@@ -38,12 +38,14 @@ export type ConciergeResponse = {
 
 export async function loadPublishedSiteConfig(): Promise<SiteConfig | null> {
   const { data } = await api.get('/api/site');
-  return data?.config ?? null;
+  const result = data as { config?: SiteConfig | null };
+  return result.config ?? null;
 }
 
 export async function isAdminConfigured(): Promise<boolean> {
   const { data } = await api.get('/api/admin/configured');
-  return Boolean(data?.configured);
+  const result = data as { configured?: boolean };
+  return Boolean(result.configured);
 }
 
 export async function adminSignIn() {
