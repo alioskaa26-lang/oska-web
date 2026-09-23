@@ -7,7 +7,6 @@ import {
   Globe2,
   Heart,
   Menu,
-  MessageCircle,
   Pause,
   Play,
   Search,
