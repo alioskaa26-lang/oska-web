@@ -14,6 +14,7 @@
   <main id="MainContent" role="main">{{ content_for_layout }}</main>
   {% section 'oska-b2b-concierge' %}
   {% render 'oska-b2b-global' %}
+  {% render 'oska-b2b-badges', customizable: false, sample_available: false, cad_ready: false, ready_sampling: false, custom_development: false %}
   {% section 'oska-footer' %}
   <script src="{{ 'oska-b2b-growth.js' | asset_url }}" defer></script>
 </body>
