@@ -1,0 +1,10 @@
+{% comment %}Truth-gated B2B badges. Render only when a verified boolean is passed by the caller.{% endcomment %}
+{% if customizable or sample_available or cad_ready or ready_sampling or custom_development %}
+<div class="oska-b2b-badges" aria-label="B2B status">
+  {% if customizable %}<span class="oska-status-chip">Customizable</span>{% endif %}
+  {% if sample_available %}<span class="oska-status-chip">Sample Available on Request</span>{% endif %}
+  {% if cad_ready %}<span class="oska-status-chip">CAD Ready</span>{% endif %}
+  {% if ready_sampling %}<span class="oska-status-chip">Ready for Sampling</span>{% endif %}
+  {% if custom_development %}<span class="oska-status-chip">Custom Development</span>{% endif %}
+</div>
+{% endif %}

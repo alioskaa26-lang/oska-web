@@ -1,0 +1,10 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-b2b-page">
+  <div class="oska-b2b-page__hero">
+    <div class="oska-eyebrow">BUYER / SHOWROOM CALL</div>
+    <h1>{% if tr %}Nitelikli alıcı görüşmesi talebi{% else %}Qualified buyer-call request{% endif %}</h1>
+    <p>{% if tr %}Koleksiyon, private label, numune veya sourcing projeniz için görüşme talebi bırakın. Takvim rezervasyonu ancak OSKA ekibi zamanı doğruladığında kesinleşir.{% else %}Request a conversation about collections, private label, sampling or sourcing. A meeting is confirmed only after the OSKA team verifies the time.{% endif %}</p>
+    <div class="oska-page-actions"><a href="/pages/contact-rfq?intent=buyer-call">{% if tr %}Görüşme talebi gönder{% else %}Request a buyer call{% endif %}</a></div>
+  </div>
+</section>
+{% schema %}{"name":"OSKA Buyer Call","settings":[],"presets":[{"name":"OSKA Buyer Call"}]}{% endschema %}
