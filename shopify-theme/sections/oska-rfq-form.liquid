@@ -1,19 +1,36 @@
-<section class="oska-section oska-rfq">
-  <div>
-    <div class="oska-eyebrow">REQUEST FOR QUOTATION</div>
-    <h2>{{ section.settings.heading }}</h2>
-    <p>{{ section.settings.body }}</p>
-  </div>
-  {% form 'contact' %}
-    {% if form.posted_successfully? %}<p role="status">{{ 'contact.form.success' | t }}</p>{% endif %}
-    {{ form.errors | default_errors }}
-    <label>{{ 'contact.form.company' | t }}<input name="contact[company]" required></label>
-    <label>{{ 'contact.form.email' | t }}<input type="email" name="contact[email]" required></label>
-    <label>{{ 'contact.form.market' | t }}<input name="contact[market]"></label>
-    <label>{{ 'contact.form.message' | t }}<textarea name="contact[body]" rows="6" required></textarea></label>
-    <button class="oska-button" type="submit">{{ 'contact.form.submit' | t }}</button>
+
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-section oska-rfq" aria-labelledby="oska-rfq-title">
+  <div><div class="oska-eyebrow">REQUEST FOR QUOTATION</div><h2 id="oska-rfq-title">{% if tr %}Projenizi anlatın.{% else %}Tell us about your project.{% endif %}</h2><p>{% if tr %}Model, materyal, adet, hedef pazar ve proje yönünü paylaşın. MOQ, termin, fiyat ve teknik değerler proje bazında doğrulanır.{% else %}Share models, material, quantity, target market and project direction. MOQ, lead time, price and technical values are confirmed per project.{% endif %}</p></div>
+  {% form 'contact', class:'oska-rfq-form oska-rfq-wizard', id:'oskaRfqForm', data-oska-rfq-wizard:'' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Talebiniz alındı. Bu bir sipariş veya termin onayı değildir; OSKA ekibi kapsamı doğrulamak için sizinle iletişime geçecek.{% else %}Your request has been received. This is not an order or lead-time confirmation; the OSKA team will contact you to confirm scope.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div><p data-oska-form-status role="status" aria-live="polite"></p>
+    <div class="oska-rfq-wizard__progress" aria-hidden="true"><span class="oska-rfq-wizard__dot" data-oska-rfq-dot></span><span class="oska-rfq-wizard__dot" data-oska-rfq-dot></span><span class="oska-rfq-wizard__dot" data-oska-rfq-dot></span></div>
+    <fieldset class="oska-rfq-step" data-oska-rfq-step><legend class="visually-hidden">{% if tr %}İletişim{% else %}Contact{% endif %}</legend>
+      <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+      <label>{% if tr %}Firma{% else %}Company{% endif %}<input name="contact[company]" autocomplete="organization" required></label>
+      <label>{% if tr %}İş E-postası{% else %}Business Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+      <label>{% if tr %}Ülke / pazar{% else %}Country / market{% endif %}<input name="contact[country]" autocomplete="country-name" required></label>
+      <div class="oska-rfq-actions"><button class="oska-button" type="button" data-oska-next>{% if tr %}Devam{% else %}Continue{% endif %}</button></div>
+    </fieldset>
+    <fieldset class="oska-rfq-step" data-oska-rfq-step hidden><legend class="visually-hidden">{% if tr %}Proje{% else %}Project{% endif %}</legend>
+      <label>{% if tr %}Kategori{% else %}Category{% endif %}<select name="contact[category]"><option>Bracelet</option><option>Ring</option><option>Necklace</option><option>Earring</option><option>Mixed assortment</option></select></label>
+      <label>{% if tr %}Materyal{% else %}Material{% endif %}<select name="contact[material]"><option>925 Sterling Silver</option><option>Brass / Bronze</option><option>Gold Plated / Vermeil Direction</option><option>Stone Setting</option><option>{% if tr %}Diğer / doğrulanacak{% else %}Other / to confirm{% endif %}</option></select></label>
+      <label>{% if tr %}Tahmini adet{% else %}Estimated quantity{% endif %}<input name="contact[quantity]" inputmode="numeric" placeholder="{% if tr %}Proje tahmini{% else %}Project estimate{% endif %}"></label>
+      <label>{% if tr %}Hedef perakende bandı{% else %}Target retail band{% endif %}<input name="contact[target_retail]" autocomplete="off" placeholder="{% if tr %}Opsiyonel{% else %}Optional{% endif %}"></label>
+      <label class="full">{% if tr %}Model / ürün kodları{% else %}Model / product codes{% endif %}<textarea class="oska-rfq-shortlist" name="contact[selected_models]" rows="3" placeholder="{% if tr %}RFQ listenizdeki modeller otomatik gelir{% else %}Models from your RFQ shortlist appear here{% endif %}"></textarea></label>
+      <div class="oska-rfq-actions"><button class="oska-button" type="button" data-oska-back>{% if tr %}Geri{% else %}Back{% endif %}</button><button class="oska-button" type="button" data-oska-next>{% if tr %}Devam{% else %}Continue{% endif %}</button></div>
+    </fieldset>
+    <fieldset class="oska-rfq-step" data-oska-rfq-step hidden><legend class="visually-hidden">{% if tr %}Brief{% else %}Brief{% endif %}</legend>
+      <label>{% if tr %}Proje tipi{% else %}Project type{% endif %}<select name="contact[project_type]"><option>Private Label / OEM</option><option>Wholesale</option><option>Sampling</option><option>Reorder / Replenishment</option><option>Distributor / Agent</option><option>Custom Development</option></select></label>
+      <label>{% if tr %}Hedef zaman{% else %}Target timing{% endif %}<input name="contact[target_timing]" placeholder="{% if tr %}Tercih — garanti değildir{% else %}Preference — not a guarantee{% endif %}"></label>
+      <label class="full">{% if tr %}Referans URL / paylaşılabilir dosya linki{% else %}Reference URL / shareable file link{% endif %}<input type="url" name="contact[reference_url]" inputmode="url" placeholder="https://"></label>
+      <p class="oska-rfq-note">{% if tr %}Bu form dosyayı doğrudan yüklemez. Varsa herkese/açıkça paylaşılabilir referans linki ekleyin; özel dosyalar takip mesajında güvenli şekilde istenir.{% else %}This form does not upload files directly. Add a shareable reference link if appropriate; private files can be requested securely during follow-up.{% endif %}</p>
+      <label class="full">{% if tr %}Mesaj / teknik notlar{% else %}Message / technical notes{% endif %}<textarea name="contact[body]" rows="7" required></textarea></label>
+      <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+      <input type="hidden" name="contact[intent]" value="rfq"><input type="hidden" name="contact[source]" value="OSKA B2B Website"><input type="hidden" name="contact[utm_source]"><input type="hidden" name="contact[utm_medium]"><input type="hidden" name="contact[utm_campaign]"><input type="hidden" name="contact[utm_content]"><input type="hidden" name="contact[utm_term]"><input type="hidden" name="contact[gclid]"><input type="hidden" name="contact[first_landing]"><input type="hidden" name="contact[referrer]">
+      <div class="oska-rfq-actions"><button class="oska-button" type="button" data-oska-back>{% if tr %}Geri{% else %}Back{% endif %}</button><button class="oska-button" type="submit">{% if tr %}Talebi gönder{% else %}Send request{% endif %}</button></div>
+    </fieldset>
   {% endform %}
 </section>
-{% schema %}
-{"name":"OSKA RFQ Form","settings":[{"type":"text","id":"heading","label":"Heading","default":"Tell us what you need."},{"type":"textarea","id":"body","label":"Body","default":"Share company, market, category, material or finish direction, target quantity and project context."}],"presets":[{"name":"OSKA RFQ Form"}]}
-{% endschema %}
+{% schema %}{"name":"OSKA RFQ Form","settings":[],"presets":[{"name":"OSKA RFQ Form"}]}{% endschema %}

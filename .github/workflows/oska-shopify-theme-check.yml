@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - oska-shopify-theme-migration
+      - oska-site-a-z-20260925
     paths:
       - 'shopify-theme/**'
       - '.github/workflows/oska-shopify-theme-check.yml'

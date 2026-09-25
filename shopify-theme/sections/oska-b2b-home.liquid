@@ -1,0 +1,53 @@
+
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-b2b-home" aria-labelledby="oska-b2b-home-title">
+  <div class="oska-eyebrow">{% if tr %}NEDEN OSKA{% else %}WHY OSKA{% endif %}</div>
+  <h2 id="oska-b2b-home-title">{% if tr %}İstanbul’da üretim. Markanız için tasarım ortağı.{% else %}Manufacturing in Istanbul. A design partner for your brand.{% endif %}</h2>
+  <p class="oska-b2b-lead">{% if tr %}925 gümüş, pirinç/bronz, CAD geliştirme, numune, taş yerleşimi ve private label projelerini aynı B2B akışında yönetin. MOQ, termin ve teknik değerler model ve proje bazında doğrulanır.{% else %}Bring 925 silver, brass/bronze, CAD development, sampling, stone setting and private-label projects into one B2B workflow. MOQ, lead time and technical values are confirmed per model and project.{% endif %}</p>
+  <div class="oska-b2b-grid">
+    <article class="oska-b2b-card"><div class="oska-eyebrow">JEWELRY BRANDS</div><h3>{% if tr %}Koleksiyon geliştirme{% else %}Collection development{% endif %}</h3><p>{% if tr %}Brief, CAD, numune, revizyon ve üretim için tek proje akışı.{% else %}One project flow from brief and CAD through sampling, revisions and production.{% endif %}</p><a data-oska-buyer-type="jewelry_brand" href="/pages/private-label?buyer=jewelry-brand">{% if tr %}Marka akışını keşfet{% else %}Explore brand workflow{% endif %}</a></article>
+    <article class="oska-b2b-card"><div class="oska-eyebrow">E-COMMERCE</div><h3>{% if tr %}Tekrar siparişe uygun yapı{% else %}Built for replenishment{% endif %}</h3><p>{% if tr %}SKU, yüzey ve materyal yönüyle tekrar talep ve yeni varyasyon hazırlığı.{% else %}Prepare repeat requests and new variations by SKU, finish and material direction.{% endif %}</p><a data-oska-buyer-type="ecommerce" href="/pages/contact-rfq?buyer=ecommerce">{% if tr %}Talep oluştur{% else %}Start a request{% endif %}</a></article>
+    <article class="oska-b2b-card"><div class="oska-eyebrow">RETAIL / DISTRIBUTION</div><h3>{% if tr %}Seçki ve numune planı{% else %}Assortment and sample planning{% endif %}</h3><p>{% if tr %}Birden fazla modeli RFQ listesine alın, tek proje talebine dönüştürün.{% else %}Shortlist multiple models and turn them into one project request.{% endif %}</p><a data-oska-buyer-type="retail_distribution" href="/pages/collections">{% if tr %}Model seçmeye başla{% else %}Start selecting models{% endif %}</a></article>
+  </div>
+  <div class="oska-b2b-proof">
+    <div class="oska-eyebrow">{% if tr %}ÜRETİM KANITI{% else %}PRODUCTION PROOF{% endif %}</div>
+    <div class="oska-b2b-proof-grid">
+      <div class="oska-b2b-proof-item"><strong>925 SILVER</strong><span>{% if tr %}Model ve projeye göre doğrulanan üretim.{% else %}Production confirmed per model and project.{% endif %}</span></div>
+      <div class="oska-b2b-proof-item"><strong>BRASS / BRONZE</strong><span>{% if tr %}Yüzey ve kaplama yönleri proje bazında.{% else %}Finish and plating directions per project.{% endif %}</span></div>
+      <div class="oska-b2b-proof-item"><strong>CAD + SAMPLE</strong><span>{% if tr %}Üretilebilirlik kontrolü ve numune geliştirme.{% else %}Manufacturability checks and sample development.{% endif %}</span></div>
+      <div class="oska-b2b-proof-item"><strong>QC</strong><span>{% if tr %}Kalite kriterleri sipariş kapsamında netleştirilir.{% else %}Quality criteria are confirmed within the order scope.{% endif %}</span></div>
+    </div>
+  </div>
+  <div class="oska-process">
+    <div class="oska-eyebrow">PRIVATE LABEL</div><h2>{% if tr %}Brief’ten üretime{% else %}From brief to production{% endif %}</h2>
+    <ol>
+      <li><strong>Brief</strong><span>{% if tr %}Ürün, pazar, adet, materyal.{% else %}Product, market, quantity, material.{% endif %}</span></li>
+      <li><strong>Design Direction</strong><span>{% if tr %}Referans ve tasarım dili.{% else %}Reference and design direction.{% endif %}</span></li>
+      <li><strong>CAD</strong><span>{% if tr %}Teknik model ve üretilebilirlik.{% else %}Technical model and manufacturability.{% endif %}</span></li>
+      <li><strong>Sample</strong><span>{% if tr %}Numune ve yüzey doğrulaması.{% else %}Sample and finish validation.{% endif %}</span></li>
+      <li><strong>Approval</strong><span>{% if tr %}Model bazlı onay.{% else %}Model-level approval.{% endif %}</span></li>
+      <li><strong>Production</strong><span>{% if tr %}Siparişe göre planlama.{% else %}Order-specific planning.{% endif %}</span></li>
+      <li><strong>QC</strong><span>{% if tr %}Proje kriterlerine göre kontrol.{% else %}Checks against project criteria.{% endif %}</span></li>
+      <li><strong>Packaging / Shipping</strong><span>{% if tr %}Koşullar siparişle doğrulanır.{% else %}Terms confirmed with the order.{% endif %}</span></li>
+    </ol>
+  </div>
+  <div class="oska-sample-kits">
+    <div class="oska-eyebrow">{% if tr %}NUMUNE YÖNLERİ{% else %}SAMPLE DIRECTIONS{% endif %}</div><h2>{% if tr %}Hızlı karar için seçkiler{% else %}Curated directions for faster decisions{% endif %}</h2>
+    <div class="oska-sample-grid">
+      <div class="oska-sample"><h3>Men’s Silver Starter</h3><p>{% if tr %}Maskülen 925 yönlerini değerlendirmek için örnek seçki. İçerik ve uygunluk talep üzerine doğrulanır.{% else %}A sample direction for evaluating masculine 925 concepts. Contents and availability are confirmed on request.{% endif %}</p><a href="/pages/contact-rfq?intent=sample&kit=mens-silver">{% if tr %}Numune talep et{% else %}Request samples{% endif %}</a></div>
+      <div class="oska-sample"><h3>Brass Private Label</h3><p>{% if tr %}Pirinç/bronz private-label geliştirme için üretim yönü. Kesin termin veya stok garantisi değildir.{% else %}A production direction for brass/bronze private-label development; not a stock or lead-time guarantee.{% endif %}</p><a href="/pages/contact-rfq?intent=sample&kit=brass-private-label">{% if tr %}Numune talep et{% else %}Request samples{% endif %}</a></div>
+      <div class="oska-sample"><h3>Gulf Market Direction</h3><p>{% if tr %}Körfez pazarına yönelik premium, güçlü tasarım seçkisi; proje bazında geliştirilir.{% else %}A premium, substantial design direction for Gulf-market projects, developed per project.{% endif %}</p><a href="/pages/contact-rfq?intent=sample&kit=gulf-market">{% if tr %}Proje konuşalım{% else %}Discuss a project{% endif %}</a></div>
+    </div>
+  </div>
+  <div class="oska-matcher" data-oska-matcher>
+    <div class="oska-eyebrow">COLLECTION MATCHER</div><h2>{% if tr %}Doğru ürün yönünü bulun{% else %}Find the right product direction{% endif %}</h2>
+    <form>
+      <label>{% if tr %}Alıcı segmenti{% else %}Buyer segment{% endif %}<select name="segment"><option value="men">{% if tr %}Erkek / Maskülen{% else %}Men / Masculine{% endif %}</option><option value="women">{% if tr %}Kadın{% else %}Women{% endif %}</option></select></label>
+      <label>{% if tr %}Kategori{% else %}Category{% endif %}<select name="style"><option value="bracelet">{% if tr %}Bileklik{% else %}Bracelet{% endif %}</option><option value="ring">{% if tr %}Yüzük{% else %}Ring{% endif %}</option><option value="necklace">{% if tr %}Kolye{% else %}Necklace{% endif %}</option><option value="earring">{% if tr %}Küpe{% else %}Earring{% endif %}</option></select></label>
+      <label>{% if tr %}Materyal yönü{% else %}Material direction{% endif %}<select name="material"><option>925 Silver</option><option>Brass / Bronze</option><option>Plated</option></select></label>
+      <button class="oska-button" type="submit">{% if tr %}Eşleştir{% else %}Match{% endif %}</button>
+    </form>
+    <div class="oska-matcher-result" data-oska-matcher-result hidden></div>
+  </div>
+</section>
+{% schema %}{"name":"OSKA B2B Home","settings":[],"presets":[{"name":"OSKA B2B Home"}]}{% endschema %}

@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{% if page_title != blank %}{{ page_title }} – {% endif %}{{ shop.name }}</title>
   {{ 'oska.css' | asset_url | stylesheet_tag }}
+  {{ 'oska-b2b-growth.css' | asset_url | stylesheet_tag }}
   {{ content_for_header }}
 </head>
 <body class="oska-template-{{ template.name | handle }}">
-  <a class="oska-skip-link" href="#MainContent">Skip to content</a>
+  <a class="oska-skip-link" href="#MainContent">{% if request.locale.iso_code == 'tr' %}İçeriğe geç{% else %}Skip to content{% endif %}</a>
   {% section 'oska-header' %}
   <main id="MainContent" role="main">{{ content_for_layout }}</main>
   {% section 'oska-b2b-concierge' %}
+  {% render 'oska-b2b-global' %}
   {% section 'oska-footer' %}
+  <script src="{{ 'oska-b2b-growth.js' | asset_url }}" defer></script>
 </body>
 </html>

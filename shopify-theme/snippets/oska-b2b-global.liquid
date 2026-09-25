@@ -1,0 +1,11 @@
+
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<button type="button" class="oska-shortlist-toggle" data-oska-shortlist-toggle aria-expanded="false" aria-controls="oskaShortlistDrawer">
+  {% if tr %}RFQ listesi{% else %}RFQ shortlist{% endif %} (<span data-oska-shortlist-count>0</span>)
+</button>
+<aside id="oskaShortlistDrawer" class="oska-shortlist-drawer" data-oska-shortlist-drawer aria-hidden="true" aria-label="{% if tr %}RFQ model listesi{% else %}RFQ model shortlist{% endif %}">
+  <div class="oska-shortlist-head"><div><div class="oska-eyebrow">B2B SHORTLIST</div><h2>{% if tr %}Seçtiğiniz modeller{% else %}Selected models{% endif %}</h2></div><button type="button" data-oska-shortlist-close aria-label="{% if tr %}Kapat{% else %}Close{% endif %}">×</button></div>
+  <div class="oska-shortlist-items" data-oska-shortlist-items data-empty="{% if tr %}Henüz model seçmediniz.{% else %}No models selected yet.{% endif %}" data-remove="{% if tr %}Kaldır{% else %}Remove{% endif %}"></div>
+  <a class="oska-button" href="/pages/contact-rfq?source=shortlist">{% if tr %}Tek RFQ oluştur{% else %}Build one RFQ{% endif %}</a>
+  <p style="font-size:11px;color:#777">{% if tr %}Liste bu cihazda taslak olarak saklanır; gönderilmiş sipariş veya teklif değildir.{% else %}This shortlist is stored locally on this device as a draft; it is not an order or confirmed quotation.{% endif %}</p>
+</aside>
