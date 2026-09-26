@@ -1,0 +1,51 @@
+name: OSKA Final Sprint QA
+
+on:
+  push:
+    branches:
+      - oska-final-sprint-20260926
+    paths:
+      - 'safe-staging/**'
+      - '.github/workflows/oska-final-sprint-qa.yml'
+  pull_request:
+    branches:
+      - oska-site-a-z-20260925
+    paths:
+      - 'safe-staging/**'
+      - '.github/workflows/oska-final-sprint-qa.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: oska-final-sprint-qa
+  cancel-in-progress: true
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: safe-staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: safe-staging/package.json
+      - run: npm install
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Start preview
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/oska-final-sprint-vite.log 2>&1 &
+          sleep 4
+      - name: Existing visual QA
+        run: npm run qa:visual
+      - name: Critical user journey QA
+        run: node scripts/final-sprint-qa.mjs
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oska-final-sprint-proof
+          path: safe-staging/qa
