@@ -7,6 +7,12 @@ on:
     paths:
       - 'safe-staging/**'
       - '.github/workflows/oska-final-sprint-qa.yml'
+  pull_request:
+    branches:
+      - oska-site-a-z-20260925
+    paths:
+      - 'safe-staging/**'
+      - '.github/workflows/oska-final-sprint-qa.yml'
   workflow_dispatch:
 
 concurrency:
