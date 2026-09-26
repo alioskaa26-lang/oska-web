@@ -43,3 +43,19 @@ Existing safe-staging already contains Women/Men, Collections, Bracelets, PDP, M
 6. Hero + original production video integration with working audio/unmute.
 7. Responsive visual QA and owner preview.
 8. Publish remains blocked until explicit owner approval.
+
+
+## Mission Control — 2026-09-26
+- Site — ÇALIŞIYOR — staging v8 is READY; latest platform QA shows no frontend/backend/network errors.
+- AI Asistan — TESTTE — natural-language concierge and verified-data guardrails exist; intent-based page opening is not yet proven.
+- Müşteri Motoru — TESTTE — sales command center is deployed and healthy; no fresh lead-output proof was produced in this sprint.
+- Cloud — BLOKLU — existing apps are healthy, but new AppDeploy writes/deployments are credit-blocked until provider reset.
+- Video — BLOKLU — original production asset requires the OSKA computer; device is offline.
+- QA — TESTTE — prior Stage-5 proof exists; new desktop/tablet/iPhone/Android critical-flow robot is prepared but not yet executed.
+
+Status rule: only direct preview, readback, execution, or real output can move an item to BİTTİ.
+
+## Rollback point
+- Current staging GOLDEN candidate: AppDeploy v8 / version 1790208612242.
+- Older staging versions v7 through v1 remain available for rollback.
+- Do not promote or publish without owner approval.
