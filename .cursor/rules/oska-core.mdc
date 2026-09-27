@@ -1,0 +1,15 @@
+---
+description: Core OSKA operating rules for all repository work
+alwaysApply: true
+---
+
+Read `OSKA_CORE_RULES.md` and treat it as the shared provider-agnostic policy.
+
+- OSKA MASTER — Ana Komuta is the canonical business source.
+- Preserve accepted work; do not rebuild unrelated sections.
+- Use the smallest reversible change, then verify exact results.
+- Do not say DONE without successful write/materialization plus separate verification.
+- Human Approval is mandatory for production publish/deploy, DNS/domain, spend, outbound customer communication, and destructive actions.
+- Use verified failover when a provider/tool fails, times out, runs out of quota, or repeatedly degrades in quality.
+- For web work, verify affected routes, category/product/gender/language correctness, and desktop/tablet/mobile behavior.
+- Run the relevant build/lint/tests before proposing merge or live-impacting changes.
