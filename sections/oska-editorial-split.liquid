@@ -1,0 +1,29 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% assign editorial_video = section.settings.video_url %}{% if editorial_video == blank %}{% assign editorial_video = 'oska-mid.mp4' | asset_url %}{% endif %}
+{% assign editorial_poster = section.settings.poster_url %}{% if editorial_poster == blank %}{% assign editorial_poster = 'oska-mid-poster.jpg' | asset_url %}{% endif %}
+<section class="oska-editorial">
+  <div class="oska-editorial__media">
+    <video data-oska-autoplay loop muted playsinline preload="none" poster="{{ editorial_poster }}" aria-hidden="true" tabindex="-1"><source src="{{ editorial_video }}" type="video/mp4"></video>
+  </div>
+  <div class="oska-editorial__copy">
+    <div class="oska-eyebrow">{% if tr %}{{ section.settings.eyebrow_tr }}{% else %}{{ section.settings.eyebrow_en }}{% endif %}</div>
+    <h2>{% if tr %}{{ section.settings.heading_tr }}{% else %}{{ section.settings.heading_en }}{% endif %}</h2>
+    <p>{% if tr %}{{ section.settings.body_tr }}{% else %}{{ section.settings.body_en }}{% endif %}</p>
+    {% if section.settings.button_link != blank %}<a class="oska-button" href="{{ section.settings.button_link }}">{% if tr %}{{ section.settings.button_tr }}{% else %}{{ section.settings.button_en }}{% endif %}</a>{% endif %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Editorial Split","settings":[
+{"type":"text","id":"video_url","label":"Video URL"},
+{"type":"text","id":"poster_url","label":"Poster URL"},
+{"type":"text","id":"eyebrow_tr","label":"Eyebrow TR","default":"ATÖLYE"},
+{"type":"text","id":"eyebrow_en","label":"Eyebrow EN","default":"ATELIER"},
+{"type":"text","id":"heading_tr","label":"Heading TR","default":"Tasarım fikrinden üretime."},
+{"type":"text","id":"heading_en","label":"Heading EN","default":"From design direction to production."},
+{"type":"textarea","id":"body_tr","label":"Body TR","default":"İstanbul merkezli üretim kabiliyetimiz; 925 gümüş, pirinç, taş yerleşimi, CAD geliştirme ve private label projelerini kapsar."},
+{"type":"textarea","id":"body_en","label":"Body EN","default":"Our Istanbul-based production capability spans sterling silver, brass, stone setting, CAD development and private-label projects."},
+{"type":"text","id":"button_tr","label":"Button TR","default":"Üretimi incele"},
+{"type":"text","id":"button_en","label":"Button EN","default":"Explore manufacturing"},
+{"type":"url","id":"button_link","label":"Button link"}
+],"presets":[{"name":"OSKA Editorial Split"}]}
+{% endschema %}

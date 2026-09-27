@@ -1,0 +1,228 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+{{ 'oska-model-detail.css' | asset_url | stylesheet_tag }}
+
+<section class="oska-model-detail" id="oska-model-detail">
+  <div class="oska-model-breadcrumb"><a id="oska-back-category" href="/pages/women-rings">← {% if tr %}Koleksiyona dön{% else %}Back to collection{% endif %}</a></div>
+
+  <div class="oska-model-layout">
+    <div class="oska-model-gallery">
+      <figure class="oska-model-shot oska-model-shot--main"><img id="oska-img-main" alt="OSKA model"></figure>
+      <figure class="oska-model-shot oska-model-shot--detail"><img id="oska-img-detail" alt="OSKA close detail"></figure>
+      <figure class="oska-model-shot oska-model-shot--macro"><img id="oska-img-macro" alt="OSKA material detail"></figure>
+      <figure class="oska-model-shot oska-model-shot--lifestyle"><img id="oska-img-lifestyle" alt="OSKA lifestyle"></figure>
+    </div>
+
+    <aside class="oska-model-panel">
+      <div class="oska-eyebrow" id="oska-collection-name">OSKA COLLECTION</div>
+      <h1 id="oska-model-name">OSKA MODEL</h1>
+      <div class="oska-model-ref" id="oska-model-ref"></div>
+      <p class="oska-model-lead" id="oska-model-lead"></p>
+
+      <div class="oska-model-option">
+        <div class="oska-model-option-head"><strong>{% if tr %}Metal rengi{% else %}Metal color{% endif %}</strong><span id="oska-color-label">Gold</span></div>
+        <div class="oska-color-switch" role="group" aria-label="Metal color">
+          <button class="is-active" data-color="gold"><i class="gold"></i>Gold</button>
+          <button data-color="white"><i class="white"></i>White</button>
+          <button data-color="black"><i class="black"></i>Black</button>
+        </div>
+      </div>
+
+
+      <div class="oska-model-actions">
+        <a class="oska-model-primary" id="oska-rfq-link" href="/pages/contact-rfq">{% if tr %}TEKLİF / NUMUNE İSTE{% else %}REQUEST QUOTE / SAMPLE{% endif %}</a>
+        <a class="oska-model-secondary" id="oska-whatsapp-link" href="/pages/contact">{% if tr %}ÜRÜN HAKKINDA SOR{% else %}ASK ABOUT THIS MODEL{% endif %}</a>
+      </div>
+
+      <div class="oska-model-story">
+        <h2>{% if tr %}Hikâye{% else %}Story{% endif %}</h2>
+        <p id="oska-story-text"></p>
+      </div>
+
+      <details class="oska-model-disclosure" open><summary>{% if tr %}Detaylar{% else %}Details{% endif %}</summary>
+        <ul>
+          <li>925 Sterling Silver</li>
+          <li>{% if tr %}Gold / White / Black metal görünümü{% else %}Gold / White / Black metal preview{% endif %}</li>
+          <li>{% if tr %}Taş ve ölçü proje bazında özelleştirilebilir{% else %}Stone and sizing customizable per project{% endif %}</li>
+          <li>{% if tr %}İstanbul'da üretim{% else %}Crafted in Istanbul{% endif %}</li>
+        </ul>
+      </details>
+      <details class="oska-model-disclosure"><summary>{% if tr %}Üretim seçenekleri{% else %}Production options{% endif %}</summary>
+        <p>{% if tr %}925 gümüş, pirinç/bronz, altın kaplama, taş ve yüzey seçenekleri RFQ aşamasında netleştirilir.{% else %}925 silver, brass/bronze, vermeil, stones and finish are confirmed during RFQ.{% endif %}</p>
+      </details>
+    </aside>
+  </div>
+
+  <section class="oska-model-editorial">
+    <div class="oska-model-editorial-copy">
+      <div class="oska-eyebrow">{% if tr %}TASARIM DİLİ{% else %}DESIGN LANGUAGE{% endif %}</div>
+      <h2 id="oska-editorial-title"></h2>
+      <p id="oska-editorial-text"></p>
+      <a id="oska-shop-collection" href="/pages/women-rings">{% if tr %}KOLEKSİYONU KEŞFET{% else %}EXPLORE THE COLLECTION{% endif %} →</a>
+    </div>
+    <div class="oska-model-editorial-media"><img id="oska-editorial-img" alt="OSKA collection"></div>
+  </section>
+
+  <section class="oska-related" id="oska-related-section" hidden>
+    <div class="oska-related-head"><h2>{% if tr %}Aynı koleksiyondan{% else %}From the same collection{% endif %}</h2></div>
+    <div class="oska-related-grid" id="oska-related-grid"></div>
+  </section>
+
+  <section class="oska-related oska-related--collections" id="oska-related-collections-section" hidden>
+    <div class="oska-related-head"><h2>{% if tr %}Aynı tasarım evreni{% else %}Same design universe{% endif %}</h2></div>
+    <div class="oska-related-collections" id="oska-related-collections"></div>
+  </section>
+
+  <section class="oska-model-final-cta">
+    <div><div class="oska-eyebrow">{% if tr %}B2B · PRIVATE LABEL{% else %}B2B · PRIVATE LABEL{% endif %}</div><h2>{% if tr %}Bu modeli markanıza göre geliştirelim.{% else %}Develop this model for your brand.{% endif %}</h2></div>
+    <a id="oska-final-rfq" href="/pages/contact-rfq">{% if tr %}PROJENİZİ ANLATIN{% else %}TELL US ABOUT YOUR PROJECT{% endif %} →</a>
+  </section>
+</section>
+
+<script>
+(function(){
+  const p=new URLSearchParams(location.search);
+  const ref=p.get('ref')||'OSKA MODEL';
+  const collection=p.get('collection')||'OSKA Collection';
+  const category=p.get('category')||'women-rings';
+  const image=p.get('image')||'';
+  const isTR={{ tr | json }};
+
+  const categoryLabels={
+    'women-rings':['Kadın Yüzükleri','Women’s Rings'],
+    'men-rings':['Erkek Yüzükleri','Men’s Rings'],
+    'women-bracelets':['Kadın Bileklikleri','Women’s Bracelets'],
+    'men-bracelets':['Erkek Bileklikleri','Men’s Bracelets'],
+    'women-necklaces':['Kadın Kolyeleri','Women’s Necklaces'],
+    'men-necklaces':['Erkek Kolyeleri','Men’s Necklaces'],
+    'women-earrings':['Kadın Küpeleri','Women’s Earrings'],
+    'men-earrings':['Erkek Küpeleri','Men’s Earrings']
+  };
+
+  const stories={
+    'Halo': isTR ? 'Işığı merkezde toplayan Halo, taş çevresini güçlü bir mimari çerçeveye dönüştürür. Klasik mücevher oranlarını daha çağdaş ve üretilebilir bir OSKA diliyle yeniden yorumlar.' : 'Halo turns the stone setting into an architectural frame for light, translating classic jewelry proportions into a contemporary, manufacturable OSKA language.',
+    'Contour': isTR ? 'Contour, kesintisiz çizgiler ve heykelsi hacim üzerine kurulu bir tasarım ailesidir. Form, yüzey ve oran arasındaki denge koleksiyonun ana karakteridir.' : 'Contour is built around uninterrupted lines and sculptural volume, balancing form, surface and proportion.',
+    'Nocturne': isTR ? 'Nocturne koyu taşlar, oksitli yüzeyler ve güçlü kontrastlarla daha dramatik bir karakter sunar.' : 'Nocturne uses dark stones, oxidized surfaces and strong contrast for a more dramatic character.',
+    'Aurelia': isTR ? 'Aurelia sıcak metal tonlarını akışkan çizgiler ve rafine taş detaylarıyla bir araya getirir.' : 'Aurelia combines warm metal tones with fluid lines and refined stone detailing.'
+  };
+
+  function prettyModel(raw){
+    let s=(raw||'').toLowerCase().replace(/\?.*$/,'').replace(/\.[^.]+$/,'');
+    let parts=s.split('-').filter(Boolean);
+    const drop=new Set(['oska','category','fast','women','woman','men','man','ring','rings','bracelet','bracelets','necklace','necklaces','earring','earrings','white','v2','v3']);
+    parts=parts.filter(x=>!drop.has(x));
+    if(parts.length>2 && /^\d{1,2}$/.test(parts[0]))parts.shift();
+    if(!parts.length)return 'OSKA Model';
+    return parts.map(x=>/^\d+$/.test(x)?x.padStart(2,'0'):x.charAt(0).toUpperCase()+x.slice(1)).join(' ');
+  }
+  const prettyRef=prettyModel(ref);
+  const name=prettyRef;
+  document.getElementById('oska-collection-name').textContent=collection.toUpperCase();
+  document.getElementById('oska-model-name').textContent=name.trim();
+  document.getElementById('oska-model-ref').textContent=prettyRef;
+  document.getElementById('oska-model-lead').textContent=isTR?'Malzeme, taş, ölçü ve yüzey seçenekleri proje bazında özelleştirilebilir.':'Material, stones, sizing and finish can be customized per project.';
+  const modelAlt=(name.trim()||prettyRef)+' · OSKA';
+  document.getElementById('oska-img-main').alt=modelAlt;
+  document.getElementById('oska-img-detail').alt=modelAlt+' detail';
+  document.getElementById('oska-img-macro').alt=modelAlt+' material detail';
+  document.getElementById('oska-img-lifestyle').alt=modelAlt+' lifestyle';
+  document.getElementById('oska-editorial-img').alt=collection+' · OSKA';
+  document.getElementById('oska-story-text').textContent=stories[collection]||(isTR?'OSKA’nın heykelsi tasarım dili, üretilebilirlik ve rafine detayla buluşur. Bu model farklı metal, taş ve ölçü seçenekleriyle geliştirilebilir.':'OSKA’s sculptural design language meets manufacturability and refined detail. This model can be developed in different metals, stones and sizes.');
+  document.getElementById('oska-editorial-title').textContent=collection;
+  document.getElementById('oska-editorial-text').textContent=stories[collection]||document.getElementById('oska-story-text').textContent;
+
+  const back='/pages/'+category;
+  document.getElementById('oska-back-category').href=back;
+  document.getElementById('oska-shop-collection').href=back;
+  const rfq='/pages/contact-rfq?ref='+encodeURIComponent(ref)+'&collection='+encodeURIComponent(collection);
+  document.getElementById('oska-rfq-link').href=rfq;
+  document.getElementById('oska-final-rfq').href=rfq;
+
+  const lifestyleByCategory={
+    'women-rings':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-lifestyle-hand.jpg?v=1790273702',
+    'women-bracelets':{{ 'oska-025.jpg' | asset_url | json }},
+    'women-necklaces':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_north_star.jpg?v=1790271861',
+    'women-earrings':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687',
+    'men-rings':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539',
+    'men-bracelets':{{ 'oska-001.jpg' | asset_url | json }},
+    'men-necklaces':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_wolf.jpg?v=1790271867',
+    'men-earrings':'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_hoop.jpg?v=1790271885'
+  };
+  document.getElementById('oska-img-main').src=image;
+  document.getElementById('oska-img-detail').src=image;
+  document.getElementById('oska-img-macro').src=image;
+  document.getElementById('oska-img-lifestyle').src=lifestyleByCategory[category]||image;
+  document.getElementById('oska-editorial-img').src=image;
+
+  function applyColor(color){
+    document.querySelectorAll('#oska-img-main,#oska-img-detail,#oska-img-macro,#oska-editorial-img').forEach(img=>{
+      img.dataset.color=color;
+      img.classList.remove('tone-gold','tone-white','tone-black');
+      img.classList.add('tone-'+color);
+    });
+    document.querySelectorAll('.oska-color-switch button').forEach(b=>b.classList.toggle('is-active',b.dataset.color===color));
+    document.getElementById('oska-color-label').textContent=color==='white'?'White':color==='black'?'Black':'Gold';
+  }
+  document.querySelectorAll('.oska-color-switch button').forEach(b=>b.addEventListener('click',()=>applyColor(b.dataset.color)));
+  applyColor('gold');
+
+  const womenRingImgs=[
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-11.png?v=1790273685',
+    'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-12.png?v=1790273692'
+  ];
+  const crossWomen={
+    bracelet:{{ 'oska-005.jpg' | asset_url | json }},
+    necklace:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_north_star.jpg?v=1790271861',
+    earring:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687',
+    earringPave:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682'
+  };
+  const crossMen={
+    bracelet:{{ 'oska-001.jpg' | asset_url | json }},
+    necklace:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_wolf.jpg?v=1790271867',
+    earring:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_hoop.jpg?v=1790271885',
+    stud:'https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_stud.jpg?v=1790271891'
+  };
+
+  const siblingRaw=p.get('siblings')||'';
+  const siblings=siblingRaw.split('|').map(x=>x.trim()).filter(Boolean);
+  const relatedItems=[];
+  siblings.filter(src=>src!==image).slice(0,4).forEach(src=>relatedItems.push({
+    src,
+    cat:category,
+    label:prettyModel((src.split('/').pop()||'').split('?')[0])
+  }));
+
+  const related=document.getElementById('oska-related-grid');
+  const relatedSection=document.getElementById('oska-related-section');
+  relatedItems.forEach((item,i)=>{
+    const a=document.createElement('a');
+    a.className='oska-related-card';
+    const nextRef=((item.src.split('/').pop()||'').split('?')[0].replace(/\.[^.]+$/,'')).toUpperCase();
+    a.href='/pages/model-detail?ref='+encodeURIComponent(nextRef)+'&collection='+encodeURIComponent(collection)+'&category='+encodeURIComponent(item.cat)+'&image='+encodeURIComponent(item.src)+'&siblings='+encodeURIComponent(siblingRaw);
+    const safeLabel=item.label.replace(/"/g,'&quot;');
+    a.innerHTML='<div class="oska-related-media"><img src="'+item.src+'" alt="'+safeLabel+'" loading="lazy" decoding="async"></div><strong>'+item.label+'</strong><span>'+(isTR?'Detayları keşfet':'Explore details')+' →</span>';
+    related.appendChild(a);
+  });
+  if(relatedItems.length) relatedSection.hidden=false;
+
+  // Cross-category cards only appear after verified same-family assets
+  // are available (for example Wolf ring + Wolf bracelet + Wolf pendant).
+  // Until then we intentionally hide this block rather than recommend
+  // unrelated products.
+  const relatedCollectionsSection=document.getElementById('oska-related-collections-section');
+  if(relatedCollectionsSection) relatedCollectionsSection.hidden=true;
+})();
+</script>
+
+{% schema %}
+{"name":"OSKA Model Detail","settings":[],"presets":[{"name":"OSKA Model Detail"}]}
+{% endschema %}

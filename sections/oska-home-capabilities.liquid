@@ -1,0 +1,12 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-section">
+  <div class="oska-section__head"><div><div class="oska-eyebrow">{% if tr %}B2B ÜRETİM{% else %}B2B PRODUCTION{% endif %}</div><h2>{% if tr %}Markanız için esnek üretim kabiliyeti{% else %}Flexible production for your brand{% endif %}</h2></div></div>
+  <div class="oska-capabilities">
+    <div class="oska-cap"><strong>01</strong><span>{% if tr %}925 gümüş ve pirinç{% else %}Sterling silver & brass{% endif %}</span></div>
+    <div class="oska-cap"><strong>02</strong><span>{% if tr %}Özel tasarım ve CAD{% else %}Custom design & CAD{% endif %}</span></div>
+    <div class="oska-cap"><strong>03</strong><span>{% if tr %}Private label üretim{% else %}Private-label production{% endif %}</span></div>
+    <div class="oska-cap"><strong>04</strong><span>{% if tr %}Numune ve siparişe göre termin{% else %}Sampling & order-based lead time{% endif %}</span></div>
+  </div>
+</section>
+<section class="oska-cta"><h2>{% if tr %}Yeni koleksiyonunuzu birlikte geliştirelim.{% else %}Let’s develop your next collection together.{% endif %}</h2><a class="oska-button oska-button--light" href="/pages/contact-rfq">{% if tr %}Teklif iste{% else %}Request a quotation{% endif %}</a></section>
+{% schema %}{"name":"OSKA Capabilities","settings":[],"presets":[{"name":"OSKA Capabilities"}]}{% endschema %}

@@ -1,0 +1,30 @@
+<section class="oska-section">
+  <div class="oska-section__head">
+    <div>
+      <div class="oska-eyebrow">{{ collection.metafields.custom.eyebrow | default: 'OSKA COLLECTION' }}</div>
+      <h1>{{ collection.title }}</h1>
+      {% if collection.description != blank %}<div>{{ collection.description }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="oska-grid">
+    {% paginate collection.products by 24 %}
+      {% for product in collection.products %}
+        <article class="oska-card">
+          <a href="{{ product.url }}">
+            {% if product.featured_image != blank %}
+              {{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+            {% endif %}
+          </a>
+          <div class="oska-card__meta">
+            <div class="oska-eyebrow">{{ product.metafields.custom.collection_name | default: product.vendor }}</div>
+            <a href="{{ product.url }}">{{ product.title }}</a>
+          </div>
+        </article>
+      {% endfor %}
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Collection Grid","settings":[]}
+{% endschema %}

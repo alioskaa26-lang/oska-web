@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  {% render 'meta-tags' %}
+  {% render 'oska-structured-data' %}
+  {{ 'oska.css' | asset_url | stylesheet_tag }}
+  {{ 'oska-reference.css' | asset_url | stylesheet_tag }}
+  {{ 'oska-hero-nav.css' | asset_url | stylesheet_tag }}
+  {{ 'oska-signature.css' | asset_url | stylesheet_tag }}
+  {{ 'oska-atelier.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="oska-template-{{ template.name | handle }}">
+  <a class="oska-skip-link" href="#MainContent">{% if request.locale.iso_code == 'tr' %}İçeriğe geç{% else %}Skip to content{% endif %}</a>
+  {% section 'oska-header' %}
+  <main id="MainContent" role="main">{{ content_for_layout }}</main>
+  {% section 'oska-b2b-concierge' %}
+  {% section 'oska-footer' %}
+  <script src="{{ 'oska.js' | asset_url }}" defer></script>
+</body>
+</html>

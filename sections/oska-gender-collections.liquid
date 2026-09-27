@@ -1,0 +1,28 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+{% assign women = false %}{% if section.settings.gender == 'women' %}{% assign women = true %}{% endif %}
+{{ 'oska-category-collections.css' | asset_url | stylesheet_tag }}
+<section class="oska-gender-hub">
+  <div class="oska-gender-hub__intro">
+    <div class="oska-eyebrow">OSKA · {% if women %}WOMEN{% else %}MEN{% endif %}</div>
+    <h1>{% if women %}{% if tr %}Kadın Koleksiyonları{% else %}Women Collections{% endif %}{% else %}{% if tr %}Erkek Koleksiyonları{% else %}Men Collections{% endif %}{% endif %}</h1>
+    <p>{% if women %}{% if tr %}Yüzük, kolye, küpe ve bileklik koleksiyonlarını tek akışta keşfedin.{% else %}Explore women’s rings, necklaces, earrings and bracelets in one place.{% endif %}{% else %}{% if tr %}Yüzük, kolye, küpe ve bileklik koleksiyonlarını tek akışta keşfedin.{% else %}Explore men’s rings, necklaces, earrings and bracelets in one place.{% endif %}{% endif %}</p>
+  </div>
+  <div class="oska-gender-hub__categories">
+    {% if women %}
+      <a href="/pages/women-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-ring-emerald-white.png?v=1790363681" alt=""><strong>{% if tr %}Kadın Yüzükler{% else %}Women Rings{% endif %}</strong></a>
+      <a href="/pages/women-necklaces"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-necklace-emerald-white.png?v=1790363686" alt=""><strong>{% if tr %}Kadın Kolyeler{% else %}Women Necklaces{% endif %}</strong></a>
+      <a href="/pages/women-earrings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701" alt=""><strong>{% if tr %}Kadın Küpeler{% else %}Women Earrings{% endif %}</strong></a>
+      <a href="/pages/women-bracelets"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-bracelet-panther-white.png?v=1790363675" alt=""><strong>{% if tr %}Kadın Bileklikler{% else %}Women Bracelets{% endif %}</strong></a>
+    {% else %}
+      <a href="/pages/men-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-ring-oxidized-white.png?v=1790363706" alt=""><strong>{% if tr %}Erkek Yüzükler{% else %}Men Rings{% endif %}</strong></a>
+      <a href="/pages/men-necklaces"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-necklace-oxidized-white.png?v=1790363692" alt=""><strong>{% if tr %}Erkek Kolyeler{% else %}Men Necklaces{% endif %}</strong></a>
+      <a href="/pages/men-earrings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-earrings-oxidized-white.png?v=1790363713" alt=""><strong>{% if tr %}Erkek Küpeler{% else %}Men Earrings{% endif %}</strong></a>
+      <a href="/pages/men-bracelets"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696" alt=""><strong>{% if tr %}Erkek Bileklikler{% else %}Men Bracelets{% endif %}</strong></a>
+    {% endif %}
+  </div>
+</section>
+<style>
+.oska-gender-hub{padding:58px 4vw 100px;background:#fff;color:#111}.oska-gender-hub__intro{max-width:760px;margin-bottom:38px}.oska-gender-hub__intro h1{font:400 clamp(48px,6vw,82px)/1 var(--oska-serif);margin:10px 0 18px}.oska-gender-hub__intro p{color:#5f5a55;font-size:15px;line-height:1.6}.oska-gender-hub__categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.oska-gender-hub__categories a{display:block;border:1px solid #eee;background:#fff}.oska-gender-hub__categories img{display:block;width:100%;aspect-ratio:4/5;object-fit:contain;padding:10%;background:#faf9f7}.oska-gender-hub__categories strong{display:block;padding:14px 16px 18px;font:400 24px/1.1 var(--oska-serif)}
+@media(max-width:760px){.oska-gender-hub{padding:38px 14px 70px}.oska-gender-hub__categories{grid-template-columns:1fr 1fr}.oska-gender-hub__categories strong{font-size:18px}}
+</style>
+{% schema %}{"name":"OSKA Gender Collections","settings":[{"type":"select","id":"gender","label":"Gender","options":[{"value":"women","label":"Women"},{"value":"men","label":"Men"}],"default":"women"}],"presets":[{"name":"OSKA Gender Collections"}]}{% endschema %}

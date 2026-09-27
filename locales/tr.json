@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "search": {
+      "search": "Ara",
+      "placeholder": "Ürün, koleksiyon veya hizmet ara",
+      "submit": "Ara"
+    }
+  },
+  "contact": {
+    "form": {
+      "company": "Firma",
+      "email": "E-posta",
+      "market": "Ülke / pazar",
+      "message": "Proje mesajı",
+      "submit": "Teklif iste",
+      "success": "Teşekkürler. Talebiniz alındı."
+    }
+  },
+  "actions": {
+    "enter_password": "Şifreyi girin",
+    "submit": "Gönder",
+    "close": "Kapat"
+  },
+  "placeholders": {
+    "password": "Şifre"
+  },
+  "content": {
+    "wrong_password": "Şifre hatalı. Lütfen tekrar deneyin."
+  },
+  "blocks": {
+    "email_signup": {
+      "label": "E-posta adresi",
+      "placeholder": "E-posta adresiniz"
+    }
+  }
+}

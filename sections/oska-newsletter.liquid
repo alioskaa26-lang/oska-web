@@ -1,0 +1,14 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+<section class="dy-newsletter" aria-labelledby="oska-newsletter-title">
+  <h2 id="oska-newsletter-title">{% if tr %}OSKA DÜNYASINA KATILIN{% else %}JOIN THE WORLD OF OSKA{% endif %}</h2>
+  {% form 'customer', class:'dy-newsletter-form' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <label class="visually-hidden" for="OskaNewsletterEmail">{% if tr %}E-posta adresi{% else %}Email address{% endif %}</label>
+    <input id="OskaNewsletterEmail" type="email" name="contact[email]" autocomplete="email" inputmode="email" required placeholder="{% if tr %}E-POSTA ADRESİNİZ{% else %}ENTER YOUR EMAIL ADDRESS{% endif %}">
+    <button type="submit">{% if tr %}GÖNDER{% else %}SUBMIT{% endif %}</button>
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Teşekkürler. Kaydınız alındı.{% else %}Thank you. You're on the list.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+  {% endform %}
+  <p>{% if tr %}Yeni koleksiyonlar, B2B üretim ve OSKA güncellemeleri için kayıt olun.{% else %}Sign up for new collections, B2B production news and OSKA updates.{% endif %}</p>
+</section>
+{% schema %}{"name":"OSKA Newsletter","settings":[],"presets":[{"name":"OSKA Newsletter"}]}{% endschema %}

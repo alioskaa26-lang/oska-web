@@ -1,0 +1,179 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "oska-category-collections",
+      "blocks": {
+        "c01": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Signature Link",
+            "name_en": "Signature Link",
+            "subtitle_tr": "Signature Link tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Signature Link design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c02": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Panther",
+            "name_en": "Panther",
+            "subtitle_tr": "Panther tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Panther design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-white-clean.jpg?v=1790446440",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c03": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Nocturne",
+            "name_en": "Nocturne",
+            "subtitle_tr": "Nocturne tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Nocturne design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c04": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Stone Line",
+            "name_en": "Stone Line",
+            "subtitle_tr": "Stone Line tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Stone Line design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c05": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Mace",
+            "name_en": "Mace",
+            "subtitle_tr": "Mace tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Mace design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c06": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Obsidian Link",
+            "name_en": "Obsidian Link",
+            "subtitle_tr": "Obsidian Link tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Obsidian Link design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c07": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Forge Cuff",
+            "name_en": "Forge Cuff",
+            "subtitle_tr": "Forge Cuff tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Forge Cuff design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c08": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Axis Mesh",
+            "name_en": "Axis Mesh",
+            "subtitle_tr": "Axis Mesh tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Axis Mesh design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c09": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Guardian Link",
+            "name_en": "Guardian Link",
+            "subtitle_tr": "Guardian Link tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Guardian Link design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c10": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Dark Chain",
+            "name_en": "Dark Chain",
+            "subtitle_tr": "Dark Chain tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Dark Chain design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "c01",
+        "c02",
+        "c03",
+        "c04",
+        "c05",
+        "c06",
+        "c07",
+        "c08",
+        "c09",
+        "c10"
+      ],
+      "settings": {
+        "title_tr": "Erkek Bileklikleri",
+        "title_en": "Men’s Bracelets",
+        "intro_tr": "Maskülen link, panter, cuff ve taşlı yüzeylerden oluşan on erkek bileklik koleksiyonu.",
+        "intro_en": "Ten men’s bracelet collections spanning links, panther, cuffs and stone-set surfaces."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

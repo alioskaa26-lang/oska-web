@@ -1,0 +1,939 @@
+{
+  "version": 1,
+  "theme": "OSKA Custom B2B Preview",
+  "theme_id": "gid://shopify/OnlineStoreTheme/194011857266",
+  "created_at": "2026-09-24",
+  "rule": {
+    "product_views": 4,
+    "background": "pure white premium jewelry render",
+    "female_section": "4 render angles + 1 female mannequin",
+    "male_section": "4 render angles + 1 male mannequin",
+    "unisex": "same 4 render angles + separate female and male mannequin images",
+    "production_note": "favor single metal tone; use second tone only on small production-friendly accents"
+  },
+  "summary": {
+    "numeric_assets": 64,
+    "active_storefront_assets": 35,
+    "archive_assets": 29
+  },
+  "assets": [
+    {
+      "source": "assets/oska-001.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "men-bracelets",
+        "rings",
+        "model-detail"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-001-a1.jpg",
+        "angle_2": "renders/oska-001-a2.jpg",
+        "angle_3": "renders/oska-001-a3.jpg",
+        "angle_4": "renders/oska-001-a4.jpg",
+        "mannequin": "renders/oska-001-male.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-002.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "men-bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-002-a1.jpg",
+        "angle_2": "renders/oska-002-a2.jpg",
+        "angle_3": "renders/oska-002-a3.jpg",
+        "angle_4": "renders/oska-002-a4.jpg",
+        "mannequin": "renders/oska-002-male.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-003.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "rings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-003-a1.jpg",
+        "angle_2": "renders/oska-003-a2.jpg",
+        "angle_3": "renders/oska-003-a3.jpg",
+        "angle_4": "renders/oska-003-a4.jpg",
+        "mannequin": "renders/oska-003-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-004.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-004-a1.jpg",
+        "angle_2": "renders/oska-004-a2.jpg",
+        "angle_3": "renders/oska-004-a3.jpg",
+        "angle_4": "renders/oska-004-a4.jpg",
+        "mannequin": "renders/oska-004-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-005.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "women-bracelets",
+        "rings",
+        "model-detail"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-005-a1.jpg",
+        "angle_2": "renders/oska-005-a2.jpg",
+        "angle_3": "renders/oska-005-a3.jpg",
+        "angle_4": "renders/oska-005-a4.jpg",
+        "mannequin": "renders/oska-005-female.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-006.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-006-a1.jpg",
+        "angle_2": "renders/oska-006-a2.jpg",
+        "angle_3": "renders/oska-006-a3.jpg",
+        "angle_4": "renders/oska-006-a4.jpg",
+        "mannequin": "renders/oska-006-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-007.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-007-a1.jpg",
+        "angle_2": "renders/oska-007-a2.jpg",
+        "angle_3": "renders/oska-007-a3.jpg",
+        "angle_4": "renders/oska-007-a4.jpg",
+        "mannequin": "renders/oska-007-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-008.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-008-a1.jpg",
+        "angle_2": "renders/oska-008-a2.jpg",
+        "angle_3": "renders/oska-008-a3.jpg",
+        "angle_4": "renders/oska-008-a4.jpg",
+        "mannequin": "renders/oska-008-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-009.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-009-a1.jpg",
+        "angle_2": "renders/oska-009-a2.jpg",
+        "angle_3": "renders/oska-009-a3.jpg",
+        "angle_4": "renders/oska-009-a4.jpg",
+        "mannequin": "renders/oska-009-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-010.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-010-a1.jpg",
+        "angle_2": "renders/oska-010-a2.jpg",
+        "angle_3": "renders/oska-010-a3.jpg",
+        "angle_4": "renders/oska-010-a4.jpg",
+        "mannequin": "renders/oska-010-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-011.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-011-a1.jpg",
+        "angle_2": "renders/oska-011-a2.jpg",
+        "angle_3": "renders/oska-011-a3.jpg",
+        "angle_4": "renders/oska-011-a4.jpg",
+        "mannequin": "renders/oska-011-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-012.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-012-a1.jpg",
+        "angle_2": "renders/oska-012-a2.jpg",
+        "angle_3": "renders/oska-012-a3.jpg",
+        "angle_4": "renders/oska-012-a4.jpg",
+        "mannequin": "renders/oska-012-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-013.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-013-a1.jpg",
+        "angle_2": "renders/oska-013-a2.jpg",
+        "angle_3": "renders/oska-013-a3.jpg",
+        "angle_4": "renders/oska-013-a4.jpg",
+        "mannequin": "renders/oska-013-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-014.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-014-a1.jpg",
+        "angle_2": "renders/oska-014-a2.jpg",
+        "angle_3": "renders/oska-014-a3.jpg",
+        "angle_4": "renders/oska-014-a4.jpg",
+        "mannequin": "renders/oska-014-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-015.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "women-bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-015-a1.jpg",
+        "angle_2": "renders/oska-015-a2.jpg",
+        "angle_3": "renders/oska-015-a3.jpg",
+        "angle_4": "renders/oska-015-a4.jpg",
+        "mannequin": "renders/oska-015-female.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-016.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "women-bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-016-a1.jpg",
+        "angle_2": "renders/oska-016-a2.jpg",
+        "angle_3": "renders/oska-016-a3.jpg",
+        "angle_4": "renders/oska-016-a4.jpg",
+        "mannequin": "renders/oska-016-female.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-017.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-017-a1.jpg",
+        "angle_2": "renders/oska-017-a2.jpg",
+        "angle_3": "renders/oska-017-a3.jpg",
+        "angle_4": "renders/oska-017-a4.jpg",
+        "mannequin": "renders/oska-017-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-018.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-018-a1.jpg",
+        "angle_2": "renders/oska-018-a2.jpg",
+        "angle_3": "renders/oska-018-a3.jpg",
+        "angle_4": "renders/oska-018-a4.jpg",
+        "mannequin": "renders/oska-018-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-019.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "women-bracelets",
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-019-a1.jpg",
+        "angle_2": "renders/oska-019-a2.jpg",
+        "angle_3": "renders/oska-019-a3.jpg",
+        "angle_4": "renders/oska-019-a4.jpg",
+        "mannequin": "renders/oska-019-female.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-020.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-020-a1.jpg",
+        "angle_2": "renders/oska-020-a2.jpg",
+        "angle_3": "renders/oska-020-a3.jpg",
+        "angle_4": "renders/oska-020-a4.jpg",
+        "mannequin": "renders/oska-020-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-021.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-021-a1.jpg",
+        "angle_2": "renders/oska-021-a2.jpg",
+        "angle_3": "renders/oska-021-a3.jpg",
+        "angle_4": "renders/oska-021-a4.jpg",
+        "mannequin": "renders/oska-021-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-022.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-022-a1.jpg",
+        "angle_2": "renders/oska-022-a2.jpg",
+        "angle_3": "renders/oska-022-a3.jpg",
+        "angle_4": "renders/oska-022-a4.jpg",
+        "mannequin": "renders/oska-022-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-023.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-023-a1.jpg",
+        "angle_2": "renders/oska-023-a2.jpg",
+        "angle_3": "renders/oska-023-a3.jpg",
+        "angle_4": "renders/oska-023-a4.jpg",
+        "mannequin": "renders/oska-023-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-024.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-024-a1.jpg",
+        "angle_2": "renders/oska-024-a2.jpg",
+        "angle_3": "renders/oska-024-a3.jpg",
+        "angle_4": "renders/oska-024-a4.jpg",
+        "mannequin": "renders/oska-024-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-025.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets",
+        "signature",
+        "model-detail"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-025-a1.jpg",
+        "angle_2": "renders/oska-025-a2.jpg",
+        "angle_3": "renders/oska-025-a3.jpg",
+        "angle_4": "renders/oska-025-a4.jpg",
+        "mannequin": "renders/oska-025-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-026.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-026-a1.jpg",
+        "angle_2": "renders/oska-026-a2.jpg",
+        "angle_3": "renders/oska-026-a3.jpg",
+        "angle_4": "renders/oska-026-a4.jpg",
+        "mannequin": "renders/oska-026-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-027.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-027-a1.jpg",
+        "angle_2": "renders/oska-027-a2.jpg",
+        "angle_3": "renders/oska-027-a3.jpg",
+        "angle_4": "renders/oska-027-a4.jpg",
+        "mannequin": "renders/oska-027-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-028.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-028-a1.jpg",
+        "angle_2": "renders/oska-028-a2.jpg",
+        "angle_3": "renders/oska-028-a3.jpg",
+        "angle_4": "renders/oska-028-a4.jpg",
+        "mannequin": "renders/oska-028-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-029.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-029-a1.jpg",
+        "angle_2": "renders/oska-029-a2.jpg",
+        "angle_3": "renders/oska-029-a3.jpg",
+        "angle_4": "renders/oska-029-a4.jpg",
+        "mannequin": "renders/oska-029-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-030.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-030-a1.jpg",
+        "angle_2": "renders/oska-030-a2.jpg",
+        "angle_3": "renders/oska-030-a3.jpg",
+        "angle_4": "renders/oska-030-a4.jpg",
+        "mannequin": "renders/oska-030-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-031.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-031-a1.jpg",
+        "angle_2": "renders/oska-031-a2.jpg",
+        "angle_3": "renders/oska-031-a3.jpg",
+        "angle_4": "renders/oska-031-a4.jpg",
+        "mannequin": "renders/oska-031-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-032.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-032-a1.jpg",
+        "angle_2": "renders/oska-032-a2.jpg",
+        "angle_3": "renders/oska-032-a3.jpg",
+        "angle_4": "renders/oska-032-a4.jpg",
+        "mannequin": "renders/oska-032-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-033.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "rings",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-033-a1.jpg",
+        "angle_2": "renders/oska-033-a2.jpg",
+        "angle_3": "renders/oska-033-a3.jpg",
+        "angle_4": "renders/oska-033-a4.jpg",
+        "mannequin": "renders/oska-033-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-034.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-034-a1.jpg",
+        "angle_2": "renders/oska-034-a2.jpg",
+        "angle_3": "renders/oska-034-a3.jpg",
+        "angle_4": "renders/oska-034-a4.jpg",
+        "mannequin": "renders/oska-034-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-035.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "rings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-035-a1.jpg",
+        "angle_2": "renders/oska-035-a2.jpg",
+        "angle_3": "renders/oska-035-a3.jpg",
+        "angle_4": "renders/oska-035-a4.jpg",
+        "mannequin": "renders/oska-035-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-036.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-036-a1.jpg",
+        "angle_2": "renders/oska-036-a2.jpg",
+        "angle_3": "renders/oska-036-a3.jpg",
+        "angle_4": "renders/oska-036-a4.jpg",
+        "mannequin": "renders/oska-036-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-037.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "rings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-037-a1.jpg",
+        "angle_2": "renders/oska-037-a2.jpg",
+        "angle_3": "renders/oska-037-a3.jpg",
+        "angle_4": "renders/oska-037-a4.jpg",
+        "mannequin": "renders/oska-037-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-038.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-038-a1.jpg",
+        "angle_2": "renders/oska-038-a2.jpg",
+        "angle_3": "renders/oska-038-a3.jpg",
+        "angle_4": "renders/oska-038-a4.jpg",
+        "mannequin": "renders/oska-038-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-040.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "rings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-040-a1.jpg",
+        "angle_2": "renders/oska-040-a2.jpg",
+        "angle_3": "renders/oska-040-a3.jpg",
+        "angle_4": "renders/oska-040-a4.jpg",
+        "mannequin": "renders/oska-040-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-041.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "men-bracelets",
+        "rings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-041-a1.jpg",
+        "angle_2": "renders/oska-041-a2.jpg",
+        "angle_3": "renders/oska-041-a3.jpg",
+        "angle_4": "renders/oska-041-a4.jpg",
+        "mannequin": "renders/oska-041-male.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-043.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "men-bracelets",
+        "necklaces",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-043-a1.jpg",
+        "angle_2": "renders/oska-043-a2.jpg",
+        "angle_3": "renders/oska-043-a3.jpg",
+        "angle_4": "renders/oska-043-a4.jpg",
+        "mannequin": "renders/oska-043-male.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-044.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-044-a1.jpg",
+        "angle_2": "renders/oska-044-a2.jpg",
+        "angle_3": "renders/oska-044-a3.jpg",
+        "angle_4": "renders/oska-044-a4.jpg",
+        "mannequin": "renders/oska-044-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-045.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-045-a1.jpg",
+        "angle_2": "renders/oska-045-a2.jpg",
+        "angle_3": "renders/oska-045-a3.jpg",
+        "angle_4": "renders/oska-045-a4.jpg",
+        "mannequin": "renders/oska-045-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-047.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-047-a1.jpg",
+        "angle_2": "renders/oska-047-a2.jpg",
+        "angle_3": "renders/oska-047-a3.jpg",
+        "angle_4": "renders/oska-047-a4.jpg",
+        "mannequin": "renders/oska-047-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-049.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-049-a1.jpg",
+        "angle_2": "renders/oska-049-a2.jpg",
+        "angle_3": "renders/oska-049-a3.jpg",
+        "angle_4": "renders/oska-049-a4.jpg",
+        "mannequin": "renders/oska-049-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-050.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-050-a1.jpg",
+        "angle_2": "renders/oska-050-a2.jpg",
+        "angle_3": "renders/oska-050-a3.jpg",
+        "angle_4": "renders/oska-050-a4.jpg",
+        "mannequin": "renders/oska-050-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-052.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-052-a1.jpg",
+        "angle_2": "renders/oska-052-a2.jpg",
+        "angle_3": "renders/oska-052-a3.jpg",
+        "angle_4": "renders/oska-052-a4.jpg",
+        "mannequin": "renders/oska-052-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-054.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "necklaces"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-054-a1.jpg",
+        "angle_2": "renders/oska-054-a2.jpg",
+        "angle_3": "renders/oska-054-a3.jpg",
+        "angle_4": "renders/oska-054-a4.jpg",
+        "mannequin": "renders/oska-054-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-055.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-055-a1.jpg",
+        "angle_2": "renders/oska-055-a2.jpg",
+        "angle_3": "renders/oska-055-a3.jpg",
+        "angle_4": "renders/oska-055-a4.jpg",
+        "mannequin": "renders/oska-055-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-057.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-057-a1.jpg",
+        "angle_2": "renders/oska-057-a2.jpg",
+        "angle_3": "renders/oska-057-a3.jpg",
+        "angle_4": "renders/oska-057-a4.jpg",
+        "mannequin": "renders/oska-057-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-058.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-058-a1.jpg",
+        "angle_2": "renders/oska-058-a2.jpg",
+        "angle_3": "renders/oska-058-a3.jpg",
+        "angle_4": "renders/oska-058-a4.jpg",
+        "mannequin": "renders/oska-058-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-061.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-061-a1.jpg",
+        "angle_2": "renders/oska-061-a2.jpg",
+        "angle_3": "renders/oska-061-a3.jpg",
+        "angle_4": "renders/oska-061-a4.jpg",
+        "mannequin": "renders/oska-061-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-062.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "bracelets"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-062-a1.jpg",
+        "angle_2": "renders/oska-062-a2.jpg",
+        "angle_3": "renders/oska-062-a3.jpg",
+        "angle_4": "renders/oska-062-a4.jpg",
+        "mannequin": "renders/oska-062-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-063.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-063-a1.jpg",
+        "angle_2": "renders/oska-063-a2.jpg",
+        "angle_3": "renders/oska-063-a3.jpg",
+        "angle_4": "renders/oska-063-a4.jpg",
+        "mannequin": "renders/oska-063-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-064.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-064-a1.jpg",
+        "angle_2": "renders/oska-064-a2.jpg",
+        "angle_3": "renders/oska-064-a3.jpg",
+        "angle_4": "renders/oska-064-a4.jpg",
+        "mannequin": "renders/oska-064-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-068.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-068-a1.jpg",
+        "angle_2": "renders/oska-068-a2.jpg",
+        "angle_3": "renders/oska-068-a3.jpg",
+        "angle_4": "renders/oska-068-a4.jpg",
+        "mannequin": "renders/oska-068-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-070.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings",
+        "signature"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-070-a1.jpg",
+        "angle_2": "renders/oska-070-a2.jpg",
+        "angle_3": "renders/oska-070-a3.jpg",
+        "angle_4": "renders/oska-070-a4.jpg",
+        "mannequin": "renders/oska-070-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-072.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-072-a1.jpg",
+        "angle_2": "renders/oska-072-a2.jpg",
+        "angle_3": "renders/oska-072-a3.jpg",
+        "angle_4": "renders/oska-072-a4.jpg",
+        "mannequin": "renders/oska-072-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-076.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-076-a1.jpg",
+        "angle_2": "renders/oska-076-a2.jpg",
+        "angle_3": "renders/oska-076-a3.jpg",
+        "angle_4": "renders/oska-076-a4.jpg",
+        "mannequin": "renders/oska-076-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-077.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-077-a1.jpg",
+        "angle_2": "renders/oska-077-a2.jpg",
+        "angle_3": "renders/oska-077-a3.jpg",
+        "angle_4": "renders/oska-077-a4.jpg",
+        "mannequin": "renders/oska-077-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-078.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-078-a1.jpg",
+        "angle_2": "renders/oska-078-a2.jpg",
+        "angle_3": "renders/oska-078-a3.jpg",
+        "angle_4": "renders/oska-078-a4.jpg",
+        "mannequin": "renders/oska-078-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-079.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-079-a1.jpg",
+        "angle_2": "renders/oska-079-a2.jpg",
+        "angle_3": "renders/oska-079-a3.jpg",
+        "angle_4": "renders/oska-079-a4.jpg",
+        "mannequin": "renders/oska-079-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-080.jpg",
+      "priority": "archive",
+      "categories": [],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-080-a1.jpg",
+        "angle_2": "renders/oska-080-a2.jpg",
+        "angle_3": "renders/oska-080-a3.jpg",
+        "angle_4": "renders/oska-080-a4.jpg",
+        "mannequin": "renders/oska-080-model.jpg"
+      }
+    },
+    {
+      "source": "assets/oska-081.jpg",
+      "priority": "active_storefront",
+      "categories": [
+        "earrings"
+      ],
+      "status": "awaiting_render",
+      "output": {
+        "angle_1": "renders/oska-081-a1.jpg",
+        "angle_2": "renders/oska-081-a2.jpg",
+        "angle_3": "renders/oska-081-a3.jpg",
+        "angle_4": "renders/oska-081-a4.jpg",
+        "mannequin": "renders/oska-081-model.jpg"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{% assign oska_intro_tr = false %}
+{% if request.locale.iso_code == 'tr' %}
+  {% assign oska_intro_tr = true %}
+{% endif %}
+{{ 'oska-intro.css' | asset_url | stylesheet_tag }}
+<div class="oska-intro" data-oska-intro data-duration="2600" aria-hidden="true" hidden>
+  <video class="oska-intro__media" data-oska-intro-video muted playsinline loop preload="metadata" poster="{{ 'oska-hero-poster.jpg' | asset_url }}">
+    <source media="(max-width: 760px)" src="{{ 'oska-hero-mobile.mp4' | asset_url }}" type="video/mp4">
+    <source src="{{ 'oska-hero-desktop.mp4' | asset_url }}" type="video/mp4">
+  </video>
+  <div class="oska-intro__shade" aria-hidden="true"></div>
+  <button class="oska-intro__skip" type="button" data-oska-intro-skip>{% if oska_intro_tr %}GEÇ{% else %}SKIP{% endif %}</button>
+  <div class="oska-intro__label oska-intro__label--top">{% if oska_intro_tr %}İSTANBUL ATÖLYE ZEKÂSI{% else %}ISTANBUL ATELIER INTELLIGENCE{% endif %}</div>
+  <div class="oska-intro__label oska-intro__label--left"><strong>{% if oska_intro_tr %}MADENLER{% else %}MATERIALS{% endif %}</strong><span>925 • BRASS • GOLD</span></div>
+  <div class="oska-intro__label oska-intro__label--right"><strong>{% if oska_intro_tr %}ÜRETİM MODU{% else %}PRODUCTION MODE{% endif %}</strong><span>WHOLESALE • PRIVATE LABEL</span></div>
+  <div class="oska-intro__core" aria-hidden="true">
+    <span class="oska-intro__ring oska-intro__ring--one"></span>
+    <span class="oska-intro__ring oska-intro__ring--two"></span>
+    <span class="oska-intro__ring oska-intro__ring--three"></span>
+    <span class="oska-intro__gem">OSKA</span>
+  </div>
+  <div class="oska-intro__label oska-intro__label--bottom">{% if oska_intro_tr %}ÜRETİME HAZIR{% else %}READY FOR PRODUCTION{% endif %}</div>
+</div>
+<script src="{{ 'oska-intro.js' | asset_url }}" defer></script>
+{% schema %}{"name":"OSKA Session Intro","settings":[]}{% endschema %}

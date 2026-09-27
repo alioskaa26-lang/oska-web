@@ -1,0 +1,20 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+<section class="oska-showcase">
+  <div class="oska-home-heading"><div class="oska-eyebrow">{% if tr %}{{ section.settings.eyebrow_tr }}{% else %}{{ section.settings.eyebrow_en }}{% endif %}</div><h2>{% if tr %}{{ section.settings.title_tr }}{% else %}{{ section.settings.title_en }}{% endif %}</h2></div>
+  <div class="oska-showcase-grid">
+    {% for block in section.blocks %}
+      <a class="oska-showcase-card" href="/pages/contact-rfq?ref={{ block.settings.reference | url_encode }}" {{ block.shopify_attributes }}>
+        <div class="oska-showcase-media">{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading:'lazy', alt:block.settings.reference }}{% else %}<img src="{{ block.settings.asset_name | asset_img_url: '1000x' }}" alt="{{ block.settings.reference | escape }}" loading="lazy" decoding="async">{% endif %}</div>
+        <div class="oska-showcase-copy"><h3>{% if tr %}{{ block.settings.label_tr }}{% else %}{{ block.settings.label_en }}{% endif %}</h3><p>{{ block.settings.reference }} · {% if tr %}Detaylar talep üzerine{% else %}Details on request{% endif %}</p></div>
+      </a>
+    {% endfor %}
+  </div>
+  <div class="oska-showcase-link"><a class="oska-mini" href="{{ section.settings.link }}">{% if tr %}{{ section.settings.link_tr }}{% else %}{{ section.settings.link_en }}{% endif %} →</a></div>
+</section>
+{% schema %}
+{"name":"OSKA Product Showcase","settings":[
+{"type":"text","id":"eyebrow_tr","label":"Eyebrow TR","default":"SEÇİLİ TASARIMLAR"},{"type":"text","id":"eyebrow_en","label":"Eyebrow EN","default":"CURATED DESIGNS"},
+{"type":"text","id":"title_tr","label":"Title TR","default":"Koleksiyonu Keşfedin"},{"type":"text","id":"title_en","label":"Title EN","default":"Discover the Collection"},
+{"type":"url","id":"link","label":"Link"},{"type":"text","id":"link_tr","label":"Link TR","default":"KOLEKSİYONU KEŞFET"},{"type":"text","id":"link_en","label":"Link EN","default":"EXPLORE THE COLLECTION"}
+],"blocks":[{"type":"item","name":"Design","settings":[{"type":"text","id":"reference","label":"Reference"},{"type":"image_picker","id":"image","label":"Replacement image"},{"type":"text","id":"asset_name","label":"Theme asset filename"},{"type":"text","id":"label_tr","label":"Label TR","default":"OSKA Tasarım"},{"type":"text","id":"label_en","label":"Label EN","default":"OSKA Design"}]}],"max_blocks":8,"presets":[{"name":"OSKA Product Showcase"}]}
+{% endschema %}

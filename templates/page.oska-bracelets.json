@@ -1,0 +1,10 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{"sections":{"main":{"type":"oska-catalogue-grid","blocks":{"item_1":{"type":"item","settings":{"reference":"OSKA-025","asset_name":"oska-025.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372"}},"item_2":{"type":"item","settings":{"reference":"OSKA-026","asset_name":"oska-026.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377"}},"item_3":{"type":"item","settings":{"reference":"OSKA-029","asset_name":"oska-029.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381"}},"item_4":{"type":"item","settings":{"reference":"OSKA-055","asset_name":"oska-055.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387"}}},"block_order":["item_1","item_2","item_3","item_4"],"settings":{"title_tr":"OSKA Signature Bileklikler","title_en":"OSKA Signature Bracelets","intro_tr":"OSKA Signature seçkisinden; malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir.","intro_en":"Selected from OSKA Signature. Material, sizing, stone and production details are confirmed per project."}}},"order":["main"]}

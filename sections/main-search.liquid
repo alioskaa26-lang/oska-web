@@ -1,0 +1,26 @@
+<section class="oska-section">
+  <div class="oska-section__head"><div><div class="oska-eyebrow">SEARCH</div><h1>{{ 'general.search.search' | t }}</h1></div></div>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="oska-search">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}">
+    <button class="oska-button" type="submit">{{ 'general.search.submit' | t }}</button>
+  </form>
+  {% if search.performed %}
+    <div class="oska-grid">
+      {% for item in search.results %}
+        {% if item.object_type == 'product' %}
+          <article class="oska-card">
+            <a href="{{ item.url }}">
+              {% if item.featured_image != blank %}
+                {{ item.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+              {% endif %}
+            </a>
+            <div class="oska-card__meta"><a href="{{ item.url }}">{{ item.title }}</a></div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+{% schema %}
+{"name":"OSKA Search","settings":[]}
+{% endschema %}

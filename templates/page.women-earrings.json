@@ -1,0 +1,179 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "oska-category-collections",
+      "blocks": {
+        "c01": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Sculpted Hoop",
+            "name_en": "Sculpted Hoop",
+            "subtitle_tr": "Sculpted Hoop tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Sculpted Hoop design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c02": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Pavé Hoop",
+            "name_en": "Pavé Hoop",
+            "subtitle_tr": "Pavé Hoop tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Pavé Hoop design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c03": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Drop Line",
+            "name_en": "Drop Line",
+            "subtitle_tr": "Drop Line tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Drop Line design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c04": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Nocturne Stud",
+            "name_en": "Nocturne Stud",
+            "subtitle_tr": "Nocturne Stud tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Nocturne Stud design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c05": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Emerald Drop",
+            "name_en": "Emerald Drop",
+            "subtitle_tr": "Emerald Drop tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Emerald Drop design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c06": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Halo Drop",
+            "name_en": "Halo Drop",
+            "subtitle_tr": "Halo Drop tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Halo Drop design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c07": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Ribbon Hoop",
+            "name_en": "Ribbon Hoop",
+            "subtitle_tr": "Ribbon Hoop tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Ribbon Hoop design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c08": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Celeste Stud",
+            "name_en": "Celeste Stud",
+            "subtitle_tr": "Celeste Stud tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Celeste Stud design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c09": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Aurelia Twist",
+            "name_en": "Aurelia Twist",
+            "subtitle_tr": "Aurelia Twist tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Aurelia Twist design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c10": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Lumière",
+            "name_en": "Lumière",
+            "subtitle_tr": "Lumière tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Lumière design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "c01",
+        "c02",
+        "c03",
+        "c04",
+        "c05",
+        "c06",
+        "c07",
+        "c08",
+        "c09",
+        "c10"
+      ],
+      "settings": {
+        "title_tr": "Kadın Küpeleri",
+        "title_en": "Women’s Earrings",
+        "intro_tr": "Hoop, drop, pavé ve stud formlarında on kadın küpe koleksiyonu.",
+        "intro_en": "Ten women’s earring collections across hoop, drop, pavé and stud forms."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

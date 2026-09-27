@@ -1,0 +1,71 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% assign selected_variant = product.selected_or_first_available_variant %}
+<section class="oska-pdp">
+  <div class="oska-pdp__gallery" aria-label="{% if tr %}Ürün görselleri{% else %}Product images{% endif %}">
+    {% if product.media.size > 0 %}
+      {% for media in product.media %}
+        <figure class="oska-pdp__media">
+          {{ media.preview_image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '480, 720, 960, 1400, 1800', sizes: '(min-width: 990px) 58vw, 100vw', alt: media.alt | default: product.title }}
+        </figure>
+      {% endfor %}
+    {% else %}
+      <div class="oska-pdp__placeholder">{{ 'product-1' | placeholder_svg_tag }}</div>
+    {% endif %}
+  </div>
+
+  <aside class="oska-pdp__info">
+    <div class="oska-eyebrow">{% if tr %}OSKA ÖZEL ÜRETİM{% else %}OSKA PRIVATE LABEL{% endif %}</div>
+    <h1>{{ product.title }}</h1>
+    {% if selected_variant.sku != blank %}<p class="oska-pdp__ref">{% if tr %}Referans{% else %}Reference{% endif %}: {{ selected_variant.sku }}</p>{% endif %}
+    <div class="oska-pdp__description">{{ product.description }}</div>
+
+    <form class="oska-pdp__rfq" method="get" action="/pages/contact-rfq">
+      <input type="hidden" name="ref" value="{{ product.title | escape }}">
+      <input type="hidden" name="product" value="{{ product.handle | escape }}">
+      {% unless product.has_only_default_variant %}
+        <label for="OskaVariant-{{ section.id }}">{% if tr %}Kaplama / varyant{% else %}Finish / variant{% endif %}</label>
+        <select id="OskaVariant-{{ section.id }}" name="variant">
+          {% for variant in product.variants %}
+            <option value="{{ variant.title | escape }}" {% if variant.id == selected_variant.id %}selected{% endif %}>{{ variant.title }}</option>
+          {% endfor %}
+        </select>
+      {% endunless %}
+      <label for="OskaQuantity-{{ section.id }}">{% if tr %}Tahmini adet{% else %}Estimated quantity{% endif %}</label>
+      <input id="OskaQuantity-{{ section.id }}" name="qty" type="number" min="1" inputmode="numeric" placeholder="{% if tr %}Örn. 100{% else %}e.g. 100{% endif %}">
+      <button type="submit" class="oska-pdp__button">{% if tr %}TEKLİF TALEP ET{% else %}REQUEST A QUOTE{% endif %}</button>
+    </form>
+
+    <div class="oska-pdp__facts">
+      <div><strong>{% if tr %}Üretim{% else %}Production{% endif %}</strong><span>{% if tr %}İstanbul atölyesi{% else %}Istanbul atelier{% endif %}</span></div>
+      <div><strong>{% if tr %}Özelleştirme{% else %}Customisation{% endif %}</strong><span>{% if tr %}Malzeme, kaplama, taş ve ambalaj{% else %}Material, finish, stone and packaging{% endif %}</span></div>
+      <div><strong>{% if tr %}Ticari model{% else %}Commercial model{% endif %}</strong><span>{% if tr %}B2B · Fiyat teklif üzerine{% else %}B2B · Pricing on request{% endif %}</span></div>
+    </div>
+    <p class="oska-pdp__note">{% if tr %}Numune, MOQ, termin ve hedef fiyat bilgilerini teklif formunda paylaşabilirsiniz.{% else %}Share your sampling, MOQ, lead-time and target-price requirements in the enquiry form.{% endif %}</p>
+  </aside>
+</section>
+
+<style>
+.oska-pdp{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:clamp(28px,5vw,88px);padding:clamp(24px,4vw,64px);max-width:1800px;margin:0 auto;color:#171714}
+.oska-pdp__gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.oska-pdp__media{margin:0;background:#f2f0eb;aspect-ratio:4/5;overflow:hidden}
+.oska-pdp__media:first-child{grid-column:1/-1;aspect-ratio:16/11}
+.oska-pdp__media img{width:100%;height:100%;display:block;object-fit:cover}
+.oska-pdp__info{position:sticky;top:120px;align-self:start;padding-top:12px}
+.oska-pdp__info h1{font-family:var(--font-heading-family,serif);font-size:clamp(34px,4vw,62px);font-weight:400;line-height:1.02;letter-spacing:-.025em;margin:12px 0 10px}
+.oska-pdp__ref{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6e6a62;margin:0 0 28px}
+.oska-pdp__description{font-size:15px;line-height:1.7;color:#49463f;margin-bottom:30px}
+.oska-pdp__rfq{display:grid;gap:10px;padding:24px 0;border-top:1px solid #d8d4ca;border-bottom:1px solid #d8d4ca}
+.oska-pdp__rfq label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
+.oska-pdp__rfq select,.oska-pdp__rfq input{width:100%;min-height:48px;border:1px solid #b8b3a8;background:#fff;padding:0 14px;border-radius:0;color:#171714}
+.oska-pdp__button{min-height:52px;margin-top:8px;border:1px solid #171714;background:#171714;color:#fff;letter-spacing:.14em;font-size:12px;cursor:pointer}
+.oska-pdp__button:hover{background:#fff;color:#171714}
+.oska-pdp__facts{display:grid;gap:14px;padding:26px 0 16px}
+.oska-pdp__facts div{display:flex;justify-content:space-between;gap:20px;font-size:12px;border-bottom:1px solid #ece9e2;padding-bottom:12px}
+.oska-pdp__facts strong{letter-spacing:.08em;text-transform:uppercase}.oska-pdp__facts span{text-align:right;color:#625f58}
+.oska-pdp__note{font-size:12px;line-height:1.6;color:#77726a}
+@media(max-width:900px){.oska-pdp{grid-template-columns:1fr;padding:0 16px 40px}.oska-pdp__gallery{gap:6px}.oska-pdp__media:first-child{aspect-ratio:4/5}.oska-pdp__info{position:static;padding:22px 4px 0}.oska-pdp__info h1{font-size:38px}}
+</style>
+
+{% schema %}
+{"name":"OSKA B2B Product","settings":[],"presets":[{"name":"OSKA B2B Product"}]}
+{% endschema %}

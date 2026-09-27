@@ -1,0 +1,84 @@
+{% liquid
+  assign schema_name = page_title | default: 'OSKA'
+  assign schema_desc = page_description
+  if schema_desc == blank
+    if request.locale.iso_code == 'tr'
+      assign schema_desc = 'OSKA İstanbul merkezli B2B takı tasarım, private label ve üretim kataloğu.'
+    else
+      assign schema_desc = 'OSKA is an Istanbul-based B2B jewelry design, private-label and manufacturing catalogue.'
+    endif
+  endif
+
+  assign schema_type = 'WebPage'
+  if request.page_type == 'index'
+    assign schema_type = 'WebPage'
+  elsif request.page_type == 'page'
+    if page.handle == 'collections' or page.handle contains '-rings' or page.handle contains '-bracelets' or page.handle contains '-necklaces' or page.handle contains '-earrings'
+      assign schema_type = 'CollectionPage'
+    endif
+  endif
+%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ request.origin }}/#organization",
+      "name": "OSKA Silver",
+      "alternateName": "OSKA",
+      "url": "{{ request.origin }}",
+      "description": "Istanbul-based B2B jewelry design, private-label and manufacturing.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Istanbul",
+        "addressCountry": "TR"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ request.origin }}/#website",
+      "url": "{{ request.origin }}",
+      "name": "OSKA",
+      "publisher": {"@id": "{{ request.origin }}/#organization"},
+      "inLanguage": ["tr", "en"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ request.origin }}{{ routes.search_url }}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "{{ schema_type }}",
+      "@id": "{{ canonical_url }}#webpage",
+      "url": "{{ canonical_url }}",
+      "name": {{ schema_name | json }},
+      "description": {{ schema_desc | strip_html | strip_newlines | json }},
+      "isPartOf": {"@id": "{{ request.origin }}/#website"},
+      "about": {"@id": "{{ request.origin }}/#organization"},
+      "inLanguage": "{{ request.locale.iso_code }}"
+    }{% if request.page_type == 'page' and page.handle != blank %},
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{ canonical_url }}#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "{% if request.locale.iso_code == 'tr' %}Ana Sayfa{% else %}Home{% endif %}",
+          "item": "{{ request.origin }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ schema_name | json }},
+          "item": "{{ canonical_url }}"
+        }
+      ]
+    }{% endif %}
+  ]
+}
+</script>

@@ -1,0 +1,80 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+<section class="dy-shopby dy-shopby-tabs">
+  <div class="dy-row-head">
+    <h2>{% if tr %}KATEGORİYE GÖRE{% else %}SHOP BY CATEGORY{% endif %}</h2>
+    <div><a href="/pages/women-collections">{% if tr %}KADIN{% else %}SHOP WOMEN'S{% endif %}</a><a href="/pages/men-collections">{% if tr %}ERKEK{% else %}SHOP MEN'S{% endif %}</a></div>
+  </div>
+  <div class="dy-category-grid dy-category-grid-tabs">
+    {% for block in section.blocks %}
+      <article class="dy-category-tile dy-category-tile-tabs" {{ block.shopify_attributes }}>
+        <div class="dy-category-image-wrap">
+          <div class="oska-category-visual">
+            {% if block.settings.image_women != blank %}
+              {{ block.settings.image_women | image_url: width: 1400 | image_tag: loading:'lazy', class:'oska-category-image oska-category-image--women', alt:block.settings.category_en }}
+            {% elsif block.settings.image_url_women != blank %}
+              <img class="oska-category-image oska-category-image--women" src="{{ block.settings.image_url_women | escape }}" alt="{% if tr %}Kadın {{ block.settings.category_tr | escape }}{% else %}Women's {{ block.settings.category_en | escape }}{% endif %}" loading="lazy" decoding="async">
+            {% else %}
+              <img class="oska-category-image oska-category-image--women" src="{{ block.settings.asset_name_women | asset_img_url: '1200x' }}" alt="{% if tr %}Kadın {{ block.settings.category_tr | escape }}{% else %}Women's {{ block.settings.category_en | escape }}{% endif %}" loading="lazy" decoding="async">
+            {% endif %}
+            {% if block.settings.image_men != blank %}
+              {{ block.settings.image_men | image_url: width: 1400 | image_tag: loading:'lazy', class:'oska-category-image oska-category-image--men', alt:block.settings.category_en }}
+            {% elsif block.settings.image_url_men != blank %}
+              <img class="oska-category-image oska-category-image--men" src="{{ block.settings.image_url_men | escape }}" alt="{% if tr %}Erkek {{ block.settings.category_tr | escape }}{% else %}Men's {{ block.settings.category_en | escape }}{% endif %}" loading="lazy" decoding="async">
+            {% else %}
+              <img class="oska-category-image oska-category-image--men" src="{{ block.settings.asset_name_men | asset_img_url: '1200x' }}" alt="{% if tr %}Erkek {{ block.settings.category_tr | escape }}{% else %}Men's {{ block.settings.category_en | escape }}{% endif %}" loading="lazy" decoding="async">
+            {% endif %}
+          </div>
+        </div>
+        <div class="dy-category-links oska-category-links">
+            <a href="{{ block.settings.women_link }}">{% if tr %}KADIN {{ block.settings.category_tr | upcase }}{% else %}WOMEN'S {{ block.settings.category_en | upcase }}{% endif %}</a>
+          <a href="{{ block.settings.men_link }}">{% if tr %}ERKEK {{ block.settings.category_tr | upcase }}{% else %}MEN'S {{ block.settings.category_en | upcase }}{% endif %}</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.oska-category-visual{position:relative;aspect-ratio:4/5;overflow:hidden;background:#f3f0ea}
+.oska-category-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.oska-category-image--men{position:absolute;inset:0;opacity:0;animation:oskaCategorySwap 4s linear infinite}
+@keyframes oskaCategorySwap{0%,45%{opacity:0}50%,95%{opacity:1}100%{opacity:0}}
+.dy-shopby-tabs .dy-category-grid-tabs{align-items:start}
+.dy-shopby-tabs .dy-category-tile-tabs{display:flex;flex-direction:column;min-width:0;height:100%}
+.dy-shopby-tabs .dy-category-image-wrap{display:block;position:relative;overflow:hidden}
+.dy-shopby-tabs .oska-category-links{
+  position:static!important;inset:auto!important;transform:none!important;
+  display:flex!important;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:9px;width:100%;min-height:78px;margin:0;padding:18px 8px 8px;
+  background:#fff!important;color:#171717!important;opacity:1!important;visibility:visible!important;
+  box-sizing:border-box;z-index:auto
+}
+.dy-shopby-tabs .oska-category-links a{
+  position:static!important;display:block;width:100%;margin:0!important;padding:0 2px 5px!important;
+  color:#171717!important;background:transparent!important;border:0!important;border-bottom:1px solid #b9b4aa!important;
+  font-size:11px!important;font-weight:400!important;line-height:1.35!important;letter-spacing:.045em!important;
+  text-align:center!important;text-decoration:none!important;white-space:normal!important;overflow-wrap:normal
+}
+.dy-shopby-tabs .oska-category-links a:hover{color:#000!important;border-bottom-color:#171717!important}
+@media(max-width:749px){
+  .oska-category-visual{aspect-ratio:4/5}
+  .dy-shopby-tabs .oska-category-links{min-height:72px;gap:7px;padding:14px 4px 6px}
+  .dy-shopby-tabs .oska-category-links a{font-size:10px!important;letter-spacing:.02em!important;line-height:1.3!important}
+}
+@media(prefers-reduced-motion:reduce){.oska-category-image--men{animation:none;opacity:0}}
+</style>
+
+{% schema %}
+{"name":"OSKA Category Tabs","blocks":[{"type":"item","name":"Category","settings":[
+{"type":"text","id":"category_tr","label":"Category TR"},
+{"type":"text","id":"category_en","label":"Category EN"},
+{"type":"image_picker","id":"image_women","label":"Women image"},
+{"type":"image_picker","id":"image_men","label":"Men image"},
+{"type":"text","id":"image_url_women","label":"Women Shopify CDN URL"},
+{"type":"text","id":"image_url_men","label":"Men Shopify CDN URL"},
+{"type":"text","id":"asset_name_women","label":"Women theme asset filename"},
+{"type":"text","id":"asset_name_men","label":"Men theme asset filename"},
+{"type":"url","id":"women_link","label":"Women link"},
+{"type":"url","id":"men_link","label":"Men link"}
+]}],"max_blocks":6,"presets":[{"name":"OSKA Category Tabs"}]}
+{% endschema %}

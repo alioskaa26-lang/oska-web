@@ -1,0 +1,44 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-category">
+  <div class="oska-category__intro">
+    <div class="oska-eyebrow">{% if tr %}B2B KATALOG{% else %}B2B CATALOGUE{% endif %}</div>
+    <h1>{% if tr %}{{ section.settings.title_tr }}{% else %}{{ section.settings.title_en }}{% endif %}</h1>
+    <p>{% if tr %}{{ section.settings.intro_tr }}{% else %}{{ section.settings.intro_en }}{% endif %}</p>
+  </div>
+  <div class="oska-static-grid">
+    {% for block in section.blocks %}
+      {% assign fallback_url = block.settings.asset_name | asset_url %}
+      <article class="oska-static-card" {{ block.shopify_attributes }}>
+        <a href="/pages/contact-rfq?ref={{ block.settings.reference | url_encode }}">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: block.settings.reference }}
+          {% elsif block.settings.image_url != blank %}
+            <img src="{{ block.settings.image_url }}" alt="{{ block.settings.reference | escape }}" loading="lazy" decoding="async">
+          {% else %}
+            <img src="{{ fallback_url }}" alt="{{ block.settings.reference | escape }}" loading="lazy">
+          {% endif %}
+        </a>
+        <div class="oska-static-card__copy">
+          <div class="oska-eyebrow">{{ block.settings.reference }}</div>
+          <h3>{% if tr %}{{ block.settings.label_tr }}{% else %}{{ block.settings.label_en }}{% endif %}</h3>
+          <a class="oska-mini" href="/pages/contact-rfq?ref={{ block.settings.reference | url_encode }}">{% if tr %}RFQ gönder{% else %}Send RFQ{% endif %}</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Editable Catalogue","settings":[
+{"type":"text","id":"title_tr","label":"Title TR","default":"Koleksiyon"},
+{"type":"text","id":"title_en","label":"Title EN","default":"Collection"},
+{"type":"textarea","id":"intro_tr","label":"Intro TR","default":"Malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir. Her model için teklif veya numune talebi gönderebilirsiniz."},
+{"type":"textarea","id":"intro_en","label":"Intro EN","default":"Material, sizing, stone and production details are confirmed per project. Request a quotation or sample for any design."}
+],"blocks":[{"type":"item","name":"Catalogue item","settings":[
+{"type":"text","id":"reference","label":"Reference","default":"OSKA-001"},
+{"type":"image_picker","id":"image","label":"Replacement image"},
+{"type":"text","id":"image_url","label":"Hosted image URL"},
+{"type":"text","id":"asset_name","label":"Default theme asset filename"},
+{"type":"text","id":"label_tr","label":"Label TR","default":"Teklif için sor"},
+{"type":"text","id":"label_en","label":"Label EN","default":"Request details"}
+]}],"max_blocks":24,"presets":[{"name":"OSKA Editable Catalogue"}]}
+{% endschema %}

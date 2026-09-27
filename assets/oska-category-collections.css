@@ -1,0 +1,182 @@
+.oska-collection-landing{padding:68px 4.5vw 110px;background:#fff;color:#171717}.oska-collection-landing__intro{max-width:940px;margin:0 0 44px}.oska-collection-landing__intro h1{font-family:var(--oska-serif);font-weight:400;font-size:clamp(48px,6vw,84px);line-height:1.02;margin:10px 0 18px}.oska-collection-landing__intro p{max-width:760px;color:#625e59;font-size:16px}.oska-collection-landing__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.oska-collection-tile{display:block;min-width:0}.oska-collection-tile__media{position:relative;aspect-ratio:4/5;overflow:hidden;background:#eee}.oska-collection-tile__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}.oska-collection-tile:hover img{transform:scale(1.025)}.oska-collection-tile__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02) 36%,rgba(0,0,0,.68) 100%)}.oska-collection-tile__copy{position:absolute;left:22px;right:22px;bottom:22px;color:#fff}.oska-collection-tile__copy h2{font-family:var(--oska-serif);font-weight:400;font-size:clamp(28px,2.4vw,40px);line-height:1.04;margin:7px 0}.oska-collection-tile__copy p{font-size:12px;line-height:1.5;margin:0 0 12px;color:#eee}.oska-collection-tile__copy span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.7);padding-bottom:3px}.oska-collection-landing__groups{margin-top:96px;display:grid;gap:96px}.oska-collection-group{scroll-margin-top:110px}.oska-collection-group__head{display:grid;grid-template-columns:minmax(0,.7fr) minmax(280px,.3fr);align-items:end;gap:36px;padding-bottom:24px;border-bottom:1px solid var(--oska-line);margin-bottom:24px}.oska-collection-group__head h2{font-family:var(--oska-serif);font-weight:400;font-size:clamp(38px,4vw,60px);line-height:1.03;margin:8px 0 0}.oska-collection-group__head p{margin:0;color:#68635d;font-size:14px}.oska-collection-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.oska-collection-product{min-width:0}.oska-collection-product__media{display:block;aspect-ratio:4/3;background:#f5f5f3;overflow:hidden}.oska-collection-product__media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}.oska-collection-product:hover img{transform:scale(1.018)}.oska-collection-product__copy{padding:14px 2px 0}.oska-collection-product__copy h3{font-family:var(--oska-serif);font-size:24px;font-weight:400;margin:5px 0 8px}.oska-collection-product__copy .oska-mini{display:inline-block;border-bottom:1px solid currentColor;padding-bottom:2px}@media(max-width:1050px){.oska-collection-landing__grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.oska-collection-landing{padding:48px 18px 80px}.oska-collection-landing__grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:4px}.oska-collection-tile{min-width:78vw;scroll-snap-align:start}.oska-collection-landing__groups{margin-top:70px;gap:70px}.oska-collection-group__head{grid-template-columns:1fr;gap:14px}.oska-collection-products{grid-template-columns:1fr}.oska-collection-product__media{aspect-ratio:4/5}}
+
+/* OSKA COLLECTION LANDING — HIDE PRODUCTS UNTIL COLLECTION SELECTED */
+.oska-collection-landing__groups{margin-top:0}
+.oska-collection-group{display:none;margin-top:88px}
+.oska-collection-group:target{display:block}
+.oska-collection-back{display:inline-block;margin-bottom:18px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:3px}
+@media(max-width:720px){
+  .oska-collection-group{margin-top:58px}
+}
+
+
+/* OSKA SAMPLE CATEGORY PRODUCT CROPS */
+.oska-collection-product--sample:nth-child(2) .oska-collection-product__media img{transform:scale(1.12);object-position:55% 45%}
+.oska-collection-product--sample:nth-child(2):hover .oska-collection-product__media img{transform:scale(1.15)}
+
+
+/* OSKA GLOBAL LUXURY WHITE CATALOG V3 */
+.oska-collection-landing{padding:34px 3.8vw 96px;background:#fff;color:#111}
+.oska-collection-landing__intro{max-width:none;display:grid;grid-template-columns:minmax(260px,.42fr) minmax(360px,.58fr);gap:28px;align-items:end;margin:0 0 26px}
+.oska-collection-landing__intro .oska-eyebrow{display:none}
+.oska-collection-landing__intro h1{font-family:Arial,Helvetica,sans-serif;font-size:clamp(34px,3.4vw,54px);font-weight:500;letter-spacing:.01em;line-height:1;text-transform:uppercase;margin:0}
+.oska-collection-landing__intro p{max-width:760px;margin:0 0 3px;font-size:14px;line-height:1.5;color:#333}
+.oska-collection-landing__grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:8px}
+.oska-collection-tile{border:1px solid #f2f2f2;background:#fff}
+.oska-collection-tile__media{aspect-ratio:1/1;background:#fff}
+.oska-collection-tile__media img{object-fit:contain;padding:18% 14% 22%;background:#fff}
+.oska-collection-tile__shade{display:none}
+.oska-collection-tile__copy{left:16px;right:16px;bottom:13px;color:#111;text-shadow:none}
+.oska-collection-tile__copy .oska-eyebrow,.oska-collection-tile__copy p{display:none}
+.oska-collection-tile__copy h2{font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:500;line-height:1.2;text-transform:uppercase;margin:0 0 7px}
+.oska-collection-tile__copy span{font-size:10px;letter-spacing:.06em;border-bottom:1px solid #111;padding-bottom:2px}
+.oska-collection-group{margin-top:38px}
+.oska-collection-group__head{grid-template-columns:1fr minmax(240px,.36fr);padding:22px 0 18px;margin:0;border-top:1px solid #e7e7e7;border-bottom:0}
+.oska-collection-group__head h2{font-family:Arial,Helvetica,sans-serif;font-size:clamp(28px,3vw,44px);font-weight:500;text-transform:uppercase;margin:5px 0 0}
+.oska-collection-group__head p{font-size:13px;color:#555}
+.oska-collection-back{font-size:10px;letter-spacing:.06em}
+.oska-collection-toolbar{height:54px;border-top:1px solid #e7e7e7;border-bottom:1px solid #e7e7e7;display:flex;align-items:center;justify-content:space-between;margin:0 0 14px}
+.oska-filter-menu{position:relative}
+.oska-filter-menu summary{list-style:none;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.08em}
+.oska-filter-menu summary::-webkit-details-marker{display:none}
+.oska-filter-menu__panel{position:absolute;z-index:20;top:34px;left:0;width:240px;background:#fff;border:1px solid #ddd;box-shadow:0 14px 30px rgba(0,0,0,.08);padding:16px;display:grid;gap:8px;font-size:12px}
+.oska-filter-menu__panel small{color:#777;line-height:1.4;margin-top:5px}
+.oska-sort-label{font-size:11px;letter-spacing:.08em;display:flex;align-items:center;gap:10px}
+.oska-sort-label select{border:0;background:#fff;font-size:11px;padding:5px 22px 5px 6px}
+.oska-collection-products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 10px}
+.oska-collection-product{position:relative;min-width:0;background:#fff}
+.oska-product-heart{position:absolute;right:12px;top:10px;z-index:3;font-size:28px;font-family:Arial,sans-serif;font-weight:300;line-height:1;color:#111}
+.oska-collection-product__media{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;background:#fff;border:1px solid #f5f5f5;overflow:hidden}
+.oska-collection-product__media img{width:72%;height:72%;object-fit:contain;background:#fff;transition:transform .3s ease}
+.oska-collection-product:hover .oska-collection-product__media img{transform:scale(1.035)}
+.oska-collection-product__copy{padding:9px 2px 20px}
+.oska-product-swatches{display:flex;gap:5px;height:14px;margin-bottom:4px}
+.oska-product-swatches i{display:block;width:9px;height:9px;border-radius:50%;border:1px solid #aaa;background:#d9d9d9}
+.oska-product-swatches i:nth-child(2){background:#c9a35f}.oska-product-swatches i:nth-child(3){background:#222}
+.oska-collection-product__copy h3{font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:500;line-height:1.25;margin:0 0 5px}
+.oska-product-ref{font-size:11px;color:#333;margin-bottom:4px}
+.oska-product-material{font-size:10px;line-height:1.35;color:#777;min-height:27px}
+.oska-product-rfq{display:inline-block;margin-top:8px;font-size:10px;font-weight:600;letter-spacing:.05em;border-bottom:1px solid #111;padding-bottom:2px}
+@media(max-width:1050px){
+  .oska-collection-landing__intro{grid-template-columns:1fr;gap:12px}
+  .oska-collection-landing__grid{grid-template-columns:repeat(4,minmax(180px,1fr));overflow-x:auto}
+  .oska-collection-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  .oska-collection-landing{padding:26px 14px 70px}
+  .oska-collection-landing__grid{display:flex;gap:8px}
+  .oska-collection-tile{min-width:48vw}
+  .oska-collection-tile__media{aspect-ratio:4/5}
+  .oska-collection-group__head{grid-template-columns:1fr;gap:10px}
+  .oska-collection-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 8px}
+  .oska-collection-product__media img{width:78%;height:78%}
+  .oska-product-heart{font-size:24px;right:8px;top:8px}
+}
+
+
+/* OSKA WHITE RING SHEET CROPS V1 */
+.oska-product--contour-01 .oska-collection-product__media,
+.oska-product--contour-02 .oska-collection-product__media,
+.oska-product--contour-03 .oska-collection-product__media,
+.oska-product--contour-04 .oska-collection-product__media,
+.oska-product--halo-01 .oska-collection-product__media,
+.oska-product--halo-02 .oska-collection-product__media,
+.oska-product--halo-03 .oska-collection-product__media,
+.oska-product--halo-04 .oska-collection-product__media,
+.oska-product--nocturne-01 .oska-collection-product__media,
+.oska-product--nocturne-02 .oska-collection-product__media,
+.oska-product--nocturne-03 .oska-collection-product__media,
+.oska-product--nocturne-04 .oska-collection-product__media,
+.oska-product--aurelia-01 .oska-collection-product__media,
+.oska-product--aurelia-02 .oska-collection-product__media,
+.oska-product--aurelia-03 .oska-collection-product__media,
+.oska-product--aurelia-04 .oska-collection-product__media{
+  aspect-ratio:8/9;
+  position:relative;
+  background:#fff;
+  overflow:hidden;
+}
+.oska-product--contour-01 img,.oska-product--contour-02 img,.oska-product--contour-03 img,.oska-product--contour-04 img,
+.oska-product--halo-01 img,.oska-product--halo-02 img,.oska-product--halo-03 img,.oska-product--halo-04 img,
+.oska-product--nocturne-01 img,.oska-product--nocturne-02 img,.oska-product--nocturne-03 img,.oska-product--nocturne-04 img,
+.oska-product--aurelia-01 img,.oska-product--aurelia-02 img,.oska-product--aurelia-03 img,.oska-product--aurelia-04 img{
+  position:absolute!important;
+  width:400%!important;
+  max-width:none!important;
+  height:auto!important;
+  padding:0!important;
+  object-fit:initial!important;
+  background:#fff!important;
+  transform:none!important;
+}
+.oska-product--contour-01 img{left:0;top:0}
+.oska-product--contour-02 img{left:-100%;top:0}
+.oska-product--contour-03 img{left:-200%;top:0}
+.oska-product--contour-04 img{left:-300%;top:0}
+.oska-product--halo-01 img{left:0;top:-100%}
+.oska-product--halo-02 img{left:-100%;top:-100%}
+.oska-product--halo-03 img{left:-200%;top:-100%}
+.oska-product--halo-04 img{left:-300%;top:-100%}
+.oska-product--nocturne-01 img{left:0;top:0}
+.oska-product--nocturne-02 img{left:-100%;top:0}
+.oska-product--nocturne-03 img{left:-200%;top:0}
+.oska-product--nocturne-04 img{left:-300%;top:0}
+.oska-product--aurelia-01 img{left:0;top:-100%}
+.oska-product--aurelia-02 img{left:-100%;top:-100%}
+.oska-product--aurelia-03 img{left:-200%;top:-100%}
+.oska-product--aurelia-04 img{left:-300%;top:-100%}
+
+.oska-cover--oska-contour-01-jpg .oska-collection-tile__media,
+.oska-cover--oska-halo-01-jpg .oska-collection-tile__media,
+.oska-cover--oska-nocturne-01-jpg .oska-collection-tile__media,
+.oska-cover--oska-aurelia-01-jpg .oska-collection-tile__media{
+  aspect-ratio:8/9;background:#fff;position:relative;overflow:hidden
+}
+.oska-cover--oska-contour-01-jpg img,
+.oska-cover--oska-halo-01-jpg img,
+.oska-cover--oska-nocturne-01-jpg img,
+.oska-cover--oska-aurelia-01-jpg img{
+  position:absolute!important;width:400%!important;max-width:none!important;height:auto!important;padding:0!important;object-fit:initial!important;background:#fff!important;transform:none!important
+}
+.oska-cover--oska-contour-01-jpg img{left:0;top:0}
+.oska-cover--oska-halo-01-jpg img{left:0;top:-100%}
+.oska-cover--oska-nocturne-01-jpg img{left:0;top:0}
+.oska-cover--oska-aurelia-01-jpg img{left:0;top:-100%}
+
+
+/* OSKA REMOTE WHITE PRODUCT IMAGES V1 */
+.oska-collection-tile--remote .oska-collection-tile__media{background:#fff}
+.oska-collection-tile--remote .oska-collection-tile__media img{
+  width:100%;height:100%;object-fit:contain;padding:5% 6% 23%;background:#fff
+}
+.oska-product--remote .oska-collection-product__media{background:#fff}
+.oska-product--remote .oska-collection-product__media img{
+  width:100%;height:100%;object-fit:contain;padding:0;background:#fff
+}
+.oska-product--remote:hover .oska-collection-product__media img{transform:scale(1.02)}
+
+/* OSKA COLLECTION HIERARCHY */
+.oska-category-breadcrumb{display:flex;align-items:center;gap:9px;margin:0 0 24px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6d6963}
+.oska-category-breadcrumb a{border-bottom:1px solid #aaa;padding-bottom:2px}
+.oska-category-breadcrumb strong{font-weight:600;color:#111}
+.oska-category-continue{margin:96px -3.8vw -96px;padding:78px 3.8vw 96px;background:#f6f3ee}
+.oska-category-continue__head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:18px;margin-bottom:28px}
+.oska-category-continue__head .oska-eyebrow{grid-column:1/-1}
+.oska-category-continue__head h2{font-family:var(--oska-serif);font-weight:400;font-size:clamp(36px,4vw,58px);line-height:1;margin:0}
+.oska-category-continue__head>a{font-size:10px;letter-spacing:.08em;border-bottom:1px solid currentColor;padding-bottom:3px}
+.oska-category-continue__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #d8d3cb;border-left:1px solid #d8d3cb}
+.oska-category-continue__grid>a{min-height:100px;padding:20px;display:flex;flex-direction:column;justify-content:center;gap:5px;border-right:1px solid #d8d3cb;border-bottom:1px solid #d8d3cb;font-family:var(--oska-serif);font-size:21px}
+.oska-category-continue__grid span{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.14em;color:#7a756e}
+@media(max-width:720px){
+  .oska-category-breadcrumb{margin-bottom:18px}
+  .oska-category-continue{margin:70px -14px -70px;padding:58px 14px 70px}
+  .oska-category-continue__head{grid-template-columns:1fr}
+  .oska-category-continue__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oska-category-continue__grid>a{min-height:86px;padding:14px;font-size:17px}
+}
+
+
+/* OSKA FINAL GENDER-SCOPED CATEGORY FLOW — 2026-09-26 */
+html:has(.oska-collection-group:target) .oska-category-continue{display:none!important}
+.oska-category-continue__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:720px){.oska-category-continue__grid{grid-template-columns:1fr 1fr}}

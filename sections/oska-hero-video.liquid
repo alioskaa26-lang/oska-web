@@ -1,0 +1,21 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% assign desktop_video = section.settings.desktop_video_url %}{% if desktop_video == blank %}{% assign desktop_video = 'oska-hero-desktop.mp4' | asset_url %}{% endif %}
+{% assign mobile_video = section.settings.mobile_video_url %}{% if mobile_video == blank %}{% assign mobile_video = 'oska-hero-mobile.mp4' | asset_url %}{% endif %}
+{% assign poster = section.settings.poster_url %}{% if poster == blank %}{% assign poster = 'oska-hero-poster.jpg' | asset_url %}{% endif %}
+<section class="oska-hero oska-hero--cta-only">
+  <video data-oska-hero-video autoplay loop muted playsinline preload="metadata" poster="{{ poster }}" aria-hidden="true" tabindex="-1">
+    <source media="(max-width: 700px)" src="{{ mobile_video }}" type="video/mp4">
+    <source src="{{ desktop_video }}" type="video/mp4">
+  </video>
+  <div class="oska-hero__overlay"></div>
+  <div class="oska-hero__copy oska-hero__copy--button-only">
+    <a class="oska-button oska-button--light" href="/pages/collections">{% if tr %}KOLEKSİYONU KEŞFET{% else %}EXPLORE COLLECTIONS{% endif %}</a>
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Hero Video","settings":[
+{"type":"text","id":"desktop_video_url","label":"Desktop video URL"},
+{"type":"text","id":"mobile_video_url","label":"Mobile video URL"},
+{"type":"text","id":"poster_url","label":"Poster URL"}
+],"presets":[{"name":"OSKA Hero Video"}]}
+{% endschema %}

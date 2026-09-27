@@ -1,0 +1,52 @@
+{% assign oska_ai_tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign oska_ai_tr = true %}{% endif %}
+{{ 'oska-concierge.css' | asset_url | stylesheet_tag }}
+
+<div class="oska-support-dock" aria-label="{% if oska_ai_tr %}OSKA destek araçları{% else %}OSKA support tools{% endif %}">
+  <button class="oska-live-fab" type="button" data-oska-live-chat-open aria-expanded="false" aria-controls="oskaConciergePanel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 10h8M8 13h5"></path></svg>
+    <span>{% if oska_ai_tr %}CANLI SOHBET{% else %}LIVE CHAT{% endif %}</span>
+  </button>
+  <button class="oska-ai-fab" type="button" data-oska-concierge-open-top aria-expanded="false" aria-controls="oskaConciergePanel">
+    <span class="oska-ai-fab__orb" aria-hidden="true"></span><span>OSKA AI</span>
+  </button>
+</div>
+
+<div class="oska-concierge" data-oska-concierge data-lang="{% if oska_ai_tr %}tr{% else %}en{% endif %}" data-country="{{ localization.country.iso_code | default: 'TR' | escape }}" data-context="{{ page_title | escape }}" data-url="{{ canonical_url | escape }}" aria-hidden="true" hidden>
+  <section id="oskaConciergePanel" class="oska-concierge__panel" data-oska-concierge-panel role="dialog" aria-modal="false" aria-labelledby="oskaAiTitle" aria-describedby="oskaAiDescription" tabindex="-1">
+    <header class="oska-concierge__header">
+      <div><span class="oska-concierge__brand">OSKA</span><small data-oska-role-label>{% if oska_ai_tr %}GENEL MÜDÜR AI{% else %}GENERAL MANAGER AI{% endif %}</small></div>
+      <div class="oska-concierge__header-actions">
+        <button type="button" class="oska-concierge__sound" data-oska-voice aria-pressed="true" aria-label="{% if oska_ai_tr %}Sesi kapat{% else %}Mute voice{% endif %}">◖)))</button>
+        <button type="button" class="oska-concierge__close" data-oska-concierge-close aria-label="{% if oska_ai_tr %}Kapat{% else %}Close{% endif %}">×</button>
+      </div>
+    </header>
+    <div class="oska-concierge__stage">
+      <div class="oska-concierge__core" aria-hidden="true"><span class="oska-concierge__ring oska-concierge__ring--one"></span><span class="oska-concierge__ring oska-concierge__ring--two"></span><span class="oska-concierge__gem">OSKA</span></div>
+      <div class="oska-concierge__copy">
+        <h2 id="oskaAiTitle" data-oska-title>{% if oska_ai_tr %}Nasıl yönlendireyim?{% else %}How can I guide you?{% endif %}</h2>
+        <p id="oskaAiDescription" data-oska-description>{% if oska_ai_tr %}Koleksiyon, üretim, private label ve RFQ için OSKA’nın merkezi asistanı.{% else %}OSKA’s central assistant for collections, manufacturing, private label and RFQ.{% endif %}</p>
+        <p class="oska-concierge__status" data-oska-status aria-live="polite"></p>
+      </div>
+    </div>
+    <nav class="oska-concierge__actions" aria-label="{% if oska_ai_tr %}Hızlı yönlendirme{% else %}Quick navigation{% endif %}">
+      <a href="/pages/women-collections">{% if oska_ai_tr %}Kadın{% else %}Women{% endif %}<span>↗</span></a>
+      <a href="/pages/men-collections">{% if oska_ai_tr %}Erkek{% else %}Men{% endif %}<span>↗</span></a>
+      <a href="/pages/collections">{% if oska_ai_tr %}Koleksiyonlar{% else %}Collections{% endif %}<span>↗</span></a>
+      <a href="/pages/manufacturing">{% if oska_ai_tr %}Üretim{% else %}Manufacturing{% endif %}<span>↗</span></a>
+      <a href="/pages/private-label">Private Label<span>↗</span></a>
+      <a href="/pages/contact-rfq">RFQ<span>↗</span></a>
+    </nav>
+    <div class="oska-concierge__interaction">
+      <div class="oska-concierge__log" data-oska-chat-log aria-live="polite"></div>
+      <form class="oska-concierge__form" data-oska-chat-form>
+        <label class="visually-hidden" for="oskaConciergeInput">{% if oska_ai_tr %}Mesaj{% else %}Message{% endif %}</label>
+        <textarea id="oskaConciergeInput" data-oska-chat-input rows="1" maxlength="800" placeholder="{% if oska_ai_tr %}“Kadın bileklik”, “OSKA hakkında bilgi”…{% else %}“Women bracelets”, “Tell me about OSKA”…{% endif %}"></textarea>
+        <button type="button" class="oska-concierge__mic" data-oska-mic aria-label="{% if oska_ai_tr %}Sesli giriş{% else %}Voice input{% endif %}">◉</button>
+        <button type="submit" class="oska-concierge__send" aria-label="{% if oska_ai_tr %}Gönder{% else %}Send{% endif %}">→</button>
+      </form>
+      <div class="oska-concierge__secondary"><a href="/pages/contact" data-oska-handoff>{% if oska_ai_tr %}İletişim formu{% else %}Contact form{% endif %}</a></div>
+    </div>
+  </section>
+</div>
+<script src="{{ 'oska-concierge.js' | asset_url }}" defer></script>
+{% schema %}{"name":"OSKA B2B Concierge","settings":[]}{% endschema %}

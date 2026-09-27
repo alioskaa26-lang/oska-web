@@ -1,0 +1,5 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-info" style="min-height:65vh;display:flex;align-items:center">
+  <div class="oska-info__hero"><div class="oska-eyebrow">404</div><h1>{% if tr %}Bu sayfa bulunamadı.{% else %}This page could not be found.{% endif %}</h1><p class="oska-info__lead">{% if tr %}Koleksiyonlara dönebilir veya teklif talebi gönderebilirsiniz.{% else %}Return to the collections or send a quotation request.{% endif %}</p><p><a class="oska-button" href="/pages/collections">{% if tr %}Koleksiyonlar{% else %}Collections{% endif %}</a> <a class="oska-button" href="/pages/contact-rfq">RFQ</a></p></div>
+</section>
+{% schema %}{"name":"OSKA 404","settings":[]}{% endschema %}

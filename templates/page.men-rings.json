@@ -1,0 +1,179 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "oska-category-collections",
+      "blocks": {
+        "c01": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Guardian",
+            "name_en": "Guardian",
+            "subtitle_tr": "Guardian tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Guardian design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lion-crest.jpg?v=1790270533",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lion-crest.jpg?v=1790270533|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-north-skull.jpg?v=1790270544|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c02": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Journey",
+            "name_en": "Journey",
+            "subtitle_tr": "Journey tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Journey design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-north-skull.jpg?v=1790270544|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c03": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Dark Relics",
+            "name_en": "Dark Relics",
+            "subtitle_tr": "Dark Relics tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Dark Relics design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-north-skull.jpg?v=1790270544",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-north-skull.jpg?v=1790270544|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c04": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Legacy Signet",
+            "name_en": "Legacy Signet",
+            "subtitle_tr": "Legacy Signet tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Legacy Signet design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c05": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Lion Crest",
+            "name_en": "Lion Crest",
+            "subtitle_tr": "Lion Crest tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Lion Crest design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-skull.jpg?v=1790270557|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c06": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Lone Wolf",
+            "name_en": "Lone Wolf",
+            "subtitle_tr": "Lone Wolf tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Lone Wolf design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-reaper.jpg?v=1790270565|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c07": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "North Skull",
+            "name_en": "North Skull",
+            "subtitle_tr": "North Skull tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the North Skull design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-royal-skull.jpg?v=1790270571|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-true-north.jpg?v=1790270596",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c08": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Obsidian Axis",
+            "name_en": "Obsidian Axis",
+            "subtitle_tr": "Obsidian Axis tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Obsidian Axis design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-true-north.jpg?v=1790270596|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-valkyrie.jpg?v=1790270601",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c09": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Serpent Guard",
+            "name_en": "Serpent Guard",
+            "subtitle_tr": "Serpent Guard tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Serpent Guard design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-true-north.jpg?v=1790270596|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-valkyrie.jpg?v=1790270601|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lion-crest.jpg?v=1790270533",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c10": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Valkyrie",
+            "name_en": "Valkyrie",
+            "subtitle_tr": "Valkyrie tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Valkyrie design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-sky-guardian.jpg?v=1790270590|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-true-north.jpg?v=1790270596|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-valkyrie.jpg?v=1790270601|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lion-crest.jpg?v=1790270533|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "c01",
+        "c02",
+        "c03",
+        "c04",
+        "c05",
+        "c06",
+        "c07",
+        "c08",
+        "c09",
+        "c10"
+      ],
+      "settings": {
+        "title_tr": "Erkek Yüzükleri",
+        "title_en": "Men’s Rings",
+        "intro_tr": "Maskülen form ve güçlü sembollerden oluşan on erkek yüzük koleksiyonu.",
+        "intro_en": "Ten men’s ring collections built around masculine form and strong symbols."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

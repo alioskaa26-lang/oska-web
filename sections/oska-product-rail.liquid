@@ -1,0 +1,26 @@
+<section class="oska-section">
+  <div class="oska-section__head">
+    <div><div class="oska-eyebrow">{{ section.settings.eyebrow }}</div><h2>{{ section.settings.heading }}</h2></div>
+    {% if section.settings.collection != blank %}<a href="{{ section.settings.collection.url }}">View all</a>{% endif %}
+  </div>
+  <div class="oska-product-rail">
+    {% if section.settings.collection != blank %}
+      {% for product in section.settings.collection.products limit: section.settings.limit %}
+        <article class="oska-card">
+          <a href="{{ product.url }}">
+            {% if product.featured_image != blank %}
+              {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+            {% endif %}
+          </a>
+          <div class="oska-card__meta">
+            <div class="oska-eyebrow">{{ product.vendor }}</div>
+            <a href="{{ product.url }}">{{ product.title }}</a>
+          </div>
+        </article>
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Product Rail","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"PANTHER · MESH · SIGNATURE"},{"type":"text","id":"heading","label":"Heading","default":"Discover the Collection"},{"type":"collection","id":"collection","label":"Collection"},{"type":"range","id":"limit","label":"Products","min":4,"max":12,"step":1,"default":6}],"presets":[{"name":"OSKA Product Rail"}]}
+{% endschema %}

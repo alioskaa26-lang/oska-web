@@ -1,0 +1,42 @@
+<section class="oska-pdp">
+  <div class="oska-pdp__gallery">
+    {% for media in product.media %}
+      {% case media.media_type %}
+        {% when 'image' %}
+          {{ media | image_url: width: 1800 | image_tag: loading: 'lazy' }}
+        {% when 'video' %}
+          {{ media | video_tag: controls: true, muted: true }}
+      {% endcase %}
+    {% endfor %}
+  </div>
+  <aside class="oska-pdp__panel">
+    <div class="oska-eyebrow">{{ product.metafields.custom.collection_name | default: product.vendor }}</div>
+    <h1>{{ product.title }}</h1>
+    {% if product.metafields.custom.reference != blank %}<p>{{ product.metafields.custom.reference }}</p>{% endif %}
+    <div class="rte">{{ product.description }}</div>
+    {% if product.options_with_values.size > 0 %}
+      <div class="oska-pdp__variants">
+        {% for option in product.options_with_values %}
+          <strong>{{ option.name }}</strong>
+          <div>
+            {% for value in option.values %}<span class="oska-chip">{{ value }}</span>{% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="oska-pdp__actions">
+      <a class="oska-button" href="/pages/contact-rfq?product={{ product.handle | url_encode }}">Request quotation</a>
+      <a class="oska-button" href="/pages/contact-rfq?sample={{ product.handle | url_encode }}">Request sample</a>
+      <a href="/pages/private-label">Produce for my brand</a>
+    </div>
+    {% for block in section.blocks %}
+      <details class="oska-disclosure" {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.heading }}</summary>
+        <div class="rte">{{ block.settings.body }}</div>
+      </details>
+    {% endfor %}
+  </aside>
+</section>
+{% schema %}
+{"name":"OSKA Product","settings":[],"blocks":[{"type":"detail","name":"Product detail","settings":[{"type":"text","id":"heading","label":"Heading"},{"type":"richtext","id":"body","label":"Body"}]}],"presets":[{"name":"OSKA Product"}]}
+{% endschema %}

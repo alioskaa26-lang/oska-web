@@ -1,0 +1,167 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% assign oska_is_contact = false %}{% if page.handle == 'contact' %}{% assign oska_is_contact = true %}{% endif %}
+{% if oska_is_contact %}
+<section class="oska-section oska-rfq oska-contact" aria-labelledby="oska-contact-title">
+  <div>
+    <div class="oska-eyebrow">{% if tr %}İLETİŞİM{% else %}CONTACT{% endif %}</div>
+    <h2 id="oska-contact-title">{% if tr %}OSKA ile iletişime geçin.{% else %}Contact OSKA.{% endif %}</h2>
+    <p>{% if tr %}Genel sorularınız, atölye görüşmesi veya iş birliği talepleriniz için bize yazın. Üretim teklifi, numune, adet ve materyal detayları için ayrı RFQ formunu kullanın.{% else %}Write to us for general enquiries, atelier meetings or collaboration requests. For production quotations, samples, quantities and material details, use the separate RFQ form.{% endif %}</p>
+    <p><a href="/pages/contact-rfq">{% if tr %}Üretim teklifi için RFQ formuna git{% else %}Go to the RFQ form for a production quote{% endif %}</a></p>
+  </div>
+  {% form 'contact', class:'oska-rfq-form', id:'oskaContactForm' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Mesajınız alındı. OSKA ekibi sizinle iletişime geçecek.{% else %}Your message has been received. The OSKA team will contact you.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+    <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+    <label>{% if tr %}Firma (opsiyonel){% else %}Company (optional){% endif %}<input name="contact[company]" autocomplete="organization"></label>
+    <label>{% if tr %}E-posta{% else %}Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+    <label>{% if tr %}Telefon (opsiyonel){% else %}Phone (optional){% endif %}<input type="tel" name="contact[phone]" autocomplete="tel"></label>
+    <label class="full">{% if tr %}Konu{% else %}Subject{% endif %}<input name="contact[subject]" autocomplete="off"></label>
+    <label class="full">{% if tr %}Mesaj{% else %}Message{% endif %}<textarea name="contact[body]" rows="7" required></textarea></label>
+    <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+    <input type="hidden" name="contact[source]" value="OSKA Contact Page">
+    <button class="oska-button" type="submit">{% if tr %}Mesaj gönder{% else %}Send message{% endif %}</button>
+  {% endform %}
+</section>
+
+<section class="oska-section oska-rfq oska-appointment" data-oska-appointment aria-labelledby="oska-appointment-title" hidden>
+  <div>
+    <div class="oska-eyebrow">{% if tr %}RANDEVU / BUYER CALL{% else %}APPOINTMENT / BUYER CALL{% endif %}</div>
+    <h2 id="oska-appointment-title">{% if tr %}Görüşme talebi oluşturun.{% else %}Request a meeting.{% endif %}</h2>
+    <p>{% if tr %}Online görüşme, buyer call veya atölye görüşmesi için tercih ettiğiniz tarih ve saati paylaşın. Gönderim bir randevu talebidir; OSKA ekibi onayladıktan sonra kesinleşir.{% else %}Share your preferred date and time for an online meeting, buyer call or atelier meeting. Submission is a meeting request; it is confirmed only after OSKA approves the time.{% endif %}</p>
+    <p><a href="/pages/contact-rfq">{% if tr %}Üretim teklifi için RFQ formuna dön{% else %}Return to the RFQ form for a production quote{% endif %}</a></p>
+  </div>
+  {% form 'contact', class:'oska-rfq-form', id:'oskaAppointmentForm' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Randevu talebiniz alındı. Görüşme saati OSKA ekibinin onayından sonra kesinleşir.{% else %}Your meeting request has been received. The time is confirmed only after the OSKA team approves it.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+    <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+    <label>{% if tr %}Firma{% else %}Company{% endif %}<input name="contact[company]" autocomplete="organization" required></label>
+    <label>{% if tr %}E-posta{% else %}Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+    <label>{% if tr %}Telefon (opsiyonel){% else %}Phone (optional){% endif %}<input type="tel" name="contact[phone]" autocomplete="tel"></label>
+    <label>{% if tr %}Tercih edilen tarih{% else %}Preferred date{% endif %}<input type="date" name="contact[requested_date]" required></label>
+    <label>{% if tr %}Tercih edilen saat{% else %}Preferred time{% endif %}<input type="time" name="contact[requested_time]" required></label>
+    <label>{% if tr %}Görüşme türü{% else %}Meeting type{% endif %}
+      <select name="contact[meeting_type]" required>
+        <option value="Online Buyer Call">Online Buyer Call</option>
+        <option value="Atelier Meeting">{% if tr %}Atölye Görüşmesi{% else %}Atelier Meeting{% endif %}</option>
+        <option value="General Business Meeting">{% if tr %}Genel İş Görüşmesi{% else %}General Business Meeting{% endif %}</option>
+      </select>
+    </label>
+    <label class="full">{% if tr %}Kısa not{% else %}Short note{% endif %}<textarea name="contact[body]" rows="6"></textarea></label>
+    <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+    <input type="hidden" name="contact[source]" value="OSKA Appointment Request">
+    <button class="oska-button" type="submit">{% if tr %}Randevu talebi gönder{% else %}Send meeting request{% endif %}</button>
+  {% endform %}
+</section>
+<script>
+(function(){
+  var contact=document.querySelector('.oska-contact');
+  var appointment=document.querySelector('[data-oska-appointment]');
+  if(!contact||!appointment)return;
+  var intent=new URLSearchParams(window.location.search).get('intent');
+  if(intent==='appointment'){contact.hidden=true;appointment.hidden=false;}
+  else{contact.hidden=false;appointment.hidden=true;}
+})();
+</script>
+{% else %}
+<section class="oska-section oska-rfq" data-oska-rfq-standard aria-labelledby="oska-rfq-title">
+  <div>
+    <div class="oska-eyebrow">REQUEST FOR QUOTATION</div>
+    <h2 id="oska-rfq-title">{% if tr %}Projenizi anlatın.{% else %}Tell us about your project.{% endif %}</h2>
+    <p>{% if tr %}Firma, pazar, ürün kategorisi, malzeme ve hedef sipariş adedini paylaşın. Termin ve MOQ siparişe göre netleştirilir.{% else %}Share your company, market, category, material direction and estimated order quantity. Lead time and MOQ are confirmed per order.{% endif %}</p>
+  </div>
+  {% form 'contact', class:'oska-rfq-form', id:'oskaRfqForm' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Talebiniz alındı. OSKA ekibi sizinle iletişime geçecek.{% else %}Your request has been received. The OSKA team will contact you.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+    <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+    <label>{% if tr %}Firma{% else %}Company{% endif %}<input name="contact[company]" autocomplete="organization" required></label>
+    <label>{% if tr %}İş E-postası{% else %}Business Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+    <label>{% if tr %}Ülke{% else %}Country{% endif %}<input name="contact[country]" autocomplete="country-name" required></label>
+    <label>{% if tr %}Malzeme{% else %}Material Preference{% endif %}
+      <select name="contact[material]">
+        <option>925 Sterling Silver</option><option>Brass / Bronze</option><option>Gold Plated / Vermeil</option><option>Stone Setting</option><option>{% if tr %}Diğer{% else %}Other{% endif %}</option>
+      </select>
+    </label>
+    <label>{% if tr %}Tahmini adet{% else %}Estimated Order Quantity{% endif %}<input name="contact[quantity]" inputmode="numeric"></label>
+    <label class="full">{% if tr %}Referans / ürün kodu{% else %}Reference / product code{% endif %}<input name="contact[reference]" autocomplete="off"></label>
+    <label class="full">{% if tr %}Mesaj / notlar{% else %}Message / Notes{% endif %}<textarea name="contact[body]" rows="7" required></textarea></label>
+    <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+    <input type="hidden" name="contact[source]" value="OSKA B2B Website">
+    <button class="oska-button" type="submit">{% if tr %}Teklif talebi gönder{% else %}Send RFQ{% endif %}</button>
+  {% endform %}
+</section>
+
+<section class="oska-section oska-rfq oska-sample-request" data-oska-sample-request aria-labelledby="oska-sample-title" hidden>
+  <div>
+    <div class="oska-eyebrow">{% if tr %}NUMUNE TALEBİ{% else %}SAMPLE REQUEST{% endif %}</div>
+    <h2 id="oska-sample-title">{% if tr %}Numune talebinizi paylaşın.{% else %}Tell us what you would like sampled.{% endif %}</h2>
+    <p>{% if tr %}Model veya referans, malzeme yönü, hedef pazar ve ihtiyacınızı paylaşın. Bu form numune uygunluğunu, fiyatı veya termin süresini otomatik onaylamaz; OSKA ekibi proje bazında doğrular.{% else %}Share the model or reference, material direction, target market and your need. This form does not automatically confirm sample availability, price or lead time; the OSKA team verifies these per project.{% endif %}</p>
+    <p><a href="/pages/contact-rfq">{% if tr %}Doğrudan üretim teklifi için RFQ formuna dön{% else %}Return to the RFQ form for a production quotation{% endif %}</a></p>
+  </div>
+  {% form 'contact', class:'oska-rfq-form', id:'oskaSampleRequestForm' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Numune talebiniz alındı. Uygunluk, fiyat ve termin OSKA ekibinin doğrulamasından sonra netleşir.{% else %}Your sample request has been received. Availability, pricing and lead time are confirmed only after OSKA review.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+    <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+    <label>{% if tr %}Firma{% else %}Company{% endif %}<input name="contact[company]" autocomplete="organization" required></label>
+    <label>{% if tr %}İş E-postası{% else %}Business Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+    <label>{% if tr %}Ülke / Pazar{% else %}Country / Market{% endif %}<input name="contact[country]" autocomplete="country-name" required></label>
+    <label>{% if tr %}Malzeme yönü{% else %}Material direction{% endif %}
+      <select name="contact[material]">
+        <option>925 Sterling Silver</option><option>Brass / Bronze</option><option>Gold Plated / Vermeil</option><option>Stone Setting</option><option>{% if tr %}Diğer{% else %}Other{% endif %}</option>
+      </select>
+    </label>
+    <label>{% if tr %}Numune adedi (opsiyonel){% else %}Sample quantity (optional){% endif %}<input name="contact[sample_quantity]" inputmode="numeric"></label>
+    <label class="full">{% if tr %}Model / ürün kodu / referans{% else %}Model / product code / reference{% endif %}<input name="contact[reference]" autocomplete="off" required></label>
+    <label class="full">{% if tr %}Numune amacı / kısa brief{% else %}Sample purpose / short brief{% endif %}<textarea name="contact[body]" rows="7" required></textarea></label>
+    <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+    <input type="hidden" name="contact[source]" value="OSKA Sample Request">
+    <button class="oska-button" type="submit">{% if tr %}Numune talebi gönder{% else %}Send sample request{% endif %}</button>
+  {% endform %}
+</section>
+
+<section class="oska-section oska-rfq oska-appointment" data-oska-appointment aria-labelledby="oska-appointment-title" hidden>
+  <div>
+    <div class="oska-eyebrow">{% if tr %}RANDEVU / BUYER CALL{% else %}APPOINTMENT / BUYER CALL{% endif %}</div>
+    <h2 id="oska-appointment-title">{% if tr %}Görüşme talebi oluşturun.{% else %}Request a meeting.{% endif %}</h2>
+    <p>{% if tr %}Online görüşme, buyer call veya atölye görüşmesi için tercih ettiğiniz tarih ve saati paylaşın. Gönderim bir randevu talebidir; OSKA ekibi onayladıktan sonra kesinleşir.{% else %}Share your preferred date and time for an online meeting, buyer call or atelier meeting. Submission is a meeting request; it is confirmed only after OSKA approves the time.{% endif %}</p>
+    <p><a href="/pages/contact-rfq">{% if tr %}Üretim teklifi için RFQ formuna dön{% else %}Return to the RFQ form for a production quote{% endif %}</a></p>
+  </div>
+  {% form 'contact', class:'oska-rfq-form', id:'oskaAppointmentForm' %}
+    {% if form.posted_successfully? %}<p role="status" aria-live="polite">{% if tr %}Randevu talebiniz alındı. Görüşme saati OSKA ekibinin onayından sonra kesinleşir.{% else %}Your meeting request has been received. The time is confirmed only after the OSKA team approves it.{% endif %}</p>{% endif %}
+    <div role="alert">{{ form.errors | default_errors }}</div>
+    <label>{% if tr %}Ad Soyad{% else %}Full Name{% endif %}<input name="contact[name]" autocomplete="name" required></label>
+    <label>{% if tr %}Firma{% else %}Company{% endif %}<input name="contact[company]" autocomplete="organization" required></label>
+    <label>{% if tr %}E-posta{% else %}Email{% endif %}<input type="email" name="contact[email]" autocomplete="email" inputmode="email" required></label>
+    <label>{% if tr %}Telefon (opsiyonel){% else %}Phone (optional){% endif %}<input type="tel" name="contact[phone]" autocomplete="tel"></label>
+    <label>{% if tr %}Tercih edilen tarih{% else %}Preferred date{% endif %}<input type="date" name="contact[requested_date]" required></label>
+    <label>{% if tr %}Tercih edilen saat{% else %}Preferred time{% endif %}<input type="time" name="contact[requested_time]" required></label>
+    <label>{% if tr %}Görüşme türü{% else %}Meeting type{% endif %}
+      <select name="contact[meeting_type]" required>
+        <option value="Online Buyer Call">Online Buyer Call</option>
+        <option value="Atelier Meeting">{% if tr %}Atölye Görüşmesi{% else %}Atelier Meeting{% endif %}</option>
+        <option value="General Business Meeting">{% if tr %}Genel İş Görüşmesi{% else %}General Business Meeting{% endif %}</option>
+      </select>
+    </label>
+    <label class="full">{% if tr %}Kısa not{% else %}Short note{% endif %}<textarea name="contact[body]" rows="6"></textarea></label>
+    <label class="full visually-hidden" aria-hidden="true">Website<input name="contact[website]" tabindex="-1" autocomplete="off"></label>
+    <input type="hidden" name="contact[source]" value="OSKA Appointment Request">
+    <button class="oska-button" type="submit">{% if tr %}Randevu talebi gönder{% else %}Send meeting request{% endif %}</button>
+  {% endform %}
+</section>
+<script>
+(function(){
+  var rfq=document.querySelector('[data-oska-rfq-standard]');
+  var appointment=document.querySelector('[data-oska-appointment]');
+  var sample=document.querySelector('[data-oska-sample-request]');
+  if(!rfq||!appointment||!sample)return;
+  var intent=new URLSearchParams(window.location.search).get('intent');
+  if(intent==='appointment'){
+    rfq.hidden=true;sample.hidden=true;appointment.hidden=false;
+  }else if(intent==='sample'){
+    rfq.hidden=true;appointment.hidden=true;sample.hidden=false;
+  }else{
+    rfq.hidden=false;appointment.hidden=true;sample.hidden=true;
+  }
+})();
+</script>
+{% endif %}
+{% schema %}{"name":"OSKA RFQ / Contact Form","settings":[],"presets":[{"name":"OSKA RFQ / Contact Form"}]}{% endschema %}

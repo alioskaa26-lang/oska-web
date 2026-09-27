@@ -1,0 +1,114 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{{ 'oska-collections-hub.css' | asset_url | stylesheet_tag }}
+<section class="oska-chub">
+
+  <header class="oska-chub__hero">
+    <div class="oska-chub__hero-copy">
+      <div class="oska-chub__eyebrow">OSKA · ISTANBUL</div>
+      <h1>{% if tr %}Koleksiyonlar{% else %}Collections{% endif %}</h1>
+      <p>{% if tr %}OSKA'nın üretim disipliniyle şekillenen tüm ana koleksiyonları, Signature serilerini ve 2026 seçkisini tek akışta keşfedin.{% else %}Explore OSKA's core collections, Signature lines and 2026 selection in one continuous discovery experience.{% endif %}</p>
+      <div class="oska-chub__hero-links">
+        <a href="#all-collections">{% if tr %}TÜM KOLEKSİYONLAR{% else %}ALL COLLECTIONS{% endif %}</a>
+        <a href="#selection-2026">{% if tr %}2026 SEÇKİSİ{% else %}2026 SELECTION{% endif %}</a>
+      </div>
+    </div>
+    <div class="oska-chub__hero-media"><img src="{{ 'mesh-silver.jpeg' | asset_url }}" alt="OSKA Mesh collection" fetchpriority="high"></div>
+  </header>
+
+  <section class="oska-chub__section oska-chub__section--light" id="all-collections">
+    <div class="oska-chub__head">
+      <div><div class="oska-chub__eyebrow">{% if tr %}KEŞİF{% else %}DISCOVER{% endif %}</div><h2>{% if tr %}Tüm Koleksiyonlar{% else %}All Collections{% endif %}</h2></div>
+      <p>{% if tr %}Kadın ve erkek kategorilerindeki tüm koleksiyon ailelerini tek merkezden inceleyin.{% else %}Browse every collection family across women’s and men’s categories from one place.{% endif %}</p>
+    </div>
+    <div class="oska-chub__all-grid">
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-rings#collection-collection_1"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615" alt="Contour" loading="lazy"><span><small>{% if tr %}KADIN · YÜZÜK{% else %}WOMEN · RINGS{% endif %}</small><strong>{% if tr %}Contour{% else %}Contour{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-rings#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637" alt="Halo" loading="lazy"><span><small>{% if tr %}KADIN · YÜZÜK{% else %}WOMEN · RINGS{% endif %}</small><strong>{% if tr %}Halo{% else %}Halo{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-rings#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658" alt="Nocturne" loading="lazy"><span><small>{% if tr %}KADIN · YÜZÜK{% else %}WOMEN · RINGS{% endif %}</small><strong>{% if tr %}Nocturne{% else %}Nocturne{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-rings#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677" alt="Aurelia" loading="lazy"><span><small>{% if tr %}KADIN · YÜZÜK{% else %}WOMEN · RINGS{% endif %}</small><strong>{% if tr %}Aurelia{% else %}Aurelia{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-necklaces#collection-collection_1"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-necklace_north_star.jpg?v=1790271640" alt="Celestial" loading="lazy"><span><small>{% if tr %}KADIN · KOLYE{% else %}WOMEN · NECKLACES{% endif %}</small><strong>{% if tr %}Celestial{% else %}Celestial{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-necklaces#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-necklace_cross.jpg?v=1790271614" alt="Talisman" loading="lazy"><span><small>{% if tr %}KADIN · KOLYE{% else %}WOMEN · NECKLACES{% endif %}</small><strong>{% if tr %}Talisman{% else %}Talisman{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-necklaces#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-necklace_feather.jpg?v=1790271620" alt="Heritage" loading="lazy"><span><small>{% if tr %}KADIN · KOLYE{% else %}WOMEN · NECKLACES{% endif %}</small><strong>{% if tr %}Heritage{% else %}Heritage{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-necklaces#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-necklace_malachite.jpg?v=1790271633" alt="Stone Line" loading="lazy"><span><small>{% if tr %}KADIN · KOLYE{% else %}WOMEN · NECKLACES{% endif %}</small><strong>{% if tr %}Stone Line{% else %}Stone Line{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-earrings#collection-collection_1"><img src="{{ 'oska-012.jpg' | asset_url }}" alt="Sculpted Hoop" loading="lazy"><span><small>{% if tr %}KADIN · KÜPE{% else %}WOMEN · EARRINGS{% endif %}</small><strong>{% if tr %}Sculpted Hoop{% else %}Sculpted Hoop{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-earrings#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682" alt="Pavé Hoop" loading="lazy"><span><small>{% if tr %}KADIN · KÜPE{% else %}WOMEN · EARRINGS{% endif %}</small><strong>{% if tr %}Pavé Hoop{% else %}Pavé Hoop{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-earrings#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676" alt="Drop Line" loading="lazy"><span><small>{% if tr %}KADIN · KÜPE{% else %}WOMEN · EARRINGS{% endif %}</small><strong>{% if tr %}Drop Line{% else %}Drop Line{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-earrings#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693" alt="Nocturne Stud" loading="lazy"><span><small>{% if tr %}KADIN · KÜPE{% else %}WOMEN · EARRINGS{% endif %}</small><strong>{% if tr %}Nocturne Stud{% else %}Nocturne Stud{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-bracelets#collection-linea"><img src="{{ 'oska-020.jpg' | asset_url }}" alt="Linea" loading="lazy"><span><small>{% if tr %}KADIN · BİLEKLİK{% else %}WOMEN · BRACELETS{% endif %}</small><strong>{% if tr %}Linea{% else %}Linea{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-bracelets#collection-nocturne"><img src="{{ 'oska-021.jpg' | asset_url }}" alt="Nocturne" loading="lazy"><span><small>{% if tr %}KADIN · BİLEKLİK{% else %}WOMEN · BRACELETS{% endif %}</small><strong>{% if tr %}Nocturne{% else %}Nocturne{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-bracelets#collection-aurelia"><img src="{{ 'oska-023.jpg' | asset_url }}" alt="Aurelia" loading="lazy"><span><small>{% if tr %}KADIN · BİLEKLİK{% else %}WOMEN · BRACELETS{% endif %}</small><strong>{% if tr %}Aurelia{% else %}Aurelia{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/women-bracelets#collection-icons"><img src="{{ 'oska-047.jpg' | asset_url }}" alt="Icons" loading="lazy"><span><small>{% if tr %}KADIN · BİLEKLİK{% else %}WOMEN · BRACELETS{% endif %}</small><strong>{% if tr %}Icons{% else %}Icons{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-rings#collection-collection_1"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539" alt="Guardian Series" loading="lazy"><span><small>{% if tr %}ERKEK · YÜZÜK{% else %}MEN · RINGS{% endif %}</small><strong>{% if tr %}Guardian Series{% else %}Guardian Series{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-rings#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-true-north.jpg?v=1790270596" alt="Journey Collection" loading="lazy"><span><small>{% if tr %}ERKEK · YÜZÜK{% else %}MEN · RINGS{% endif %}</small><strong>{% if tr %}Journey Collection{% else %}Journey Collection{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-rings#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-shadow-king.jpg?v=1790270583" alt="Dark Relics" loading="lazy"><span><small>{% if tr %}ERKEK · YÜZÜK{% else %}MEN · RINGS{% endif %}</small><strong>{% if tr %}Dark Relics{% else %}Dark Relics{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-rings#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550" alt="Legacy Signet" loading="lazy"><span><small>{% if tr %}ERKEK · YÜZÜK{% else %}MEN · RINGS{% endif %}</small><strong>{% if tr %}Legacy Signet{% else %}Legacy Signet{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-necklaces#collection-collection_1"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_north_star.jpg?v=1790271861" alt="North Star" loading="lazy"><span><small>{% if tr %}ERKEK · KOLYE{% else %}MEN · NECKLACES{% endif %}</small><strong>{% if tr %}North Star{% else %}North Star{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-necklaces#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_wolf.jpg?v=1790271867" alt="Wolf Pendant" loading="lazy"><span><small>{% if tr %}ERKEK · KOLYE{% else %}MEN · NECKLACES{% endif %}</small><strong>{% if tr %}Wolf Pendant{% else %}Wolf Pendant{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-necklaces#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_legacy.jpg?v=1790271839" alt="Legacy Coin" loading="lazy"><span><small>{% if tr %}ERKEK · KOLYE{% else %}MEN · NECKLACES{% endif %}</small><strong>{% if tr %}Legacy Coin{% else %}Legacy Coin{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-necklaces#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_malachite.jpg?v=1790271845" alt="Stone Tag" loading="lazy"><span><small>{% if tr %}ERKEK · KOLYE{% else %}MEN · NECKLACES{% endif %}</small><strong>{% if tr %}Stone Tag{% else %}Stone Tag{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-earrings#collection-collection_1"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_hoop.jpg?v=1790271885" alt="Hoop" loading="lazy"><span><small>{% if tr %}ERKEK · KÜPE{% else %}MEN · EARRINGS{% endif %}</small><strong>{% if tr %}Hoop{% else %}Hoop{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-earrings#collection-collection_2"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_stud.jpg?v=1790271891" alt="Onyx Stud" loading="lazy"><span><small>{% if tr %}ERKEK · KÜPE{% else %}MEN · EARRINGS{% endif %}</small><strong>{% if tr %}Onyx Stud{% else %}Onyx Stud{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-earrings#collection-collection_3"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_cross.jpg?v=1790271876" alt="Cross" loading="lazy"><span><small>{% if tr %}ERKEK · KÜPE{% else %}MEN · EARRINGS{% endif %}</small><strong>{% if tr %}Cross{% else %}Cross{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-earrings#collection-collection_4"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_charm.jpg?v=1790271871" alt="Charm" loading="lazy"><span><small>{% if tr %}ERKEK · KÜPE{% else %}MEN · EARRINGS{% endif %}</small><strong>{% if tr %}Charm{% else %}Charm{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-bracelets#collection-signature"><img src="{{ 'oska-033.jpg' | asset_url }}" alt="Signature Link" loading="lazy"><span><small>{% if tr %}ERKEK · BİLEKLİK{% else %}MEN · BRACELETS{% endif %}</small><strong>{% if tr %}Signature Link{% else %}Signature Link{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-bracelets#collection-panther"><img src="{{ 'oska-035.jpg' | asset_url }}" alt="Panther" loading="lazy"><span><small>{% if tr %}ERKEK · BİLEKLİK{% else %}MEN · BRACELETS{% endif %}</small><strong>{% if tr %}Panther{% else %}Panther{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-bracelets#collection-nocturne"><img src="{{ 'oska-036.jpg' | asset_url }}" alt="Nocturne" loading="lazy"><span><small>{% if tr %}ERKEK · BİLEKLİK{% else %}MEN · BRACELETS{% endif %}</small><strong>{% if tr %}Nocturne{% else %}Nocturne{% endif %}</strong></span></a>
+      <a class="oska-chub__tile oska-chub__collection-family" href="/pages/men-bracelets#collection-stone"><img src="{{ 'oska-037.jpg' | asset_url }}" alt="Stone Line" loading="lazy"><span><small>{% if tr %}ERKEK · BİLEKLİK{% else %}MEN · BRACELETS{% endif %}</small><strong>{% if tr %}Stone Line{% else %}Stone Line{% endif %}</strong></span></a>
+    </div>
+  </section>
+
+  <section class="oska-chub__section oska-chub__section--bone" id="selection-2026">
+  <div class="oska-chub__head"><div><div class="oska-chub__eyebrow">2026</div><h2>{% if tr %}2026 Seçkisi{% else %}2026 Selection{% endif %}</h2></div><p>{% if tr %}Yeni dönem için render tabanlı, global seçki.{% else %}A render-led global selection for the new season.{% endif %}</p></div>
+  <div class="oska-chub__rail">
+    <a href="/pages/women-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630" alt="" loading="lazy"><span>{% if tr %}Kadın Yüzük{% else %}Women Ring{% endif %}</span></a>
+    <a href="/pages/women-earrings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473" alt="" loading="lazy"><span>{% if tr %}Kadın Küpe{% else %}Women Earrings{% endif %}</span></a>
+    <a href="/pages/women-necklaces"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-necklace-emerald-white.png?v=1790363686" alt="" loading="lazy"><span>{% if tr %}Kadın Kolye{% else %}Women Necklace{% endif %}</span></a>
+    <a href="/pages/men-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539" alt="" loading="lazy"><span>{% if tr %}Erkek Yüzük{% else %}Men Ring{% endif %}</span></a>
+    <a href="/pages/men-necklaces"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-articulated-architectural-plaque-white-v2.png?v=1790367427" alt="" loading="lazy"><span>{% if tr %}Erkek Kolye{% else %}Men Necklace{% endif %}</span></a>
+    <a href="/pages/men-earrings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-earrings-oxidized-white.png?v=1790363713" alt="" loading="lazy"><span>{% if tr %}Erkek Küpe{% else %}Men Earrings{% endif %}</span></a>
+  </div>
+</section>
+
+  <section class="oska-chub__section oska-chub__section--signature">
+    <div class="oska-chub__head oska-chub__head--light"><div><div class="oska-chub__eyebrow">OSKA SIGNATURE</div><h2>Signature</h2></div><a class="oska-chub__text-link" href="/pages/oska-signature">{% if tr %}SIGNATURE'I GÖR{% else %}VIEW SIGNATURE{% endif %} →</a></div>
+    <div class="oska-chub__signature-grid">
+      <a class="oska-chub__signature-main" href="/pages/oska-signature"><img src="{{ 'oska-signature-icons.jpg' | asset_url }}" alt="OSKA Signature" loading="lazy"><div><small>OSKA SIGNATURE</small><strong>{% if tr %}İmza dilinin tamamı{% else %}The complete signature language{% endif %}</strong></div></a>
+      <a href="/pages/oska-rings"><img src="{{ 'oska-signature-rings.jpg' | asset_url }}" alt="OSKA Rings" loading="lazy"><span>{% if tr %}Yüzükler{% else %}Rings{% endif %}</span></a>
+      <a href="/pages/oska-necklaces"><img src="{{ 'oska-signature-necklaces.jpg' | asset_url }}" alt="OSKA Necklaces" loading="lazy"><span>{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</span></a>
+      <a href="/pages/oska-earrings"><img src="{{ 'oska-signature-earrings.jpg' | asset_url }}" alt="OSKA Earrings" loading="lazy"><span>{% if tr %}Küpeler{% else %}Earrings{% endif %}</span></a>
+      <a href="/pages/oska-bracelets"><img src="{{ 'oska-signature-bracelets.jpg' | asset_url }}" alt="OSKA Bracelets" loading="lazy"><span>{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</span></a>
+    </div>
+  </section>
+
+  <section class="oska-chub__section oska-chub__section--dark" id="signature-craft">
+    <div class="oska-chub__head oska-chub__head--light"><div><div class="oska-chub__eyebrow">ATELIER SIGNATURE</div><h2>{% if tr %}Panther & Mesh{% else %}Panther & Mesh{% endif %}</h2></div><p>{% if tr %}Hareket, yüzey ve detay üzerinden OSKA'nın daha heykelsi yönü.{% else %}OSKA's more sculptural direction through movement, surface and detail.{% endif %}</p></div>
+    <div class="oska-chub__craft">
+      <a href="/pages/oska-signature"><img src="{{ 'aa126-card.jpg' | asset_url }}" alt="Panther" loading="lazy"><div><small>PANTHER</small><strong>{% if tr %}Heykelsi ve hareketli imza{% else %}Sculptural articulated signature{% endif %}</strong></div></a>
+      <a href="/pages/oska-signature"><img src="{{ 'mesh-silver.jpeg' | asset_url }}" alt="Mesh" loading="lazy"><div><small>MESH</small><strong>{% if tr %}Esnek yapı, rafine yüzey{% else %}Flexible structure, refined surface{% endif %}</strong></div></a>
+    </div>
+  </section>
+
+  <section class="oska-chub__section oska-chub__section--light oska-chub__atelier-picks">
+  <div class="oska-chub__head"><div><div class="oska-chub__eyebrow">{% if tr %}ATÖLYEDEN{% else %}FROM THE ATELIER{% endif %}</div><h2>{% if tr %}Atelier Seçkisi{% else %}Atelier Picks{% endif %}</h2></div><p>{% if tr %}Tezgâh, parça, el işçiliği ve üretim hafızası.{% else %}Bench, components, handcraft and production memory.{% endif %}</p></div>
+  <div class="oska-chub__rail oska-chub__rail--compact">
+    <a href="/pages/manufacturing"><img src="{{ 'atelier.jpeg' | asset_url }}" alt="OSKA atelier" loading="lazy"><span>{% if tr %}Tezgâh{% else %}Jeweller’s Bench{% endif %}</span></a>
+    <a href="/pages/manufacturing"><img src="{{ 'oska-atelier-poster.jpg' | asset_url }}" alt="OSKA production" loading="lazy"><span>{% if tr %}Parçadan Forma{% else %}From Components to Form{% endif %}</span></a>
+    <a href="/pages/manufacturing"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/preview_images/2639962ee91c458384f13ae9d23a9287.thumbnail.0000000000.jpg?v=1790438981" alt="OSKA production pieces" loading="lazy"><span>{% if tr %}Üretim Parçaları{% else %}Production Components{% endif %}</span></a>
+    <a href="/pages/manufacturing"><img src="{{ 'atelier.jpeg' | asset_url }}" alt="OSKA craft" loading="lazy"><span>{% if tr %}El İşçiliği{% else %}Handcraft{% endif %}</span></a>
+  </div>
+</section>
+
+  <section class="oska-chub__closing">
+    <div class="oska-chub__closing-media"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-grand-bazaar-v2.png?v=1790366061" alt="OSKA collection to production" loading="lazy"></div>
+    <div class="oska-chub__closing-copy">
+      <div class="oska-chub__eyebrow">B2B · PRIVATE LABEL</div>
+      <h2>{% if tr %}Koleksiyondan üretime.{% else %}From collection to production.{% endif %}</h2>
+      <p>{% if tr %}Mevcut modelleri inceleyin veya markanız için özel üretim sürecini başlatın. Malzeme, adet ve üretim detayları RFQ aşamasında netleştirilir.{% else %}Explore existing designs or start a private-label production project. Materials, quantities and production details are confirmed during RFQ.{% endif %}</p>
+      <div class="oska-chub__closing-actions">
+        <a href="/pages/manufacturing">{% if tr %}ÜRETİMİ KEŞFET{% else %}DISCOVER MANUFACTURING{% endif %}</a>
+        <a href="/pages/private-label">PRIVATE LABEL</a>
+        <a class="is-primary" href="/pages/contact-rfq">{% if tr %}RFQ GÖNDER{% else %}SEND RFQ{% endif %}</a>
+      </div>
+    </div>
+  </section>
+</section>
+{% schema %}{"name":"OSKA Collections Hub","settings":[],"presets":[{"name":"OSKA Collections Hub"}]}{% endschema %}

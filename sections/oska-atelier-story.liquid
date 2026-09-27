@@ -1,0 +1,51 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section id="oska-atelier-{{ section.id }}" class="oska-atelier-story" aria-labelledby="oska-atelier-title">
+  <div class="oska-atelier-story__media">
+    <video class="oska-atelier-story__video" data-oska-atelier-video data-oska-autoplay autoplay muted playsinline loop preload="metadata" poster="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/preview_images/48fbdfa82e4347cc994fa68549723b00.thumbnail.0000000000.jpg?v=1790456486" aria-describedby="oska-atelier-sound-label">
+      <source src="https://cdn.shopify.com/videos/c/vp/48fbdfa82e4347cc994fa68549723b00/48fbdfa82e4347cc994fa68549723b00.HD-1080p-7.2Mbps-95652433.mp4" type="video/mp4">
+    </video>
+    <button class="oska-atelier-story__sound" type="button" data-oska-atelier-sound data-sound-off="{% if tr %}Sesi Aç{% else %}Unmute{% endif %}" data-sound-on="{% if tr %}Sesi Kapat{% else %}Mute{% endif %}" aria-pressed="false">
+      <span aria-hidden="true">◖)))</span><span id="oska-atelier-sound-label">{% if tr %}Sesi Aç{% else %}Unmute{% endif %}</span>
+    </button>
+  </div>
+
+  <div class="oska-atelier-story__copy" tabindex="0">
+    <div class="oska-atelier-story__credits">
+      <div class="oska-atelier-story__copy-set">
+        <p class="oska-atelier-story__eyebrow">{% if tr %}KAPALIÇARŞI · USTALIK HAFIZASI{% else %}GRAND BAZAAR · A MEMORY OF CRAFT{% endif %}</p>
+        <h2 id="oska-atelier-title">{% if tr %}Kapalıçarşı'dan<br>çağdaş üretime.{% else %}From the Grand Bazaar<br>to contemporary production.{% endif %}</h2>
+        <p>{% if tr %}Kapalıçarşı, yalnızca bir ticaret merkezi değil; metalin, taşın ve el işçiliğinin kuşaktan kuşağa aktarıldığı canlı bir zanaat hafızasıdır. OSKA bu hafızayı çağdaş tasarım, ölçülebilir üretim disiplini ve tutarlı kalite anlayışıyla bir araya getirir.{% else %}The Grand Bazaar is more than a marketplace. It is a living memory of metalwork, stone setting and handcraft passed from one generation to the next. OSKA brings that heritage together with contemporary design, disciplined production and consistent quality standards.{% endif %}</p>
+        <p>{% if tr %}Her proje tasarımdan numuneye, döküm ve el işçiliğinden mıhlama, yüzey işlemleri ve son kalite kontrole kadar atölye içinde izlenen bir süreçtir. 925 gümüş, pirinç ve altın üretim kabiliyetimiz; farklı taş, kaplama, ölçü ve teknik ihtiyaçlara göre şekillenir.{% else %}Every project follows a workshop-led process from design and sampling to casting, hand finishing, stone setting, surface treatment and final quality control. Our capabilities in 925 silver, brass and gold adapt to different stones, finishes, dimensions and technical requirements.{% endif %}</p>
+        <p>{% if tr %}Private label ve toptan üretimde amacımız yalnızca bir ürünü tamamlamak değil; koleksiyon dilini, tekrar üretilebilir kaliteyi ve markanın ticari hedeflerini birlikte korumaktır. OSKA, Kapalıçarşı'nın ustalık kültürünü global markalar için güvenilir bir üretim ortaklığına dönüştürür.{% else %}In private-label and wholesale production, our role goes beyond completing an item. We protect the collection language, repeatable quality and the commercial goals of each brand. OSKA turns the Grand Bazaar's culture of mastery into a dependable production partnership for brands worldwide.{% endif %}</p>
+        <a href="/pages/manufacturing">{% if tr %}ÜRETİMİ KEŞFET{% else %}DISCOVER MANUFACTURING{% endif %}</a>
+      </div>
+
+      <div class="oska-atelier-story__copy-set oska-atelier-story__copy-set--repeat" aria-hidden="true">
+        <p class="oska-atelier-story__eyebrow">{% if tr %}KAPALIÇARŞI · USTALIK HAFIZASI{% else %}GRAND BAZAAR · A MEMORY OF CRAFT{% endif %}</p>
+        <h2>{% if tr %}Kapalıçarşı'dan<br>çağdaş üretime.{% else %}From the Grand Bazaar<br>to contemporary production.{% endif %}</h2>
+        <p>{% if tr %}Kapalıçarşı, yalnızca bir ticaret merkezi değil; metalin, taşın ve el işçiliğinin kuşaktan kuşağa aktarıldığı canlı bir zanaat hafızasıdır. OSKA bu hafızayı çağdaş tasarım, ölçülebilir üretim disiplini ve tutarlı kalite anlayışıyla bir araya getirir.{% else %}The Grand Bazaar is more than a marketplace. It is a living memory of metalwork, stone setting and handcraft passed from one generation to the next. OSKA brings that heritage together with contemporary design, disciplined production and consistent quality standards.{% endif %}</p>
+        <p>{% if tr %}Her proje tasarımdan numuneye, döküm ve el işçiliğinden mıhlama, yüzey işlemleri ve son kalite kontrole kadar atölye içinde izlenen bir süreçtir. 925 gümüş, pirinç ve altın üretim kabiliyetimiz; farklı taş, kaplama, ölçü ve teknik ihtiyaçlara göre şekillenir.{% else %}Every project follows a workshop-led process from design and sampling to casting, hand finishing, stone setting, surface treatment and final quality control. Our capabilities in 925 silver, brass and gold adapt to different stones, finishes, dimensions and technical requirements.{% endif %}</p>
+        <p>{% if tr %}Private label ve toptan üretimde amacımız yalnızca bir ürünü tamamlamak değil; koleksiyon dilini, tekrar üretilebilir kaliteyi ve markanın ticari hedeflerini birlikte korumaktır. OSKA, Kapalıçarşı'nın ustalık kültürünü global markalar için güvenilir bir üretim ortaklığına dönüştürür.{% else %}In private-label and wholesale production, our role goes beyond completing an item. We protect the collection language, repeatable quality and the commercial goals of each brand. OSKA turns the Grand Bazaar's culture of mastery into a dependable production partnership for brands worldwide.{% endif %}</p>
+        <a href="/pages/manufacturing" tabindex="-1">{% if tr %}ÜRETİMİ KEŞFET{% else %}DISCOVER MANUFACTURING{% endif %}</a>
+      </div>
+    </div>
+  </div>
+  <script>
+  /* OSKA_ATELIER_SOUND_LOCAL */
+  (function(){
+    var root=document.getElementById('oska-atelier-{{ section.id }}');
+    if(!root)return;
+    var video=root.querySelector('[data-oska-atelier-video]');
+    var button=root.querySelector('[data-oska-atelier-sound]');
+    if(!video||!button)return;
+    button.addEventListener('click',function(){
+      video.muted=!video.muted;
+      button.setAttribute('aria-pressed',String(!video.muted));
+      var label=button.querySelector('#oska-atelier-sound-label');
+      if(label)label.textContent=video.muted?(button.dataset.soundOff||'Unmute'):(button.dataset.soundOn||'Mute');
+      video.play().catch(function(){});
+    });
+  })();
+  </script>
+</section>
+{% schema %}{"name":"OSKA Atelier Story","settings":[],"presets":[{"name":"OSKA Atelier Story"}]}{% endschema %}

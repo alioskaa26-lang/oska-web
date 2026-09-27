@@ -1,0 +1,10 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{"sections":{"main":{"type":"oska-catalogue-grid","blocks":{"item_1":{"type":"item","settings":{"reference":"OSKA-017","asset_name":"oska-017.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-black-spinel-chain-drops-white-v2.png?v=1790367463"}},"item_2":{"type":"item","settings":{"reference":"OSKA-019","asset_name":"oska-019.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468"}},"item_3":{"type":"item","settings":{"reference":"OSKA-021","asset_name":"oska-021.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-faceted-chunky-hoops-white-v2.png?v=1790367455"}},"item_4":{"type":"item","settings":{"reference":"OSKA-070","asset_name":"oska-070.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-smoky-quartz-shield-drops-white-v2.png?v=1790367473"}}},"block_order":["item_1","item_2","item_3","item_4"],"settings":{"title_tr":"OSKA Signature Küpeler","title_en":"OSKA Signature Earrings","intro_tr":"OSKA Signature seçkisinden; malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir.","intro_en":"Selected from OSKA Signature. Material, sizing, stone and production details are confirmed per project."}}},"order":["main"]}

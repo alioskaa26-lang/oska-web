@@ -1,0 +1,237 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% assign is_women = false %}{% assign is_men = false %}
+{% if page.handle contains 'women-' %}{% assign is_women = true %}{% endif %}
+{% if page.handle contains 'men-' %}{% assign is_men = true %}{% endif %}
+{% assign category_hub_url = '/pages/collections' %}
+{% if is_women %}{% assign category_hub_url = '/pages/women-collections' %}{% endif %}
+{% if is_men %}{% assign category_hub_url = '/pages/men-collections' %}{% endif %}
+{{ 'oska-category-collections.css' | asset_url | stylesheet_tag }}
+
+<section class="oska-collection-landing">
+  <nav class="oska-category-breadcrumb" aria-label="{% if tr %}Koleksiyon yolu{% else %}Collection breadcrumb{% endif %}">
+    <a href="{{ category_hub_url }}">{% if is_women %}{% if tr %}Kadın Koleksiyonları{% else %}Women Collections{% endif %}{% elsif is_men %}{% if tr %}Erkek Koleksiyonları{% else %}Men Collections{% endif %}{% else %}{% if tr %}Koleksiyonlar{% else %}Collections{% endif %}{% endif %}</a>
+    <span aria-hidden="true">/</span>
+    <strong>{% if tr %}{{ section.settings.title_tr }}{% else %}{{ section.settings.title_en }}{% endif %}</strong>
+  </nav>
+  <div class="oska-collection-landing__intro">
+    <div class="oska-eyebrow">{% if tr %}KOLEKSİYONLAR{% else %}COLLECTIONS{% endif %}</div>
+    <h1>{% if tr %}{{ section.settings.title_tr }}{% else %}{{ section.settings.title_en }}{% endif %}</h1>
+    <p>{% if tr %}{{ section.settings.intro_tr }}{% else %}{{ section.settings.intro_en }}{% endif %}</p>
+  </div>
+
+  <div class="oska-collection-landing__grid" id="collections-top">
+    {% for block in section.blocks %}
+      {% assign cover = block.settings.cover_asset | strip %}
+      {% assign cover_url = block.settings.cover_url | strip %}
+      <a class="oska-collection-tile{% if cover_url != blank %} oska-collection-tile--remote{% endif %} oska-cover--{{ cover | handleize }}" href="#collection-{{ block.id }}" {{ block.shopify_attributes }}>
+        <div class="oska-collection-tile__media">
+          {% if cover_url != blank %}
+            <img src="{{ cover_url }}" alt="{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %}" loading="lazy" decoding="async">
+          {% elsif cover != blank %}
+            <img src="{{ cover | asset_img_url: '1600x' }}" alt="{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %}" loading="lazy" decoding="async">
+          {% endif %}
+          <div class="oska-collection-tile__shade"></div>
+          <div class="oska-collection-tile__copy">
+            <div class="oska-eyebrow">{% if tr %}KOLEKSİYON{% else %}COLLECTION{% endif %}</div>
+            <h2>{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %}</h2>
+            <p>{% if tr %}{{ block.settings.subtitle_tr }}{% else %}{{ block.settings.subtitle_en }}{% endif %}</p>
+            <span>{% if tr %}Koleksiyonu incele{% else %}Explore collection{% endif %} →</span>
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+  <div class="oska-collection-landing__groups">
+    {% for block in section.blocks %}
+      {% assign refs = block.settings.refs_csv | split: ',' %}
+      <section class="oska-collection-group" id="collection-{{ block.id }}">
+        <div class="oska-collection-group__head">
+          <div>
+            <a class="oska-collection-back" href="#collections-top">← {% if tr %}Koleksiyonlara dön{% else %}Back to collections{% endif %}</a>
+            <div class="oska-eyebrow">{% if tr %}KOLEKSİYON{% else %}COLLECTION{% endif %}</div>
+            <h2>{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %}</h2>
+          </div>
+          <p>{% if tr %}{{ block.settings.subtitle_tr }}{% else %}{{ block.settings.subtitle_en }}{% endif %}</p>
+        </div>
+
+        <div class="oska-collection-toolbar">
+          <details class="oska-filter-menu">
+            <summary>{% if tr %}FİLTRELER{% else %}FILTERS{% endif %} <span>⌄</span></summary>
+            <div class="oska-filter-menu__panel">
+              <strong>{% if tr %}Üretim seçenekleri{% else %}Production options{% endif %}</strong>
+              <span>925 Silver</span><span>Brass / Bronze</span><span>Gold Vermeil</span><span>{% if tr %}Taşlı üretim{% else %}Stone-set{% endif %}</span>
+              <small>{% if tr %}Seçenekler RFQ aşamasında netleştirilir.{% else %}Options are confirmed during RFQ.{% endif %}</small>
+            </div>
+          </details>
+          <label class="oska-sort-label">{% if tr %}SIRALA{% else %}SORT BY{% endif %}
+            <select class="oska-product-sort" aria-label="{% if tr %}Sırala{% else %}Sort products{% endif %}">
+              <option value="default">{% if tr %}Önerilen{% else %}Featured{% endif %}</option>
+              <option value="az">A–Z</option>
+              <option value="za">Z–A</option>
+            </select>
+          </label>
+        </div>
+        <div class="oska-collection-products">
+          {% assign sample_asset = block.settings.sample_asset | strip %}
+          {% assign product_urls_raw = block.settings.product_urls_csv | strip %}
+          {% assign product_urls = product_urls_raw | split: '|' %}
+          {% assign has_real_refs = false %}
+          {% if product_urls_raw != blank %}
+            {% assign has_real_refs = true %}
+            {% for raw_url in product_urls %}
+              {% assign product_url = raw_url | strip %}
+              {% if product_url != blank %}
+                {% assign product_filename = product_url | split: '/' | last | split: '?' | first %}
+                {% assign model_ref = product_filename | split: '.' | first | handleize %}
+                <article class="oska-collection-product oska-product--remote" data-model="{{ model_ref | escape }}">
+                  <a class="oska-product-heart" href="/pages/model-detail?ref={{ model_ref | upcase | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ product_url | url_encode }}&siblings={{ product_urls_raw | url_encode }}" aria-label="{% if tr %}Teklif iste{% else %}Request quote{% endif %}">♡</a>
+                  <a href="/pages/model-detail?ref={{ model_ref | upcase | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ product_url | url_encode }}&siblings={{ product_urls_raw | url_encode }}" class="oska-collection-product__media">
+                    <img src="{{ product_url }}" alt="{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %} {{ forloop.index }}" loading="lazy" decoding="async">
+                  </a>
+                  <div class="oska-collection-product__copy">
+                    <div class="oska-product-swatches" aria-hidden="true"><i></i><i></i><i></i></div>
+                    <h3 data-oska-model-title="{{ model_ref | escape }}">{{ model_ref | replace: '-', ' ' }}</h3>
+                    <div class="oska-product-ref">OSKA {{ model_ref | upcase }}</div>
+                    <div class="oska-product-material">{% if tr %}925 Gümüş · Altın kaplama · Özel taş seçeneği{% else %}925 Silver · Gold vermeil · Custom stone option{% endif %}</div>
+                    <a class="oska-product-rfq" href="/pages/model-detail?ref={{ model_ref | upcase | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ product_url | url_encode }}&siblings={{ product_urls_raw | url_encode }}">{% if tr %}TEKLİF / NUMUNE İSTE{% else %}REQUEST QUOTE / SAMPLE{% endif %}</a>
+                  </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if product_urls_raw == blank %}
+          {% for raw_ref in refs %}
+            {% assign ref = raw_ref | strip %}
+            {% if ref != blank %}
+              {% assign has_real_refs = true %}
+              {% assign img_name = 'oska-' | append: ref | append: '.jpg' %}
+              <article class="oska-collection-product oska-product--{{ ref | handleize }}" data-model="{{ ref | escape }}">
+                <a class="oska-product-heart" href="/pages/model-detail?ref=OSKA-{{ ref | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ img_name | asset_url | url_encode }}" aria-label="{% if tr %}Teklif iste{% else %}Request quote{% endif %}">♡</a>
+                <a href="/pages/model-detail?ref=OSKA-{{ ref | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ img_name | asset_url | url_encode }}" class="oska-collection-product__media">
+                  <img src="{{ img_name | asset_img_url: '1000x' }}" alt="OSKA {{ ref }}" loading="lazy" decoding="async">
+                </a>
+                <div class="oska-collection-product__copy">
+                  <div class="oska-product-swatches" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <h3>{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %} {{ forloop.index | prepend: '0' }}</h3>
+                  <div class="oska-product-ref">OSKA {{ ref | upcase }}</div>
+                  <div class="oska-product-material">{% if tr %}925 Gümüş · Pirinç · Özel taş seçeneği{% else %}925 Silver · Brass · Custom stone option{% endif %}</div>
+                  <a class="oska-product-rfq" href="/pages/model-detail?ref=OSKA-{{ ref | url_encode }}&collection={{ block.settings.name_en | url_encode }}&category={{ page.handle | url_encode }}&image={{ img_name | asset_url | url_encode }}">{% if tr %}TEKLİF / NUMUNE İSTE{% else %}REQUEST QUOTE / SAMPLE{% endif %}</a>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% unless has_real_refs %}
+            {% if sample_asset != blank %}
+              {% for i in (1..2) %}
+                <article class="oska-collection-product oska-collection-product--sample">
+                  <a href="/pages/contact-rfq?category={{ page.handle }}&collection={{ block.id }}" class="oska-collection-product__media">
+                    <img src="{{ sample_asset | asset_img_url: '1000x' }}" alt="{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %}" loading="lazy" decoding="async">
+                  </a>
+                  <div class="oska-collection-product__copy">
+                    <div class="oska-eyebrow">{% if tr %}ÖRNEK MODEL{% else %}SAMPLE MODEL{% endif %}</div>
+                    <h3>{% if tr %}{{ block.settings.name_tr }}{% else %}{{ block.settings.name_en }}{% endif %} {{ i | prepend: '0' }}</h3>
+                    <a class="oska-mini" href="/pages/contact-rfq?category={{ page.handle }}&collection={{ block.id }}">{% if tr %}RFQ gönder{% else %}Send RFQ{% endif %}</a>
+                  </div>
+                </article>
+              {% endfor %}
+            {% endif %}
+          {% endunless %}
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+
+  {% if is_women or is_men %}
+  <section class="oska-category-continue" aria-labelledby="oska-continue-title">
+    <div class="oska-category-continue__head">
+      <div class="oska-eyebrow">{% if tr %}KEŞFE DEVAM ET{% else %}CONTINUE EXPLORING{% endif %}</div>
+      <h2 id="oska-continue-title">
+        {% if is_women %}{% if tr %}Kadın Dünyasında Devam Et{% else %}Continue in Women{% endif %}
+        {% else %}{% if tr %}Erkek Dünyasında Devam Et{% else %}Continue in Men{% endif %}{% endif %}
+      </h2>
+      <a href="{{ category_hub_url }}">{% if tr %}TÜMÜNÜ GÖR{% else %}VIEW ALL{% endif %} →</a>
+    </div>
+    <div class="oska-category-continue__grid">
+      {% if is_women %}
+        {% unless page.handle == 'women-rings' %}<a href="/pages/women-rings"><span>WOMEN</span>{% if tr %}Kadın Yüzükler{% else %}Women's Rings{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'women-necklaces' %}<a href="/pages/women-necklaces"><span>WOMEN</span>{% if tr %}Kadın Kolyeler{% else %}Women's Necklaces{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'women-earrings' %}<a href="/pages/women-earrings"><span>WOMEN</span>{% if tr %}Kadın Küpeler{% else %}Women's Earrings{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'women-bracelets' %}<a href="/pages/women-bracelets"><span>WOMEN</span>{% if tr %}Kadın Bileklikler{% else %}Women's Bracelets{% endif %}</a>{% endunless %}
+      {% else %}
+        {% unless page.handle == 'men-rings' %}<a href="/pages/men-rings"><span>MEN</span>{% if tr %}Erkek Yüzükler{% else %}Men's Rings{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'men-necklaces' %}<a href="/pages/men-necklaces"><span>MEN</span>{% if tr %}Erkek Kolyeler{% else %}Men's Necklaces{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'men-earrings' %}<a href="/pages/men-earrings"><span>MEN</span>{% if tr %}Erkek Küpeler{% else %}Men's Earrings{% endif %}</a>{% endunless %}
+        {% unless page.handle == 'men-bracelets' %}<a href="/pages/men-bracelets"><span>MEN</span>{% if tr %}Erkek Bileklikler{% else %}Men's Bracelets{% endif %}</a>{% endunless %}
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name":"OSKA Category Collections",
+  "settings":[
+    {"type":"text","id":"title_tr","label":"Başlık TR","default":"Koleksiyonlar"},
+    {"type":"text","id":"title_en","label":"Title EN","default":"Collections"},
+    {"type":"textarea","id":"intro_tr","label":"Giriş TR","default":"Önce koleksiyonu keşfedin; koleksiyonun içinde aynı tasarım dilini taşıyan modelleri inceleyin."},
+    {"type":"textarea","id":"intro_en","label":"Intro EN","default":"Explore a collection first, then discover the models within its design language."}
+  ],
+  "blocks":[
+    {
+      "type":"collection",
+      "name":"Koleksiyon",
+      "settings":[
+        {"type":"text","id":"name_tr","label":"Koleksiyon adı TR"},
+        {"type":"text","id":"name_en","label":"Collection name EN"},
+        {"type":"text","id":"subtitle_tr","label":"Alt açıklama TR"},
+        {"type":"text","id":"subtitle_en","label":"Subtitle EN"},
+        {"type":"text","id":"cover_asset","label":"Kapak asset adı","info":"Örn: oska-025.jpg"},
+        {"type":"text","id":"cover_url","label":"Kapak CDN URL","info":"Shopify Files/CDN üzerindeki doğrudan görsel URL'si."},
+        {"type":"textarea","id":"product_urls_csv","label":"Ürün görsel URL'leri","info":"Dikey çizgi | ile ayırın. Her URL ayrı ürün kartı olur."},
+        {"type":"text","id":"refs_csv","label":"Ürün referansları","info":"Virgülle ayırın. Örn: 025,032"},
+        {"type":"text","id":"sample_asset","label":"Örnek ürün asset adı","info":"Gerçek referans yoksa doğru kategoriye ait örnek ürün görseli. Örn: oska-signature-rings.jpg"}
+      ]
+    }
+  ],
+  "max_blocks":12,
+  "presets":[{"name":"OSKA Category Collections"}]
+}
+{% endschema %}
+<script>
+/* OSKA_MODEL_TITLE_FROM_REAL_ASSET_V1 */
+(function(){
+  function pretty(raw){
+    var s=(raw||'').toLowerCase().replace(/\?.*$/,'').replace(/\.[^.]+$/,'');
+    var parts=s.split('-').filter(Boolean);
+    var drop=new Set(['oska','category','fast','women','woman','men','man','ring','rings','bracelet','bracelets','necklace','necklaces','earring','earrings','white','v2','v3']);
+    parts=parts.filter(function(p){return !drop.has(p);});
+    if(parts.length>2 && /^\d{1,2}$/.test(parts[0])) parts.shift();
+    if(!parts.length) return 'OSKA Model';
+    return parts.map(function(p){
+      if(/^\d+$/.test(p)) return p.padStart(2,'0');
+      return p.charAt(0).toUpperCase()+p.slice(1);
+    }).join(' ');
+  }
+  document.querySelectorAll('[data-oska-model-title]').forEach(function(el){
+    el.textContent=pretty(el.getAttribute('data-oska-model-title'));
+  });
+})();
+
+/* OSKA_COLLECTION_SORT_V2 */
+document.querySelectorAll('.oska-product-sort').forEach(function(select){
+  var group = select.closest('.oska-collection-group');
+  var grid = group && group.querySelector('.oska-collection-products');
+  if(!grid) return;
+  var original = Array.from(grid.children);
+  select.addEventListener('change', function(){
+    var cards = Array.from(grid.querySelectorAll('.oska-collection-product'));
+    if(select.value === 'az') cards.sort((a,b)=>(a.dataset.model||'').localeCompare(b.dataset.model||''));
+    else if(select.value === 'za') cards.sort((a,b)=>(b.dataset.model||'').localeCompare(a.dataset.model||''));
+    else cards = original.filter(x=>x.classList && x.classList.contains('oska-collection-product'));
+    cards.forEach(c=>grid.appendChild(c));
+  });
+});
+</script>

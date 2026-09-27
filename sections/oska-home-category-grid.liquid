@@ -1,0 +1,23 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+<section class="oska-section">
+  <div class="oska-section__head"><div><div class="oska-eyebrow">{% if tr %}KOLEKSİYONLAR{% else %}COLLECTIONS{% endif %}</div><h2>{% if tr %}OSKA dünyasını keşfet{% else %}Discover the OSKA world{% endif %}</h2></div></div>
+  <div class="oska-category-grid">
+    {% for block in section.blocks %}
+      {% assign tile_image = block.settings.asset_name | asset_url %}
+      <a class="oska-category-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+        <img src="{{ tile_image }}" alt="{{ block.settings.title_en | escape }}" loading="lazy">
+        <span class="oska-category-card__overlay"></span>
+        <div class="oska-category-card__copy"><div class="oska-eyebrow">{{ block.settings.eyebrow }}</div><h3>{% if tr %}{{ block.settings.title_tr }}{% else %}{{ block.settings.title_en }}{% endif %}</h3></div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Category Grid","blocks":[{"type":"tile","name":"Category","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"OSKA"},
+{"type":"text","id":"title_tr","label":"Title TR"},
+{"type":"text","id":"title_en","label":"Title EN"},
+{"type":"text","id":"asset_name","label":"Theme asset filename"},
+{"type":"url","id":"link","label":"Link"}
+]}],"max_blocks":8,"presets":[{"name":"OSKA Category Grid"}]}
+{% endschema %}

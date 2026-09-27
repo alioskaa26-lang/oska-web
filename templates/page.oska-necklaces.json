@@ -1,0 +1,10 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{"sections":{"main":{"type":"oska-catalogue-grid","blocks":{"item_1":{"type":"item","settings":{"reference":"OSKA-009","asset_name":"oska-009.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-articulated-architectural-plaque-white-v2.png?v=1790367427"}},"item_2":{"type":"item","settings":{"reference":"OSKA-011","asset_name":"oska-011.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-crescent-shield-smoky-quartz-white-v2.png?v=1790367432"}},"item_3":{"type":"item","settings":{"reference":"OSKA-014","asset_name":"oska-014.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-geometric-wolf-white-v2.png?v=1790367438"}},"item_4":{"type":"item","settings":{"reference":"OSKA-043","asset_name":"oska-043.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-labyrinth-rosette-medallion-white-v2.png?v=1790367443"}}},"block_order":["item_1","item_2","item_3","item_4"],"settings":{"title_tr":"OSKA Signature Kolyeler","title_en":"OSKA Signature Necklaces","intro_tr":"OSKA Signature seçkisinden; malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir.","intro_en":"Selected from OSKA Signature. Material, sizing, stone and production details are confirmed per project."}}},"order":["main"]}

@@ -1,0 +1,20 @@
+{% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
+{% case page.handle %}
+{% when 'women-rings' %}{% assign refs='001|002|003|004|005|006|007|008' | split:'|' %}{% assign title_tr='Kadın Yüzükleri' %}{% assign title_en='Women’s Rings' %}
+{% when 'women-necklaces' %}{% assign refs='009|010|011|012|013|014|015|016' | split:'|' %}{% assign title_tr='Kadın Kolyeleri' %}{% assign title_en='Women’s Necklaces' %}
+{% when 'women-earrings' %}{% assign refs='017|018|019|020|021|022|023|024' | split:'|' %}{% assign title_tr='Kadın Küpeleri' %}{% assign title_en='Women’s Earrings' %}
+{% when 'women-bracelets' %}{% assign refs='025|026|027|028|029|030|031|032' | split:'|' %}{% assign title_tr='Kadın Bilezikleri' %}{% assign title_en='Women’s Bracelets' %}
+{% when 'men-rings' %}{% assign refs='033|034|035|036|037|038|040|041' | split:'|' %}{% assign title_tr='Erkek Yüzükleri' %}{% assign title_en='Men’s Rings' %}
+{% when 'men-necklaces' %}{% assign refs='043|044|045|047|049|050|052|054' | split:'|' %}{% assign title_tr='Erkek Kolyeleri' %}{% assign title_en='Men’s Necklaces' %}
+{% when 'men-bracelets' %}{% assign refs='055|057|058|061|062|063|064|068' | split:'|' %}{% assign title_tr='Erkek Bileklikleri' %}{% assign title_en='Men’s Bracelets' %}
+{% else %}{% assign refs='070|072|076|077|078|079|080|081' | split:'|' %}{% assign title_tr='Erkek Küpeleri' %}{% assign title_en='Men’s Earrings' %}
+{% endcase %}
+<section class="oska-category">
+  <div class="oska-category__intro"><div class="oska-eyebrow">{% if tr %}B2B KATALOG{% else %}B2B CATALOGUE{% endif %}</div><h1>{% if tr %}{{ title_tr }}{% else %}{{ title_en }}{% endif %}</h1><p>{% if tr %}Malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir. Her model için teklif veya numune talebi gönderebilirsiniz.{% else %}Material, sizing, stone and production details are confirmed per project. Request a quotation or sample for any design.{% endif %}</p></div>
+  <div class="oska-static-grid">
+    {% for ref in refs %}{% assign img_name = 'oska-' | append: ref | append: '.jpg' %}
+      <article class="oska-static-card"><a href="/pages/contact-rfq?ref=OSKA-{{ ref }}"><img src="{{ img_name | asset_img_url: '1000x' }}" alt="OSKA {{ ref }}" loading="lazy" decoding="async"></a><div class="oska-static-card__copy"><div class="oska-eyebrow">OSKA {{ ref }}</div><h3>{% if tr %}Teklif için sor{% else %}Request details{% endif %}</h3><a class="oska-mini" href="/pages/contact-rfq?ref=OSKA-{{ ref }}">{% if tr %}RFQ gönder{% else %}Send RFQ{% endif %}</a></div></article>
+    {% endfor %}
+  </div>
+</section>
+{% schema %}{"name":"OSKA Category Page","settings":[]}{% endschema %}

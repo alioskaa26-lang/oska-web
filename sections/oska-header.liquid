@@ -1,0 +1,236 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+{% assign oska_has_tr = false %}
+{% assign oska_has_en = false %}
+{% for language in localization.available_languages %}
+  {% if language.iso_code == 'tr' %}{% assign oska_has_tr = true %}{% endif %}
+  {% if language.iso_code == 'en' %}{% assign oska_has_en = true %}{% endif %}
+{% endfor %}
+{% assign oska_route = request.path %}
+{% assign oska_route_prefix = oska_route | slice: 0, 4 %}
+{% if oska_route == '/tr' or oska_route == '/en' %}
+  {% assign oska_route = '/' %}
+{% elsif oska_route_prefix == '/tr/' %}
+  {% assign oska_route = oska_route | remove_first: '/tr' %}
+{% elsif oska_route_prefix == '/en/' %}
+  {% assign oska_route = oska_route | remove_first: '/en' %}
+{% endif %}
+{% assign oska_tr_url = oska_route %}
+{% if oska_route == '/' %}
+  {% assign oska_en_url = '/en' %}
+{% else %}
+  {% assign oska_en_url = '/en' | append: oska_route %}
+{% endif %}
+
+<div class="oska-utility-bar">
+  <div class="oska-utility-bar__left">
+    <span class="oska-utility-link"><span aria-hidden="true">◎</span>{% if tr %}TÜRKİYE{% else %}TURKEY{% endif %}</span>
+    <a class="oska-utility-link" href="https://www.google.com/maps/search/?api=1&query=Grand+Bazaar+Istanbul" target="_blank" rel="noopener">
+      <span aria-hidden="true">⌖</span>{% if tr %}KAPALIÇARŞI ATÖLYE{% else %}GRAND BAZAAR ATELIER{% endif %}
+    </a>
+  </div>
+  <div class="oska-utility-bar__center"><div class="oska-atelier-marquee__track">
+    <span>{% if tr %}KAPALIÇARŞI · GRAND BAZAAR · İSTANBUL ATÖLYESİ · 925 GÜMÜŞ · PİRİNÇ / BRONZ · PRIVATE LABEL · CAD · NUMUNE · EL İŞÇİLİĞİ · GLOBAL B2B ÜRETİM{% else %}GRAND BAZAAR · ISTANBUL ATELIER · 925 SILVER · BRASS / BRONZE · PRIVATE LABEL · CAD · SAMPLING · HANDCRAFT · GLOBAL B2B MANUFACTURING{% endif %}</span>
+    <span aria-hidden="true">{% if tr %}KAPALIÇARŞI · GRAND BAZAAR · İSTANBUL ATÖLYESİ · 925 GÜMÜŞ · PİRİNÇ / BRONZ · PRIVATE LABEL · CAD · NUMUNE · EL İŞÇİLİĞİ · GLOBAL B2B ÜRETİM{% else %}GRAND BAZAAR · ISTANBUL ATELIER · 925 SILVER · BRASS / BRONZE · PRIVATE LABEL · CAD · SAMPLING · HANDCRAFT · GLOBAL B2B MANUFACTURING{% endif %}</span>
+  </div></div>
+  <div class="oska-utility-bar__right">
+    <a class="oska-utility-link" href="/pages/contact?intent=appointment"><span aria-hidden="true">◒</span>{% if tr %}RANDEVU AL{% else %}BOOK APPOINTMENT{% endif %}</a>
+    <a class="oska-utility-link" href="/pages/contact"><span aria-hidden="true">▱</span>{% if tr %}BİZE ULAŞIN{% else %}CONTACT US{% endif %}</a>
+  </div>
+</div>
+
+
+
+<header class="oska-header">
+  <div class="oska-desktop-head">
+    <a class="oska-brand" href="{{ routes.root_url }}"><span class="oska-brand__master">OSKA</span><span class="oska-brand__sub">SILVER</span></a>
+
+    <nav class="oska-nav" aria-label="Primary">
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="women">
+        <summary>{% if tr %}KADIN{% else %}WOMEN{% endif %}</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KATEGORİYE GÖRE{% else %}SHOP BY CATEGORY{% endif %}</p>
+            <a href="/pages/women-bracelets">{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</a><a href="/pages/women-necklaces">{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</a><a href="/pages/women-rings">{% if tr %}Yüzükler{% else %}Rings{% endif %}</a><a href="/pages/women-earrings">{% if tr %}Küpeler{% else %}Earrings{% endif %}</a><a href="/pages/women-collections">{% if tr %}Tüm Kadın Koleksiyonları{% else %}All Women Collections{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">OSKA SIGNATURE</p>
+            <a href="/pages/oska-signature">{% if tr %}Tüm Signature{% else %}All Signature{% endif %}</a><a href="/pages/oska-bracelets">{% if tr %}Signature Bileklikler{% else %}Signature Bracelets{% endif %}</a><a href="/pages/oska-rings">{% if tr %}Signature Yüzükler{% else %}Signature Rings{% endif %}</a><a href="/pages/oska-necklaces">{% if tr %}Signature Kolyeler{% else %}Signature Necklaces{% endif %}</a><a href="/pages/oska-earrings">{% if tr %}Signature Küpeler{% else %}Signature Earrings{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}MATERYAL & ÜRETİM{% else %}MATERIAL & MAKING{% endif %}</p>
+            <a href="/pages/manufacturing">925 Silver</a><a href="/pages/manufacturing">Brass / Bronze</a><a href="/pages/manufacturing">Gold</a><a href="/pages/manufacturing">CAD & Sampling</a><a href="/pages/manufacturing">{% if tr %}Atölyeyi Keşfet{% else %}Discover Atelier{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}MARKALAR İÇİN{% else %}FOR BRANDS{% endif %}</p>
+            <a href="/pages/private-label">Private Label</a><a href="/pages/contact-rfq?intent=sample">{% if tr %}Numune Talebi{% else %}Sample Request{% endif %}</a><a href="/pages/about">{% if tr %}Neden OSKA?{% else %}Why OSKA?{% endif %}</a><a href="/pages/contact">{% if tr %}Bize Ulaşın{% else %}Contact Us{% endif %}</a>
+          </div>
+          <a class="oska-mega-menu__feature oska-mega-menu__feature--product" href="/pages/women-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-ring-emerald-white.png?v=1790363681" alt=""><span>{% if tr %}KADIN KOLEKSİYONLARI{% else %}WOMEN'S COLLECTIONS{% endif %}</span></a>
+        </div></div>
+      </details>
+
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="men">
+        <summary>{% if tr %}ERKEK{% else %}MEN{% endif %}</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KATEGORİYE GÖRE{% else %}SHOP BY CATEGORY{% endif %}</p>
+            <a href="/pages/men-bracelets">{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</a><a href="/pages/men-necklaces">{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</a><a href="/pages/men-rings">{% if tr %}Yüzükler{% else %}Rings{% endif %}</a><a href="/pages/men-earrings">{% if tr %}Küpeler{% else %}Earrings{% endif %}</a><a href="/pages/men-collections">{% if tr %}Tüm Erkek Koleksiyonları{% else %}All Men Collections{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">OSKA SIGNATURE</p>
+            <a href="/pages/oska-signature">{% if tr %}Tüm Signature{% else %}All Signature{% endif %}</a><a href="/pages/oska-bracelets">{% if tr %}Signature Bileklikler{% else %}Signature Bracelets{% endif %}</a><a href="/pages/oska-rings">{% if tr %}Signature Yüzükler{% else %}Signature Rings{% endif %}</a><a href="/pages/oska-necklaces">{% if tr %}Signature Kolyeler{% else %}Signature Necklaces{% endif %}</a><a href="/pages/oska-earrings">{% if tr %}Signature Küpeler{% else %}Signature Earrings{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}MATERYAL & ÜRETİM{% else %}MATERIAL & MAKING{% endif %}</p>
+            <a href="/pages/manufacturing">925 Silver</a><a href="/pages/manufacturing">Brass / Bronze</a><a href="/pages/manufacturing">Gold</a><a href="/pages/manufacturing">CAD & Sampling</a><a href="/pages/manufacturing">{% if tr %}Atölyeyi Keşfet{% else %}Discover Atelier{% endif %}</a>
+          </div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}MARKALAR İÇİN{% else %}FOR BRANDS{% endif %}</p>
+            <a href="/pages/private-label">Private Label</a><a href="/pages/contact-rfq?intent=sample">{% if tr %}Numune Talebi{% else %}Sample Request{% endif %}</a><a href="/pages/about">{% if tr %}Neden OSKA?{% else %}Why OSKA?{% endif %}</a><a href="/pages/contact">{% if tr %}Bize Ulaşın{% else %}Contact Us{% endif %}</a>
+          </div>
+          <a class="oska-mega-menu__feature oska-mega-menu__feature--product" href="/pages/men-rings"><img src="https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-ring-oxidized-white.png?v=1790363706" alt=""><span>{% if tr %}ERKEK KOLEKSİYONLARI{% else %}MEN'S COLLECTIONS{% endif %}</span></a>
+        </div></div>
+      </details>
+
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="collections">
+        <summary>{% if tr %}KOLEKSİYONLAR{% else %}COLLECTIONS{% endif %}</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">OSKA SIGNATURE</p><a href="/pages/oska-signature">{% if tr %}Tüm Signature{% else %}All Signature{% endif %}</a><a href="/pages/oska-bracelets">{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</a><a href="/pages/oska-rings">{% if tr %}Yüzükler{% else %}Rings{% endif %}</a><a href="/pages/oska-necklaces">{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</a><a href="/pages/oska-earrings">{% if tr %}Küpeler{% else %}Earrings{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KADIN{% else %}WOMEN{% endif %}</p><a href="/pages/women-bracelets">{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</a><a href="/pages/women-necklaces">{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</a><a href="/pages/women-rings">{% if tr %}Yüzükler{% else %}Rings{% endif %}</a><a href="/pages/women-earrings">{% if tr %}Küpeler{% else %}Earrings{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}ERKEK{% else %}MEN{% endif %}</p><a href="/pages/men-bracelets">{% if tr %}Bileklikler{% else %}Bracelets{% endif %}</a><a href="/pages/men-necklaces">{% if tr %}Kolyeler{% else %}Necklaces{% endif %}</a><a href="/pages/men-rings">{% if tr %}Yüzükler{% else %}Rings{% endif %}</a><a href="/pages/men-earrings">{% if tr %}Küpeler{% else %}Earrings{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KEŞFET{% else %}DISCOVER{% endif %}</p><a href="/pages/collections">{% if tr %}Tüm Koleksiyonlar{% else %}All Collections{% endif %}</a><a href="/pages/manufacturing">{% if tr %}Atölye{% else %}Atelier{% endif %}</a><a href="/pages/private-label">Private Label</a><a href="/pages/about">OSKA World</a></div>
+          <a class="oska-mega-menu__feature" href="/pages/collections"><img src="{{ 'panther-editorial.jpeg' | asset_url }}" alt=""><span>{% if tr %}TÜM KOLEKSİYONLAR{% else %}ALL COLLECTIONS{% endif %}</span></a>
+        </div></div>
+      </details>
+
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="manufacturing">
+        <summary>{% if tr %}ÜRETİM{% else %}MANUFACTURING{% endif %}</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KABİLİYETLER{% else %}CAPABILITIES{% endif %}</p><a href="/pages/manufacturing">925 Silver</a><a href="/pages/manufacturing">Brass / Bronze</a><a href="/pages/manufacturing">Gold</a><a href="/pages/manufacturing">{% if tr %}Taşlı Üretim{% else %}Stone Setting{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}GELİŞTİRME{% else %}DEVELOPMENT{% endif %}</p><a href="/pages/manufacturing">CAD</a><a href="/pages/manufacturing">{% if tr %}Numune{% else %}Sampling{% endif %}</a><a href="/pages/manufacturing">{% if tr %}Yüzey / Kaplama{% else %}Finishing / Plating{% endif %}</a><a href="/pages/manufacturing">{% if tr %}Kalite Kontrol{% else %}Quality Control{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}SÜREÇ{% else %}PROCESS{% endif %}</p><a href="/pages/private-label">Brief → CAD</a><a href="/pages/private-label">Sample → Approval</a><a href="/pages/private-label">Production → QC</a><a href="/pages/private-label">Packaging → Shipping</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}BAŞLAYIN{% else %}START{% endif %}</p><a href="/pages/contact-rfq">RFQ</a><a href="/pages/contact-rfq?intent=sample">{% if tr %}Numune Talebi{% else %}Sample Request{% endif %}</a><a href="/pages/contact?intent=appointment">{% if tr %}Atölye Görüşmesi{% else %}Atelier Call{% endif %}</a></div>
+          <a class="oska-mega-menu__feature" href="/pages/manufacturing"><img src="{{ 'atelier.jpeg' | asset_url }}" alt=""><span>{% if tr %}İSTANBUL ATÖLYESİ{% else %}ISTANBUL ATELIER{% endif %}</span></a>
+        </div></div>
+      </details>
+
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="private-label">
+        <summary>PRIVATE LABEL</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}SÜREÇ{% else %}PROCESS{% endif %}</p><a href="/pages/private-label">Brief</a><a href="/pages/private-label">Design Direction</a><a href="/pages/private-label">CAD & Sample</a><a href="/pages/private-label">Production & QC</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}KİMLER İÇİN{% else %}FOR WHOM{% endif %}</p><a href="/pages/private-label">{% if tr %}Mücevher Markaları{% else %}Jewelry Brands{% endif %}</a><a href="/pages/private-label">E-commerce Sellers</a><a href="/pages/private-label">Retailers</a><a href="/pages/private-label">Distributors</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}HİZMETLER{% else %}SERVICES{% endif %}</p><a href="/pages/manufacturing">925 Silver</a><a href="/pages/manufacturing">Brass / Bronze</a><a href="/pages/manufacturing">CAD Ready</a><a href="/pages/manufacturing">Custom Finishes</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}PROJE BAŞLAT{% else %}START A PROJECT{% endif %}</p><a href="/pages/contact-rfq">RFQ</a><a href="/pages/contact-rfq?intent=sample">{% if tr %}Numune Talebi{% else %}Sample Request{% endif %}</a><a href="/pages/contact?intent=appointment">{% if tr %}Buyer Call{% else %}Buyer Call{% endif %}</a></div>
+          <a class="oska-mega-menu__feature oska-mega-menu__feature--product" href="/pages/private-label"><img src="{{ 'oska-aurelia-01.jpg' | asset_url }}" alt=""><span>PRIVATE LABEL</span></a>
+        </div></div>
+      </details>
+
+      <details class="oska-nav-detail oska-mega-detail" data-oska-mega="about">
+        <summary>{% if tr %}HAKKIMIZDA{% else %}ABOUT{% endif %}</summary>
+        <div class="oska-mega-menu"><div class="oska-mega-menu__inner">
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}OSKA'YI KEŞFET{% else %}DISCOVER OSKA{% endif %}</p><a href="/pages/about">{% if tr %}Hakkımızda{% else %}About OSKA{% endif %}</a><a href="/pages/about">{% if tr %}Kapalıçarşı Kökleri{% else %}Grand Bazaar Roots{% endif %}</a><a href="/pages/about">{% if tr %}İstanbul Atölyesi{% else %}Istanbul Atelier{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}OSKA DÜNYASI{% else %}OSKA WORLD{% endif %}</p><a href="/pages/collections">{% if tr %}Koleksiyonlar{% else %}Collections{% endif %}</a><a href="/pages/manufacturing">{% if tr %}Üretim{% else %}Manufacturing{% endif %}</a><a href="/pages/private-label">Private Label</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}B2B{% else %}B2B{% endif %}</p><a href="/pages/contact-rfq">RFQ</a><a href="/pages/contact?intent=appointment">{% if tr %}Randevu Al{% else %}Book Appointment{% endif %}</a><a href="/pages/contact">{% if tr %}Bize Ulaşın{% else %}Contact Us{% endif %}</a></div>
+          <div class="oska-mega-menu__col"><p class="oska-mega-menu__title">{% if tr %}NEDEN OSKA{% else %}WHY OSKA{% endif %}</p><a href="/pages/about">{% if tr %}Üretim Disiplini{% else %}Production Discipline{% endif %}</a><a href="/pages/about">{% if tr %}El İşçiliği{% else %}Handcraft{% endif %}</a><a href="/pages/about">{% if tr %}Global Üretim Ortağı{% else %}Global Production Partner{% endif %}</a></div>
+          <a class="oska-mega-menu__feature" href="/pages/about"><img src="{{ 'oska-signature-icons.jpg' | asset_url }}" alt=""><span>{% if tr %}OSKA DÜNYASI{% else %}OSKA WORLD{% endif %}</span></a>
+        </div></div>
+      </details>
+    </nav>
+
+    <div class="oska-tools">
+      <a class="oska-mini" href="{{ routes.search_url }}">{% if tr %}ARA{% else %}SEARCH{% endif %}</a>
+      <a class="oska-mini" href="/pages/contact-rfq">RFQ</a>
+      <nav class="oska-language-direct" aria-label="{% if tr %}Dil seçimi{% else %}Language selection{% endif %}"><a href="{{ oska_tr_url }}" lang="tr" {% if tr %}aria-current="page"{% endif %}>TR</a><span aria-hidden="true">/</span><a href="{{ oska_en_url }}" lang="en" {% unless tr %}aria-current="page"{% endunless %}>EN</a></nav>
+      <details class="oska-language-ai oska-language-ai--header">
+        <summary aria-label="{% if tr %}OSKA dil asistanını aç{% else %}Open OSKA language assistant{% endif %}"><span class="oska-language-ai__orb" aria-hidden="true"></span><span class="visually-hidden">{% if tr %}Dil Asistanı{% else %}Language Assistant{% endif %}</span></summary>
+        <div class="oska-language-ai__panel" data-oska-language-panel>
+          <div class="oska-language-avatar" data-oska-language-avatar aria-hidden="true">
+            <svg viewBox="0 0 160 180"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5ee6ff"/><stop offset=".55" stop-color="#148cff"/><stop offset="1" stop-color="#e8b454"/></linearGradient></defs><circle cx="80" cy="48" r="31"/><path d="M29 164c4-49 24-76 51-76s47 27 51 76"/><path d="M24 124c20-18 37-27 56-27s36 9 56 27"/><path d="M57 47h46M52 58h56M52 37h56"/></svg>
+          </div>
+          <strong>{% if tr %}OSKA DİL ASİSTANI{% else %}OSKA LANGUAGE ASSISTANT{% endif %}</strong>
+          <p class="oska-language-status" data-oska-language-status>{% if tr %}Konuşun; dilinizi algılamaya çalışacağım.{% else %}Speak; I’ll help you switch language.{% endif %}</p>
+          <button class="oska-language-mic" type="button" data-oska-language-mic>{% if tr %}DİNLİYORUMU BAŞLAT{% else %}START LISTENING{% endif %}</button>
+          <div class="oska-language-quick">
+            <button type="button" data-oska-lang="tr">TR</button><button type="button" data-oska-lang="en">EN</button>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="oska-mobile-head">
+    <button class="oska-mobile-toggle" type="button" data-oska-menu aria-expanded="false" aria-controls="oskaMobileDrawer">{% if tr %}MENÜ{% else %}MENU{% endif %}</button>
+    <a class="oska-brand" href="{{ routes.root_url }}"><span class="oska-brand__master">OSKA</span><span class="oska-brand__sub">SILVER</span></a>
+    <div class="oska-mobile-actions">
+      <a class="oska-mobile-tool" href="{% if tr %}{{ oska_en_url }}{% else %}{{ oska_tr_url }}{% endif %}" aria-label="{% if tr %}İngilizceye geç{% else %}Switch to Turkish{% endif %}">{% if tr %}EN{% else %}TR{% endif %}</a>
+      <button class="oska-mobile-tool oska-mobile-chat" type="button" data-oska-live-chat-open aria-expanded="false" aria-controls="oskaConciergePanel" aria-label="{% if tr %}Canlı yazılı sohbeti aç{% else %}Open live text chat{% endif %}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H9l-5 3v-14Z"></path><path d="M8 10h8M8 13h5"></path></svg></button>
+    </div>
+  </div>
+
+  <div class="oska-mobile-drawer" id="oskaMobileDrawer" data-oska-drawer>
+    <a href="/pages/collections">{% if tr %}Koleksiyonlar{% else %}Collections{% endif %}</a>
+    <a href="/pages/manufacturing">{% if tr %}Üretim{% else %}Manufacturing{% endif %}</a>
+    <a href="/pages/private-label">Private Label</a>
+    <a href="/pages/about">{% if tr %}Hakkımızda{% else %}About{% endif %}</a>
+    <a href="/pages/contact-rfq">RFQ</a>
+    <a href="/pages/contact?intent=appointment">{% if tr %}Randevu Al{% else %}Book Appointment{% endif %}</a>
+    <a href="/pages/contact">{% if tr %}Bize Ulaşın{% else %}Contact Us{% endif %}</a>
+    <div class="oska-mobile-sub"><strong>{% if tr %}Kadın{% else %}Women{% endif %}</strong>
+      <a href="/pages/women-rings">{% if tr %}Yüzük{% else %}Rings{% endif %}</a><a href="/pages/women-necklaces">{% if tr %}Kolye{% else %}Necklaces{% endif %}</a><a href="/pages/women-earrings">{% if tr %}Küpe{% else %}Earrings{% endif %}</a><a href="/pages/women-bracelets">{% if tr %}Bileklik{% else %}Bracelets{% endif %}</a>
+      <strong>{% if tr %}Erkek{% else %}Men{% endif %}</strong>
+      <a href="/pages/men-rings">{% if tr %}Yüzük{% else %}Rings{% endif %}</a><a href="/pages/men-necklaces">{% if tr %}Kolye{% else %}Necklaces{% endif %}</a><a href="/pages/men-bracelets">{% if tr %}Bileklik{% else %}Bracelets{% endif %}</a><a href="/pages/men-earrings">{% if tr %}Küpe{% else %}Earrings{% endif %}</a>
+    </div>
+  </div>
+</header>
+<div id="oska-google-translate" class="oska-google-translate" aria-hidden="true"></div>
+<script>
+(function(){
+  const map={tr:'tr',en:'en'};
+  window.oskaGoogleTranslateInit=function(){
+    if(window.google&&google.translate){
+      new google.translate.TranslateElement({pageLanguage:'tr',includedLanguages:'tr,en',autoDisplay:false},'oska-google-translate');
+    }
+  };
+  function setTranslatedLanguage(lang){
+    const nativeTR='{{ oska_tr_url }}', nativeEN='{{ oska_en_url }}';
+    if(lang==='tr'){ location.assign(nativeTR); return; }
+    if(lang==='en'){ location.assign(nativeEN); return; }
+    const tryCombo=()=>{
+      const combo=document.querySelector('.goog-te-combo');
+      if(combo){combo.value=map[lang]||lang;combo.dispatchEvent(new Event('change'));document.documentElement.lang=lang;return true}
+      return false;
+    };
+    if(!tryCombo()) setTimeout(tryCombo,700);
+  }
+  function detectFromText(text){
+    if(/[\u0400-\u04FF]/.test(text))return'ru';
+    if(/[\u0600-\u06FF]/.test(text))return'ar';
+    if(/[\u4E00-\u9FFF]/.test(text))return'zh-CN';
+    if(/[ñ¿¡]/i.test(text))return'es';
+    return null;
+  }
+  document.addEventListener('click',function(e){
+    const b=e.target.closest('[data-oska-lang]');
+    if(!b)return;
+    setTranslatedLanguage(b.dataset.oskaLang);
+  });
+  const mic=document.querySelector('[data-oska-language-mic]');
+  const status=document.querySelector('[data-oska-language-status]');
+  const avatar=document.querySelector('[data-oska-language-avatar]');
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(mic){
+    mic.addEventListener('click',function(){
+      if(!SR){if(status)status.textContent='Voice recognition is unavailable in this browser.';return}
+      const rec=new SR();
+      rec.lang=(navigator.languages&&navigator.languages[0])||document.documentElement.lang||'tr-TR';
+      rec.interimResults=false;rec.continuous=false;
+      if(status)status.textContent='Listening… / Dinliyorum…';
+      avatar?.classList.add('is-listening');
+      rec.onresult=function(ev){
+        const text=ev.results?.[0]?.[0]?.transcript||'';
+        const detected=detectFromText(text);
+        if(status)status.textContent=text;
+        if(detected)setTranslatedLanguage(detected);
+        avatar?.classList.remove('is-listening');avatar?.classList.add('is-speaking');
+        setTimeout(()=>avatar?.classList.remove('is-speaking'),1400);
+      };
+      rec.onerror=function(){if(status)status.textContent='Dilinizi aşağıdan seçebilirsiniz. / Choose your language below.';avatar?.classList.remove('is-listening')};
+      rec.onend=function(){avatar?.classList.remove('is-listening')};
+      try{rec.start()}catch(err){}
+    });
+  }
+})();
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=oskaGoogleTranslateInit" defer></script>
+{% schema %}{"name":"OSKA Header","settings":[]}{% endschema %}

@@ -1,0 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "search": {
+      "search": "Search",
+      "placeholder": "Search products, collections or services",
+      "submit": "Search"
+    }
+  },
+  "contact": {
+    "form": {
+      "company": "Company",
+      "email": "Email",
+      "market": "Country / market",
+      "message": "Project message",
+      "submit": "Request quotation",
+      "success": "Thank you. Your request has been received."
+    }
+  },
+  "actions": {
+    "enter_password": "Enter password",
+    "submit": "Submit",
+    "close": "Close"
+  },
+  "placeholders": {
+    "password": "Password"
+  },
+  "content": {
+    "wrong_password": "Incorrect password. Please try again."
+  },
+  "blocks": {
+    "email_signup": {
+      "label": "Email address"
+    }
+  }
+}

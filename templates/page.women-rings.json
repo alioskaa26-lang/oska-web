@@ -1,0 +1,179 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "oska-category-collections",
+      "blocks": {
+        "c01": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Contour",
+            "name_en": "Contour",
+            "subtitle_tr": "Contour tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Contour design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c02": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Halo",
+            "name_en": "Halo",
+            "subtitle_tr": "Halo tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Halo design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c03": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Aurelia",
+            "name_en": "Aurelia",
+            "subtitle_tr": "Aurelia tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Aurelia design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c04": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Nocturne",
+            "name_en": "Nocturne",
+            "subtitle_tr": "Nocturne tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Nocturne design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c05": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Celeste",
+            "name_en": "Celeste",
+            "subtitle_tr": "Celeste tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Celeste design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c06": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Meridian",
+            "name_en": "Meridian",
+            "subtitle_tr": "Meridian tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Meridian design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c07": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Seraph",
+            "name_en": "Seraph",
+            "subtitle_tr": "Seraph tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Seraph design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-11.png?v=1790273685",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c08": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Lumen",
+            "name_en": "Lumen",
+            "subtitle_tr": "Lumen tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Lumen design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-11.png?v=1790273685|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-12.png?v=1790273692",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c09": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Élan",
+            "name_en": "Élan",
+            "subtitle_tr": "Élan tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Élan design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-11.png?v=1790273685|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-12.png?v=1790273692|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        },
+        "c10": {
+          "type": "collection",
+          "settings": {
+            "name_tr": "Vela",
+            "name_en": "Vela",
+            "subtitle_tr": "Vela tasarım dilinde seçilmiş premium modeller.",
+            "subtitle_en": "Premium models within the Vela design language.",
+            "cover_asset": "",
+            "cover_url": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677",
+            "product_urls_csv": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-11.png?v=1790273685|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-12.png?v=1790273692|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615|https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623",
+            "refs_csv": "",
+            "sample_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "c01",
+        "c02",
+        "c03",
+        "c04",
+        "c05",
+        "c06",
+        "c07",
+        "c08",
+        "c09",
+        "c10"
+      ],
+      "settings": {
+        "title_tr": "Kadın Yüzükleri",
+        "title_en": "Women’s Rings",
+        "intro_tr": "Mücevher odaklı on kadın yüzük koleksiyonu.",
+        "intro_en": "Ten jewelry-led women’s ring collections."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

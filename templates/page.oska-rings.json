@@ -1,0 +1,10 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{"sections":{"main":{"type":"oska-catalogue-grid","blocks":{"item_1":{"type":"item","settings":{"reference":"OSKA-001","asset_name":"oska-001.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/ring-architectural-wide-band-white-v2.png?v=1790367398"}},"item_2":{"type":"item","settings":{"reference":"OSKA-003","asset_name":"oska-003.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/ring-black-spinel-octagonal-white-v2.png?v=1790367410"}},"item_3":{"type":"item","settings":{"reference":"OSKA-005","asset_name":"oska-005.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/ring-dark-garnet-chevalier-white-v2.png?v=1790367404"}},"item_4":{"type":"item","settings":{"reference":"OSKA-033","asset_name":"oska-033.jpg","label_tr":"Teklif için sor","label_en":"Request details","image_url":"https://cdn.shopify.com/s/files/1/1000/3474/0594/files/ring-green-tourmaline-shield-white-v2.png?v=1790367415"}}},"block_order":["item_1","item_2","item_3","item_4"],"settings":{"title_tr":"OSKA Signature Yüzükler","title_en":"OSKA Signature Rings","intro_tr":"OSKA Signature seçkisinden; malzeme, ölçü, taş ve üretim detayları proje bazında netleştirilir.","intro_en":"Selected from OSKA Signature. Material, sizing, stone and production details are confirmed per project."}}},"order":["main"]}

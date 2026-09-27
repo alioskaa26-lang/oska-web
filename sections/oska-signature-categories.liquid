@@ -1,0 +1,41 @@
+{% assign tr=false %}{% if request.locale.iso_code == 'tr' %}{% assign tr=true %}{% endif %}
+<section class="oska-signature">
+  <div class="oska-signature__head">
+    <div class="oska-eyebrow">OSKA SIGNATURE</div>
+    <h2>OSKA SIGNATURE</h2>
+    <p>{% if tr %}Kapalıçarşı’nın yüzyıllık zanaat hafızasından doğan cesur formlar ve rafine detaylar.{% else %}Bold forms and refined details born from the centuries-old craft heritage of the Grand Bazaar.{% endif %}</p>
+  </div>
+  <div class="oska-signature__grid">
+    {% for block in section.blocks %}
+      <a class="oska-signature__card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+        <div class="oska-signature__media">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: loading:'lazy', alt:block.settings.title_en }}
+          {% elsif block.settings.image_url != blank %}
+            <img src="{{ block.settings.image_url }}" alt="{{ block.settings.title_en | escape }}" loading="lazy" decoding="async">
+          {% else %}
+            <img src="{{ block.settings.asset_name | asset_img_url: '1200x' }}" alt="{{ block.settings.title_en | escape }}" loading="lazy" decoding="async">
+          {% endif %}
+        </div>
+        <div class="oska-signature__copy">
+          <h3>{% if tr %}{{ block.settings.title_tr }}{% else %}{{ block.settings.title_en }}{% endif %}</h3>
+          <p>{% if tr %}{{ block.settings.subtitle_tr }}{% else %}{{ block.settings.subtitle_en }}{% endif %}</p>
+          <span>{% if tr %}KEŞFET{% else %}EXPLORE{% endif %} →</span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+  <div class="oska-signature__footer">
+    <p>{% if tr %}Kapalıçarşı atölye geleneğinden, dünyanın seçkin markaları için üretildi.{% else %}Crafted in the Grand Bazaar workshop tradition for the world’s distinguished brands.{% endif %}</p>
+    <a class="oska-button" href="/pages/oska-signature">{% if tr %}KOLEKSİYONU KEŞFET{% else %}DISCOVER THE COLLECTION{% endif %}</a>
+  </div>
+</section>
+{% schema %}
+{"name":"OSKA Signature","blocks":[{"type":"item","name":"Signature category","settings":[
+{"type":"text","id":"title_tr","label":"Title TR"},{"type":"text","id":"title_en","label":"Title EN"},
+{"type":"text","id":"subtitle_tr","label":"Subtitle TR"},{"type":"text","id":"subtitle_en","label":"Subtitle EN"},
+{"type":"image_picker","id":"image","label":"Replacement image"},
+{"type":"text","id":"image_url","label":"Hosted image URL"},
+{"type":"text","id":"asset_name","label":"Theme asset filename"},
+{"type":"url","id":"link","label":"Link"}]}],"max_blocks":5,"presets":[{"name":"OSKA Signature"}]}
+{% endschema %}
