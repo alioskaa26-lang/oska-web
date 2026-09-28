@@ -1,16 +1,19 @@
 {% assign tr = false %}{% if request.locale.iso_code == 'tr' %}{% assign tr = true %}{% endif %}
-{% assign desktop_video = section.settings.desktop_video_url %}{% if desktop_video == blank %}{% assign desktop_video = 'oska-hero-desktop.mp4' | asset_url %}{% endif %}
-{% assign mobile_video = section.settings.mobile_video_url %}{% if mobile_video == blank %}{% assign mobile_video = 'oska-hero-mobile.mp4' | asset_url %}{% endif %}
-{% assign poster = section.settings.poster_url %}{% if poster == blank %}{% assign poster = 'oska-hero-poster.jpg' | asset_url %}{% endif %}
-<section class="oska-hero oska-hero--cta-only">
+{% assign desktop_video = section.settings.desktop_video_url %}{% if desktop_video == blank %}{% assign desktop_video = 'oska-hero-craft-desktop.mp4' | asset_url %}{% endif %}
+{% assign mobile_video = section.settings.mobile_video_url %}{% if mobile_video == blank %}{% assign mobile_video = 'oska-hero-craft-mobile.mp4' | asset_url %}{% endif %}
+{% assign poster = section.settings.poster_url %}{% if poster == blank %}{% assign poster = 'oska-hero-craft-poster.jpg' | asset_url %}{% endif %}
+<section class="oska-hero oska-hero--craft">
   <video data-oska-hero-video autoplay loop muted playsinline preload="metadata" poster="{{ poster }}" aria-hidden="true" tabindex="-1">
     <source media="(max-width: 700px)" src="{{ mobile_video }}" type="video/mp4">
     <source src="{{ desktop_video }}" type="video/mp4">
   </video>
   <div class="oska-hero__overlay"></div>
-  <div class="oska-hero__copy oska-hero__copy--button-only">
-    <a class="oska-button oska-button--light" href="/pages/collections">{% if tr %}KOLEKSİYONU KEŞFET{% else %}EXPLORE COLLECTIONS{% endif %}</a>
+  <div class="oska-hero__copy">
+    <p class="oska-hero__brand">OSKA <small>SILVER</small></p>
+    <p class="oska-hero__collection">SIGNATURE COLLECTION</p>
+    <a class="oska-button oska-button--light" href="{{ routes.root_url | append: '/' | replace: '//', '/' }}pages/collections">{% if tr %}KOLEKSİYONU KEŞFET{% else %}EXPLORE COLLECTIONS{% endif %}</a>
   </div>
+  <button class="oska-hero__play" type="button" data-oska-video-toggle data-play="{% if tr %}Filmi oynat{% else %}Play film{% endif %}" data-pause="{% if tr %}Filmi duraklat{% else %}Pause film{% endif %}">{% if tr %}Filmi duraklat{% else %}Pause film{% endif %}</button>
 </section>
 {% schema %}
 {"name":"OSKA Hero Video","settings":[
