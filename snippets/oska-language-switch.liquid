@@ -1,0 +1,9 @@
+{% comment %}Shopify resolves primary language, domains and market subfolders.{% endcomment %}
+{% form 'localization', id: id, class: 'oska-language-direct' %}
+  <input type="hidden" name="return_to" value="{{ request.path | escape }}">
+  {% for language in localization.available_languages %}
+    {% if language.iso_code == 'tr' or language.iso_code == 'en' %}
+      <button type="submit" name="language_code" value="{{ language.iso_code }}" lang="{{ language.iso_code }}"{% if language.iso_code == request.locale.iso_code %} aria-current="true"{% endif %}>{{ language.iso_code | upcase }}</button>
+    {% endif %}
+  {% endfor %}
+{% endform %}

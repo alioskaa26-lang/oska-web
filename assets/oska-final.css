@@ -1,0 +1,45 @@
+/* Shared acceptance fixes. Section styles remain responsible for their layout. */
+[hidden]{display:none!important}
+.oska-template-index .oska-hero--craft{position:relative;background:#050505!important;height:clamp(360px,52vw,560px)!important;min-height:0!important;max-height:560px!important;color:#f4f0e8}
+.oska-hero--craft video{left:auto!important;right:0!important;width:74%!important;height:100%!important;object-fit:contain!important;background:#050505!important}
+.oska-hero--craft .oska-hero__overlay{background:linear-gradient(90deg,#050505 0%,rgba(5,5,5,.9) 22%,transparent 48%)!important}
+.oska-hero--craft .oska-hero__copy{left:4vw!important;bottom:38px!important;max-width:320px!important}
+.oska-hero__brand{font:32px/1 Georgia,serif;letter-spacing:.18em;margin:0 0 12px}
+.oska-hero__brand small{font:9px/1 Arial,sans-serif;letter-spacing:.18em}
+.oska-hero--craft h1{font:400 clamp(20px,2.4vw,32px)/1.15 var(--oska-serif);margin:0 0 24px}
+.oska-hero--craft .oska-button{font-size:9px;padding:13px 18px;min-width:0}
+.oska-hero__play{position:absolute;right:16px;bottom:16px;z-index:4;border:1px solid #888;background:#111;color:#eee;padding:10px 12px;min-height:44px;font-size:10px;cursor:pointer}
+@media(min-width:701px) and (max-width:1050px){.oska-template-index .oska-hero--craft{height:420px!important}.oska-hero--craft video{width:78%!important}.oska-hero--craft .oska-hero__copy{max-width:240px!important}}
+@media(max-width:700px){.oska-template-index .oska-hero--craft{height:480px!important;max-height:65svh!important}.oska-hero--craft video{width:100%!important;object-fit:contain!important}.oska-hero--craft .oska-hero__overlay{background:linear-gradient(0deg,#050505,transparent 45%)!important}.oska-hero--craft .oska-hero__copy{left:20px!important;bottom:70px!important;max-width:calc(100% - 40px)!important}.oska-hero__brand{font-size:25px}.oska-hero--craft h1{font-size:20px;margin-bottom:14px}}
+img,video{max-width:100%}
+.oska-language-direct{display:inline-flex;gap:6px;margin:0;align-items:center}
+.oska-language-direct button{font:inherit;font-size:10px;letter-spacing:.06em;color:inherit;background:none;border:0;padding:10px 3px;cursor:pointer}
+.oska-language-direct button[aria-current=true]{border-bottom:1px solid currentColor}
+.oska-brand-assistant,.oska-assistant-mark{font:400 18px/1 Georgia,"Times New Roman",serif;letter-spacing:.14em}
+.oska-brand-assistant{color:inherit;background:none;border:0;padding:8px;cursor:pointer}
+.oska-brand-assistant small,.oska-assistant-mark small{font:10px/1 Arial,sans-serif;letter-spacing:.06em}
+.oska-support-dock .oska-ai-fab{padding:12px!important;background:#111!important;color:#f3f0e9!important;border:1px solid #666!important;border-radius:2px!important}
+.oska-support-dock .oska-ai-fab .oska-assistant-mark{display:inline!important}
+.oska-concierge__wordmark{font:26px/1 Georgia,serif;letter-spacing:.14em;text-align:center;border-top:1px solid #8d8170;border-bottom:1px solid #8d8170;padding:20px 0}
+.oska-concierge__wordmark span{display:block;font:8px/1 Arial,sans-serif;letter-spacing:.3em;margin-top:9px}
+.oska-concierge__panel{max-height:calc(100dvh - 100px);overflow-y:auto;border-radius:4px}
+.oska-concierge__form{grid-template-columns:minmax(0,1fr) 38px 38px}
+.oska-concierge[data-mode=chat] .oska-concierge__form{grid-template-columns:minmax(0,1fr) 38px}
+.oska-concierge__message{overflow-wrap:anywhere}
+.oska-premium-footer{background:#070707!important;color:#f3f3f1!important}
+.oska-premium-footer .oska-language-direct{color:#f3f3f1}
+.oska-footer-column__links{overflow-wrap:anywhere}
+.oska-model-panel,.oska-model-editorial-copy,.oska-model-final-cta>*{min-width:0;overflow-wrap:anywhere}
+.oska-rfq-form input,.oska-rfq-form select,.oska-rfq-form textarea{min-width:0;max-width:100%}
+.oska-static-card,.oska-card{min-width:0;overflow-wrap:anywhere}
+.oska-model-shot figcaption{position:absolute;bottom:8px;left:8px;font-size:10px;color:#555;background:#fff;padding:3px 5px}
+.oska-model-shot{position:relative}
+.oska-model-gallery-note{grid-column:1/-1;font-size:11px;color:#666;margin:5px 0}
+.oska-model-shot--lifestyle img{object-fit:contain!important;width:84%!important;height:84%!important}
+.oska-model-shot--lifestyle{background:#fff!important}
+.oska-mobile-drawer{max-height:calc(100dvh - 70px);overflow-y:auto}
+.oska-search{display:flex;gap:12px;flex-wrap:wrap}
+.oska-search input{flex:1;min-width:180px;max-width:100%;padding:12px}
+@media(max-width:1050px){.oska-desktop-head{display:none!important}.oska-mobile-head{display:grid!important}.oska-premium-footer__columns{min-width:0}}
+@media(min-width:821px){.oska-footer-column summary{pointer-events:none}}
+@media(max-width:560px){.oska-support-dock{max-width:calc(100vw - 20px)}.oska-model-final-cta{padding:28px 20px}.oska-mobile-actions{gap:8px}.oska-mobile-head .oska-brand{font-size:26px!important}}

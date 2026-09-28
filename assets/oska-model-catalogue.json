@@ -1,0 +1,652 @@
+[
+  {
+    "ref": "OSKA-CATEGORY-MEN-BRACELET-OXIDIZED-WHITE",
+    "category": "men-bracelets",
+    "collection": "Signature Link",
+    "collectionTR": "Signature Link",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-bracelet-oxidized-white.png?v=1790363696",
+    "categoryTR": "Erkek Bileklikleri",
+    "categoryEN": "Men’s Bracelets"
+  },
+  {
+    "ref": "OSKA-PANTHER-GOLD-WHITE-CLEAN",
+    "category": "men-bracelets",
+    "collection": "Panther",
+    "collectionTR": "Panther",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-white-clean.jpg?v=1790446440",
+    "categoryTR": "Erkek Bileklikleri",
+    "categoryEN": "Men’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-02-BRAIDED-CABLE-CUFF-WHITE-V2",
+    "category": "men-bracelets",
+    "collection": "Nocturne",
+    "collectionTR": "Nocturne",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377",
+    "categoryTR": "Erkek Bileklikleri",
+    "categoryEN": "Men’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-03-BLACK-SPINEL-TENNIS-WHITE-V2",
+    "category": "men-bracelets",
+    "collection": "Stone Line",
+    "collectionTR": "Stone Line",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381",
+    "categoryTR": "Erkek Bileklikleri",
+    "categoryEN": "Men’s Bracelets"
+  },
+  {
+    "ref": "OSKA-WHITE-MEN-EARRING-HOOP",
+    "category": "men-earrings",
+    "collection": "Hoop",
+    "collectionTR": "Hoop",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_hoop.jpg?v=1790271885",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-WHITE-MEN-EARRING-STUD",
+    "category": "men-earrings",
+    "collection": "Onyx Stud",
+    "collectionTR": "Onyx Stud",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_stud.jpg?v=1790271891",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-WHITE-MEN-EARRING-CROSS",
+    "category": "men-earrings",
+    "collection": "Cross",
+    "collectionTR": "Cross",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_cross.jpg?v=1790271876",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-WHITE-MEN-EARRING-CHARM",
+    "category": "men-earrings",
+    "collection": "Charm",
+    "collectionTR": "Charm",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-men_earring_charm.jpg?v=1790271871",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-MEN-EARRING-HOOP",
+    "category": "men-earrings",
+    "collection": "Forge Hoop",
+    "collectionTR": "Forge Hoop",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-men_earring_hoop.jpg?v=1790271662",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-MEN-EARRING-STUD",
+    "category": "men-earrings",
+    "collection": "Obsidian Stud",
+    "collectionTR": "Obsidian Stud",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-men_earring_stud.jpg?v=1790271668",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-MEN-EARRING-CROSS",
+    "category": "men-earrings",
+    "collection": "Axis Drop",
+    "collectionTR": "Axis Drop",
+    "anchor": "collection-c07",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-men_earring_cross.jpg?v=1790271657",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-MEN-EARRING-CHARM",
+    "category": "men-earrings",
+    "collection": "North Charm",
+    "collectionTR": "North Charm",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-men_earring_charm.jpg?v=1790271652",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-CATEGORY-MEN-EARRINGS-OXIDIZED-WHITE",
+    "category": "men-earrings",
+    "collection": "Chain Link",
+    "collectionTR": "Chain Link",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-earrings-oxidized-white.png?v=1790363713",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-EARRINGS-WHITE-V3",
+    "category": "men-earrings",
+    "collection": "Signature",
+    "collectionTR": "Signature",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359",
+    "categoryTR": "Erkek Küpeleri",
+    "categoryEN": "Men’s Earrings"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-NORTH-STAR",
+    "category": "men-necklaces",
+    "collection": "North Star",
+    "collectionTR": "North Star",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_north_star.jpg?v=1790271861",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-WOLF",
+    "category": "men-necklaces",
+    "collection": "Wolf Pendant",
+    "collectionTR": "Wolf Pendant",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_wolf.jpg?v=1790271867",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-LEGACY",
+    "category": "men-necklaces",
+    "collection": "Legacy Coin",
+    "collectionTR": "Legacy Coin",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_legacy.jpg?v=1790271839",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-MALACHITE",
+    "category": "men-necklaces",
+    "collection": "Stone Tag",
+    "collectionTR": "Stone Tag",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_malachite.jpg?v=1790271845",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-FEATHER",
+    "category": "men-necklaces",
+    "collection": "Feather",
+    "collectionTR": "Feather",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_feather.jpg?v=1790271833",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-CATEGORY-MEN-NECKLACE-OXIDIZED-WHITE",
+    "category": "men-necklaces",
+    "collection": "Cross",
+    "collectionTR": "Cross",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-men-necklace-oxidized-white.png?v=1790363692",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "NECKLACE-ARTICULATED-ARCHITECTURAL-PLAQUE-WHITE-V2",
+    "category": "men-necklaces",
+    "collection": "Meridian Tag",
+    "collectionTR": "Meridian Tag",
+    "anchor": "collection-c07",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-articulated-architectural-plaque-white-v2.png?v=1790367427",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "NECKLACE-LABYRINTH-ROSETTE-MEDALLION-WHITE-V2",
+    "category": "men-necklaces",
+    "collection": "Forge Pendant",
+    "collectionTR": "Forge Pendant",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-labyrinth-rosette-medallion-white-v2.png?v=1790367443",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-NECKLACES-WHITE-V3",
+    "category": "men-necklaces",
+    "collection": "Signature",
+    "collectionTR": "Signature",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-necklaces-white-v3.png?v=1790367348",
+    "categoryTR": "Erkek Kolyeleri",
+    "categoryEN": "Men’s Necklaces"
+  },
+  {
+    "ref": "OSKA-MEN-RING-LION-CREST",
+    "category": "men-rings",
+    "collection": "Lion Crest",
+    "collectionTR": "Lion Crest",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lion-crest.jpg?v=1790270533",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-MEN-RING-LONE-WOLF",
+    "category": "men-rings",
+    "collection": "Lone Wolf",
+    "collectionTR": "Lone Wolf",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-lone-wolf.jpg?v=1790270539",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-MEN-RING-NORTH-SKULL",
+    "category": "men-rings",
+    "collection": "North Skull",
+    "collectionTR": "North Skull",
+    "anchor": "collection-c07",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-north-skull.jpg?v=1790270544",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-MEN-RING-OBSIDIAN-AXIS",
+    "category": "men-rings",
+    "collection": "Obsidian Axis",
+    "collectionTR": "Obsidian Axis",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-obsidian-axis.jpg?v=1790270550",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-MEN-RING-SERPENT-GUARD",
+    "category": "men-rings",
+    "collection": "Serpent Guard",
+    "collectionTR": "Serpent Guard",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-serpent-guard.jpg?v=1790270576",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-MEN-RING-VALKYRIE",
+    "category": "men-rings",
+    "collection": "Valkyrie",
+    "collectionTR": "Valkyrie",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-men-ring-valkyrie.jpg?v=1790270601",
+    "categoryTR": "Erkek Yüzükleri",
+    "categoryEN": "Men’s Rings"
+  },
+  {
+    "ref": "OSKA-PANTHER-GOLD-WHITE-CLEAN",
+    "category": "women-bracelets",
+    "collection": "Panthère Lumière",
+    "collectionTR": "Panthère Lumière",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-white-clean.jpg?v=1790446440",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-PANTHER-GOLD-CLEAN",
+    "category": "women-bracelets",
+    "collection": "Aurelia",
+    "collectionTR": "Aurelia",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-gold-clean.jpg?v=1790446440",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-PANTHER-WHITE-CLEAN",
+    "category": "women-bracelets",
+    "collection": "Panthère Blanche",
+    "collectionTR": "Panthère Blanche",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-white-clean.jpg?v=1790446440",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-CATEGORY-WOMEN-BRACELET-PANTHER-WHITE",
+    "category": "women-bracelets",
+    "collection": "Éclat",
+    "collectionTR": "Éclat",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-bracelet-panther-white.png?v=1790363675",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-BRACELETS-WHITE-V3",
+    "category": "women-bracelets",
+    "collection": "Signature",
+    "collectionTR": "Signature",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-bracelets-white-v3.png?v=1790367341",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-04-SCULPTED-HINGED-CUFF-WHITE-V2",
+    "category": "women-bracelets",
+    "collection": "Sculpté",
+    "collectionTR": "Sculpté",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-04-sculpted-hinged-cuff-white-v2.png?v=1790367387",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-01-ARCHITECTURAL-ARTICULATED-LINKS-WHITE-V2",
+    "category": "women-bracelets",
+    "collection": "Rivière Link",
+    "collectionTR": "Rivière Link",
+    "anchor": "collection-c07",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-01-architectural-articulated-links-white-v2.png?v=1790367372",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-02-BRAIDED-CABLE-CUFF-WHITE-V2",
+    "category": "women-bracelets",
+    "collection": "Tressé",
+    "collectionTR": "Tressé",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-02-braided-cable-cuff-white-v2.png?v=1790367377",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "BRACELET-03-BLACK-SPINEL-TENNIS-WHITE-V2",
+    "category": "women-bracelets",
+    "collection": "Nocturne Tennis",
+    "collectionTR": "Nocturne Tennis",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/bracelet-03-black-spinel-tennis-white-v2.png?v=1790367381",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-PANTHER-BLACK-STONES-CLEAN",
+    "category": "women-bracelets",
+    "collection": "Obsidian Panther",
+    "collectionTR": "Obsidian Panther",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-panther-black-stones-clean.jpg?v=1790446440",
+    "categoryTR": "Kadın Bileklikleri",
+    "categoryEN": "Women’s Bracelets"
+  },
+  {
+    "ref": "OSKA-FAST-WOMEN-EARRING-SCULPTED-HOOP",
+    "category": "women-earrings",
+    "collection": "Sculpted Hoop",
+    "collectionTR": "Sculpted Hoop",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_sculpted_hoop.jpg?v=1790271687",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-WOMEN-EARRING-PAVE-HOOP",
+    "category": "women-earrings",
+    "collection": "Pavé Hoop",
+    "collectionTR": "Pavé Hoop",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_pave_hoop.jpg?v=1790271682",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-WOMEN-EARRING-DROP",
+    "category": "women-earrings",
+    "collection": "Drop Line",
+    "collectionTR": "Drop Line",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_drop.jpg?v=1790271676",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-CATEGORY-WOMEN-EARRINGS-EMERALD-WHITE",
+    "category": "women-earrings",
+    "collection": "Emerald Drop",
+    "collectionTR": "Emerald Drop",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-earrings-emerald-white.png?v=1790363701",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "EARRINGS-EIGHT-POINT-ROSETTE-STUDS-WHITE-V2",
+    "category": "women-earrings",
+    "collection": "Celeste Stud",
+    "collectionTR": "Celeste Stud",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/earrings-eight-point-rosette-studs-white-v2.png?v=1790367468",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-FAST-WOMEN-EARRING-TWIST-STUD",
+    "category": "women-earrings",
+    "collection": "Aurelia Twist",
+    "collectionTR": "Aurelia Twist",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-fast-women_earring_twist_stud.jpg?v=1790271693",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-EARRINGS-WHITE-V3",
+    "category": "women-earrings",
+    "collection": "Lumière",
+    "collectionTR": "Lumière",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-earrings-white-v3.png?v=1790367359",
+    "categoryTR": "Kadın Küpeleri",
+    "categoryEN": "Women’s Earrings"
+  },
+  {
+    "ref": "OSKA-CATEGORY-WOMEN-NECKLACE-EMERALD-WHITE",
+    "category": "women-necklaces",
+    "collection": "Celestial",
+    "collectionTR": "Celestial",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-category-women-necklace-emerald-white.png?v=1790363686",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "NECKLACE-CRESCENT-SHIELD-SMOKY-QUARTZ-WHITE-V2",
+    "category": "women-necklaces",
+    "collection": "Talisman",
+    "collectionTR": "Talisman",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-crescent-shield-smoky-quartz-white-v2.png?v=1790367432",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "NECKLACE-LABYRINTH-ROSETTE-MEDALLION-WHITE-V2",
+    "category": "women-necklaces",
+    "collection": "Heritage",
+    "collectionTR": "Heritage",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-labyrinth-rosette-medallion-white-v2.png?v=1790367443",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "NECKLACE-ARTICULATED-ARCHITECTURAL-PLAQUE-WHITE-V2",
+    "category": "women-necklaces",
+    "collection": "Stone Line",
+    "collectionTR": "Stone Line",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/necklace-articulated-architectural-plaque-white-v2.png?v=1790367427",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-NECKLACES-WHITE-V3",
+    "category": "women-necklaces",
+    "collection": "Aurelia",
+    "collectionTR": "Aurelia",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-necklaces-white-v3.png?v=1790367348",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-NECKLACES-GRAND-BAZAAR-V2",
+    "category": "women-necklaces",
+    "collection": "Constellation",
+    "collectionTR": "Constellation",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-necklaces-grand-bazaar-v2.png?v=1790366068",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-SIGNATURE-NECKLACES",
+    "category": "women-necklaces",
+    "collection": "Solstice",
+    "collectionTR": "Solstice",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-signature-necklaces.jpg?v=1790190817",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-MALACHITE",
+    "category": "women-necklaces",
+    "collection": "Malachite",
+    "collectionTR": "Malachite",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_malachite.jpg?v=1790271845",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WHITE-NECKLACE-FEATHER",
+    "category": "women-necklaces",
+    "collection": "Feather",
+    "collectionTR": "Feather",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-white-necklace_feather.jpg?v=1790271833",
+    "categoryTR": "Kadın Kolyeleri",
+    "categoryEN": "Women’s Necklaces"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-01",
+    "category": "women-rings",
+    "collection": "Contour",
+    "collectionTR": "Contour",
+    "anchor": "collection-c01",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-01.png?v=1790273615",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-02",
+    "category": "women-rings",
+    "collection": "Halo",
+    "collectionTR": "Halo",
+    "anchor": "collection-c02",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-02.png?v=1790273623",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-03",
+    "category": "women-rings",
+    "collection": "Aurelia",
+    "collectionTR": "Aurelia",
+    "anchor": "collection-c03",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-03.png?v=1790273630",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-04",
+    "category": "women-rings",
+    "collection": "Nocturne",
+    "collectionTR": "Nocturne",
+    "anchor": "collection-c04",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-04.png?v=1790273637",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-05",
+    "category": "women-rings",
+    "collection": "Celeste",
+    "collectionTR": "Celeste",
+    "anchor": "collection-c05",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-05.png?v=1790273643",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-06",
+    "category": "women-rings",
+    "collection": "Meridian",
+    "collectionTR": "Meridian",
+    "anchor": "collection-c06",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-06.png?v=1790273651",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-07",
+    "category": "women-rings",
+    "collection": "Seraph",
+    "collectionTR": "Seraph",
+    "anchor": "collection-c07",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-07.png?v=1790273658",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-08",
+    "category": "women-rings",
+    "collection": "Lumen",
+    "collectionTR": "Lumen",
+    "anchor": "collection-c08",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-08.png?v=1790273664",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-09",
+    "category": "women-rings",
+    "collection": "Élan",
+    "collectionTR": "Élan",
+    "anchor": "collection-c09",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-09.png?v=1790273671",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  },
+  {
+    "ref": "OSKA-WOMEN-RING-ALPHA-10",
+    "category": "women-rings",
+    "collection": "Vela",
+    "collectionTR": "Vela",
+    "anchor": "collection-c10",
+    "image": "https://cdn.shopify.com/s/files/1/1000/3474/0594/files/oska-women-ring-alpha-10.png?v=1790273677",
+    "categoryTR": "Kadın Yüzükleri",
+    "categoryEN": "Women’s Rings"
+  }
+]
