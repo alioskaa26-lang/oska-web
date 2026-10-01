@@ -14,13 +14,13 @@
   "dependencies": {
     "next": "16.2.6",
     "postgres": "3.4.9",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@types/node": "24.7.0",
-    "@types/react": "19.0.16",
-    "@types/react-dom": "19.0.9",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "typescript": "5.9.3"
   }
 }
