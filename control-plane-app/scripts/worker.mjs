@@ -78,7 +78,7 @@ function firstLead(providerResult, fallback = null) {
 async function addEvent(jobId, eventType, detail = {}) {
   await sql`
     INSERT INTO oska_job_events (job_id, event_type, detail)
-    VALUES (${jobId}, ${eventType}, ${JSON.stringify(detail)}::jsonb)
+    VALUES (${jobId}, ${eventType}, ${sql.json(detail)})
   `;
 }
 
@@ -270,10 +270,10 @@ async function enqueueJob({
     VALUES (
       ${id},
       ${type},
-      ${JSON.stringify(payload)}::jsonb,
+      ${sql.json(payload)},
       'pending',
       ${priority},
-      ${JSON.stringify(preferredProviders)}::jsonb,
+      ${sql.json(preferredProviders)},
       ${maxAttempts},
       'not_required'
     )
@@ -408,10 +408,10 @@ async function upsertLead(job, candidate, verification) {
       ${clean(candidate.role)},
       ${email},
       ${phoneWhatsapp},
-      ${JSON.stringify(Array.isArray(candidate.signals) ? candidate.signals : [])}::jsonb,
-      ${JSON.stringify(Array.isArray(candidate.sourceUrls) ? candidate.sourceUrls : [])}::jsonb,
+      ${sql.json(Array.isArray(candidate.signals) ? candidate.signals : [])},
+      ${sql.json(Array.isArray(candidate.sourceUrls) ? candidate.sourceUrls : [])},
       ${Number.isFinite(Number(verification?.score)) ? Number(verification.score) : null},
-      ${JSON.stringify(Array.isArray(verification?.reasons) ? verification.reasons : [])}::jsonb,
+      ${sql.json(Array.isArray(verification?.reasons) ? verification.reasons : [])},
       ${job.id},
       ${job.payload?.parentJobId ?? null},
       ${status},
