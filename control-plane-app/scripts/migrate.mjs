@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS oska_known_entities (
 
 CREATE INDEX IF NOT EXISTS oska_known_entities_domain_idx
   ON oska_known_entities (domain);
-);
+`);
 
 try {
   const { readFile } = await import("node:fs/promises");
