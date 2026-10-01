@@ -8,18 +8,24 @@ export async function POST(request: Request) {
     note?: string;
   };
 
-  if (!body.jobId || !body.decision) {
+  const jobId = body.jobId;
+  const decision = body.decision;
+
+  if (!jobId || !decision) {
     return Response.json(
       { ok: false, error: "jobId and decision are required" },
       { status: 400 },
     );
   }
 
+  const approvedBy = body.approvedBy ?? null;
+  const note = body.note ?? null;
   const sql = getSql();
+
   const jobs = await sql`
     SELECT id, type, status, approval_status
     FROM oska_jobs
-    WHERE id = ${body.jobId}
+    WHERE id = ${jobId}
   `;
 
   if (jobs.length === 0) {
@@ -34,32 +40,34 @@ export async function POST(request: Request) {
     );
   }
 
-  const nextStatus = body.decision === "approved" ? "pending" : "cancelled";
+  const nextStatus = decision === "approved" ? "pending" : "cancelled";
 
   await sql.begin(async (tx) => {
     await tx`
       UPDATE oska_jobs
-      SET approval_status = ${body.decision},
+      SET approval_status = ${decision},
           status = ${nextStatus},
-          next_run_at = CASE WHEN ${body.decision} = 'approved' THEN now() ELSE next_run_at END,
+          next_run_at = CASE WHEN ${decision} = 'approved' THEN now() ELSE next_run_at END,
           locked_by = NULL,
           locked_at = NULL,
           updated_at = now()
-      WHERE id = ${body.jobId}
+      WHERE id = ${jobId}
     `;
+
     await tx`
       INSERT INTO oska_approvals (job_id, decision, approved_by, note)
-      VALUES (${body.jobId}, ${body.decision}, ${body.approvedBy ?? null}, ${body.note ?? null})
+      VALUES (${jobId}, ${decision}, ${approvedBy}, ${note})
     `;
+
     await tx`
       INSERT INTO oska_job_events (job_id, event_type, detail)
       VALUES (
-        ${body.jobId},
-        ${body.decision === "approved" ? "human_approved" : "human_rejected"},
-        ${JSON.stringify({ approvedBy: body.approvedBy ?? null, note: body.note ?? null })}::jsonb
+        ${jobId},
+        ${decision === "approved" ? "human_approved" : "human_rejected"},
+        ${JSON.stringify({ approvedBy, note })}::jsonb
       )
     `;
   });
 
-  return Response.json({ ok: true, jobId: body.jobId, decision: body.decision });
+  return Response.json({ ok: true, jobId, decision });
 }
