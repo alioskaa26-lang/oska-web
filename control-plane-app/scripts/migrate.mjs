@@ -63,7 +63,22 @@ CREATE TABLE IF NOT EXISTS oska_provider_health (
   last_seen_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+INSERT INTO oska_jobs (
+  id, type, payload, status, priority, preferred_providers, approval_status
+)
+VALUES (
+  'system-canary-2026-10-01-v1',
+  'system_canary',
+  '{"source":"migration-canary"}'::jsonb,
+  'pending',
+  100,
+  '[]'::jsonb,
+  'not_required'
+)
+ON CONFLICT (id) DO NOTHING;
 `);
 
 console.log("OSKA Control Plane schema ready");
+console.log("System canary seeded idempotently: system-canary-2026-10-01-v1");
 await sql.end();
