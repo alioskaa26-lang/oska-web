@@ -299,6 +299,27 @@ async function enqueueVerificationChildren(job, providerResult) {
     }
 
     const key = canonicalKey({ ...lead, domain });
+
+    const known = await sql`
+      SELECT canonical_key
+      FROM (
+        SELECT canonical_key FROM oska_known_entities WHERE canonical_key = ${key}
+        UNION ALL
+        SELECT canonical_key FROM oska_leads WHERE canonical_key = ${key}
+      ) AS known_match
+      LIMIT 1
+    `;
+
+    if (known[0]) {
+      skipped.push(key);
+      await addEvent(job.id, "candidate_dedup_skipped", {
+        canonicalKey: key,
+        company,
+        domain,
+      });
+      continue;
+    }
+
     const id = `lead-verify-${shortHash(key)}`;
 
     const inserted = await enqueueJob({
