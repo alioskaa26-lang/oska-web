@@ -1,16 +1,77 @@
 import postgres from "postgres";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
 
-const sql = postgres(url, { max: 4, connect_timeout: 15 });
+const concurrency = Math.max(
+  1,
+  Math.min(6, Number(process.env.OSKA_WORKER_CONCURRENCY || 3)),
+);
+const verifyMinScore = Math.max(
+  50,
+  Math.min(100, Number(process.env.OSKA_VERIFY_MIN_SCORE || 80)),
+);
+const enrichMinScore = Math.max(
+  50,
+  Math.min(100, Number(process.env.OSKA_ENRICH_MIN_SCORE || 70)),
+);
+
+const sql = postgres(url, {
+  max: Math.max(8, concurrency * 3),
+  connect_timeout: 15,
+});
+
 const workerId = process.env.RAILWAY_REPLICA_ID || `worker-${randomUUID()}`;
-const defaultProviders = (process.env.OSKA_PROVIDERS || "chatgpt-web,parallel-search,tinyfish,exa,openai-luna")
+const defaultProviders = (
+  process.env.OSKA_PROVIDERS ||
+  "chatgpt-web,parallel-search,tinyfish,exa,openai-luna"
+)
   .split(",")
   .map((v) => v.trim())
   .filter(Boolean);
+
+function clean(value) {
+  if (typeof value !== "string") return null;
+  const text = value.trim();
+  return text || null;
+}
+
+function normalizeDomain(value) {
+  const raw = clean(value);
+  if (!raw) return null;
+  try {
+    const url = new URL(raw.includes("://") ? raw : `https://${raw}`);
+    return url.hostname.toLowerCase().replace(/^www\./, "");
+  } catch {
+    return raw
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .split("/")[0]
+      .trim() || null;
+  }
+}
+
+function canonicalKey(candidate) {
+  const domain = normalizeDomain(candidate?.domain);
+  if (domain) return `domain:${domain}`;
+
+  const company = clean(candidate?.company)?.toLowerCase() || "unknown";
+  const country = clean(candidate?.country)?.toLowerCase() || "unknown";
+  return `company:${company}|${country}`;
+}
+
+function shortHash(value) {
+  return createHash("sha256").update(value).digest("hex").slice(0, 20);
+}
+
+function firstLead(providerResult, fallback = null) {
+  const leads = providerResult?.evidence?.leads;
+  if (Array.isArray(leads) && leads[0]) return leads[0];
+  return fallback;
+}
 
 async function addEvent(jobId, eventType, detail = {}) {
   await sql`
@@ -69,8 +130,11 @@ async function claimJob() {
 
 async function safeJson(response) {
   const text = await response.text();
-  try { return text ? JSON.parse(text) : {}; }
-  catch { return { raw: text }; }
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return { raw: text };
+  }
 }
 
 async function callProvider(provider, job) {
@@ -95,7 +159,11 @@ async function callProvider(provider, job) {
   });
 
   const data = await safeJson(response);
-  if (!response.ok) throw new Error(`HTTP_${response.status}:${JSON.stringify(data).slice(0,500)}`);
+  if (!response.ok) {
+    throw new Error(
+      `HTTP_${response.status}:${JSON.stringify(data).slice(0, 700)}`,
+    );
+  }
   return data;
 }
 
@@ -106,6 +174,7 @@ async function runFailover(job) {
       : defaultProviders;
 
   const failures = [];
+
   for (const provider of providers) {
     try {
       const evidence = await callProvider(provider, job);
@@ -116,7 +185,10 @@ async function runFailover(job) {
       const message = error instanceof Error ? error.message : String(error);
       failures.push({ provider, error: message });
       await markProvider(provider, false, message);
-      await addEvent(job.id, "provider_failed", { provider, error: message });
+      await addEvent(job.id, "provider_failed", {
+        provider,
+        error: message.slice(0, 1000),
+      });
     }
   }
 
@@ -139,8 +211,12 @@ async function verify(job, providerResult) {
   });
 
   const data = await safeJson(response);
-  if (!response.ok) throw new Error(`VERIFIER_HTTP_${response.status}`);
-  if (!data?.ok) throw new Error(`VERIFIER_REJECTED:${JSON.stringify(data).slice(0,500)}`);
+  if (!response.ok) {
+    throw new Error(
+      `VERIFIER_HTTP_${response.status}:${JSON.stringify(data).slice(0, 700)}`,
+    );
+  }
+
   return data;
 }
 
@@ -160,8 +236,230 @@ async function sendOutbound(job, providerResult, verification) {
   });
 
   const data = await safeJson(response);
-  if (!response.ok) throw new Error(`OUTBOUND_HTTP_${response.status}`);
+  if (!response.ok) {
+    throw new Error(
+      `OUTBOUND_HTTP_${response.status}:${JSON.stringify(data).slice(0, 700)}`,
+    );
+  }
   return data;
+}
+
+async function enqueueJob({
+  id,
+  type,
+  payload,
+  priority = 0,
+  preferredProviders = [],
+  maxAttempts = 3,
+}) {
+  const rows = await sql`
+    INSERT INTO oska_jobs (
+      id, type, payload, status, priority,
+      preferred_providers, max_attempts, approval_status
+    )
+    VALUES (
+      ${id},
+      ${type},
+      ${JSON.stringify(payload)}::jsonb,
+      'pending',
+      ${priority},
+      ${JSON.stringify(preferredProviders)}::jsonb,
+      ${maxAttempts},
+      'not_required'
+    )
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
+  `;
+
+  if (rows[0]) {
+    await addEvent(id, "queued_by_pipeline", {
+      type,
+      parentJobId: payload?.parentJobId ?? null,
+    });
+    return true;
+  }
+  return false;
+}
+
+async function enqueueVerificationChildren(job, providerResult) {
+  const leads = Array.isArray(providerResult?.evidence?.leads)
+    ? providerResult.evidence.leads
+    : [];
+
+  const queued = [];
+  const skipped = [];
+
+  for (const lead of leads) {
+    const company = clean(lead?.company);
+    const domain = normalizeDomain(lead?.domain);
+
+    if (!company && !domain) {
+      skipped.push("missing-company-domain");
+      continue;
+    }
+
+    const key = canonicalKey({ ...lead, domain });
+    const id = `lead-verify-${shortHash(key)}`;
+
+    const inserted = await enqueueJob({
+      id,
+      type: "lead_verify",
+      payload: {
+        candidate: { ...lead, domain },
+        canonicalKey: key,
+        parentJobId: job.id,
+        goal:
+          "Independently verify this specific company as a real OSKA B2B prospect. Verify company/domain, product-material fit, ecommerce or B2B/replenishment signals, and current public decision-maker/contact evidence. Do not invent contacts.",
+      },
+      priority: 500,
+      preferredProviders: ["chatgpt-web", "openai-luna"],
+      maxAttempts: 3,
+    });
+
+    if (inserted) queued.push(id);
+  }
+
+  return {
+    candidates: leads.length,
+    queued: queued.length,
+    queuedIds: queued,
+    skipped,
+  };
+}
+
+async function upsertLead(job, candidate, verification) {
+  if (!candidate) throw new Error("NO_VERIFIED_LEAD_PAYLOAD");
+
+  const company = clean(candidate.company);
+  const domain = normalizeDomain(candidate.domain);
+
+  if (!company && !domain) {
+    throw new Error("VERIFIED_LEAD_MISSING_IDENTITY");
+  }
+
+  const key = job.payload?.canonicalKey || canonicalKey({ ...candidate, domain });
+  const email = clean(candidate.email);
+  const phoneWhatsapp = clean(candidate.phoneWhatsapp);
+  const decisionMaker = clean(candidate.decisionMaker);
+  const status = email || phoneWhatsapp ? "contact_ready" : "verified";
+
+  const rows = await sql`
+    INSERT INTO oska_leads (
+      canonical_key,
+      company,
+      domain,
+      country,
+      category,
+      material,
+      decision_maker,
+      role,
+      email,
+      phone_whatsapp,
+      signals,
+      source_urls,
+      verification_score,
+      verification_reasons,
+      source_job_id,
+      parent_job_id,
+      status,
+      first_seen_at,
+      last_verified_at,
+      updated_at
+    )
+    VALUES (
+      ${key},
+      ${company || domain || "Unknown"},
+      ${domain},
+      ${clean(candidate.country)},
+      ${clean(candidate.category)},
+      ${clean(candidate.material)},
+      ${decisionMaker},
+      ${clean(candidate.role)},
+      ${email},
+      ${phoneWhatsapp},
+      ${JSON.stringify(Array.isArray(candidate.signals) ? candidate.signals : [])}::jsonb,
+      ${JSON.stringify(Array.isArray(candidate.sourceUrls) ? candidate.sourceUrls : [])}::jsonb,
+      ${Number.isFinite(Number(verification?.score)) ? Number(verification.score) : null},
+      ${JSON.stringify(Array.isArray(verification?.reasons) ? verification.reasons : [])}::jsonb,
+      ${job.id},
+      ${job.payload?.parentJobId ?? null},
+      ${status},
+      now(),
+      now(),
+      now()
+    )
+    ON CONFLICT (canonical_key) DO UPDATE SET
+      company = COALESCE(EXCLUDED.company, oska_leads.company),
+      domain = COALESCE(EXCLUDED.domain, oska_leads.domain),
+      country = COALESCE(EXCLUDED.country, oska_leads.country),
+      category = COALESCE(EXCLUDED.category, oska_leads.category),
+      material = COALESCE(EXCLUDED.material, oska_leads.material),
+      decision_maker = COALESCE(EXCLUDED.decision_maker, oska_leads.decision_maker),
+      role = COALESCE(EXCLUDED.role, oska_leads.role),
+      email = COALESCE(EXCLUDED.email, oska_leads.email),
+      phone_whatsapp = COALESCE(EXCLUDED.phone_whatsapp, oska_leads.phone_whatsapp),
+      signals = CASE
+        WHEN jsonb_array_length(EXCLUDED.signals) > 0 THEN EXCLUDED.signals
+        ELSE oska_leads.signals
+      END,
+      source_urls = CASE
+        WHEN jsonb_array_length(EXCLUDED.source_urls) > 0 THEN EXCLUDED.source_urls
+        ELSE oska_leads.source_urls
+      END,
+      verification_score = COALESCE(EXCLUDED.verification_score, oska_leads.verification_score),
+      verification_reasons = CASE
+        WHEN jsonb_array_length(EXCLUDED.verification_reasons) > 0 THEN EXCLUDED.verification_reasons
+        ELSE oska_leads.verification_reasons
+      END,
+      source_job_id = EXCLUDED.source_job_id,
+      parent_job_id = COALESCE(EXCLUDED.parent_job_id, oska_leads.parent_job_id),
+      status = CASE
+        WHEN COALESCE(EXCLUDED.email, oska_leads.email) IS NOT NULL
+          OR COALESCE(EXCLUDED.phone_whatsapp, oska_leads.phone_whatsapp) IS NOT NULL
+        THEN 'contact_ready'
+        ELSE 'verified'
+      END,
+      last_verified_at = now(),
+      updated_at = now()
+    RETURNING *
+  `;
+
+  return rows[0];
+}
+
+async function maybeQueueContactEnrichment(lead) {
+  if (!lead) return null;
+
+  const needsEnrichment =
+    !clean(lead.email) ||
+    !clean(lead.decision_maker) ||
+    !clean(lead.phone_whatsapp);
+
+  if (!needsEnrichment) return null;
+
+  const id = `contact-enrich-${shortHash(lead.canonical_key)}`;
+
+  const inserted = await enqueueJob({
+    id,
+    type: "contact_enrich",
+    payload: {
+      canonicalKey: lead.canonical_key,
+      parentJobId: lead.source_job_id,
+      company: lead.company,
+      domain: lead.domain,
+      country: lead.country,
+      currentEmail: lead.email,
+      currentDecisionMaker: lead.decision_maker,
+      currentPhoneWhatsapp: lead.phone_whatsapp,
+      goal:
+        "Find current public official company email, named buyer/purchasing/procurement/merchandising/sourcing contact, role, and explicitly verified company or decision-maker WhatsApp when available. Never label an ordinary phone as WhatsApp without proof.",
+    },
+    priority: 300,
+    preferredProviders: ["chatgpt-web", "openai-luna"],
+    maxAttempts: 3,
+  });
+
+  return inserted ? id : null;
 }
 
 async function complete(job, result) {
@@ -174,17 +472,35 @@ async function complete(job, result) {
         locked_at = NULL,
         completed_at = now(),
         updated_at = now()
-    WHERE id = ${job.id} AND locked_by = ${workerId}
+    WHERE id = ${job.id}
+      AND locked_by = ${workerId}
   `;
+
   await addEvent(job.id, "completed", { workerId });
-  console.log("job completed", job.id, JSON.stringify(result));
-  if (job.type === "system_canary") console.log("SYSTEM_CANARY_PASS", job.id);
+
+  console.log(
+    "JOB_COMPLETED",
+    JSON.stringify({
+      id: job.id,
+      type: job.type,
+      accepted: result?.accepted ?? null,
+      candidateCount: result?.candidateCount ?? null,
+      verificationScore: result?.verificationScore ?? null,
+    }),
+  );
+
+  if (job.type === "system_canary") {
+    console.log("SYSTEM_CANARY_PASS", job.id);
+  }
 }
 
 async function fail(job, error) {
   const message = error instanceof Error ? error.message : String(error);
   const terminal = Number(job.attempt_count) >= Number(job.max_attempts);
-  const delaySeconds = Math.min(900, 15 * 2 ** Math.max(0, Number(job.attempt_count) - 1));
+  const delaySeconds = Math.min(
+    900,
+    15 * 2 ** Math.max(0, Number(job.attempt_count) - 1),
+  );
 
   await sql`
     UPDATE oska_jobs
@@ -197,25 +513,52 @@ async function fail(job, error) {
           ELSE now() + (${delaySeconds} * interval '1 second')
         END,
         updated_at = now()
-    WHERE id = ${job.id} AND locked_by = ${workerId}
+    WHERE id = ${job.id}
+      AND locked_by = ${workerId}
   `;
 
-  await addEvent(job.id, terminal ? "dead_letter" : "retry_scheduled", {
-    error: message,
-    attempt: job.attempt_count,
-    delaySeconds: terminal ? null : delaySeconds,
-  });
+  await addEvent(
+    job.id,
+    terminal ? "dead_letter" : "retry_scheduled",
+    {
+      error: message.slice(0, 1500),
+      attempt: job.attempt_count,
+      delaySeconds: terminal ? null : delaySeconds,
+    },
+  );
+
+  console.error(
+    "JOB_FAILED",
+    JSON.stringify({
+      id: job.id,
+      type: job.type,
+      terminal,
+      attempt: job.attempt_count,
+      error: message.slice(0, 1000),
+    }),
+  );
 }
 
 async function processJob(job) {
-  await addEvent(job.id, "claimed", { workerId, attempt: job.attempt_count });
+  await addEvent(job.id, "claimed", {
+    workerId,
+    attempt: job.attempt_count,
+  });
 
   if (job.type === "system_canary") {
-    await complete(job, { ok: true, workerId, database: "ok" });
+    await complete(job, {
+      ok: true,
+      workerId,
+      database: "ok",
+      accepted: true,
+    });
     return;
   }
 
-  const isOutbound = job.type === "outbound_email" || job.type === "outbound_whatsapp";
+  const isOutbound =
+    job.type === "outbound_email" ||
+    job.type === "outbound_whatsapp";
+
   if (isOutbound && job.approval_status !== "approved") {
     await sql`
       UPDATE oska_jobs
@@ -223,8 +566,10 @@ async function processJob(job) {
           locked_by = NULL,
           locked_at = NULL,
           updated_at = now()
-      WHERE id = ${job.id} AND locked_by = ${workerId}
+      WHERE id = ${job.id}
+        AND locked_by = ${workerId}
     `;
+
     await addEvent(job.id, "waiting_human_approval");
     return;
   }
@@ -232,14 +577,140 @@ async function processJob(job) {
   const providerResult = await runFailover(job);
   if (!providerResult.ok) throw new Error(providerResult.error);
 
+  if (job.type === "lead_discovery") {
+    const children = await enqueueVerificationChildren(job, providerResult);
+
+    if (children.candidates === 0) {
+      throw new Error("NO_DISCOVERY_CANDIDATES");
+    }
+
+    await complete(job, {
+      accepted: true,
+      provider: providerResult.provider,
+      candidateCount: children.candidates,
+      verificationJobsQueued: children.queued,
+      summary: providerResult?.evidence?.summary ?? null,
+    });
+    return;
+  }
+
   const verification = await verify(job, providerResult);
+  const verificationScore = Number(verification?.score || 0);
+
+  if (job.type === "lead_verify") {
+    const accepted =
+      verification?.ok === true &&
+      verificationScore >= verifyMinScore;
+
+    if (!accepted) {
+      await addEvent(job.id, "lead_rejected", {
+        score: verificationScore,
+        reasons: verification?.reasons ?? [],
+      });
+
+      await complete(job, {
+        accepted: false,
+        verificationScore,
+        reasons: verification?.reasons ?? [],
+      });
+      return;
+    }
+
+    const candidate = firstLead(
+      providerResult,
+      job.payload?.candidate ?? null,
+    );
+    const lead = await upsertLead(job, candidate, verification);
+    const contactJobId = await maybeQueueContactEnrichment(lead);
+
+    await addEvent(job.id, "lead_accepted", {
+      canonicalKey: lead.canonical_key,
+      score: verificationScore,
+      contactJobId,
+    });
+
+    await complete(job, {
+      accepted: true,
+      canonicalKey: lead.canonical_key,
+      company: lead.company,
+      domain: lead.domain,
+      verificationScore,
+      contactReady: lead.status === "contact_ready",
+      contactJobId,
+    });
+    return;
+  }
+
+  if (job.type === "contact_enrich") {
+    const accepted =
+      verification?.ok === true &&
+      verificationScore >= enrichMinScore;
+
+    if (!accepted) {
+      await complete(job, {
+        accepted: false,
+        verificationScore,
+        reasons: verification?.reasons ?? [],
+      });
+      return;
+    }
+
+    const fallback = {
+      company: job.payload?.company,
+      domain: job.payload?.domain,
+      country: job.payload?.country,
+      email: job.payload?.currentEmail,
+      decisionMaker: job.payload?.currentDecisionMaker,
+      phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+    };
+    const candidate = firstLead(providerResult, fallback);
+    const lead = await upsertLead(job, candidate, verification);
+
+    await complete(job, {
+      accepted: true,
+      canonicalKey: lead.canonical_key,
+      company: lead.company,
+      verificationScore,
+      contactReady: lead.status === "contact_ready",
+      emailFound: Boolean(lead.email),
+      decisionMakerFound: Boolean(lead.decision_maker),
+      whatsappFound: Boolean(lead.phone_whatsapp),
+    });
+    return;
+  }
 
   if (isOutbound) {
-    const sent = await sendOutbound(job, providerResult, verification);
-    await complete(job, { providerResult, verification, sent });
-  } else {
-    await complete(job, { providerResult, verification });
+    if (verification?.ok !== true) {
+      throw new Error(
+        `VERIFIER_REJECTED:${JSON.stringify(verification).slice(0, 700)}`,
+      );
+    }
+
+    const sent = await sendOutbound(
+      job,
+      providerResult,
+      verification,
+    );
+
+    await complete(job, {
+      accepted: true,
+      verificationScore,
+      sent,
+    });
+    return;
   }
+
+  if (verification?.ok !== true) {
+    throw new Error(
+      `VERIFIER_REJECTED:${JSON.stringify(verification).slice(0, 700)}`,
+    );
+  }
+
+  await complete(job, {
+    accepted: true,
+    provider: providerResult.provider,
+    verificationScore,
+  });
 }
 
 async function runStartupCanary() {
@@ -248,7 +719,8 @@ async function runStartupCanary() {
   const claimed = await sql.begin(async (tx) => {
     await tx`
       INSERT INTO oska_jobs (
-        id, type, payload, status, priority, preferred_providers, approval_status
+        id, type, payload, status, priority,
+        preferred_providers, approval_status
       )
       VALUES (
         ${canaryId},
@@ -284,35 +756,65 @@ async function runStartupCanary() {
     FROM oska_jobs
     WHERE id = ${canaryId}
   `;
-  console.log("SYSTEM_CANARY_FINAL", JSON.stringify(finalRows[0] ?? null));
+
+  console.log(
+    "SYSTEM_CANARY_FINAL",
+    JSON.stringify(finalRows[0] ?? null),
+  );
 
   if (finalRows[0]?.status !== "completed") {
-    throw new Error(`SYSTEM_CANARY_FAILED:${JSON.stringify(finalRows[0] ?? null)}`);
+    throw new Error(
+      `SYSTEM_CANARY_FAILED:${JSON.stringify(finalRows[0] ?? null)}`,
+    );
   }
 }
 
-async function main() {
-  console.log(`OSKA worker started: ${workerId}`);
-  await runStartupCanary();
+async function workerLoop(slot) {
+  console.log(
+    "WORKER_SLOT_STARTED",
+    JSON.stringify({ workerId, slot }),
+  );
 
   while (true) {
     const job = await claimJob();
+
     if (!job) {
-      await sleep(2000);
+      await sleep(1500);
       continue;
     }
 
     try {
       await processJob(job);
     } catch (error) {
-      console.error("job failed", job.id, error);
       await fail(job, error);
     }
   }
 }
 
+async function main() {
+  console.log(
+    "OSKA_WORKER_STARTED",
+    JSON.stringify({
+      workerId,
+      concurrency,
+      verifyMinScore,
+      enrichMinScore,
+      providers: defaultProviders,
+    }),
+  );
+
+  await runStartupCanary();
+
+  await Promise.all(
+    Array.from(
+      { length: concurrency },
+      (_, slot) => workerLoop(slot + 1),
+    ),
+  );
+}
+
 async function shutdown(signal) {
-  console.log("shutdown", signal);
+  console.log("WORKER_SHUTDOWN", signal);
   await sql.end({ timeout: 5 });
   process.exit(0);
 }
@@ -321,7 +823,7 @@ process.on("SIGTERM", () => void shutdown("SIGTERM"));
 process.on("SIGINT", () => void shutdown("SIGINT"));
 
 main().catch(async (error) => {
-  console.error(error);
+  console.error("WORKER_FATAL", error);
   await sql.end({ timeout: 5 });
   process.exit(1);
 });
