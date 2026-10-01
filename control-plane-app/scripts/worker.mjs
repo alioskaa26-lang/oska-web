@@ -680,11 +680,39 @@ async function processJob(job) {
       company: job.payload?.company,
       domain: job.payload?.domain,
       country: job.payload?.country,
+      category: job.payload?.currentCategory,
+      material: job.payload?.currentMaterial,
       email: job.payload?.currentEmail,
       decisionMaker: job.payload?.currentDecisionMaker,
+      role: job.payload?.currentRole,
       phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+      sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
+      signals: [],
     };
-    const candidate = firstLead(providerResult, fallback);
+
+    const found = firstLead(providerResult, null) || {};
+    const candidate = {
+      ...fallback,
+      ...found,
+      company: clean(found.company) || clean(fallback.company),
+      domain: normalizeDomain(found.domain) || normalizeDomain(fallback.domain),
+      country: clean(found.country) || clean(fallback.country),
+      category: clean(found.category) || clean(fallback.category),
+      material: clean(found.material) || clean(fallback.material),
+      email: clean(found.email) || clean(fallback.email),
+      decisionMaker: clean(found.decisionMaker) || clean(fallback.decisionMaker),
+      role: clean(found.role) || clean(fallback.role),
+      phoneWhatsapp: clean(found.phoneWhatsapp) || clean(fallback.phoneWhatsapp),
+      sourceUrls:
+        Array.isArray(found.sourceUrls) && found.sourceUrls.length
+          ? found.sourceUrls
+          : fallback.sourceUrls,
+      signals:
+        Array.isArray(found.signals) && found.signals.length
+          ? found.signals
+          : [],
+    };
+
     const lead = await upsertLead(job, candidate, verification);
 
     await complete(job, {
