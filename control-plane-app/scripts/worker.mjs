@@ -2,6 +2,7 @@ import postgres from "postgres";
 import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 import { freeOfficialContactEnrich } from "./free-enrich.mjs";
+import { freeDiscovery, freeVerifyCandidate } from "./free-discovery.mjs";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
@@ -105,13 +106,21 @@ async function markProvider(provider, ok, error = null) {
   `;
 }
 
-async function claimJob() {
+async function claimJob(growthOnly = false) {
   const rows = await sql`
     WITH candidate AS (
       SELECT id
       FROM oska_jobs
       WHERE status IN ('pending','retry')
         AND next_run_at <= now()
+        AND (
+          ${growthOnly} = false
+          OR type IN ('lead_discovery','lead_verify')
+          OR (
+            type = 'contact_enrich'
+            AND COALESCE(payload->>'historicalBackfill','false') <> 'true'
+          )
+        )
       ORDER BY priority DESC, created_at ASC
       FOR UPDATE SKIP LOCKED
       LIMIT 1
@@ -685,10 +694,26 @@ async function processJob(job) {
     return;
   }
 
-  const providerResult = await runFailover(job);
-  if (!providerResult.ok) throw new Error(providerResult.error);
-
   if (job.type === "lead_discovery") {
+    const knownRows = await sql`
+      SELECT domain FROM oska_known_entities WHERE domain IS NOT NULL
+      UNION
+      SELECT domain FROM oska_leads WHERE domain IS NOT NULL
+    `;
+    const knownDomains = new Set(
+      knownRows.map((row) => String(row.domain).toLowerCase().replace(/^www\./, ""))
+    );
+
+    const evidence = await freeDiscovery(job.payload, knownDomains);
+    if (!evidence.ok) throw new Error("ZERO_API_DISCOVERY_NO_CANDIDATES");
+
+    const providerResult = {
+      ok: true,
+      provider: "zero-api-search",
+      evidence,
+      failures: [],
+    };
+
     const children = await enqueueVerificationChildren(job, providerResult);
 
     if (children.candidates === 0) {
@@ -700,10 +725,124 @@ async function processJob(job) {
       provider: providerResult.provider,
       candidateCount: children.candidates,
       verificationJobsQueued: children.queued,
-      summary: providerResult?.evidence?.summary ?? null,
+      summary: evidence.summary ?? null,
     });
     return;
   }
+
+  if (job.type === "lead_verify" && job.payload?.candidate) {
+    const candidate = job.payload.candidate;
+    const verification = await freeVerifyCandidate(candidate, job.payload);
+    const verificationScore = Number(verification?.score || 0);
+
+    if (!verification?.ok || verificationScore < 55) {
+      await addEvent(job.id, "lead_rejected", {
+        score: verificationScore,
+        reasons: verification?.reasons ?? [],
+        method: "zero-api",
+      });
+      await complete(job, {
+        accepted: false,
+        verificationScore,
+        reasons: verification?.reasons ?? [],
+        method: "zero-api",
+      });
+      return;
+    }
+
+    const mergedContact = verification?.mergedContact || {};
+    const mergedCandidate = {
+      ...candidate,
+      email: clean(candidate.email) || clean(mergedContact.email),
+      phoneWhatsapp: clean(candidate.phoneWhatsapp) || clean(mergedContact.phoneWhatsapp),
+      sourceUrls: [
+        ...(Array.isArray(candidate.sourceUrls) ? candidate.sourceUrls : []),
+        ...(Array.isArray(mergedContact.sourceUrls) ? mergedContact.sourceUrls : []),
+      ].filter(Boolean),
+    };
+
+    const lead = await upsertLead(job, mergedCandidate, verification);
+    const contactJobId = await maybeQueueContactEnrichment(lead);
+
+    await addEvent(job.id, "lead_accepted", {
+      canonicalKey: lead.canonical_key,
+      score: verificationScore,
+      contactJobId,
+      method: "zero-api",
+    });
+
+    await complete(job, {
+      accepted: true,
+      canonicalKey: lead.canonical_key,
+      company: lead.company,
+      domain: lead.domain,
+      verificationScore,
+      contactReady: lead.status === "contact_ready",
+      contactJobId,
+      method: "zero-api",
+    });
+    return;
+  }
+
+  if (job.type === "contact_enrich") {
+    const crawl = await freeOfficialContactEnrich(job.payload?.domain);
+    const fallback = {
+      company: job.payload?.company,
+      domain: job.payload?.domain,
+      country: job.payload?.country,
+      category: job.payload?.currentCategory,
+      material: job.payload?.currentMaterial,
+      email: job.payload?.currentEmail,
+      decisionMaker: job.payload?.currentDecisionMaker,
+      role: job.payload?.currentRole,
+      phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+      sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
+      signals: [],
+    };
+
+    const candidate = {
+      ...fallback,
+      email: clean(fallback.email) || clean(crawl.email),
+      phoneWhatsapp: clean(fallback.phoneWhatsapp) || clean(crawl.phoneWhatsapp),
+      sourceUrls: [
+        ...(fallback.sourceUrls || []),
+        ...(crawl.sourceUrls || []),
+      ].filter(Boolean),
+      signals: [
+        crawl.live ? "Official domain reachable." : "Official domain not reachable.",
+        crawl.email ? "Official-site email found without paid API." : "No new official-site email found.",
+        crawl.phoneWhatsapp ? "Explicit WhatsApp URL found on official site." : "No explicit WhatsApp URL found.",
+      ],
+    };
+
+    const verification = {
+      ok: true,
+      score: null,
+      reasons: [
+        "Contact enrichment used deterministic official-site crawl.",
+        "Existing valid contact fields were preserved.",
+      ],
+    };
+
+    const lead = await upsertLead(job, candidate, verification);
+
+    await complete(job, {
+      accepted: true,
+      method: "official-site-zero-api",
+      canonicalKey: lead.canonical_key,
+      company: lead.company,
+      contactReady: lead.status === "contact_ready",
+      emailFound: Boolean(lead.email),
+      decisionMakerFound: Boolean(lead.decision_maker),
+      whatsappFound: Boolean(lead.phone_whatsapp),
+      domainLive: crawl.live,
+      pagesChecked: crawl.pagesChecked,
+    });
+    return;
+  }
+
+  const providerResult = await runFailover(job);
+  if (!providerResult.ok) throw new Error(providerResult.error);
 
   const verification = await verify(job, providerResult);
   const verificationScore = Number(verification?.score || 0);
@@ -915,7 +1054,8 @@ async function workerLoop(slot) {
   );
 
   while (true) {
-    const job = await claimJob();
+    let job = slot === 1 ? await claimJob(true) : await claimJob(false);
+    if (!job && slot === 1) job = await claimJob(false);
 
     if (!job) {
       await sleep(1500);
@@ -928,6 +1068,29 @@ async function workerLoop(slot) {
       await fail(job, error);
     }
   }
+}
+
+async function recoverTransientResearchJobs() {
+  const rows = await sql`
+    UPDATE oska_jobs
+    SET status = 'pending',
+        attempt_count = 0,
+        last_error = NULL,
+        locked_by = NULL,
+        locked_at = NULL,
+        next_run_at = now(),
+        updated_at = now()
+    WHERE type IN ('lead_discovery','lead_verify','contact_enrich')
+      AND status IN ('retry','dead_letter')
+      AND (
+        last_error ILIKE '%ALL_PROVIDERS_FAILED%'
+        OR last_error ILIKE '%OPENAI_HTTP_429%'
+        OR last_error ILIKE '%VERIFIER_HTTP_%'
+        OR last_error ILIKE '%STALE_LOCK_RECOVERED%'
+      )
+    RETURNING id
+  `;
+  console.log("TRANSIENT_RESEARCH_RECOVERED", JSON.stringify({ count: rows.length }));
 }
 
 async function recoverHistoricalBackfill() {
@@ -962,6 +1125,7 @@ async function main() {
 
   await runStartupCanary();
   await recoverHistoricalBackfill();
+  await recoverTransientResearchJobs();
 
   await Promise.all(
     Array.from(
