@@ -100,7 +100,47 @@ CREATE INDEX IF NOT EXISTS oska_leads_country_idx
 
 CREATE INDEX IF NOT EXISTS oska_leads_updated_idx
   ON oska_leads (updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS oska_known_entities (
+  canonical_key TEXT PRIMARY KEY,
+  company TEXT,
+  domain TEXT,
+  country TEXT,
+  source TEXT NOT NULL DEFAULT 'historical-master',
+  imported_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS oska_known_entities_domain_idx
+  ON oska_known_entities (domain);
 `);
+
+try {
+  const { readFile } = await import("node:fs/promises");
+  const raw = await readFile(new URL("../data/known-entities.json", import.meta.url), "utf8");
+  const known = JSON.parse(raw);
+
+  if (Array.isArray(known) && known.length > 0) {
+    await sql`
+      INSERT INTO oska_known_entities ${sql(
+        known,
+        "canonical_key",
+        "company",
+        "domain",
+        "country",
+        "source",
+      )}
+      ON CONFLICT (canonical_key) DO UPDATE SET
+        company = COALESCE(EXCLUDED.company, oska_known_entities.company),
+        domain = COALESCE(EXCLUDED.domain, oska_known_entities.domain),
+        country = COALESCE(EXCLUDED.country, oska_known_entities.country),
+        source = EXCLUDED.source
+    `;
+    console.log("Known lead memory loaded:", known.length);
+  }
+} catch (error) {
+  if (error?.code !== "ENOENT") throw error;
+  console.log("Known lead seed file not present; continuing.");
+}
 
 console.log("OSKA Control Plane schema ready");
 await sql.end();
