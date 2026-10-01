@@ -63,6 +63,43 @@ CREATE TABLE IF NOT EXISTS oska_provider_health (
   last_seen_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS oska_leads (
+  id BIGSERIAL PRIMARY KEY,
+  canonical_key TEXT NOT NULL UNIQUE,
+  company TEXT NOT NULL,
+  domain TEXT,
+  country TEXT,
+  category TEXT,
+  material TEXT,
+  decision_maker TEXT,
+  role TEXT,
+  email TEXT,
+  phone_whatsapp TEXT,
+  signals JSONB NOT NULL DEFAULT '[]'::jsonb,
+  source_urls JSONB NOT NULL DEFAULT '[]'::jsonb,
+  verification_score INTEGER,
+  verification_reasons JSONB NOT NULL DEFAULT '[]'::jsonb,
+  source_job_id TEXT,
+  parent_job_id TEXT,
+  status TEXT NOT NULL DEFAULT 'verified'
+    CHECK (status IN ('verified','contact_ready')),
+  first_seen_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  last_verified_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS oska_leads_domain_idx
+  ON oska_leads (domain);
+
+CREATE INDEX IF NOT EXISTS oska_leads_material_idx
+  ON oska_leads (material);
+
+CREATE INDEX IF NOT EXISTS oska_leads_country_idx
+  ON oska_leads (country);
+
+CREATE INDEX IF NOT EXISTS oska_leads_updated_idx
+  ON oska_leads (updated_at DESC);
 `);
 
 console.log("OSKA Control Plane schema ready");
