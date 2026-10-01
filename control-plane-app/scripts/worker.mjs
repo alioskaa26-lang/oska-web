@@ -174,6 +174,8 @@ async function complete(job, result) {
     WHERE id = ${job.id} AND locked_by = ${workerId}
   `;
   await addEvent(job.id, "completed", { workerId });
+  console.log("job completed", job.id, JSON.stringify(result));
+  if (job.type === "system_canary") console.log("SYSTEM_CANARY_PASS", job.id);
 }
 
 async function fail(job, error) {
