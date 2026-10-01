@@ -135,7 +135,17 @@ async function claimJob(growthOnly = false) {
     WHERE j.id = candidate.id
     RETURNING j.*
   `;
-  return rows[0] || null;
+  const job = rows[0] || null;
+  if (!job) return null;
+
+  if (typeof job.payload === "string") {
+    try { job.payload = JSON.parse(job.payload); } catch {}
+  }
+  if (typeof job.preferred_providers === "string") {
+    try { job.preferred_providers = JSON.parse(job.preferred_providers); } catch {}
+  }
+
+  return job;
 }
 
 async function safeJson(response) {
