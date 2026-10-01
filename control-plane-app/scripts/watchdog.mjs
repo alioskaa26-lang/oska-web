@@ -126,15 +126,15 @@ const lanes = [
 const backlogRows = await sql`
   SELECT
     count(*) FILTER (
-      WHERE type IN ('lead_discovery','lead_verify')
-        OR (
-          type = 'contact_enrich'
-          AND COALESCE(payload->>'historicalBackfill','false') <> 'true'
-        )
+      WHERE (
+        type IN ('lead_discovery','lead_verify')
+        OR type = 'contact_enrich'
+      )
+      AND id NOT LIKE 'historical-enrich-%'
     )::int AS growth_backlog,
     count(*) FILTER (
       WHERE type = 'contact_enrich'
-        AND COALESCE(payload->>'historicalBackfill','false') = 'true'
+        AND id LIKE 'historical-enrich-%'
     )::int AS historical_backlog,
     count(*)::int AS total_backlog
   FROM oska_jobs
