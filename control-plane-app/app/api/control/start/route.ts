@@ -47,9 +47,9 @@ export async function POST(request: Request) {
     VALUES (
       ${jobId},
       ${type},
-      ${sql.json(payload)},
+      ${sql.json(payload as any)},
       ${priority},
-      ${sql.json(preferredProviders)},
+      ${sql.json(preferredProviders as any)},
       ${approval}
     )
     ON CONFLICT (id) DO NOTHING
