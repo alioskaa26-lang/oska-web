@@ -63,47 +63,7 @@ CREATE TABLE IF NOT EXISTS oska_provider_health (
   last_seen_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-INSERT INTO oska_jobs (
-  id, type, payload, status, priority, preferred_providers, approval_status
-)
-VALUES (
-  'system-canary-2026-10-01-v1',
-  'system_canary',
-  '{"source":"migration-canary"}'::jsonb,
-  'pending',
-  100,
-  '[]'::jsonb,
-  'not_required'
-)
-ON CONFLICT (id) DO NOTHING;
-
-INSERT INTO oska_jobs (
-  id, type, payload, status, priority, preferred_providers, approval_status
-)
-VALUES (
-  'lead-canary-careofcarl-2026-10-02-v1',
-  'lead_verify',
-  '{"company":"Care of Carl","domain":"careofcarl.com","country":"Sweden","goal":"Verify current B2B fit for premium 925 silver jewelry and current public decision-maker/contact evidence. Do not invent any contact details."}'::jsonb,
-  'pending',
-  2000,
-  '["chatgpt-web"]'::jsonb,
-  'not_required'
-)
-ON CONFLICT (id) DO NOTHING;
-
-UPDATE oska_jobs
-SET status = 'retry',
-    locked_by = NULL,
-    locked_at = NULL,
-    next_run_at = now(),
-    updated_at = now(),
-    last_error = NULL
-WHERE id = 'lead-canary-careofcarl-2026-10-02-v1'
-  AND status = 'running';
 `);
 
 console.log("OSKA Control Plane schema ready");
-console.log("System canary seeded idempotently: system-canary-2026-10-01-v1");
-console.log("Lead canary seeded idempotently: lead-canary-careofcarl-2026-10-02-v1");
 await sql.end();
