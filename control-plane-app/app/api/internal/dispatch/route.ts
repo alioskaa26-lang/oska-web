@@ -59,6 +59,11 @@ function buildPrompt(job: any, provider: string) {
     "A normal phone number must not be labelled WhatsApp unless a public source explicitly proves WhatsApp.",
     "Prefer official company sites, official contact/vendor pages, reputable business profiles, and current sources.",
     "Return only evidence you can support with URLs.",
+    "For lead_discovery, return distinct companies only: no duplicate domains, no duplicate parent brands, and no multiple storefronts of the same company.",
+    "For lead_discovery, obey payload.limit and aim to return that many strong prospects, but return fewer rather than invent weak or unsupported leads.",
+    "For Turkey-first lanes, search Turkish-language and local commercial sources before broad global sources.",
+    "For brass/bronze lanes, do not substitute gold-only or silver-only businesses unless there is a concrete brass/bronze sourcing, assortment, private-label, or accessory-material signal.",
+    "For 925 lanes, prefer current sterling-silver assortments and replenishment/stock signals.",
     "Do not send any message or contact anyone."
   ].join("\n");
 
@@ -70,7 +75,23 @@ Job type: ${job.type}
 Payload:
 ${JSON.stringify(job.payload, null, 2)}
 
-Perform the requested research now. For lead_discovery, return strong B2B prospects. For lead_verify, verify the supplied company and commercial fit. For contact_enrich, find public official company contact details and named buyer/procurement/merchandising/sourcing/leadership contacts where available.`;
+Perform the requested research now.
+
+For lead_discovery:
+- Return up to payload.limit strong, distinct B2B prospects.
+- Follow the exact geography/material/customerTypes lane in the payload.
+- Prioritize official sites and current evidence.
+- Each returned lead must have at least one concrete commercial-fit signal and at least one source URL.
+- Do not pad the list with marginal prospects.
+
+For lead_verify:
+- Verify only the supplied candidate/company.
+- Re-check current commercial fit independently rather than repeating discovery claims.
+- Verify current public decision-maker/contact evidence when available.
+
+For contact_enrich:
+- Find public official company contact details and named buyer/procurement/merchandising/sourcing/leadership contacts where available.
+- Preserve a null WhatsApp field unless an official/public source explicitly proves WhatsApp.`;
 }
 
 async function openAIProvider(job: any, provider: string) {
