@@ -183,7 +183,7 @@ if (growthBacklog < maxBacklog) {
     VALUES (
       ${jobId},
       'lead_discovery',
-      ${JSON.stringify(payload)}::jsonb,
+      ${sql.json(payload)},
       'pending',
       100,
       '[]'::jsonb,
@@ -200,12 +200,12 @@ if (growthBacklog < maxBacklog) {
       VALUES (
         ${jobId},
         'scheduled_discovery',
-        ${JSON.stringify({
+        ${sql.json({
           lane: lane.id,
           batchSize,
           intervalMinutes,
           backlogBefore: growthBacklog,
-        })}::jsonb
+        })}
       )
     `;
 
