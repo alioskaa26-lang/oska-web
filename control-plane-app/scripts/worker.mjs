@@ -7,7 +7,7 @@ if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
 
 const sql = postgres(url, { max: 4, connect_timeout: 15 });
 const workerId = process.env.RAILWAY_REPLICA_ID || `worker-${randomUUID()}`;
-const defaultProviders = (process.env.OSKA_PROVIDERS || "chatgpt-web,parallel-search,tinyfish,exa")
+const defaultProviders = (process.env.OSKA_PROVIDERS || "chatgpt-web,parallel-search,tinyfish,exa,openai-luna")
   .split(",")
   .map((v) => v.trim())
   .filter(Boolean);
@@ -81,6 +81,7 @@ async function callProvider(provider, job) {
     method: "POST",
     headers: {
       "content-type": "application/json",
+      authorization: `Bearer ${process.env.OSKA_INTERNAL_TOKEN || ""}`,
       "x-oska-provider": provider,
       "x-oska-idempotency-key": `${job.id}:${provider}`,
     },
@@ -90,7 +91,7 @@ async function callProvider(provider, job) {
       payload: job.payload,
       provider,
     }),
-    signal: AbortSignal.timeout(60_000),
+    signal: AbortSignal.timeout(120_000),
   });
 
   const data = await safeJson(response);
@@ -130,10 +131,11 @@ async function verify(job, providerResult) {
     method: "POST",
     headers: {
       "content-type": "application/json",
+      authorization: `Bearer ${process.env.OSKA_INTERNAL_TOKEN || ""}`,
       "x-oska-idempotency-key": `${job.id}:verify`,
     },
     body: JSON.stringify({ job, providerResult }),
-    signal: AbortSignal.timeout(60_000),
+    signal: AbortSignal.timeout(120_000),
   });
 
   const data = await safeJson(response);
@@ -150,10 +152,11 @@ async function sendOutbound(job, providerResult, verification) {
     method: "POST",
     headers: {
       "content-type": "application/json",
+      authorization: `Bearer ${process.env.OSKA_INTERNAL_TOKEN || ""}`,
       "x-oska-idempotency-key": `${job.id}:outbound`,
     },
     body: JSON.stringify({ job, providerResult, verification }),
-    signal: AbortSignal.timeout(60_000),
+    signal: AbortSignal.timeout(120_000),
   });
 
   const data = await safeJson(response);
