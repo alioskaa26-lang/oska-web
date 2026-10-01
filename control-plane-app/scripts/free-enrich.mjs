@@ -108,7 +108,7 @@ function discoverContactLinks(html, baseUrl) {
   return [...urls];
 }
 
-async function fetchHtml(url, timeoutMs = 12000) {
+async function fetchHtml(url, timeoutMs = 8000) {
   try {
     const response = await fetch(url, {
       redirect: "follow",
@@ -159,21 +159,19 @@ export async function freeOfficialContactEnrich(domain) {
 
   for (const url of discoverContactLinks(home.html, home.url)) {
     candidates.add(url);
-    if (candidates.size >= 8) break;
+    if (candidates.size >= 6) break;
   }
 
   for (const path of COMMON_PATHS) {
-    if (candidates.size >= 8) break;
+    if (candidates.size >= 6) break;
     try { candidates.add(new URL(path, origin).toString()); } catch {}
   }
 
-  const pages = [];
-  for (const url of [...candidates].slice(0, 8)) {
-    if (url === home.url) {
-      pages.push(home);
-      continue;
-    }
-    const page = await fetchHtml(url);
+  const urls = [...candidates].slice(0, 6);
+  const pages = [home];
+  const extraUrls = urls.filter((url) => url !== home.url);
+  const extraPages = await Promise.all(extraUrls.map((url) => fetchHtml(url)));
+  for (const page of extraPages) {
     if (page) pages.push(page);
   }
 
