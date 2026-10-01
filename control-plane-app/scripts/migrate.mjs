@@ -112,6 +112,32 @@ CREATE TABLE IF NOT EXISTS oska_known_entities (
 
 CREATE INDEX IF NOT EXISTS oska_known_entities_domain_idx
   ON oska_known_entities (domain);
+);
+
+await sql.unsafe(`
+UPDATE oska_jobs
+SET payload = (payload #>> '{}')::jsonb
+WHERE jsonb_typeof(payload) = 'string';
+
+UPDATE oska_jobs
+SET preferred_providers = (preferred_providers #>> '{}')::jsonb
+WHERE jsonb_typeof(preferred_providers) = 'string';
+
+UPDATE oska_job_events
+SET detail = (detail #>> '{}')::jsonb
+WHERE jsonb_typeof(detail) = 'string';
+
+UPDATE oska_leads
+SET signals = (signals #>> '{}')::jsonb
+WHERE jsonb_typeof(signals) = 'string';
+
+UPDATE oska_leads
+SET source_urls = (source_urls #>> '{}')::jsonb
+WHERE jsonb_typeof(source_urls) = 'string';
+
+UPDATE oska_leads
+SET verification_reasons = (verification_reasons #>> '{}')::jsonb
+WHERE jsonb_typeof(verification_reasons) = 'string';
 `);
 
 try {
