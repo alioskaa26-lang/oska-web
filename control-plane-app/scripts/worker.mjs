@@ -239,8 +239,58 @@ async function processJob(job) {
   }
 }
 
+async function runStartupCanary() {
+  const canaryId = "system-canary-2026-10-01-v2";
+
+  const claimed = await sql.begin(async (tx) => {
+    await tx`
+      INSERT INTO oska_jobs (
+        id, type, payload, status, priority, preferred_providers, approval_status
+      )
+      VALUES (
+        ${canaryId},
+        'system_canary',
+        '{"source":"worker-startup-canary"}'::jsonb,
+        'pending',
+        1000,
+        '[]'::jsonb,
+        'not_required'
+      )
+      ON CONFLICT (id) DO NOTHING
+    `;
+
+    return await tx`
+      UPDATE oska_jobs
+      SET status = 'running',
+          locked_by = ${workerId},
+          locked_at = now(),
+          attempt_count = attempt_count + 1,
+          updated_at = now()
+      WHERE id = ${canaryId}
+        AND status IN ('pending','retry')
+      RETURNING *
+    `;
+  });
+
+  if (claimed[0]) {
+    await processJob(claimed[0]);
+  }
+
+  const finalRows = await sql`
+    SELECT id, status, attempt_count, result, last_error
+    FROM oska_jobs
+    WHERE id = ${canaryId}
+  `;
+  console.log("SYSTEM_CANARY_FINAL", JSON.stringify(finalRows[0] ?? null));
+
+  if (finalRows[0]?.status !== "completed") {
+    throw new Error(`SYSTEM_CANARY_FAILED:${JSON.stringify(finalRows[0] ?? null)}`);
+  }
+}
+
 async function main() {
   console.log(`OSKA worker started: ${workerId}`);
+  await runStartupCanary();
 
   while (true) {
     const job = await claimJob();
