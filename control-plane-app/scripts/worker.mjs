@@ -1,6 +1,7 @@
 import postgres from "postgres";
 import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
+import { freeOfficialContactEnrich } from "./free-enrich.mjs";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
@@ -580,6 +581,95 @@ async function processJob(job) {
     job.type === "outbound_email" ||
     job.type === "outbound_whatsapp";
 
+  if (job.type === "contact_enrich" && job.payload?.historicalBackfill === true) {
+    const currentStatus = String(job.payload?.currentStatus || "").toLocaleUpperCase("tr-TR");
+    const blocked = [
+      "HOLD",
+      "ARCHIVE",
+      "NOT READY",
+      "DEĞİL",
+      "OUTBOUND READY=HAYIR",
+      "OUTBOUND BLOCKED"
+    ].some((token) => currentStatus.includes(token));
+
+    const crawl = await freeOfficialContactEnrich(job.payload?.domain);
+
+    const fallback = {
+      company: job.payload?.company,
+      domain: job.payload?.domain,
+      country: job.payload?.country,
+      category: job.payload?.currentCategory,
+      material: job.payload?.currentMaterial,
+      email: job.payload?.currentEmail,
+      decisionMaker: job.payload?.currentDecisionMaker,
+      role: job.payload?.currentRole,
+      phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+      sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
+      signals: [],
+    };
+
+    const sourceUrls = [
+      ...(Array.isArray(fallback.sourceUrls) ? fallback.sourceUrls : []),
+      ...(Array.isArray(crawl.sourceUrls) ? crawl.sourceUrls : []),
+    ].filter(Boolean);
+
+    const candidate = {
+      ...fallback,
+      email: clean(fallback.email) || clean(crawl.email),
+      phoneWhatsapp: clean(fallback.phoneWhatsapp) || clean(crawl.phoneWhatsapp),
+      sourceUrls: [...new Set(sourceUrls)],
+      signals: [
+        crawl.live ? "Official domain reachable during historical backfill." : "Official domain was not reachable during historical backfill.",
+        crawl.email ? "Official-site email discovered without AI/API." : "No new official-site email discovered by deterministic crawl.",
+        crawl.phoneWhatsapp ? "Explicit WhatsApp URL discovered on official site." : "No explicit WhatsApp URL discovered by deterministic crawl."
+      ]
+    };
+
+    const verification = {
+      ok: true,
+      score: null,
+      reasons: [
+        "Historical lead retained from the existing OSKA master list.",
+        "Contact enrichment used only the company's official domain and preserved existing contact fields."
+      ]
+    };
+
+    const lead = await upsertLead(job, candidate, verification);
+
+    if (blocked) {
+      await sql`
+        UPDATE oska_leads
+        SET status = 'verified', updated_at = now()
+        WHERE canonical_key = ${lead.canonical_key}
+      `;
+      lead.status = "verified";
+    }
+
+    await addEvent(job.id, "historical_free_enrich", {
+      canonicalKey: lead.canonical_key,
+      blocked,
+      domainLive: crawl.live,
+      pagesChecked: crawl.pagesChecked,
+      emailFound: Boolean(lead.email),
+      whatsappFound: Boolean(lead.phone_whatsapp),
+    });
+
+    await complete(job, {
+      accepted: true,
+      method: "official-site-zero-api",
+      canonicalKey: lead.canonical_key,
+      company: lead.company,
+      blockedFromOutbound: blocked,
+      contactReady: lead.status === "contact_ready",
+      emailFound: Boolean(lead.email),
+      decisionMakerFound: Boolean(lead.decision_maker),
+      whatsappFound: Boolean(lead.phone_whatsapp),
+      domainLive: crawl.live,
+      pagesChecked: crawl.pagesChecked,
+    });
+    return;
+  }
+
   if (isOutbound && job.approval_status !== "approved") {
     await sql`
       UPDATE oska_jobs
@@ -840,6 +930,24 @@ async function workerLoop(slot) {
   }
 }
 
+async function recoverHistoricalBackfill() {
+  const rows = await sql`
+    UPDATE oska_jobs
+    SET status = 'pending',
+        attempt_count = 0,
+        last_error = NULL,
+        locked_by = NULL,
+        locked_at = NULL,
+        next_run_at = now(),
+        updated_at = now()
+    WHERE id LIKE 'historical-enrich-%'
+      AND status IN ('retry','dead_letter','running')
+    RETURNING id
+  `;
+
+  console.log("HISTORICAL_BACKFILL_RECOVERED", JSON.stringify({ count: rows.length }));
+}
+
 async function main() {
   console.log(
     "OSKA_WORKER_STARTED",
@@ -853,6 +961,7 @@ async function main() {
   );
 
   await runStartupCanary();
+  await recoverHistoricalBackfill();
 
   await Promise.all(
     Array.from(
