@@ -14,6 +14,7 @@ export async function GET() {
       text: result.text,
     });
   } catch (error) {
+    console.error("OPENAI_DIAGNOSTIC_ERROR", error instanceof Error ? error.message : String(error));
     return Response.json({
       ok: false,
       error: error instanceof Error ? error.message : String(error),
