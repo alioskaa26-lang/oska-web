@@ -18,29 +18,38 @@ export async function POST(request: Request) {
     preferredProviders?: string[];
   };
 
-  if (!body.jobId || !body.type || !body.payload || !allowedTypes.has(body.type)) {
+  const jobId = body.jobId;
+  const type = body.type;
+  const payload = body.payload;
+
+  if (!jobId || !type || !payload || !allowedTypes.has(type)) {
     return Response.json(
       { ok: false, error: "Valid jobId, type and payload are required" },
       { status: 400 },
     );
   }
 
-  const sql = getSql();
+  const priority = Number.isFinite(body.priority) ? Number(body.priority) : 0;
+  const preferredProviders = Array.isArray(body.preferredProviders)
+    ? body.preferredProviders.filter((v): v is string => typeof v === "string" && v.length > 0)
+    : [];
   const approval =
-    body.type === "outbound_email" || body.type === "outbound_whatsapp"
+    type === "outbound_email" || type === "outbound_whatsapp"
       ? "pending"
       : "not_required";
+
+  const sql = getSql();
 
   const rows = await sql`
     INSERT INTO oska_jobs (
       id, type, payload, priority, preferred_providers, approval_status
     )
     VALUES (
-      ${body.jobId},
-      ${body.type},
-      ${JSON.stringify(body.payload)}::jsonb,
-      ${Number.isFinite(body.priority) ? body.priority : 0},
-      ${JSON.stringify(body.preferredProviders ?? [])}::jsonb,
+      ${jobId},
+      ${type},
+      ${JSON.stringify(payload)}::jsonb,
+      ${priority},
+      ${JSON.stringify(preferredProviders)}::jsonb,
       ${approval}
     )
     ON CONFLICT (id) DO NOTHING
@@ -50,14 +59,14 @@ export async function POST(request: Request) {
   if (rows.length === 0) {
     const existing = await sql`
       SELECT id, status, approval_status, attempt_count, updated_at
-      FROM oska_jobs WHERE id = ${body.jobId}
+      FROM oska_jobs WHERE id = ${jobId}
     `;
     return Response.json({ ok: true, duplicate: true, job: existing[0] });
   }
 
   await sql`
     INSERT INTO oska_job_events (job_id, event_type, detail)
-    VALUES (${body.jobId}, 'queued', ${JSON.stringify({ source: "api" })}::jsonb)
+    VALUES (${jobId}, 'queued', ${JSON.stringify({ source: "api" })}::jsonb)
   `;
 
   return Response.json({ ok: true, duplicate: false, job: rows[0] }, { status: 202 });
