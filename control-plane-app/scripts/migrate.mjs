@@ -91,6 +91,16 @@ VALUES (
   'not_required'
 )
 ON CONFLICT (id) DO NOTHING;
+
+UPDATE oska_jobs
+SET status = 'retry',
+    locked_by = NULL,
+    locked_at = NULL,
+    next_run_at = now(),
+    updated_at = now(),
+    last_error = NULL
+WHERE id = 'lead-canary-careofcarl-2026-10-02-v1'
+  AND status = 'running';
 `);
 
 console.log("OSKA Control Plane schema ready");
