@@ -37,6 +37,34 @@ await sql`
     AND status <> 'stale'
 `;
 
+const transientRecovered = await sql`
+  UPDATE oska_jobs
+  SET status = 'pending',
+      attempt_count = 0,
+      last_error = NULL,
+      locked_by = NULL,
+      locked_at = NULL,
+      next_run_at = now(),
+      updated_at = now()
+  WHERE status = 'dead_letter'
+    AND type IN ('lead_discovery','lead_verify','contact_enrich')
+    AND (
+      last_error ILIKE '%ALL_PROVIDERS_FAILED%'
+      OR last_error ILIKE '%OPENAI_HTTP_429%'
+      OR last_error ILIKE '%VERIFIER_HTTP_%'
+      OR last_error ILIKE '%STALE_LOCK_RECOVERED%'
+      OR last_error ILIKE '%ZERO_API_DISCOVERY_NO_CANDIDATES%'
+    )
+  RETURNING id
+`;
+
+if (transientRecovered.length) {
+  console.log(
+    "SELF_HEAL_DEAD_LETTER",
+    JSON.stringify({ recovered: transientRecovered.length }),
+  );
+}
+
 const intervalMinutes = Math.max(
   10,
   Number(process.env.OSKA_DISCOVERY_INTERVAL_MINUTES || 20),
@@ -96,16 +124,29 @@ const lanes = [
 ];
 
 const backlogRows = await sql`
-  SELECT count(*)::int AS count
+  SELECT
+    count(*) FILTER (
+      WHERE type IN ('lead_discovery','lead_verify')
+        OR (
+          type = 'contact_enrich'
+          AND COALESCE(payload->>'historicalBackfill','false') <> 'true'
+        )
+    )::int AS growth_backlog,
+    count(*) FILTER (
+      WHERE type = 'contact_enrich'
+        AND COALESCE(payload->>'historicalBackfill','false') = 'true'
+    )::int AS historical_backlog,
+    count(*)::int AS total_backlog
   FROM oska_jobs
-  WHERE type IN ('lead_discovery','lead_verify','contact_enrich')
-    AND status IN ('pending','retry','running')
+  WHERE status IN ('pending','retry','running')
 `;
-const backlog = Number(backlogRows[0]?.count || 0);
+const growthBacklog = Number(backlogRows[0]?.growth_backlog || 0);
+const historicalBacklog = Number(backlogRows[0]?.historical_backlog || 0);
+const backlog = Number(backlogRows[0]?.total_backlog || 0);
 
 let scheduled = null;
 
-if (backlog < maxBacklog) {
+if (growthBacklog < maxBacklog) {
   const bucketMs = intervalMinutes * 60_000;
   const bucket = Math.floor(Date.now() / bucketMs);
   const lane = lanes[bucket % lanes.length];
@@ -163,7 +204,7 @@ if (backlog < maxBacklog) {
           lane: lane.id,
           batchSize,
           intervalMinutes,
-          backlogBefore: backlog,
+          backlogBefore: growthBacklog,
         })}::jsonb
       )
     `;
@@ -180,14 +221,14 @@ if (backlog < maxBacklog) {
         jobId,
         lane: lane.id,
         batchSize,
-        backlogBefore: backlog,
+        backlogBefore: growthBacklog,
       }),
     );
   }
 } else {
   console.log(
     "DISCOVERY_SCHEDULER_PAUSED_BACKLOG",
-    JSON.stringify({ backlog, maxBacklog }),
+    JSON.stringify({ growthBacklog, historicalBacklog, maxBacklog }),
   );
 }
 
@@ -209,6 +250,9 @@ const leadCounts = await sql`
 console.log(
   JSON.stringify({
     recovered: recovered.length,
+    transientRecovered: transientRecovered.length,
+    growthBacklog,
+    historicalBacklog,
     backlog,
     scheduled,
     counts,
