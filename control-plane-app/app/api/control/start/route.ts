@@ -47,9 +47,9 @@ export async function POST(request: Request) {
     VALUES (
       ${jobId},
       ${type},
-      ${JSON.stringify(payload)}::jsonb,
+      ${sql.json(payload)},
       ${priority},
-      ${JSON.stringify(preferredProviders)}::jsonb,
+      ${sql.json(preferredProviders)},
       ${approval}
     )
     ON CONFLICT (id) DO NOTHING
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
 
   await sql`
     INSERT INTO oska_job_events (job_id, event_type, detail)
-    VALUES (${jobId}, 'queued', ${JSON.stringify({ source: "api" })}::jsonb)
+    VALUES (${jobId}, 'queued', ${sql.json({ source: "api" })})
   `;
 
   return Response.json({ ok: true, duplicate: false, job: rows[0] }, { status: 202 });
