@@ -21,6 +21,16 @@ export async function GET() {
         SELECT
           count(*)::int AS total,
           count(*) FILTER (WHERE status = 'contact_ready')::int AS contact_ready,
+          count(*) FILTER (WHERE status <> 'contact_ready')::int AS incomplete,
+          count(*) FILTER (
+            WHERE status <> 'contact_ready'
+              AND domain IS NOT NULL
+              AND trim(domain) <> ''
+          )::int AS incomplete_with_domain,
+          count(*) FILTER (
+            WHERE status <> 'contact_ready'
+              AND (domain IS NULL OR trim(COALESCE(domain,'')) = '')
+          )::int AS incomplete_without_domain,
           count(*) FILTER (WHERE updated_at >= now() - interval '24 hours')::int AS last_24h,
           count(*) FILTER (
             WHERE lower(COALESCE(material,'')) ~ '(925|sterling|silver|gümüş)'
@@ -124,6 +134,11 @@ export async function GET() {
             WHERE type = 'contact_enrich'
               AND status IN ('pending','retry','running')
           )::int AS contact_enrich,
+          count(*) FILTER (
+            WHERE type = 'contact_enrich'
+              AND status = 'completed'
+              AND completed_at >= now() - interval '24 hours'
+          )::int AS contact_enrich_completed_24h,
           count(*) FILTER (
             WHERE type IN ('lead_discovery','lead_verify','contact_enrich')
               AND status IN ('pending','retry','running')
@@ -235,6 +250,17 @@ export async function GET() {
       geography: geoRows?.[0] ?? {},
       leads: leadStatsRows[0] ?? {},
       pipeline: pipelineRows[0] ?? {},
+      automationGuard: {
+        incompleteLeads: leadStatsRows[0]?.incomplete ?? 0,
+        incompleteWithDomain: leadStatsRows[0]?.incomplete_with_domain ?? 0,
+        incompleteWithoutDomain: leadStatsRows[0]?.incomplete_without_domain ?? 0,
+        activeContactEnrichment: pipelineRows[0]?.contact_enrich ?? 0,
+        status:
+          Number(leadStatsRows[0]?.incomplete_with_domain ?? 0) > 0 &&
+          Number(pipelineRows[0]?.contact_enrich ?? 0) === 0
+            ? "NEEDS_SELF_HEAL"
+            : "OK",
+      },
       providers: providerRows,
       deadLetterBreakdown: deadLetterRows,
       canaries,
