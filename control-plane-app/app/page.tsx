@@ -32,59 +32,77 @@ export default async function Home() {
   const waiting = counts.find((row) => row.status === "waiting_approval")?.count ?? 0;
 
   return (
-    <main>
-      <div className="jarvesHero">\n        <p className="jarvesEyebrow">JARVES · OSKA CORE · 7/24</p>\n        <h1>JARVES</h1>\n        <p className="jarvesSub">OSKA CORE sesli kontrol merkezi</p>\n        <VoiceStatus />\n      </div>\n\n      <details className="technicalPanel">\n        <summary>Teknik kontrol paneli</summary>\n        <p className="muted">Bulut worker, watchdog, failover ve insan onayı sistemi arka planda çalışmaya devam eder.</p>\n      </details>
+    <main className="jarvesMain">
+      <section className="jarvesHero">
+        <div className="jarvesGlow jarvesGlowOne" />
+        <div className="jarvesGlow jarvesGlowTwo" />
+        <p className="jarvesEyebrow">OSKA CORE · 7/24 BULUT KONTROL MERKEZİ</p>
+        <h1>JARVES</h1>
+        <p className="jarvesSub">Ali Bey için sesli operasyon asistanı</p>
+        <VoiceStatus />
+        <div className="jarvesStatusLine">
+          <span className="statusPulse" />
+          <span>Bulut sistemi aktif · Worker + Watchdog + Failover</span>
+        </div>
+      </section>
 
-      <div className="grid">
-        <div className="card"><strong>Toplam görev</strong><p className="metric ok">{total}</p></div>
-        <div className="card"><strong>Tamamlanan</strong><p className="metric ok">{completed}</p></div>
-        <div className="card"><strong>Onay bekleyen</strong><p className="metric warn">{waiting}</p></div>
-        <div className="card"><strong>Dead-letter</strong><p className={"metric " + (Number(dead) > 0 ? "warn" : "ok")}>{dead}</p></div>
-      </div>
+      <details className="technicalPanel">
+        <summary>Teknik kontrol panelini aç</summary>
+        <p className="muted technicalIntro">
+          JARVES arayüzünün altında çalışan gerçek OSKA CORE durumu.
+        </p>
 
-      <h2>Son görevler</h2>
-      <div className="card tableWrap">
-        <table>
-          <thead><tr><th>ID</th><th>Tip</th><th>Durum</th><th>Deneme</th><th>Onay</th></tr></thead>
-          <tbody>
-            {recent.length === 0 ? (
-              <tr><td colSpan={5} className="muted">Henüz görev yok.</td></tr>
-            ) : recent.map((job) => (
-              <tr key={job.id}>
-                <td><code>{job.id}</code></td>
-                <td>{job.type}</td>
-                <td>{job.status}</td>
-                <td>{job.attempt_count}/{job.max_attempts}</td>
-                <td>{job.approval_status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <div className="grid">
+          <div className="card"><strong>Toplam görev</strong><p className="metric ok">{total}</p></div>
+          <div className="card"><strong>Tamamlanan</strong><p className="metric ok">{completed}</p></div>
+          <div className="card"><strong>Onay bekleyen</strong><p className="metric warn">{waiting}</p></div>
+          <div className="card"><strong>Dead-letter</strong><p className={"metric " + (Number(dead) > 0 ? "warn" : "ok")}>{dead}</p></div>
+        </div>
 
-      <h2>Provider sağlığı</h2>
-      <div className="card tableWrap">
-        <table>
-          <thead><tr><th>Provider</th><th>Durum</th><th>Başarı</th><th>Hata</th><th>Son sinyal</th></tr></thead>
-          <tbody>
-            {providers.length === 0 ? (
-              <tr><td colSpan={5} className="muted">Provider canary henüz çalışmadı.</td></tr>
-            ) : providers.map((p) => (
-              <tr key={p.provider}>
-                <td>{p.provider}</td><td>{p.status}</td><td>{p.success_count}</td>
-                <td>{p.failure_count}</td><td>{String(p.last_seen_at ?? "")}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <h2>Son görevler</h2>
+        <div className="card tableWrap">
+          <table>
+            <thead><tr><th>ID</th><th>Tip</th><th>Durum</th><th>Deneme</th><th>Onay</th></tr></thead>
+            <tbody>
+              {recent.length === 0 ? (
+                <tr><td colSpan={5} className="muted">Henüz görev yok.</td></tr>
+              ) : recent.map((job) => (
+                <tr key={job.id}>
+                  <td><code>{job.id}</code></td>
+                  <td>{job.type}</td>
+                  <td>{job.status}</td>
+                  <td>{job.attempt_count}/{job.max_attempts}</td>
+                  <td>{job.approval_status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <h2>Kesin kurallar</h2>
-      <div className="rule">Aynı <code>jobId</code> ikinci kez yan etki oluşturmaz.</div>
-      <div className="rule">Worker <code>FOR UPDATE SKIP LOCKED</code> ile tek-sahipli görev claim eder.</div>
-      <div className="rule">Bir provider hatası diğer providerlara failover ile geçer.</div>
-      <div className="rule">Verifier PASS olmadan görev tamamlanmış sayılmaz.</div>
-      <div className="rule">Mail / WhatsApp outbound, Human Approval olmadan çalışmaz.</div>
+        <h2>Sağlayıcı durumu</h2>
+        <div className="card tableWrap">
+          <table>
+            <thead><tr><th>Sağlayıcı</th><th>Durum</th><th>Başarı</th><th>Hata</th><th>Son sinyal</th></tr></thead>
+            <tbody>
+              {providers.length === 0 ? (
+                <tr><td colSpan={5} className="muted">Sağlayıcı sinyali henüz yok.</td></tr>
+              ) : providers.map((p) => (
+                <tr key={p.provider}>
+                  <td>{p.provider}</td><td>{p.status}</td><td>{p.success_count}</td>
+                  <td>{p.failure_count}</td><td>{String(p.last_seen_at ?? "")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Kesin kurallar</h2>
+        <div className="rule">Aynı <code>jobId</code> ikinci kez yan etki oluşturmaz.</div>
+        <div className="rule">Worker <code>FOR UPDATE SKIP LOCKED</code> ile tek sahipli görev alır.</div>
+        <div className="rule">Bir sağlayıcı hata verirse diğerine otomatik geçilir.</div>
+        <div className="rule">Doğrulayıcı PASS vermeden görev tamamlanmış sayılmaz.</div>
+        <div className="rule">Mail / WhatsApp gönderimi insan onayı olmadan çalışmaz.</div>
+      </details>
     </main>
   );
 }
