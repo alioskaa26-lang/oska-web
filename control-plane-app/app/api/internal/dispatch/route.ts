@@ -49,7 +49,7 @@ const leadSchema = {
   }
 } as const;
 
-function buildPrompt(job: any, provider: string) {
+function buildLeadPrompt(job: any, provider: string) {
   const coreRules = [
     "You are an OSKA Silver B2B lead research worker.",
     "Priority: Türkiye first, then global.",
@@ -94,6 +94,100 @@ For contact_enrich:
 - Preserve a null WhatsApp field unless an official/public source explicitly proves WhatsApp.`;
 }
 
+
+const marketingTypes = new Set(["market_research", "content_brief", "visibility_audit"]);
+
+const marketingSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["ok", "jobType", "summary", "findings", "opportunities", "evidence"],
+  properties: {
+    ok: { type: "boolean" },
+    jobType: { type: "string" },
+    summary: { type: "string" },
+    findings: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["title", "detail", "impact", "confidence"],
+        properties: {
+          title: { type: "string" },
+          detail: { type: "string" },
+          impact: { type: "string" },
+          confidence: { type: "string", enum: ["low", "medium", "high"] }
+        }
+      }
+    },
+    opportunities: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["title", "action", "requiresHumanApproval"],
+        properties: {
+          title: { type: "string" },
+          action: { type: "string" },
+          requiresHumanApproval: { type: "boolean" }
+        }
+      }
+    },
+    evidence: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["url", "title", "claim"],
+        properties: {
+          url: { type: "string" },
+          title: { type: "string" },
+          claim: { type: "string" }
+        }
+      }
+    }
+  }
+} as const;
+
+function buildMarketingPrompt(job: any, provider: string) {
+  const task =
+    job.type === "market_research"
+      ? "Research current jewelry-market, buyer-demand, assortment, pricing, material, trend and competitor signals that could create a concrete B2B product or sales opportunity for OSKA."
+      : job.type === "content_brief"
+        ? "Find evidence-backed content and product-story opportunities for OSKA: themes, questions, collection angles, buyer education and proof points that can be turned into briefs. Do not publish anything."
+        : "Audit current public visibility patterns relevant to OSKA: competitor positioning, search/SEO, social content, category messaging and discoverability. Produce tactical recommendations only; do not create, launch or spend on ads.";
+
+  return `You are an OSKA Silver autonomous marketing research specialist operating inside the OSKA Director control plane.
+
+OSKA context:
+- Istanbul-based B2B jewelry manufacturer.
+- Priority: Türkiye first, then global.
+- Core materials: 925 silver and brass/bronze.
+- Positioning: premium, modern, masculine/unisex, strong ecommerce and replenishment-oriented buyers.
+
+Hard rules:
+- This is research/analysis only.
+- Never publish content, launch ads, spend money, contact customers, send email/WhatsApp, change accounts, or make external commitments.
+- External actions always require Human Approval.
+- Use current public web evidence and include source URLs.
+- Separate evidence-backed findings from creative recommendations.
+- Never invent performance metrics, demand numbers, customer facts, contacts or competitor claims.
+- Prefer recent primary/official sources when possible.
+- Keep recommendations commercially useful and concise.
+
+Provider route requested: ${provider}
+Job ID: ${job.jobId}
+Job type: ${job.type}
+Task: ${task}
+Payload:
+${JSON.stringify(job.payload, null, 2)}
+
+Return only the structured research result. Opportunities must explicitly mark whether Human Approval is required for the proposed next action.`;
+}
+
+function buildPrompt(job: any, provider: string) {
+  return marketingTypes.has(job.type) ? buildMarketingPrompt(job, provider) : buildLeadPrompt(job, provider);
+}
+
 async function openAIProvider(job: any, provider: string) {
   const model =
     provider === "openai-sol"
@@ -102,14 +196,17 @@ async function openAIProvider(job: any, provider: string) {
         ? (process.env.OPENAI_LUNA_MODEL || "gpt-5.6-luna")
         : (process.env.OPENAI_TERRA_MODEL || "gpt-5.6-terra");
 
+  const isMarketing = marketingTypes.has(job.type);
+  const schema = isMarketing ? marketingSchema : leadSchema;
+
   const result = await callOpenAI({
     model,
     input: buildPrompt(job, provider),
     webSearch: true,
     jsonSchema: {
-      name: "oska_lead_research",
-      description: "Evidence-grounded OSKA lead discovery, verification or contact enrichment result.",
-      schema: leadSchema as unknown as Record<string, unknown>,
+      name: isMarketing ? "oska_marketing_research" : "oska_lead_research",
+      description: isMarketing ? "Evidence-grounded OSKA marketing research result." : "Evidence-grounded OSKA lead discovery, verification or contact enrichment result.",
+      schema: schema as unknown as Record<string, unknown>,
     },
   });
 

@@ -76,7 +76,10 @@ const transientRecovered = await sql`
       next_run_at = now(),
       updated_at = now()
   WHERE status = 'dead_letter'
-    AND type IN ('lead_discovery','lead_verify','contact_enrich')
+    AND type IN (
+      'lead_discovery','lead_verify','contact_enrich',
+      'market_research','content_brief','visibility_audit'
+    )
     AND (
       last_error ILIKE '%ALL_PROVIDERS_FAILED%'
       OR last_error ILIKE '%OPENAI_HTTP_429%'
@@ -301,6 +304,74 @@ if (growthBacklog < maxBacklog) {
   );
 }
 
+
+const directorIntervalMinutes = Math.max(
+  60,
+  Number(process.env.OSKA_DIRECTOR_INTERVAL_MINUTES || 360),
+);
+const directorBucketMs = directorIntervalMinutes * 60_000;
+const directorBucket = Math.floor(Date.now() / directorBucketMs);
+const directorJobId = `director-cycle-${directorBucket}`;
+
+const directorBacklogRows = await sql`
+  SELECT count(*)::int AS count
+  FROM oska_jobs
+  WHERE type IN ('director_cycle','market_research','content_brief','visibility_audit')
+    AND status IN ('pending','retry','running')
+`;
+const directorBacklog = Number(directorBacklogRows[0]?.count || 0);
+let directorScheduled = null;
+
+if (directorBacklog < 6) {
+  const inserted = await sql`
+    INSERT INTO oska_jobs (
+      id, type, payload, status, priority,
+      preferred_providers, max_attempts, approval_status
+    )
+    VALUES (
+      ${directorJobId},
+      'director_cycle',
+      ${sql.json({
+        cycle: directorBucket,
+        source: "watchdog",
+        goal:
+          "Run a compact evidence-grounded OSKA marketing intelligence cycle using existing shared state. Research only; no publish, no ad spend, no outbound.",
+        rules: {
+          turkeyFirst: true,
+          sharedState: "postgres",
+          humanApprovalForExternalActions: true,
+        },
+      })},
+      'pending',
+      190,
+      '[]'::jsonb,
+      3,
+      'not_required'
+    )
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
+  `;
+
+  if (inserted[0]) {
+    await sql`
+      INSERT INTO oska_job_events (job_id, event_type, detail)
+      VALUES (
+        ${directorJobId},
+        'scheduled_director_cycle',
+        ${sql.json({
+          intervalMinutes: directorIntervalMinutes,
+          backlogBefore: directorBacklog,
+        })}
+      )
+    `;
+    directorScheduled = {
+      jobId: directorJobId,
+      intervalMinutes: directorIntervalMinutes,
+    };
+    console.log("DIRECTOR_CYCLE_ENQUEUED", JSON.stringify(directorScheduled));
+  }
+}
+
 const counts = await sql`
   SELECT status, count(*)::int AS count
   FROM oska_jobs
@@ -325,6 +396,8 @@ console.log(
     historicalBacklog,
     backlog,
     scheduled,
+    directorScheduled,
+    directorBacklog,
     counts,
     leads: leadCounts[0] ?? { total: 0, contact_ready: 0, last_24h: 0 },
   }),

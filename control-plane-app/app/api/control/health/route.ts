@@ -130,6 +130,14 @@ export async function GET() {
         FROM oska_leads
       `    ]);
 
+    const directorRows = await sql`
+      SELECT type, status, count(*)::int AS count, max(updated_at) AS last_updated_at
+      FROM oska_jobs
+      WHERE type IN ('director_cycle','market_research','content_brief','visibility_audit')
+      GROUP BY type, status
+      ORDER BY type, status
+    `;
+
     const integrations = {
       zeroApiSearch: true,
       officialSiteCrawler: true,
@@ -139,14 +147,19 @@ export async function GET() {
 
     return Response.json({
       service: "oska-control-plane",
-      version: "1.4.0",
+      version: "1.5.0",
       runtime: "railway-postgres-worker",
       database: "ok",
       readyForInfrastructure: true,
       readyForDiscovery: true,
       discoveryMode: "zero-api-primary",
       paidProviderRequired: false,
+      readyForMarketingResearch: true,
+      directorMode: "shared-postgres-specialists",
+      directorSpecialists: ["market_research", "content_brief", "visibility_audit"],
       humanApprovalRequiredForOutbound: true,
+      humanApprovalRequiredForPublishSpendAndOutbound: true,
+      director: directorRows,
       integrations,
       activeProviders: ["zero-api-search", "official-site-crawler"],
       inactivePaidProviders: ["openai-api", "parallel-search", "tinyfish", "exa"],
@@ -162,7 +175,7 @@ export async function GET() {
     return Response.json(
       {
         service: "oska-control-plane",
-        version: "1.4.0",
+        version: "1.5.0",
         database: "error",
         error: error instanceof Error ? error.message : String(error),
       },

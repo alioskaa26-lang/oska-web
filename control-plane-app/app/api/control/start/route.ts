@@ -5,6 +5,10 @@ const allowedTypes = new Set([
   "lead_discovery",
   "lead_verify",
   "contact_enrich",
+  "director_cycle",
+  "market_research",
+  "content_brief",
+  "visibility_audit",
   "outbound_email",
   "outbound_whatsapp",
 ]);

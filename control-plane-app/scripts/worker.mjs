@@ -34,6 +34,12 @@ const defaultProviders = (
   .map((v) => v.trim())
   .filter(Boolean);
 
+const directorChildTypes = new Set([
+  "market_research",
+  "content_brief",
+  "visibility_audit",
+]);
+
 function clean(value) {
   if (typeof value !== "string") return null;
   const text = value.trim();
@@ -299,6 +305,70 @@ async function enqueueJob({
     return true;
   }
   return false;
+}
+
+
+async function enqueueDirectorChildren(job) {
+  const sharedRules = {
+    turkeyFirst: true,
+    requireCurrentEvidenceUrls: true,
+    noPublish: true,
+    noAdSpend: true,
+    noCustomerContact: true,
+    humanApprovalForExternalActions: true,
+  };
+
+  const specialists = [
+    {
+      suffix: "market",
+      type: "market_research",
+      priority: 180,
+      goal:
+        "Find current Turkey-first, then global jewelry-market and buyer-demand signals that can create concrete OSKA 925 silver or brass/bronze product and B2B sales opportunities.",
+    },
+    {
+      suffix: "content",
+      type: "content_brief",
+      priority: 170,
+      goal:
+        "Find current evidence-backed content, collection-story and buyer-education opportunities for OSKA. Produce briefs only; do not publish.",
+    },
+    {
+      suffix: "visibility",
+      type: "visibility_audit",
+      priority: 160,
+      goal:
+        "Audit current public competitor positioning, search/SEO, social/category messaging and discoverability relevant to OSKA. Recommend actions only; do not launch or spend on ads.",
+    },
+  ];
+
+  const queuedIds = [];
+  for (const specialist of specialists) {
+    const id = `${job.id}:${specialist.suffix}`;
+    const inserted = await enqueueJob({
+      id,
+      type: specialist.type,
+      payload: {
+        parentJobId: job.id,
+        directorCycle: job.payload?.cycle ?? null,
+        brand: "OSKA Silver",
+        market: "B2B jewelry manufacturing",
+        goal: specialist.goal,
+        rules: sharedRules,
+      },
+      priority: specialist.priority,
+      preferredProviders: ["chatgpt-web", "openai-luna"],
+      maxAttempts: 3,
+    });
+    if (inserted) queuedIds.push(id);
+  }
+
+  return {
+    requested: specialists.length,
+    queued: queuedIds.length,
+    queuedIds,
+    rules: sharedRules,
+  };
 }
 
 async function enqueueVerificationChildren(job, providerResult) {
@@ -601,6 +671,18 @@ async function processJob(job) {
       workerId,
       database: "ok",
       accepted: true,
+    });
+    return;
+  }
+
+  if (job.type === "director_cycle") {
+    const director = await enqueueDirectorChildren(job);
+    await addEvent(job.id, "director_cycle_dispatched", director);
+    await complete(job, {
+      accepted: true,
+      mode: "shared-postgres-specialists",
+      ...director,
+      humanApprovalRequiredForExternalActions: true,
     });
     return;
   }
@@ -1008,6 +1090,25 @@ async function processJob(job) {
     return;
   }
 
+  if (directorChildTypes.has(job.type)) {
+    if (verification?.ok !== true) {
+      throw new Error(
+        `VERIFIER_REJECTED:${JSON.stringify(verification).slice(0, 700)}`,
+      );
+    }
+
+    await complete(job, {
+      accepted: true,
+      provider: providerResult.provider,
+      verificationScore,
+      parentJobId: job.payload?.parentJobId ?? null,
+      output: providerResult.evidence,
+      verifier: verification,
+      humanApprovalRequiredForExternalActions: true,
+    });
+    return;
+  }
+
   if (isOutbound) {
     if (verification?.ok !== true) {
       throw new Error(
@@ -1131,7 +1232,10 @@ async function recoverTransientResearchJobs() {
         locked_at = NULL,
         next_run_at = now(),
         updated_at = now()
-    WHERE type IN ('lead_discovery','lead_verify','contact_enrich')
+    WHERE type IN (
+      'lead_discovery','lead_verify','contact_enrich',
+      'market_research','content_brief','visibility_audit'
+    )
       AND status IN ('retry','dead_letter')
       AND (
         last_error ILIKE '%ALL_PROVIDERS_FAILED%'
