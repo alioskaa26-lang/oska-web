@@ -14,7 +14,7 @@ const recovered = await sql`
       next_run_at = now(),
       updated_at = now()
   WHERE status = 'running'
-    AND locked_at < now() - interval '15 minutes'
+    AND locked_at < now() - interval '3 minutes'
   RETURNING id, status
 `;
 
