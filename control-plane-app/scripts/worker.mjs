@@ -715,7 +715,11 @@ async function processJob(job) {
     );
 
     const evidence = await freeDiscovery(job.payload, knownDomains);
-    if (!evidence.ok) throw new Error("ZERO_API_DISCOVERY_NO_CANDIDATES");
+    if (!evidence.ok) {
+      await markProvider("zero-api-search", false, "NO_CANDIDATES");
+      throw new Error("ZERO_API_DISCOVERY_NO_CANDIDATES");
+    }
+    await markProvider("zero-api-search", true);
 
     const providerResult = {
       ok: true,
@@ -743,6 +747,7 @@ async function processJob(job) {
   if (job.type === "lead_verify" && job.payload?.candidate) {
     const candidate = job.payload.candidate;
     const verification = await freeVerifyCandidate(candidate, job.payload);
+    await markProvider("official-site-crawler", verification?.ok === true, verification?.ok ? null : "VERIFY_REJECTED");
     const verificationScore = Number(verification?.score || 0);
 
     if (!verification?.ok || verificationScore < 55) {
@@ -796,6 +801,7 @@ async function processJob(job) {
 
   if (job.type === "contact_enrich") {
     const crawl = await freeOfficialContactEnrich(job.payload?.domain);
+    await markProvider("official-site-crawler", crawl.live === true, crawl.live ? null : "DOMAIN_UNREACHABLE");
     const fallback = {
       company: job.payload?.company,
       domain: job.payload?.domain,
