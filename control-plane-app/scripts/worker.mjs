@@ -1119,6 +1119,23 @@ async function recoverTransientResearchJobs() {
   console.log("TRANSIENT_RESEARCH_RECOVERED", JSON.stringify({ count: rows.length }));
 }
 
+async function recoverStaleRunningJobs() {
+  const rows = await sql`
+    UPDATE oska_jobs
+    SET status = 'pending',
+        locked_by = NULL,
+        locked_at = NULL,
+        next_run_at = now(),
+        last_error = 'STALE_LOCK_RECOVERED_ON_WORKER_START',
+        updated_at = now()
+    WHERE status = 'running'
+      AND locked_at < now() - interval '2 minutes'
+    RETURNING id
+  `;
+
+  console.log("STALE_RUNNING_RECOVERED", JSON.stringify({ count: rows.length }));
+}
+
 async function recoverHistoricalBackfill() {
   const rows = await sql`
     UPDATE oska_jobs
@@ -1152,6 +1169,7 @@ async function main() {
   await runStartupCanary();
   await markProvider("zero-api-search", true);
   await markProvider("official-site-crawler", true);
+  await recoverStaleRunningJobs();
   await recoverHistoricalBackfill();
   await recoverTransientResearchJobs();
 
