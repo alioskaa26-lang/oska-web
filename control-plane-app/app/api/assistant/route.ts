@@ -90,8 +90,10 @@ async function liveSnapshot() {
 function statusAnswer(s: Awaited<ReturnType<typeof liveSnapshot>>) {
   const j = s.jobs;
   const l = s.leads;
-  const unhealthy = s.providers.filter((p: any) => p.status !== "healthy" && p.status !== "unknown");
-  const activeProviderNames = s.providers
+  const activeProviderSet = new Set(["zero-api-search","official-site-crawler","zero-api-marketing"]);
+  const activeProviders = s.providers.filter((p: any) => activeProviderSet.has(p.provider));
+  const unhealthy = activeProviders.filter((p: any) => p.status !== "healthy" && p.status !== "unknown");
+  const activeProviderNames = activeProviders
     .filter((p: any) => p.status === "healthy")
     .slice(0, 4)
     .map((p: any) => p.provider)
@@ -129,8 +131,10 @@ function leadAnswer(s: Awaited<ReturnType<typeof liveSnapshot>>) {
 }
 
 function providerAnswer(s: Awaited<ReturnType<typeof liveSnapshot>>) {
-  if (!s.providers.length) return "Ali Bey, sağlayıcı sağlık kaydı henüz yok.";
-  const lines = s.providers.slice(0,6).map((p:any) =>
+  const activeSet = new Set(["zero-api-search","official-site-crawler","zero-api-marketing"]);
+  const active = s.providers.filter((p:any) => activeSet.has(p.provider));
+  if (!active.length) return "Ali Bey, aktif sağlayıcı sağlık kaydı henüz yok.";
+  const lines = active.slice(0,6).map((p:any) =>
     `${p.provider}: ${p.status}; başarı ${n(p.success_count)}, hata ${n(p.failure_count)}`
   );
   return "Ali Bey, ajan ve sağlayıcı durumu. " + lines.join(". ") + ". Watchdog sıkışan işleri geri kazanıyor; failover kuralı aktif.";
@@ -205,16 +209,16 @@ export async function POST(request: Request) {
     const q = normalizeQuestion(question.replace(/\bjarv[ei]s\b/gi, ""));
     const snapshot = await liveSnapshot();
 
-    if (hasAny(q, ["sistem ne durumda","genel durum","sistem durumu","core ne durumda","oska ne durumda","çalışıyor mu","sistem nasıl","durum nedir","son durum"])) {
+    if (hasAny(q, ["ajan","provider","sağlayıcı","failover","watchdog","worker","yedek araç","kredi bitti"])) {
+      return Response.json({ ok:true, mode:"providers", answer:providerAnswer(snapshot) });
+    }
+
+    if (hasAny(q, ["sistem ne durumda","genel durum","sistem durumu","core ne durumda","oska ne durumda","sistem nasıl","durum nedir","son durum"])) {
       return Response.json({ ok:true, mode:"live-status", answer:statusAnswer(snapshot) });
     }
 
     if (hasAny(q, ["müşteri avı","müşteri durumu","müşteriler","potansiyel müşteri","lead","alıcı","buyer"])) {
       return Response.json({ ok:true, mode:"leads", answer:leadAnswer(snapshot) });
-    }
-
-    if (hasAny(q, ["ajan","provider","sağlayıcı","failover","watchdog","worker","yedek araç","kredi bitti"])) {
-      return Response.json({ ok:true, mode:"providers", answer:providerAnswer(snapshot) });
     }
 
     if (hasAny(q, ["araştırma sonucu","araştırma ne oldu","araştırma bitti","son araştırma","ne buldun"])) {
