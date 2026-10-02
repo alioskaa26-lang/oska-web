@@ -18,7 +18,7 @@ export default function VoiceStatus() {
   const shouldListenRef = useRef(false);
   const speakingRef = useRef(false);
   const [listening, setListening] = useState(false);
-  const [message, setMessage] = useState("Sesli durum asistanı hazırlanıyor.");
+  const [message, setMessage] = useState("Hazırım. Konuşabilirsiniz.");
 
   const restartListening = useCallback(() => {
     if (!shouldListenRef.current || speakingRef.current) return;
@@ -26,7 +26,7 @@ export default function VoiceStatus() {
       try {
         recognitionRef.current?.start();
         setListening(true);
-        setMessage('Dinliyorum — "Son durum nedir?" diyebilirsiniz.');
+        setMessage('Sizi dinliyorum. "Son durum nedir?" diyebilirsiniz.');
       } catch {
         // Recognition may already be running.
       }
@@ -161,14 +161,17 @@ export default function VoiceStatus() {
     try {
       recognitionRef.current.start();
       setListening(true);
-      setMessage('Dinliyorum — "Son durum nedir?" diyebilirsiniz.');
+      setMessage('Sizi dinliyorum. "Son durum nedir?" diyebilirsiniz.');
     } catch {
       restartListening();
     }
   }, [restartListening, speakSummary]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => startListening(), 1200);
+    const timer = window.setTimeout(() => {
+      startListening();
+      speak("JARVES hazır. Sizi dinliyorum.");
+    }, 900);
     return () => {
       window.clearTimeout(timer);
       shouldListenRef.current = false;
@@ -177,18 +180,18 @@ export default function VoiceStatus() {
       } catch {}
       window.speechSynthesis?.cancel();
     };
-  }, [startListening]);
+  }, [startListening, speak]);
 
   return (
     <section className="voicePanel" aria-live="polite">
       <div>
-        <strong>OSKA CORE Sesli Durum</strong>
+        <strong className="jarvesVoiceTitle">JARVES</strong>
         <p className="muted voiceHint">{message}</p>
       </div>
       <div className="voiceActions">
         <span className={"voiceDot " + (listening ? "isListening" : "")} aria-hidden="true" />
         <button className="voiceButton" onClick={startListening}>
-          🎙 Dinlemeyi başlat
+          🎙 Konuşmayı başlat
         </button>
         <button className="voiceButton primary" onClick={() => void speakSummary()}>
           🔊 Son durumu anlat
