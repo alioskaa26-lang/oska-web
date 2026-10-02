@@ -5,7 +5,7 @@ export async function GET() {
     const sql = getSql();
     await sql`SELECT 1 AS ok`;
 
-    const [canaries, leadStatsRows, pipelineRows, knownRows, providerRows] = await Promise.all([
+    const [canaries, leadStatsRows, pipelineRows, knownRows, providerRows, deadLetterRows] = await Promise.all([
       sql`
         SELECT id, type, status, attempt_count, max_attempts,
                (last_error IS NOT NULL) AS has_error,
@@ -84,6 +84,25 @@ export async function GET() {
         WHERE provider IN ('zero-api-search','official-site-crawler')
         ORDER BY provider
       `,
+      sql`
+        SELECT
+          type,
+          CASE
+            WHEN last_error ILIKE '%VERIFIED_LEAD_MISSING_IDENTITY%' THEN 'missing_identity'
+            WHEN last_error ILIKE '%NO_DISCOVERY_CANDIDATES%' THEN 'no_candidates'
+            WHEN last_error ILIKE '%ZERO_API_DISCOVERY_NO_CANDIDATES%' THEN 'no_candidates'
+            WHEN last_error ILIKE '%ALL_PROVIDERS_FAILED%' THEN 'legacy_provider_failure'
+            WHEN last_error ILIKE '%OPENAI_HTTP_429%' THEN 'legacy_provider_failure'
+            WHEN last_error ILIKE '%VERIFIER_HTTP_%' THEN 'legacy_verifier_failure'
+            WHEN last_error ILIKE '%STALE_LOCK%' THEN 'stale_lock'
+            ELSE 'other'
+          END AS reason,
+          count(*)::int AS count
+        FROM oska_jobs
+        WHERE status = 'dead_letter'
+        GROUP BY type, reason
+        ORDER BY count DESC
+      `,
     ]);
 
     const integrations = {
@@ -110,6 +129,7 @@ export async function GET() {
       leads: leadStatsRows[0] ?? {},
       pipeline: pipelineRows[0] ?? {},
       providers: providerRows,
+      deadLetterBreakdown: deadLetterRows,
       canaries,
     });
   } catch (error) {
