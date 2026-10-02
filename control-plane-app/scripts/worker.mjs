@@ -3,6 +3,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 import { freeOfficialContactEnrich } from "./free-enrich.mjs";
 import { freeDiscovery, freeVerifyCandidate } from "./free-discovery.mjs";
+import { freeMarketingResearch, freeVerifyMarketingResearch } from "./free-marketing.mjs";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
@@ -974,6 +975,49 @@ async function processJob(job) {
     return;
   }
 
+  if (directorChildTypes.has(job.type)) {
+    const research = await freeMarketingResearch(job.type, job.payload);
+    await markProvider(
+      "zero-api-marketing",
+      research.ok === true,
+      research.ok ? null : "NO_MEANINGFUL_MARKETING_SIGNAL",
+    );
+
+    if (!research.ok) {
+      await addEvent(job.id, "marketing_cycle_empty", {
+        backend: research.backend,
+        summary: research.summary,
+      });
+      await complete(job, {
+        accepted: false,
+        provider: "zero-api-marketing",
+        parentJobId: job.payload?.parentJobId ?? null,
+        output: research,
+        reason: "no_meaningful_signal_this_cycle",
+        humanApprovalRequiredForExternalActions: true,
+      });
+      return;
+    }
+
+    const marketingVerification = await freeVerifyMarketingResearch(research);
+    await addEvent(job.id, "marketing_zero_api_verified", {
+      score: marketingVerification.score,
+      ok: marketingVerification.ok,
+      verifiedUrlCount: marketingVerification.verifiedUrls.length,
+    });
+
+    await complete(job, {
+      accepted: marketingVerification.ok,
+      provider: "zero-api-marketing",
+      verificationScore: marketingVerification.score,
+      parentJobId: job.payload?.parentJobId ?? null,
+      output: research,
+      verifier: marketingVerification,
+      humanApprovalRequiredForExternalActions: true,
+    });
+    return;
+  }
+
   const providerResult = await runFailover(job);
   if (!providerResult.ok) throw new Error(providerResult.error);
 
@@ -1086,25 +1130,6 @@ async function processJob(job) {
       emailFound: Boolean(lead.email),
       decisionMakerFound: Boolean(lead.decision_maker),
       whatsappFound: Boolean(lead.phone_whatsapp),
-    });
-    return;
-  }
-
-  if (directorChildTypes.has(job.type)) {
-    if (verification?.ok !== true) {
-      throw new Error(
-        `VERIFIER_REJECTED:${JSON.stringify(verification).slice(0, 700)}`,
-      );
-    }
-
-    await complete(job, {
-      accepted: true,
-      provider: providerResult.provider,
-      verificationScore,
-      parentJobId: job.payload?.parentJobId ?? null,
-      output: providerResult.evidence,
-      verifier: verification,
-      humanApprovalRequiredForExternalActions: true,
     });
     return;
   }

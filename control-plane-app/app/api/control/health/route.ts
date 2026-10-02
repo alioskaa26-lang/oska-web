@@ -85,7 +85,7 @@ export async function GET() {
       sql`
         SELECT provider, status, success_count, failure_count, last_error, last_seen_at
         FROM oska_provider_health
-        WHERE provider IN ('zero-api-search','official-site-crawler')
+        WHERE provider IN ('zero-api-search','official-site-crawler','zero-api-marketing')
         ORDER BY provider
       `,
       sql`
@@ -161,7 +161,7 @@ export async function GET() {
       humanApprovalRequiredForPublishSpendAndOutbound: true,
       director: directorRows,
       integrations,
-      activeProviders: ["zero-api-search", "official-site-crawler"],
+      activeProviders: ["zero-api-search", "official-site-crawler", "zero-api-marketing"],
       inactivePaidProviders: ["openai-api", "parallel-search", "tinyfish", "exa"],
       knownHistoricalEntities: knownRows[0]?.total ?? 0,
       geography: geoRows?.[0] ?? {},
