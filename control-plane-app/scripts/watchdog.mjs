@@ -192,6 +192,66 @@ const lanes = [
   },
 ];
 
+const reEnrichRows = await sql`
+  WITH candidates AS (
+    SELECT
+      canonical_key, company, domain, country, category, material,
+      email, decision_maker, role, phone_whatsapp, source_urls, status
+    FROM oska_leads
+    WHERE status <> 'contact_ready'
+      AND domain IS NOT NULL
+      AND trim(domain) <> ''
+      AND NOT EXISTS (
+        SELECT 1
+        FROM oska_jobs j
+        WHERE j.id = 'historical-enrich-v2-' || md5(oska_leads.canonical_key)
+      )
+    ORDER BY updated_at ASC
+    LIMIT 60
+  )
+  INSERT INTO oska_jobs (
+    id, type, payload, status, priority,
+    preferred_providers, max_attempts, approval_status
+  )
+  SELECT
+    'historical-enrich-v2-' || md5(canonical_key),
+    'contact_enrich',
+    jsonb_build_object(
+      'historicalBackfill', true,
+      'canonicalKey', canonical_key,
+      'company', company,
+      'domain', domain,
+      'country', country,
+      'currentCategory', category,
+      'currentMaterial', material,
+      'currentEmail', email,
+      'currentDecisionMaker', decision_maker,
+      'currentRole', role,
+      'currentPhoneWhatsapp', phone_whatsapp,
+      'currentSourceUrl', CASE
+        WHEN jsonb_typeof(source_urls) = 'array' AND jsonb_array_length(source_urls) > 0
+        THEN source_urls->>0
+        ELSE NULL
+      END,
+      'currentStatus', status
+    ),
+    'pending',
+    320,
+    '[]'::jsonb,
+    3,
+    'not_required'
+  FROM candidates
+  ON CONFLICT (id) DO NOTHING
+  RETURNING id
+`;
+
+if (reEnrichRows.length) {
+  console.log(
+    "HISTORICAL_REENRICH_ENQUEUED",
+    JSON.stringify({ queued: reEnrichRows.length }),
+  );
+}
+
 const backlogRows = await sql`
   SELECT
     count(*) FILTER (
