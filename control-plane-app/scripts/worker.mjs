@@ -1224,6 +1224,81 @@ async function runStartupCanary() {
   }
 }
 
+let lastCoverageCheckAt = 0;
+const coverageCheckIntervalMs = 30_000;
+
+async function ensureContactEnrichmentCoverage() {
+  const activeRows = await sql`
+    SELECT count(*)::int AS count
+    FROM oska_jobs
+    WHERE type = 'contact_enrich'
+      AND status IN ('pending','retry','running')
+  `;
+  const active = Number(activeRows[0]?.count || 0);
+  if (active > 0) return { active, queued: 0 };
+
+  const rows = await sql`
+    WITH candidates AS (
+      SELECT
+        canonical_key, company, domain, country, category, material,
+        email, decision_maker, role, phone_whatsapp, source_urls, status
+      FROM oska_leads
+      WHERE status <> 'contact_ready'
+        AND domain IS NOT NULL
+        AND trim(domain) <> ''
+        AND NOT EXISTS (
+          SELECT 1
+          FROM oska_jobs j
+          WHERE j.id = 'historical-enrich-v2-' || md5(oska_leads.canonical_key)
+        )
+      ORDER BY updated_at ASC
+      LIMIT 60
+    )
+    INSERT INTO oska_jobs (
+      id, type, payload, status, priority,
+      preferred_providers, max_attempts, approval_status
+    )
+    SELECT
+      'historical-enrich-v2-' || md5(canonical_key),
+      'contact_enrich',
+      jsonb_build_object(
+        'historicalBackfill', true,
+        'canonicalKey', canonical_key,
+        'company', company,
+        'domain', domain,
+        'country', country,
+        'currentCategory', category,
+        'currentMaterial', material,
+        'currentEmail', email,
+        'currentDecisionMaker', decision_maker,
+        'currentRole', role,
+        'currentPhoneWhatsapp', phone_whatsapp,
+        'currentSourceUrl', CASE
+          WHEN jsonb_typeof(source_urls) = 'array' AND jsonb_array_length(source_urls) > 0
+          THEN source_urls->>0
+          ELSE NULL
+        END,
+        'currentStatus', status
+      ),
+      'pending',
+      320,
+      '[]'::jsonb,
+      3,
+      'not_required'
+    FROM candidates
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
+  `;
+
+  if (rows.length) {
+    console.log(
+      "WORKER_SELF_HEAL_CONTACT_QUEUE",
+      JSON.stringify({ queued: rows.length }),
+    );
+  }
+  return { active: 0, queued: rows.length };
+}
+
 async function workerLoop(slot) {
   console.log(
     "WORKER_SLOT_STARTED",
@@ -1235,6 +1310,17 @@ async function workerLoop(slot) {
     if (!job && slot === 1) job = await claimJob(false);
 
     if (!job) {
+      if (slot === 1 && Date.now() - lastCoverageCheckAt >= coverageCheckIntervalMs) {
+        lastCoverageCheckAt = Date.now();
+        try {
+          await ensureContactEnrichmentCoverage();
+        } catch (error) {
+          console.error(
+            "WORKER_SELF_HEAL_CONTACT_QUEUE_FAILED",
+            error instanceof Error ? error.message : String(error),
+          );
+        }
+      }
       await sleep(1500);
       continue;
     }
