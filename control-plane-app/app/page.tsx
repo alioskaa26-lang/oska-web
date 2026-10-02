@@ -1,4 +1,5 @@
 import { getSql } from "@/lib/db";
+import VoiceStatus from "./VoiceStatus";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,7 @@ export default async function Home() {
   return (
     <main>
       <p className="muted">OSKA · CONTROL PLANE v1.4 · RAILWAY · ZERO-API PRIMARY</p>
+      <VoiceStatus />
       <h1>Tek yönetici. Kalıcı görevler. Kanıtlı sonuç.</h1>
       <p className="muted">
         Shopify sitesinden bağımsız görev kontrol düzlemi. Postgres tek gerçek durum
