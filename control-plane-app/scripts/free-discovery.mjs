@@ -72,6 +72,7 @@ function queriesFor(payload) {
   const geo = String(payload?.geography || "").toLowerCase();
   const mat = String(payload?.material || "").toLowerCase();
   const turkey = geo.includes("türkiye") || geo.includes("turkey");
+  const turkeyLinked = String(payload?.turkeyPriority || "") === "turkey-linked";
   const brass = /brass|bronze|pirinç|bronz/.test(mat);
   const silver = /925|silver|gümüş|sterling/.test(mat);
   const variant = Math.abs(Number(payload?.searchVariant || 0)) % 10;
@@ -99,6 +100,29 @@ function queriesFor(payload) {
     ["jewelry agent showroom","buying office jewelry","retail group jewelry"],
   ];
 
+  if (turkeyLinked) {
+    const connectionTerms = [
+      '"made in Turkey"',
+      '"made in Türkiye"',
+      '"sourced from Turkey"',
+      '"sourcing from Turkey"',
+      '"Istanbul" sourcing',
+      '"Turkish jewelry" retailer',
+      '"Turkish jewellery" stockist',
+      '"Turkey supplier" jewelry',
+      '"Turkish brand" jewelry',
+      '"Turkey" importer jewelry',
+    ];
+    const connection = connectionTerms[variant];
+    return roleSets[variant]
+      .map((role) => `${material} ${role} ${connection} ${place}`.trim())
+      .concat(
+        (payload?.customerTypes || [])
+          .slice(0, 2)
+          .map((type) => `${material} ${type} ${connection} ${place}`.trim())
+      );
+  }
+
   return roleSets[variant]
     .map((role) => `${material} ${role} ${place}`.trim())
     .concat(
@@ -116,6 +140,18 @@ function materialTerms(payload) {
   return terms.length ? terms : ["jewelry","jewellery","takı","mücevher"];
 }
 
+function detectTurkeyConnection(text) {
+  const lower = String(text || "").toLowerCase();
+  const patterns = [
+    "made in turkey","made in türkiye","sourced from turkey","sourcing from turkey",
+    "turkey supplier","turkish supplier","istanbul","turkish jewelry","turkish jewellery",
+    "turkish brand","turkey-made","made in istanbul","manufactured in turkey",
+    "crafted in turkey","crafted in istanbul","imported from turkey","from turkey"
+  ];
+  const hits = patterns.filter((p) => lower.includes(p));
+  return { matched: hits.length > 0, hits };
+}
+
 function scoreText(text, payload) {
   const lower = text.toLowerCase();
   let score = 0;
@@ -125,6 +161,12 @@ function scoreText(text, payload) {
   if (/wholesale|distributor|importer|agent|showroom|supplier|vendor|buyer|buying/.test(lower)) score += 20;
   if (/bracelet|ring|necklace|earring|jewelry|jewellery|takı|mücevher/.test(lower)) score += 15;
   if (/international|shipping|delivery|in stock|add to cart|shop now/.test(lower)) score += 10;
+
+  const turkeyConnection = detectTurkeyConnection(text);
+  if (String(payload?.turkeyPriority || "") === "turkey-linked" && turkeyConnection.matched) {
+    score += 25;
+  }
+
   return Math.min(100, score);
 }
 
@@ -154,6 +196,7 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
     if (!contact.live) continue;
 
     const searchText = `${item.title} ${item.snippet}`;
+    const turkeyConnection = detectTurkeyConnection(searchText);
     const score = scoreText(searchText, payload);
     if (score < 35) continue;
 
@@ -174,6 +217,13 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
         "Discovered via zero-API web search.",
         "Official domain reachable.",
         `Deterministic commercial-fit score: ${score}.`,
+        String(payload?.turkeyPriority || "") === "domestic"
+          ? "Turkey domestic priority lane."
+          : String(payload?.turkeyPriority || "") === "turkey-linked"
+            ? turkeyConnection.matched
+              ? `Turkey connection detected: ${turkeyConnection.hits.join(", ")}.`
+              : "Turkey-linked priority lane; explicit connection evidence still requires confirmation."
+            : "General global lane.",
       ],
       sourceUrls: [...new Set([item.url, ...(contact.sourceUrls || [])])],
       deterministicScore: score,
