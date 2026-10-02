@@ -5,7 +5,7 @@ export async function GET() {
     const sql = getSql();
     await sql`SELECT 1 AS ok`;
 
-    const [canaries, leadStatsRows, pipelineRows, knownRows] = await Promise.all([
+    const [canaries, leadStatsRows, pipelineRows, knownRows, providerRows] = await Promise.all([
       sql`
         SELECT id, type, status, attempt_count, max_attempts,
                (last_error IS NOT NULL) AS has_error,
@@ -36,6 +36,15 @@ export async function GET() {
       sql`
         SELECT
           count(*) FILTER (
+            WHERE status IN ('pending','retry','running')
+              AND id LIKE 'historical-enrich-%'
+          )::int AS historical_backlog,
+          count(*) FILTER (
+            WHERE status IN ('pending','retry','running')
+              AND id NOT LIKE 'historical-enrich-%'
+              AND type IN ('lead_discovery','lead_verify','contact_enrich')
+          )::int AS growth_backlog,
+          count(*) FILTER (
             WHERE type = 'lead_discovery'
               AND status IN ('pending','retry','running')
           )::int AS discovery,
@@ -51,6 +60,9 @@ export async function GET() {
             WHERE type IN ('lead_discovery','lead_verify','contact_enrich')
               AND status IN ('pending','retry','running')
           )::int AS total_backlog,
+          count(*) FILTER (WHERE status = 'dead_letter')::int AS dead_letter,
+          count(*) FILTER (WHERE status = 'retry')::int AS retry,
+          count(*) FILTER (WHERE status = 'running')::int AS running,
           count(*) FILTER (
             WHERE type = 'lead_discovery'
               AND created_at >= now() - interval '24 hours'
@@ -66,32 +78,42 @@ export async function GET() {
         SELECT count(*)::int AS total
         FROM oska_known_entities
       `,
+      sql`
+        SELECT provider, status, success_count, failure_count, last_error, last_seen_at
+        FROM oska_provider_health
+        ORDER BY provider
+      `,
     ]);
 
     const integrations = {
-      openai: Boolean(process.env.OPENAI_API_KEY),
+      zeroApiSearch: true,
+      officialSiteCrawler: true,
       internalToken: Boolean(process.env.OSKA_INTERNAL_TOKEN),
+      openaiConfigured: Boolean(process.env.OPENAI_API_KEY),
     };
 
     return Response.json({
       service: "oska-control-plane",
-      version: "1.3.0",
+      version: "1.4.0",
       runtime: "railway-postgres-worker",
       database: "ok",
       readyForInfrastructure: true,
-      readyForDiscovery: integrations.openai && integrations.internalToken,
+      readyForDiscovery: true,
+      discoveryMode: "zero-api-primary",
+      paidProviderRequired: false,
       humanApprovalRequiredForOutbound: true,
       integrations,
       knownHistoricalEntities: knownRows[0]?.total ?? 0,
       leads: leadStatsRows[0] ?? {},
       pipeline: pipelineRows[0] ?? {},
+      providers: providerRows,
       canaries,
     });
   } catch (error) {
     return Response.json(
       {
         service: "oska-control-plane",
-        version: "1.3.0",
+        version: "1.4.0",
         database: "error",
         error: error instanceof Error ? error.message : String(error),
       },
