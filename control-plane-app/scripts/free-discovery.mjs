@@ -74,19 +74,38 @@ function queriesFor(payload) {
   const turkey = geo.includes("türkiye") || geo.includes("turkey");
   const brass = /brass|bronze|pirinç|bronz/.test(mat);
   const silver = /925|silver|gümüş|sterling/.test(mat);
+  const variant = Math.abs(Number(payload?.searchVariant || 0)) % 10;
 
-  const place = turkey ? "Turkey" : "";
   const material = brass && silver
     ? '"sterling silver" OR brass jewelry'
     : brass
       ? 'brass jewelry OR bronze jewelry'
       : '"925 sterling silver" jewelry';
 
-  return [
-    `${material} retailer stockist ${place}`.trim(),
-    `${material} distributor wholesaler ${place}`.trim(),
-    `${material} multibrand jewelry store ${place}`.trim(),
+  const turkeyPlaces = ["Turkey","Istanbul","Ankara","Izmir","Bursa","Antalya","Turkey","Istanbul","Turkey","Istanbul"];
+  const globalPlaces = ["","Europe","UAE","United Kingdom","United States","Germany","France","Italy","Netherlands","Middle East"];
+  const place = turkey ? turkeyPlaces[variant] : globalPlaces[variant];
+
+  const roleSets = [
+    ["retailer stockist","multibrand boutique","jewelry store"],
+    ["distributor wholesaler","importer jewelry","trade showroom"],
+    ["mens jewelry retailer","premium accessories store","designer jewelry boutique"],
+    ["private label jewelry buyer","jewelry sourcing","vendor supplier jewelry"],
+    ["online jewelry store","ecommerce jewelry retailer","department store jewelry"],
+    ["wholesale jewelry","B2B jewelry buyer","jewelry distributor"],
+    ["concept store jewelry","luxury multibrand jewelry","fashion accessories buyer"],
+    ["sterling silver bracelet shop","men bracelet retailer","silver jewelry stockist"],
+    ["brass jewelry boutique","gold plated brass jewelry retailer","fashion jewelry wholesaler"],
+    ["jewelry agent showroom","buying office jewelry","retail group jewelry"],
   ];
+
+  return roleSets[variant]
+    .map((role) => `${material} ${role} ${place}`.trim())
+    .concat(
+      (payload?.customerTypes || [])
+        .slice(0, 2)
+        .map((type) => `${material} ${type} ${place}`.trim())
+    );
 }
 
 function materialTerms(payload) {
