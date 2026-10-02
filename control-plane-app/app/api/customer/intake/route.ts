@@ -80,6 +80,18 @@ const customerSchema = {
   }
 } as const;
 
+const customerVerifySchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["safe", "score", "warnings", "forceHuman"],
+  properties: {
+    safe: { type: "boolean" },
+    score: { type: "integer", minimum: 0, maximum: 100 },
+    warnings: { type: "array", items: { type: "string" } },
+    forceHuman: { type: "boolean" }
+  }
+} as const;
+
 function cleanText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
@@ -210,6 +222,63 @@ Return a structured analysis and a customer-facing reply draft. humanApprovalReq
   // Server-side hard gate: AI cannot disable approval.
   parsed.humanApprovalRequired = true;
 
+  let verifier = {
+    safe: false,
+    score: 0,
+    warnings: ["Verifier did not run."],
+    forceHuman: true,
+    model: null as string | null,
+    responseId: null as string | null,
+  };
+
+  try {
+    const verifyResult = await callOpenAI({
+      model:
+        process.env.OSKA_CUSTOMER_VERIFY_MODEL ||
+        process.env.OPENAI_VERIFY_MODEL ||
+        "gpt-5.6-luna",
+      input: `You are OSKA CORE's independent customer-response verifier.
+
+Review the structured customer analysis and reply draft below.
+Hard rules:
+- No invented stock, price, discount, delivery date, payment term, certification, production capacity or product availability.
+- No commercial commitment may be made without human approval.
+- Ambiguous intent, weak confidence, missing core RFQ fields, or a potentially risky promise must force human review.
+- The response must stay professional and relevant to a B2B jewelry conversation.
+- Human approval is mandatory in all cases; your forceHuman flag is for extra escalation, not permission to auto-send.
+
+Candidate:
+${JSON.stringify(parsed, null, 2)}
+
+Return a conservative safety/quality verdict.`,
+      jsonSchema: {
+        name: "oska_customer_verification",
+        description: "Independent safety and quality verdict for an OSKA customer draft.",
+        schema: customerVerifySchema as unknown as Record<string, unknown>,
+      },
+    });
+
+    const verdict = verifyResult.text ? JSON.parse(verifyResult.text) : null;
+    if (verdict) {
+      verifier = {
+        ...verdict,
+        model: verifyResult.model,
+        responseId: verifyResult.id,
+      };
+    }
+  } catch (error) {
+    verifier.warnings = [
+      error instanceof Error ? error.message : String(error),
+    ];
+  }
+
+  if (!verifier.safe || verifier.forceHuman || verifier.score < 80) {
+    parsed.needsHuman = true;
+    parsed.escalationReason =
+      parsed.escalationReason ||
+      `Independent verifier escalation: ${verifier.warnings.join("; ") || "low confidence"}`;
+  }
+
   const status =
     parsed.needsHuman ? "waiting_human" :
     parsed.rfqDraft?.ready ? "rfq_draft" :
@@ -239,6 +308,7 @@ Return a structured analysis and a customer-facing reply draft. humanApprovalReq
           approvalRequired: true,
           confidence: parsed.confidence,
           intent: parsed.intent,
+          verifier,
         })}
       )
     `;
@@ -312,6 +382,7 @@ Return a structured analysis and a customer-facing reply draft. humanApprovalReq
     channel,
     model: result.model,
     analysis: parsed,
+    verifier,
     outboundSent: false,
     approvalRequired: true,
   });
