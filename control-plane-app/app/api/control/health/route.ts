@@ -31,6 +31,25 @@ export async function GET() {
             WHERE status <> 'contact_ready'
               AND (domain IS NULL OR trim(COALESCE(domain,'')) = '')
           )::int AS incomplete_without_domain,
+          count(*) FILTER (
+            WHERE status <> 'contact_ready'
+              AND domain IS NOT NULL
+              AND trim(domain) <> ''
+              AND NOT EXISTS (
+                SELECT 1 FROM oska_jobs j
+                WHERE j.id = 'historical-enrich-v2-' || md5(oska_leads.canonical_key)
+              )
+          )::int AS incomplete_unattempted,
+          count(*) FILTER (
+            WHERE status <> 'contact_ready'
+              AND domain IS NOT NULL
+              AND trim(domain) <> ''
+              AND EXISTS (
+                SELECT 1 FROM oska_jobs j
+                WHERE j.id = 'historical-enrich-v2-' || md5(oska_leads.canonical_key)
+                  AND j.status = 'completed'
+              )
+          )::int AS incomplete_after_official_attempt,
           count(*) FILTER (WHERE updated_at >= now() - interval '24 hours')::int AS last_24h,
           count(*) FILTER (
             WHERE lower(COALESCE(material,'')) ~ '(925|sterling|silver|gümüş)'
@@ -254,12 +273,20 @@ export async function GET() {
         incompleteLeads: leadStatsRows[0]?.incomplete ?? 0,
         incompleteWithDomain: leadStatsRows[0]?.incomplete_with_domain ?? 0,
         incompleteWithoutDomain: leadStatsRows[0]?.incomplete_without_domain ?? 0,
+        incompleteUnattempted: leadStatsRows[0]?.incomplete_unattempted ?? 0,
+        incompleteAfterOfficialAttempt: leadStatsRows[0]?.incomplete_after_official_attempt ?? 0,
         activeContactEnrichment: pipelineRows[0]?.contact_enrich ?? 0,
         status:
-          Number(leadStatsRows[0]?.incomplete_with_domain ?? 0) > 0 &&
-          Number(pipelineRows[0]?.contact_enrich ?? 0) === 0
-            ? "NEEDS_SELF_HEAL"
-            : "OK",
+          Number(pipelineRows[0]?.contact_enrich ?? 0) > 0
+            ? "HEALING"
+            : Number(leadStatsRows[0]?.incomplete_unattempted ?? 0) > 0
+              ? "NEEDS_SELF_HEAL"
+              : (
+                  Number(leadStatsRows[0]?.incomplete_after_official_attempt ?? 0) > 0 ||
+                  Number(leadStatsRows[0]?.incomplete_without_domain ?? 0) > 0
+                )
+                ? "NEEDS_ESCALATION"
+                : "OK",
       },
       providers: providerRows,
       deadLetterBreakdown: deadLetterRows,
