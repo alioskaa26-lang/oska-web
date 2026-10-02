@@ -107,7 +107,6 @@ export async function GET() {
         GROUP BY type, reason
         ORDER BY count DESC
       `,
-,
       sql`
         SELECT
           count(*) FILTER (
