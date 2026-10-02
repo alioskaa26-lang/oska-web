@@ -1,6 +1,12 @@
 import { getSql } from "@/lib/db";
 
 export async function POST(request: Request) {
+  const expected = process.env.OSKA_INTERNAL_TOKEN;
+  const actual = request.headers.get("authorization");
+  if (!expected || actual !== `Bearer ${expected}`) {
+    return Response.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
+  }
+
   const body = (await request.json()) as {
     jobId?: string;
     decision?: "approved" | "rejected";
@@ -64,7 +70,7 @@ export async function POST(request: Request) {
       VALUES (
         ${jobId},
         ${decision === "approved" ? "human_approved" : "human_rejected"},
-        ${JSON.stringify({ approvedBy, note })}::jsonb
+        ${tx.json({ approvedBy, note })}
       )
     `;
   });
