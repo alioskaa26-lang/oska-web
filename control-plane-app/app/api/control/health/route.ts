@@ -28,6 +28,13 @@ export async function GET() {
           count(*) FILTER (
             WHERE lower(COALESCE(material,'')) ~ '(brass|bronze|pirinç|bronz)'
           )::int AS brass_bronze,
+          count(*) FILTER (
+            WHERE lower(COALESCE(material,'')) ~ '(gold|altın|altin|14k|18k|22k|24k|vermeil)'
+          )::int AS gold,
+          count(*) FILTER (
+            WHERE trim(COALESCE(material,'')) = ''
+               OR lower(COALESCE(material,'')) !~ '(925|sterling|silver|gümüş|brass|bronze|pirinç|bronz|gold|altın|altin|14k|18k|22k|24k|vermeil)'
+          )::int AS other_material,
           count(*) FILTER (WHERE email IS NOT NULL)::int AS email_ready,
           count(*) FILTER (WHERE phone_whatsapp IS NOT NULL)::int AS whatsapp_ready,
           count(*) FILTER (WHERE decision_maker IS NOT NULL)::int AS decision_maker_ready
