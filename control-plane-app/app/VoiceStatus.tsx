@@ -45,12 +45,29 @@ export default function VoiceStatus() {
     } catch {}
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "tr-TR";
-    utterance.rate = 1.02;
-    utterance.pitch = 1;
     const voices = window.speechSynthesis.getVoices();
-    const turkishVoice = voices.find((voice) => voice.lang.toLowerCase().startsWith("tr"));
-    if (turkishVoice) utterance.voice = turkishVoice;
+    const preferredNames = [
+      "Svetlana", "Irina", "Milena", "Katya", "Ekaterina",
+      "Microsoft Irina", "Google русский", "Russian Female"
+    ];
+    const russianFemale =
+      preferredNames
+        .map((name) => voices.find((voice) => voice.name.toLowerCase().includes(name.toLowerCase())))
+        .find(Boolean) ||
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("ru") && /female|woman|жен|svet|irina|milena|katya/i.test(voice.name)) ||
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("ru")) ||
+      voices.find((voice) => /female|woman|zira|susan|aria|samantha/i.test(voice.name)) ||
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("tr"));
+
+    if (russianFemale) {
+      utterance.voice = russianFemale;
+      utterance.lang = russianFemale.lang || "ru-RU";
+    } else {
+      utterance.lang = "ru-RU";
+    }
+    utterance.rate = 0.94;
+    utterance.pitch = 1.10;
+    utterance.volume = 1;
 
     utterance.onend = () => {
       speakingRef.current = false;
@@ -185,7 +202,7 @@ export default function VoiceStatus() {
   return (
     <section className="voicePanel" aria-live="polite">
       <div>
-        <strong className="jarvesVoiceTitle">JARVES</strong>
+        <strong className="jarvesVoiceTitle">JARVES</strong><span className="voicePreset">Rus kadın sesi</span>
         <p className="muted voiceHint">{message}</p>
       </div>
       <div className="voiceActions">
