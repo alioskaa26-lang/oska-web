@@ -92,7 +92,7 @@ function statusAnswer(s: Awaited<ReturnType<typeof liveSnapshot>>) {
   const l = s.leads;
   const activeProviderSet = new Set(["zero-api-search","official-site-crawler","zero-api-marketing"]);
   const activeProviders = s.providers.filter((p: any) => activeProviderSet.has(p.provider));
-  const unhealthy = activeProviders.filter((p: any) => p.status !== "healthy" && p.status !== "unknown");
+  const unhealthy = activeProviders.filter((p: any) => p.status === "degraded");
   const activeProviderNames = activeProviders
     .filter((p: any) => p.status === "healthy")
     .slice(0, 4)
@@ -134,9 +134,16 @@ function providerAnswer(s: Awaited<ReturnType<typeof liveSnapshot>>) {
   const activeSet = new Set(["zero-api-search","official-site-crawler","zero-api-marketing"]);
   const active = s.providers.filter((p:any) => activeSet.has(p.provider));
   if (!active.length) return "Ali Bey, aktif sağlayıcı sağlık kaydı henüz yok.";
-  const lines = active.slice(0,6).map((p:any) =>
-    `${p.provider}: ${p.status}; başarı ${n(p.success_count)}, hata ${n(p.failure_count)}`
-  );
+  const lines = active.slice(0,6).map((p:any) => {
+    const label = p.status === "healthy"
+      ? "sağlıklı"
+      : p.status === "stale"
+        ? "son sinyal eski; aktif iş yoksa normal"
+        : p.status === "degraded"
+          ? "sorunlu"
+          : String(p.status || "bilinmiyor");
+    return `${p.provider}: ${label}; başarı ${n(p.success_count)}, hata ${n(p.failure_count)}`;
+  });
   return "Ali Bey, ajan ve sağlayıcı durumu. " + lines.join(". ") + ". Watchdog sıkışan işleri geri kazanıyor; failover kuralı aktif.";
 }
 
