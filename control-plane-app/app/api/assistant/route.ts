@@ -161,11 +161,36 @@ async function latestResearchAnswer() {
   if (job.status !== "completed") {
     return `Ali Bey, son araştırma görevi ${job.status} durumda. Görev kodu ${job.id}. Tamamlanınca sonucunu buradan okuyabilirim.`;
   }
-  const strings = collectUsefulStrings(job.result);
-  if (!strings.length) {
-    return `Ali Bey, son araştırma tamamlandı fakat kısa özet üretilemedi. Görev kodu ${job.id}.`;
+  let result: any = job.result;
+  if (typeof result === "string") {
+    try { result = JSON.parse(result); } catch {}
   }
-  return "Ali Bey, son araştırmanın sonucu: " + strings.slice(0,5).join(" ");
+  const output = result?.output ?? result;
+  const summary = typeof output?.summary === "string" ? output.summary : null;
+  const findings = Array.isArray(output?.findings) ? output.findings.slice(0, 3) : [];
+  const opportunities = Array.isArray(output?.opportunities) ? output.opportunities.slice(0, 2) : [];
+  const evidenceCount = Array.isArray(output?.evidence) ? output.evidence.length : 0;
+
+  const parts: string[] = [];
+  if (summary) parts.push(summary.replace("Found", "Bulundu:").replace("current public sources", "güncel açık kaynak"));
+  for (const item of findings) {
+    if (item?.title) parts.push(`Bulgu: ${item.title}.`);
+    if (item?.detail) parts.push(String(item.detail));
+  }
+  for (const item of opportunities) {
+    if (item?.action) parts.push(`Öneri: ${item.action}`);
+  }
+  if (evidenceCount) parts.push(`${evidenceCount} kaynak kaydedildi.`);
+
+  if (!parts.length) {
+    const strings = collectUsefulStrings(output);
+    if (!strings.length) {
+      return `Ali Bey, son araştırma tamamlandı fakat kısa özet üretilemedi. Görev kodu ${job.id}.`;
+    }
+    parts.push(...strings.slice(0, 5));
+  }
+
+  return "Ali Bey, son araştırmanın sonucu: " + parts.slice(0, 7).join(" ");
 }
 
 async function queueResearch(question: string) {
