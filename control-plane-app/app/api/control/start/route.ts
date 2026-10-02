@@ -10,6 +10,12 @@ const allowedTypes = new Set([
 ]);
 
 export async function POST(request: Request) {
+  const expected = process.env.OSKA_INTERNAL_TOKEN;
+  const actual = request.headers.get("authorization");
+  if (!expected || actual !== `Bearer ${expected}`) {
+    return Response.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
+  }
+
   const body = (await request.json()) as {
     jobId?: string;
     type?: string;
