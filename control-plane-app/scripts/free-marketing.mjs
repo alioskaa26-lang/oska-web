@@ -61,31 +61,57 @@ async function searchDuck(query) {
   return results;
 }
 
-function queriesFor(type) {
-  if (type === "content_brief") {
-    return [
-      "2026 men's jewelry trends sterling silver styling",
-      "sterling silver jewelry buyer guide care styling",
-      "Turkey handmade silver jewelry sourcing craftsmanship",
-      "men's brooch maximalist accessories trend 2026",
-    ];
-  }
+function queriesFor(type, payload = {}) {
+  const defaults = type === "content_brief"
+    ? [
+        "2026 men's jewelry trends sterling silver styling",
+        "sterling silver jewelry buyer guide care styling",
+        "Turkey handmade silver jewelry sourcing craftsmanship",
+        "men's brooch maximalist accessories trend 2026",
+      ]
+    : type === "visibility_audit"
+      ? [
+          "premium men's silver jewelry collections online",
+          "sterling silver jewelry wholesale supplier Turkey",
+          "men's jewelry ecommerce collection storytelling",
+          "B2B jewelry manufacturer Istanbul silver brass",
+        ]
+      : [
+          "2026 men's jewelry trends sterling silver wholesale retail",
+          "2026 brass jewelry trends wholesale retail",
+          "Turkey jewelry market sterling silver ecommerce 2026",
+          "premium men's jewelry retailer silver bracelet trends 2026",
+        ];
 
-  if (type === "visibility_audit") {
-    return [
-      "premium men's silver jewelry collections online",
-      "sterling silver jewelry wholesale supplier Turkey",
-      "men's jewelry ecommerce collection storytelling",
-      "B2B jewelry manufacturer Istanbul silver brass",
-    ];
-  }
+  const rawQuestion = String(payload?.userQuestion || payload?.goal || "").trim();
+  if (!rawQuestion) return defaults;
 
-  return [
-    "2026 men's jewelry trends sterling silver wholesale retail",
-    "2026 brass jewelry trends wholesale retail",
-    "Turkey jewelry market sterling silver ecommerce 2026",
-    "premium men's jewelry retailer silver bracelet trends 2026",
-  ];
+  const clean = rawQuestion
+    .replace(/\b(araştır|araştırma yap|internetten bak|bak|incele|bul)\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const englishish = clean
+    .replace(/erkek broş/gi, "men's brooch")
+    .replace(/broş/gi, "brooch")
+    .replace(/gümüş/gi, "sterling silver")
+    .replace(/pirinç/gi, "brass")
+    .replace(/bronz/gi, "bronze")
+    .replace(/bileklik/gi, "bracelet")
+    .replace(/kolye/gi, "necklace")
+    .replace(/yüzük/gi, "ring")
+    .replace(/müşteri/gi, "buyer")
+    .replace(/alıcı/gi, "buyer")
+    .replace(/toptan/gi, "wholesale")
+    .replace(/trendini/gi, "trend")
+    .replace(/trendleri/gi, "trends");
+
+  return [...new Set([
+    clean,
+    `${englishish} jewelry 2026`,
+    `${englishish} wholesale retail trend 2026`,
+    ...defaults,
+  ].filter(Boolean))].slice(0, 7);
 }
 
 function impactFor(type) {
@@ -110,7 +136,7 @@ function actionFor(type, title) {
 
 export async function freeMarketingResearch(type, payload = {}) {
   const raw = [];
-  for (const query of queriesFor(type)) {
+  for (const query of queriesFor(type, payload)) {
     try {
       raw.push(...(await searchDuck(query)));
     } catch {}
