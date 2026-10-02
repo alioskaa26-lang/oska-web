@@ -37,6 +37,35 @@ await sql`
     AND status <> 'stale'
 `;
 
+const benignClosed = await sql`
+  UPDATE oska_jobs
+  SET status = 'completed',
+      result = jsonb_build_object(
+        'accepted', false,
+        'reason', 'no_new_candidates_this_round',
+        'selfHealed', true
+      ),
+      last_error = NULL,
+      locked_by = NULL,
+      locked_at = NULL,
+      completed_at = COALESCE(completed_at, now()),
+      updated_at = now()
+  WHERE status = 'dead_letter'
+    AND type = 'lead_discovery'
+    AND (
+      last_error ILIKE '%ZERO_API_DISCOVERY_NO_CANDIDATES%'
+      OR last_error ILIKE '%NO_DISCOVERY_CANDIDATES%'
+    )
+  RETURNING id
+`;
+
+if (benignClosed.length) {
+  console.log(
+    "SELF_HEAL_BENIGN_DISCOVERY",
+    JSON.stringify({ closed: benignClosed.length }),
+  );
+}
+
 const transientRecovered = await sql`
   UPDATE oska_jobs
   SET status = 'pending',
@@ -53,7 +82,6 @@ const transientRecovered = await sql`
       OR last_error ILIKE '%OPENAI_HTTP_429%'
       OR last_error ILIKE '%VERIFIER_HTTP_%'
       OR last_error ILIKE '%STALE_LOCK_RECOVERED%'
-      OR last_error ILIKE '%ZERO_API_DISCOVERY_NO_CANDIDATES%'
     )
   RETURNING id
 `;
@@ -158,6 +186,7 @@ if (growthBacklog < maxBacklog) {
     material: lane.material,
     customerTypes: lane.customerTypes,
     limit: batchSize,
+    searchVariant: bucket % 10,
     goal: lane.goal,
     rules: {
       turkeyFirst: true,
@@ -250,6 +279,7 @@ const leadCounts = await sql`
 console.log(
   JSON.stringify({
     recovered: recovered.length,
+    benignClosed: benignClosed.length,
     transientRecovered: transientRecovered.length,
     growthBacklog,
     historicalBacklog,
