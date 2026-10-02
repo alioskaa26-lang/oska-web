@@ -33,14 +33,7 @@ export default async function Home() {
 
   return (
     <main>
-      <p className="muted">OSKA · CONTROL PLANE v1.4 · RAILWAY · ZERO-API PRIMARY</p>
-      <VoiceStatus />
-      <h1>Tek yönetici. Kalıcı görevler. Kanıtlı sonuç.</h1>
-      <p className="muted">
-        Shopify sitesinden bağımsız görev kontrol düzlemi. Postgres tek gerçek durum
-        kaynağıdır; worker görevleri atomik olarak claim eder, retry/failover yapar
-        ve outbound öncesi insan onayını zorunlu tutar.
-      </p>
+      <div className="jarvesHero">\n        <p className="jarvesEyebrow">JARVES · OSKA CORE · 7/24</p>\n        <h1>JARVES</h1>\n        <p className="jarvesSub">OSKA CORE sesli kontrol merkezi</p>\n        <VoiceStatus />\n      </div>\n\n      <details className="technicalPanel">\n        <summary>Teknik kontrol paneli</summary>\n        <p className="muted">Bulut worker, watchdog, failover ve insan onayı sistemi arka planda çalışmaya devam eder.</p>\n      </details>
 
       <div className="grid">
         <div className="card"><strong>Toplam görev</strong><p className="metric ok">{total}</p></div>
