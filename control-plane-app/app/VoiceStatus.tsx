@@ -37,15 +37,15 @@ export default function VoiceStatus() {
 
   const finishSpeaking = useCallback(() => {
     speakingRef.current = false;
-    if (currentAudioUrlRef.current) {
-      URL.revokeObjectURL(currentAudioUrlRef.current);
-      currentAudioUrlRef.current = null;
-    }
-    currentAudioRef.current = null;
     restartListening();
   }, [restartListening]);
 
-  const browserVoiceFallback = useCallback((text: string) => {
+  const speak = useCallback((text: string) => {
+    speakingRef.current = true;
+    try {
+      recognitionRef.current?.stop();
+    } catch {}
+
     if (!("speechSynthesis" in window)) {
       setMessage("Ses çıkışı kullanılamıyor.");
       finishSpeaking();
@@ -53,47 +53,27 @@ export default function VoiceStatus() {
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "tr-TR";
-    utterance.rate = 0.94;
-    utterance.pitch = 1.08;
     const voices = window.speechSynthesis.getVoices();
-    const female =
+    const russianVoice =
+      voices.find((voice) => voice.lang.toLowerCase() === "ru-ru") ||
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("ru")) ||
+      voices.find((voice) => /russian|рус/i.test(voice.name));
+    const femaleFallback =
       voices.find((voice) => /zira|samantha|aria|susan|female|woman/i.test(voice.name)) ||
       voices.find((voice) => voice.lang.toLowerCase().startsWith("tr")) ||
       voices[0];
-    if (female) utterance.voice = female;
+
+    utterance.voice = russianVoice || femaleFallback || null;
+    utterance.lang = russianVoice?.lang || "ru-RU";
+    utterance.rate = 0.92;
+    utterance.pitch = 1.07;
+    utterance.volume = 1;
     utterance.onend = finishSpeaking;
     utterance.onerror = finishSpeaking;
+
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   }, [finishSpeaking]);
-
-  const speak = useCallback(async (text: string) => {
-    speakingRef.current = true;
-    try {
-      recognitionRef.current?.stop();
-    } catch {}
-
-    try {
-      const response = await fetch("/api/voice", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      if (!response.ok) throw new Error("VOICE_API_FAILED");
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      currentAudioUrlRef.current = url;
-      const audio = new Audio(url);
-      currentAudioRef.current = audio;
-      audio.onended = finishSpeaking;
-      audio.onerror = () => browserVoiceFallback(text);
-      await audio.play();
-    } catch {
-      browserVoiceFallback(text);
-    }
-  }, [browserVoiceFallback, finishSpeaking]);
 
   const speakSummary = useCallback(async () => {
     setMessage("Canlı durum okunuyor...");
