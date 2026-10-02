@@ -17,8 +17,10 @@ export default function VoiceStatus() {
   const recognitionRef = useRef<RecognitionLike | null>(null);
   const shouldListenRef = useRef(false);
   const speakingRef = useRef(false);
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  const currentAudioUrlRef = useRef<string | null>(null);
   const [listening, setListening] = useState(false);
-  const [message, setMessage] = useState("Hazırım. Konuşabilirsiniz.");
+  const [message, setMessage] = useState("Hazırım Ali Bey.");
 
   const restartListening = useCallback(() => {
     if (!shouldListenRef.current || speakingRef.current) return;
@@ -26,61 +28,72 @@ export default function VoiceStatus() {
       try {
         recognitionRef.current?.start();
         setListening(true);
-        setMessage('Sizi dinliyorum. "Son durum nedir?" diyebilirsiniz.');
+        setMessage('Sizi dinliyorum Ali Bey. "Son durum nedir?" diyebilirsiniz.');
       } catch {
         // Recognition may already be running.
       }
     }, 650);
   }, []);
 
-  const speak = useCallback((text: string) => {
+  const finishSpeaking = useCallback(() => {
+    speakingRef.current = false;
+    if (currentAudioUrlRef.current) {
+      URL.revokeObjectURL(currentAudioUrlRef.current);
+      currentAudioUrlRef.current = null;
+    }
+    currentAudioRef.current = null;
+    restartListening();
+  }, [restartListening]);
+
+  const browserVoiceFallback = useCallback((text: string) => {
     if (!("speechSynthesis" in window)) {
-      setMessage("Bu tarayıcı sesli yanıtı desteklemiyor.");
+      setMessage("Ses çıkışı kullanılamıyor.");
+      finishSpeaking();
       return;
     }
 
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "tr-TR";
+    utterance.rate = 0.94;
+    utterance.pitch = 1.08;
+    const voices = window.speechSynthesis.getVoices();
+    const female =
+      voices.find((voice) => /zira|samantha|aria|susan|female|woman/i.test(voice.name)) ||
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("tr")) ||
+      voices[0];
+    if (female) utterance.voice = female;
+    utterance.onend = finishSpeaking;
+    utterance.onerror = finishSpeaking;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }, [finishSpeaking]);
+
+  const speak = useCallback(async (text: string) => {
     speakingRef.current = true;
     try {
       recognitionRef.current?.stop();
     } catch {}
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const preferredNames = [
-      "Svetlana", "Irina", "Milena", "Katya", "Ekaterina",
-      "Microsoft Irina", "Google русский", "Russian Female"
-    ];
-    const russianFemale =
-      preferredNames
-        .map((name) => voices.find((voice) => voice.name.toLowerCase().includes(name.toLowerCase())))
-        .find(Boolean) ||
-      voices.find((voice) => voice.lang.toLowerCase().startsWith("ru") && /female|woman|жен|svet|irina|milena|katya/i.test(voice.name)) ||
-      voices.find((voice) => voice.lang.toLowerCase().startsWith("ru")) ||
-      voices.find((voice) => /female|woman|zira|susan|aria|samantha/i.test(voice.name)) ||
-      voices.find((voice) => voice.lang.toLowerCase().startsWith("tr"));
+    try {
+      const response = await fetch("/api/voice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!response.ok) throw new Error("VOICE_API_FAILED");
 
-    if (russianFemale) {
-      utterance.voice = russianFemale;
-      utterance.lang = russianFemale.lang || "ru-RU";
-    } else {
-      utterance.lang = "ru-RU";
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      currentAudioUrlRef.current = url;
+      const audio = new Audio(url);
+      currentAudioRef.current = audio;
+      audio.onended = finishSpeaking;
+      audio.onerror = () => browserVoiceFallback(text);
+      await audio.play();
+    } catch {
+      browserVoiceFallback(text);
     }
-    utterance.rate = 0.94;
-    utterance.pitch = 1.10;
-    utterance.volume = 1;
-
-    utterance.onend = () => {
-      speakingRef.current = false;
-      restartListening();
-    };
-    utterance.onerror = () => {
-      speakingRef.current = false;
-      restartListening();
-    };
-
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  }, [restartListening]);
+  }, [browserVoiceFallback, finishSpeaking]);
 
   const speakSummary = useCallback(async () => {
     setMessage("Canlı durum okunuyor...");
@@ -94,10 +107,12 @@ export default function VoiceStatus() {
       const geo = data.geography || {};
       const providers = Array.isArray(data.providers) ? data.providers : [];
       const healthy = providers.filter((p: any) => p.status === "healthy").length;
-      const unhealthy = providers.filter((p: any) => p.status !== "healthy").map((p: any) => p.provider);
+      const unhealthy = providers
+        .filter((p: any) => p.status !== "healthy")
+        .map((p: any) => p.provider);
 
       const parts = [
-        "OSKA CORE son durum.",
+        "Ali Bey, OSKA CORE son durum.",
         data.database === "ok"
           ? "Bulut kontrol düzlemi ve veritabanı çalışıyor."
           : "Veritabanı durumunda sorun görünüyor.",
@@ -117,11 +132,11 @@ export default function VoiceStatus() {
 
       const summary = parts.join(" ");
       setMessage(summary);
-      speak(summary);
+      await speak(summary);
     } catch {
-      const text = "OSKA CORE canlı durumuna şu anda ulaşılamıyor. Bulut bağlantısını kontrol ediyorum.";
+      const text = "Ali Bey, OSKA CORE canlı durumuna şu anda ulaşılamıyor. Bulut bağlantısını kontrol ediyorum.";
       setMessage(text);
-      speak(text);
+      await speak(text);
     }
   }, [speak]);
 
@@ -132,7 +147,7 @@ export default function VoiceStatus() {
 
     if (!RecognitionCtor) {
       setListening(false);
-      setMessage("Bu tarayıcı sesli komutu desteklemiyor. Son durumu anlat düğmesini kullanabilirsiniz.");
+      setMessage("Mikrofon komut desteği kullanılamıyor.");
       return;
     }
 
@@ -161,7 +176,7 @@ export default function VoiceStatus() {
         if (event?.error === "not-allowed" || event?.error === "service-not-allowed") {
           shouldListenRef.current = false;
           setListening(false);
-          setMessage("Mikrofon izni gerekli. Bir kez Dinlemeyi başlat düğmesine basıp izin verin.");
+          setMessage("Mikrofon izni gerekli Ali Bey.");
           return;
         }
         setListening(false);
@@ -178,7 +193,7 @@ export default function VoiceStatus() {
     try {
       recognitionRef.current.start();
       setListening(true);
-      setMessage('Sizi dinliyorum. "Son durum nedir?" diyebilirsiniz.');
+      setMessage('Sizi dinliyorum Ali Bey. "Son durum nedir?" diyebilirsiniz.');
     } catch {
       restartListening();
     }
@@ -187,24 +202,42 @@ export default function VoiceStatus() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       startListening();
-      speak("JARVES hazır. Sizi dinliyorum.");
-    }, 900);
+      void speak("Ali Bey, JARVES hazır. Sizi dinliyorum.");
+    }, 700);
+
     return () => {
       window.clearTimeout(timer);
       shouldListenRef.current = false;
       try {
         recognitionRef.current?.stop();
       } catch {}
+      currentAudioRef.current?.pause();
+      if (currentAudioUrlRef.current) URL.revokeObjectURL(currentAudioUrlRef.current);
       window.speechSynthesis?.cancel();
     };
   }, [startListening, speak]);
 
   return (
-    <section className="voicePanel" aria-live="polite">
-      <div>
-        <strong className="jarvesVoiceTitle">JARVES</strong><span className="voicePreset">Rus kadın sesi</span>
+    <section className={"voicePanel " + (listening ? "voicePanelListening" : "")} aria-live="polite">
+      <div className="jarvesOrbWrap" aria-hidden="true">
+        <div className="jarvesOrb">
+          <span className="jarvesCore" />
+          <span className="jarvesRing jarvesRingOne" />
+          <span className="jarvesRing jarvesRingTwo" />
+          <span className="jarvesSpark jarvesSparkOne" />
+          <span className="jarvesSpark jarvesSparkTwo" />
+          <span className="jarvesSpark jarvesSparkThree" />
+        </div>
+      </div>
+
+      <div className="voiceCopy">
+        <div className="voiceTitleRow">
+          <strong className="jarvesVoiceTitle">JARVES</strong>
+          <span className="voicePreset">Türkçe · Rus kadın aksanı</span>
+        </div>
         <p className="muted voiceHint">{message}</p>
       </div>
+
       <div className="voiceActions">
         <span className={"voiceDot " + (listening ? "isListening" : "")} aria-hidden="true" />
         <button className="voiceButton" onClick={startListening}>
