@@ -5,7 +5,7 @@ export async function GET() {
     const sql = getSql();
     await sql`SELECT 1 AS ok`;
 
-    const [canaries, leadStatsRows, pipelineRows, knownRows, providerRows, deadLetterRows] = await Promise.all([
+    const [canaries, leadStatsRows, pipelineRows, knownRows, providerRows, deadLetterRows, geoRows] = await Promise.all([
       sql`
         SELECT id, type, status, attempt_count, max_attempts,
                (last_error IS NOT NULL) AS has_error,
@@ -107,7 +107,29 @@ export async function GET() {
         GROUP BY type, reason
         ORDER BY count DESC
       `,
-    ]);
+,
+      sql`
+        SELECT
+          count(*) FILTER (
+            WHERE lower(trim(COALESCE(country,''))) IN ('türkiye','turkey')
+          )::int AS turkey_domestic,
+          count(*) FILTER (
+            WHERE lower(trim(COALESCE(country,''))) NOT IN ('türkiye','turkey')
+              AND (
+                lower(COALESCE(signals::text,'')) ~ '(turkey|türkiye|istanbul|turkish)'
+                OR lower(COALESCE(source_urls::text,'')) ~ '(turkey|türkiye|istanbul|turkish)'
+              )
+          )::int AS turkey_linked_global,
+          count(*) FILTER (
+            WHERE lower(trim(COALESCE(country,''))) IN ('türkiye','turkey')
+              AND status = 'contact_ready'
+          )::int AS turkey_domestic_contact_ready,
+          count(*) FILTER (
+            WHERE lower(trim(COALESCE(country,''))) IN ('türkiye','turkey')
+              AND email IS NOT NULL
+          )::int AS turkey_domestic_email_ready
+        FROM oska_leads
+      `    ]);
 
     const integrations = {
       zeroApiSearch: true,
@@ -130,6 +152,7 @@ export async function GET() {
       activeProviders: ["zero-api-search", "official-site-crawler"],
       inactivePaidProviders: ["openai-api", "parallel-search", "tinyfish", "exa"],
       knownHistoricalEntities: knownRows[0]?.total ?? 0,
+      geography: geoRows[0] ?? {},
       leads: leadStatsRows[0] ?? {},
       pipeline: pipelineRows[0] ?? {},
       providers: providerRows,
