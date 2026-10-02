@@ -63,6 +63,10 @@ export async function GET() {
           count(*) FILTER (WHERE status = 'dead_letter')::int AS dead_letter,
           count(*) FILTER (WHERE status = 'retry')::int AS retry,
           count(*) FILTER (WHERE status = 'running')::int AS running,
+          COALESCE(
+            max(EXTRACT(EPOCH FROM (now() - locked_at))) FILTER (WHERE status = 'running'),
+            0
+          )::int AS oldest_running_seconds,
           count(*) FILTER (
             WHERE type = 'lead_discovery'
               AND created_at >= now() - interval '24 hours'
