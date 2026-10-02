@@ -724,10 +724,24 @@ async function processJob(job) {
     );
 
     const evidence = await freeDiscovery(job.payload, knownDomains);
+
     if (!evidence.ok) {
-      await markProvider("zero-api-search", false, "NO_CANDIDATES");
-      throw new Error("ZERO_API_DISCOVERY_NO_CANDIDATES");
+      await markProvider("zero-api-search", true);
+      await addEvent(job.id, "discovery_empty", {
+        lane: job.payload?.lane ?? null,
+        searchVariant: job.payload?.searchVariant ?? null,
+      });
+      await complete(job, {
+        accepted: false,
+        provider: "zero-api-search",
+        candidateCount: 0,
+        verificationJobsQueued: 0,
+        reason: "no_new_candidates_this_round",
+        summary: evidence.summary ?? "No new candidate found in this search variant.",
+      });
+      return;
     }
+
     await markProvider("zero-api-search", true);
 
     const providerResult = {
@@ -739,8 +753,20 @@ async function processJob(job) {
 
     const children = await enqueueVerificationChildren(job, providerResult);
 
-    if (children.candidates === 0) {
-      throw new Error("NO_DISCOVERY_CANDIDATES");
+    if (children.queued === 0) {
+      await addEvent(job.id, "discovery_all_known_or_duplicate", {
+        candidates: children.candidates,
+        skipped: children.skipped.length,
+      });
+      await complete(job, {
+        accepted: false,
+        provider: providerResult.provider,
+        candidateCount: children.candidates,
+        verificationJobsQueued: 0,
+        reason: "all_candidates_known_or_duplicate",
+        summary: evidence.summary ?? null,
+      });
+      return;
     }
 
     await complete(job, {
