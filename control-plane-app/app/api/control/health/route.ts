@@ -26,15 +26,76 @@ export async function GET() {
             WHERE lower(COALESCE(material,'')) ~ '(925|sterling|silver|gümüş)'
           )::int AS silver,
           count(*) FILTER (
+            WHERE lower(COALESCE(material,'')) ~ '(925|sterling|silver|gümüş)'
+              AND status = 'contact_ready'
+          )::int AS silver_contact_ready,
+          count(*) FILTER (
             WHERE lower(COALESCE(material,'')) ~ '(brass|bronze|pirinç|bronz)'
           )::int AS brass_bronze,
+          count(*) FILTER (
+            WHERE lower(COALESCE(material,'')) ~ '(brass|bronze|pirinç|bronz)'
+              AND status = 'contact_ready'
+          )::int AS brass_bronze_contact_ready,
           count(*) FILTER (
             WHERE lower(COALESCE(material,'')) ~ '(gold|altın|altin|14k|18k|22k|24k|vermeil)'
           )::int AS gold,
           count(*) FILTER (
+            WHERE lower(COALESCE(material,'')) ~ '(gold|altın|altin|14k|18k|22k|24k|vermeil)'
+              AND status = 'contact_ready'
+          )::int AS gold_contact_ready,
+          count(*) FILTER (
             WHERE trim(COALESCE(material,'')) = ''
                OR lower(COALESCE(material,'')) !~ '(925|sterling|silver|gümüş|brass|bronze|pirinç|bronz|gold|altın|altin|14k|18k|22k|24k|vermeil)'
           )::int AS other_material,
+          count(*) FILTER (
+            WHERE (
+              trim(COALESCE(material,'')) = ''
+              OR lower(COALESCE(material,'')) !~ '(925|sterling|silver|gümüş|brass|bronze|pirinç|bronz|gold|altın|altin|14k|18k|22k|24k|vermeil)'
+            )
+            AND status = 'contact_ready'
+          )::int AS other_material_contact_ready,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(manufacturer|manufacturing partner|üretici|üretim partner|factory|supplier search|looking for supplier|seeking supplier)'
+          )::int AS manufacturer_seeking,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(collaboration|collab|partnership|iş birliği|is birligi|partner)'
+          )::int AS collaboration,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(private label|private-label|white label|white-label|contract manufacturing|oem|odm)'
+          )::int AS private_label,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(sourcing office|buying office|sourcing|rfq|request for quote|procurement)'
+          )::int AS sourcing_rfq,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(distributor|distribution|agent|showroom|sales representative)'
+          )::int AS distributor_agent,
+          count(*) FILTER (
+            WHERE lower(
+              COALESCE(category,'') || ' ' ||
+              COALESCE(role,'') || ' ' ||
+              COALESCE(signals::text,'')
+            ) ~ '(wholesaler|wholesale|retailer|retail|stockist|multibrand|concept store|department store|importer)'
+          )::int AS trade_buyers,
           count(*) FILTER (WHERE email IS NOT NULL)::int AS email_ready,
           count(*) FILTER (WHERE phone_whatsapp IS NOT NULL)::int AS whatsapp_ready,
           count(*) FILTER (WHERE decision_maker IS NOT NULL)::int AS decision_maker_ready
