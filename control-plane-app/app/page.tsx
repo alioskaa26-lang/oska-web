@@ -20,6 +20,7 @@ export default async function Home() {
     sql`
       SELECT provider, status, success_count, failure_count, last_seen_at
       FROM oska_provider_health
+      WHERE provider IN ('zero-api-search','official-site-crawler')
       ORDER BY provider
     `,
   ]);
@@ -31,7 +32,7 @@ export default async function Home() {
 
   return (
     <main>
-      <p className="muted">OSKA · CONTROL PLANE v1.1 · RAILWAY</p>
+      <p className="muted">OSKA · CONTROL PLANE v1.4 · RAILWAY · ZERO-API PRIMARY</p>
       <h1>Tek yönetici. Kalıcı görevler. Kanıtlı sonuç.</h1>
       <p className="muted">
         Shopify sitesinden bağımsız görev kontrol düzlemi. Postgres tek gerçek durum
