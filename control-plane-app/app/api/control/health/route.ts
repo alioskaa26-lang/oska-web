@@ -152,7 +152,7 @@ export async function GET() {
       activeProviders: ["zero-api-search", "official-site-crawler"],
       inactivePaidProviders: ["openai-api", "parallel-search", "tinyfish", "exa"],
       knownHistoricalEntities: knownRows[0]?.total ?? 0,
-      geography: geoRows[0] ?? {},
+      geography: geoRows?.[0] ?? {},
       leads: leadStatsRows[0] ?? {},
       pipeline: pipelineRows[0] ?? {},
       providers: providerRows,
