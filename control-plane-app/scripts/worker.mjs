@@ -371,14 +371,23 @@ async function enqueueVerificationChildren(job, providerResult) {
 async function upsertLead(job, candidate, verification) {
   if (!candidate) throw new Error("NO_VERIFIED_LEAD_PAYLOAD");
 
-  const company = clean(candidate.company);
-  const domain = normalizeDomain(candidate.domain);
+  let company = clean(candidate.company) || clean(job.payload?.company);
+  let domain = normalizeDomain(candidate.domain) || normalizeDomain(job.payload?.domain);
+
+  const payloadKey = clean(job.payload?.canonicalKey);
+  if (!domain && payloadKey?.startsWith("domain:")) {
+    domain = normalizeDomain(payloadKey.slice("domain:".length));
+  }
+  if (!company && payloadKey?.startsWith("company:")) {
+    company = clean(payloadKey.slice("company:".length).split("|")[0]);
+  }
+  if (!company && domain) company = domain;
 
   if (!company && !domain) {
     throw new Error("VERIFIED_LEAD_MISSING_IDENTITY");
   }
 
-  const key = job.payload?.canonicalKey || canonicalKey({ ...candidate, domain });
+  const key = payloadKey || canonicalKey({ ...candidate, company, domain });
   const email = clean(candidate.email);
   const phoneWhatsapp = clean(candidate.phoneWhatsapp);
   const decisionMaker = clean(candidate.decisionMaker);
@@ -1103,6 +1112,7 @@ async function recoverTransientResearchJobs() {
         OR last_error ILIKE '%OPENAI_HTTP_429%'
         OR last_error ILIKE '%VERIFIER_HTTP_%'
         OR last_error ILIKE '%STALE_LOCK_RECOVERED%'
+        OR last_error ILIKE '%VERIFIED_LEAD_MISSING_IDENTITY%'
       )
     RETURNING id
   `;
@@ -1140,6 +1150,8 @@ async function main() {
   );
 
   await runStartupCanary();
+  await markProvider("zero-api-search", true);
+  await markProvider("official-site-crawler", true);
   await recoverHistoricalBackfill();
   await recoverTransientResearchJobs();
 
