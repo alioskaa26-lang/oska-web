@@ -4,6 +4,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 import { freeOfficialContactEnrich } from "./free-enrich.mjs";
 import { freeDiscovery, freeVerifyCandidate } from "./free-discovery.mjs";
 import { freeMarketingResearch, freeVerifyMarketingResearch } from "./free-marketing.mjs";
+import { freeSiteQualityAudit, freeVerifySiteQualityAudit } from "./free-site-qa.mjs";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
@@ -340,6 +341,20 @@ async function enqueueDirectorChildren(job) {
       priority: 160,
       goal:
         "Audit current public competitor positioning, search/SEO, social/category messaging and discoverability relevant to OSKA. Recommend actions only; do not launch or spend on ads.",
+    },
+    {
+      suffix: "webqa",
+      type: "site_quality_audit",
+      priority: 175,
+      goal:
+        "Continuously check OSKA's public web surface for reachability, metadata, sitemap/robots health and broken internal links. Read-only; never publish or mutate the storefront.",
+    },
+    {
+      suffix: "followup",
+      type: "lead_followup_review",
+      priority: 165,
+      goal:
+        "Review verified/contact-ready OSKA leads, prioritize the strongest follow-up opportunities and prepare internal next-action guidance only. Never send email or WhatsApp without Human Approval.",
     },
   ];
 
@@ -683,6 +698,88 @@ async function processJob(job) {
       accepted: true,
       mode: "shared-postgres-specialists",
       ...director,
+      customerHuntMode: "existing-lead-engine",
+      humanApprovalRequiredForExternalActions: true,
+    });
+    return;
+  }
+
+  if (job.type === "site_quality_audit") {
+    const audit = await freeSiteQualityAudit(job.payload);
+    await markProvider("zero-api-site-qa", audit.ok === true, audit.ok ? null : "SITE_QA_FAILED");
+    const verification = await freeVerifySiteQualityAudit(audit);
+    await addEvent(job.id, "site_quality_audit_verified", {
+      ok: verification.ok,
+      score: verification.score,
+      checked: audit.checkedCount,
+      broken: audit.brokenLinks?.length || 0,
+    });
+    await complete(job, {
+      accepted: verification.ok,
+      provider: "zero-api-site-qa",
+      verificationScore: verification.score,
+      parentJobId: job.payload?.parentJobId ?? null,
+      output: audit,
+      verifier: verification,
+      humanApprovalRequiredForExternalActions: true,
+    });
+    return;
+  }
+
+  if (job.type === "lead_followup_review") {
+    const leads = await sql`
+      SELECT
+        canonical_key, company, domain, country, category, material,
+        decision_maker, role, email, phone_whatsapp, verification_score,
+        status, last_verified_at, updated_at
+      FROM oska_leads
+      WHERE status IN ('contact_ready','verified')
+      ORDER BY
+        CASE WHEN status = 'contact_ready' THEN 1 ELSE 2 END,
+        verification_score DESC NULLS LAST,
+        updated_at DESC
+      LIMIT 25
+    `;
+
+    const ranked = leads.map((lead) => {
+      const signals = [
+        lead.email ? "email" : null,
+        lead.phone_whatsapp ? "whatsapp" : null,
+        lead.decision_maker ? "decision_maker" : null,
+      ].filter(Boolean);
+      const score =
+        (lead.status === "contact_ready" ? 40 : 20) +
+        (lead.email ? 20 : 0) +
+        (lead.phone_whatsapp ? 15 : 0) +
+        (lead.decision_maker ? 15 : 0) +
+        Math.min(10, Math.max(0, Number(lead.verification_score || 0) / 10));
+      return {
+        canonicalKey: lead.canonical_key,
+        company: lead.company,
+        domain: lead.domain,
+        country: lead.country,
+        material: lead.material,
+        status: lead.status,
+        score: Math.round(score),
+        availableSignals: signals,
+        suggestedNextAction:
+          lead.status === "contact_ready"
+            ? "Prepare a personalized outreach draft for owner review."
+            : "Complete missing contact evidence before outreach.",
+      };
+    }).sort((a,b) => b.score - a.score);
+
+    await addEvent(job.id, "lead_followup_review_completed", {
+      reviewed: ranked.length,
+      contactReady: ranked.filter((x) => x.status === "contact_ready").length,
+    });
+    await complete(job, {
+      accepted: true,
+      mode: "internal-readonly-followup-review",
+      parentJobId: job.payload?.parentJobId ?? null,
+      reviewed: ranked.length,
+      topLeads: ranked.slice(0, 15),
+      outboundSent: false,
       humanApprovalRequiredForExternalActions: true,
     });
     return;
