@@ -62,26 +62,29 @@ async function searchDuck(query) {
 }
 
 function queriesFor(type, payload = {}) {
-  const defaults = type === "content_brief"
-    ? [
-        "2026 men's jewelry trends sterling silver styling",
-        "sterling silver jewelry buyer guide care styling",
-        "Turkey handmade silver jewelry sourcing craftsmanship",
-        "men's brooch maximalist accessories trend 2026",
-      ]
-    : type === "visibility_audit"
-      ? [
-          "premium men's silver jewelry collections online",
-          "sterling silver jewelry wholesale supplier Turkey",
-          "men's jewelry ecommerce collection storytelling",
-          "B2B jewelry manufacturer Istanbul silver brass",
-        ]
-      : [
-          "2026 men's jewelry trends sterling silver wholesale retail",
-          "2026 brass jewelry trends wholesale retail",
-          "Turkey jewelry market sterling silver ecommerce 2026",
-          "premium men's jewelry retailer silver bracelet trends 2026",
-        ];
+  let defaults;
+  if (type === "content_brief") {
+    defaults = [
+      "2026 men's jewelry trends sterling silver styling",
+      "sterling silver jewelry buyer guide care styling",
+      "Turkey handmade silver jewelry sourcing craftsmanship",
+      "men's brooch maximalist accessories trend 2026",
+    ];
+  } else if (type === "visibility_audit") {
+    defaults = [
+      "premium men's silver jewelry collections online",
+      "sterling silver jewelry wholesale supplier Turkey",
+      "men's jewelry ecommerce collection storytelling",
+      "B2B jewelry manufacturer Istanbul silver brass",
+    ];
+  } else {
+    defaults = [
+      "2026 men's jewelry trends sterling silver wholesale retail",
+      "2026 brass jewelry trends wholesale retail",
+      "Turkey jewelry market sterling silver ecommerce 2026",
+      "premium men's jewelry retailer silver bracelet trends 2026",
+    ];
+  }
 
   const rawQuestion = String(payload?.userQuestion || payload?.goal || "").trim();
   if (!rawQuestion) return defaults;
