@@ -78,7 +78,8 @@ const transientRecovered = await sql`
   WHERE status = 'dead_letter'
     AND type IN (
       'lead_discovery','lead_verify','contact_enrich',
-      'market_research','content_brief','visibility_audit'
+      'market_research','content_brief','visibility_audit',
+      'site_quality_audit','lead_followup_review'
     )
     AND (
       last_error ILIKE '%ALL_PROVIDERS_FAILED%'
@@ -376,7 +377,10 @@ const directorJobId = `director-cycle-${directorBucket}`;
 const directorBacklogRows = await sql`
   SELECT count(*)::int AS count
   FROM oska_jobs
-  WHERE type IN ('director_cycle','market_research','content_brief','visibility_audit')
+  WHERE type IN (
+    'director_cycle','market_research','content_brief','visibility_audit',
+    'site_quality_audit','lead_followup_review'
+  )
     AND status IN ('pending','retry','running')
 `;
 const directorBacklog = Number(directorBacklogRows[0]?.count || 0);
@@ -395,7 +399,7 @@ if (directorBacklog < 6) {
         cycle: directorBucket,
         source: "watchdog",
         goal:
-          "Run a compact evidence-grounded OSKA marketing intelligence cycle using existing shared state. Research only; no publish, no ad spend, no outbound.",
+          "Run the OSKA 7/24 Operations Team cycle: market radar, creative brief, visibility audit, public web QA and lead follow-up review, while the existing Lead Engine continues customer hunting. Research/read-only only; no publish, no ad spend, no outbound.",
         rules: {
           turkeyFirst: true,
           sharedState: "postgres",
