@@ -78,12 +78,18 @@ function queriesFor(payload) {
   const variant = Math.abs(Number(payload?.searchVariant || 0)) % 10;
 
   const material = brass && silver
-    ? '"sterling silver" OR brass jewelry'
+    ? turkey
+      ? '("925 ayar gümüş" OR "pirinç takı" OR "bronz takı")'
+      : '("sterling silver" OR "brass jewelry" OR "bronze jewelry")'
     : brass
-      ? 'brass jewelry OR bronze jewelry'
-      : '"925 sterling silver" jewelry';
+      ? turkey
+        ? '("pirinç takı" OR "bronz takı" OR "brass jewelry")'
+        : '("brass jewelry" OR "bronze jewelry")'
+      : turkey
+        ? '("925 ayar gümüş" OR "gümüş takı" OR "sterling silver")'
+        : '"925 sterling silver" jewelry';
 
-  const turkeyPlaces = ["Turkey","Istanbul","Ankara","Izmir","Bursa","Antalya","Turkey","Istanbul","Turkey","Istanbul"];
+  const turkeyPlaces = ["Türkiye","İstanbul","Ankara","İzmir","Bursa","Antalya","Türkiye","İstanbul","Türkiye","İstanbul"];
   const globalPlaces = ["","Europe","UAE","United Kingdom","United States","Germany","France","Italy","Netherlands","Middle East"];
   const place = turkey ? turkeyPlaces[variant] : globalPlaces[variant];
 
@@ -100,6 +106,21 @@ function queriesFor(payload) {
     ["jewelry agent showroom","buying office jewelry","retail group jewelry"],
   ];
 
+  const turkeyRoleSets = [
+    ["takı mağazası","çok markalı takı mağazası","gümüş takı mağazası"],
+    ["takı distribütörü","takı toptancısı","takı ithalatçısı"],
+    ["erkek takı mağazası","premium aksesuar mağazası","tasarım takı butik"],
+    ["özel marka takı alıcısı","takı satın alma","takı tedarikçisi"],
+    ["online takı mağazası","e-ticaret takı mağazası","mağaza zinciri takı"],
+    ["toptan takı","B2B takı alıcısı","takı distribütörü"],
+    ["konsept mağaza takı","premium multibrand takı","moda aksesuar alıcısı"],
+    ["925 gümüş bileklik mağazası","erkek bileklik mağazası","gümüş takı stokçusu"],
+    ["pirinç takı mağazası","gold kaplama pirinç takı","moda takı toptancısı"],
+    ["takı temsilcisi showroom","takı satın alma ofisi","perakende grubu takı"],
+  ];
+
+  const activeRoleSets = turkey ? turkeyRoleSets : roleSets;
+
   if (turkeyLinked) {
     const connectionTerms = [
       '"made in Turkey"',
@@ -114,7 +135,7 @@ function queriesFor(payload) {
       '"Turkey" importer jewelry',
     ];
     const connection = connectionTerms[variant];
-    return roleSets[variant]
+    return activeRoleSets[variant]
       .map((role) => `${material} ${role} ${connection} ${place}`.trim())
       .concat(
         (payload?.customerTypes || [])
@@ -123,7 +144,7 @@ function queriesFor(payload) {
       );
   }
 
-  return roleSets[variant]
+  return activeRoleSets[variant]
     .map((role) => `${material} ${role} ${place}`.trim())
     .concat(
       (payload?.customerTypes || [])
