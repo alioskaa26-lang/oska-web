@@ -288,7 +288,8 @@ if (growthBacklog < maxBacklog) {
     material: lane.material,
     customerTypes: lane.customerTypes,
     limit: batchSize,
-    searchVariant: bucket % 10,
+    // Decouple query rotation from lane rotation so every lane cycles through all search variants.
+    searchVariant: Math.floor(bucket / lanes.length) % 10,
     turkeyPriority: lane.turkeyPriority,
     goal: lane.goal,
     rules: {
