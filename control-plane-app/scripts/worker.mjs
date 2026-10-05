@@ -1014,7 +1014,7 @@ async function processJob(job) {
     return;
   }
 
-  if (job.type === "contact_enrich") {
+  if (job.type === "contact_enrich" && job.payload?.aiEscalation !== true) {
     const crawl = await freeOfficialContactEnrich(job.payload?.domain);
     await markProvider("official-site-crawler", crawl.live === true, crawl.live ? null : "DOMAIN_UNREACHABLE");
     const fallback = {
@@ -1396,6 +1396,81 @@ async function ensureContactEnrichmentCoverage() {
   return { active: 0, queued: rows.length };
 }
 
+async function ensureContactEnrichmentEscalation() {
+  const activeRows = await sql`
+    SELECT count(*)::int AS count
+    FROM oska_jobs
+    WHERE type = 'contact_enrich'
+      AND status IN ('pending','retry','running')
+  `;
+  const active = Number(activeRows[0]?.count || 0);
+  if (active > 0) return { active, queued: 0 };
+
+  const rows = await sql`
+    WITH candidates AS (
+      SELECT
+        canonical_key, company, domain, country, category, material,
+        email, decision_maker, role, phone_whatsapp, source_urls, status
+      FROM oska_leads
+      WHERE status <> 'contact_ready'
+        AND NOT EXISTS (
+          SELECT 1
+          FROM oska_jobs j
+          WHERE j.id = 'contact-escalation-v3-' || md5(oska_leads.canonical_key)
+        )
+      ORDER BY
+        CASE WHEN domain IS NOT NULL AND trim(domain) <> '' THEN 0 ELSE 1 END,
+        updated_at ASC
+      LIMIT 40
+    )
+    INSERT INTO oska_jobs (
+      id, type, payload, status, priority,
+      preferred_providers, max_attempts, approval_status
+    )
+    SELECT
+      'contact-escalation-v3-' || md5(canonical_key),
+      'contact_enrich',
+      jsonb_build_object(
+        'aiEscalation', true,
+        'canonicalKey', canonical_key,
+        'company', company,
+        'domain', domain,
+        'country', country,
+        'currentCategory', category,
+        'currentMaterial', material,
+        'currentEmail', email,
+        'currentDecisionMaker', decision_maker,
+        'currentRole', role,
+        'currentPhoneWhatsapp', phone_whatsapp,
+        'currentSourceUrl', CASE
+          WHEN jsonb_typeof(source_urls) = 'array' AND jsonb_array_length(source_urls) > 0
+          THEN source_urls->>0
+          ELSE NULL
+        END,
+        'currentStatus', status,
+        'goal',
+        'Escalation pass: make this verified OSKA prospect contact-ready using current public evidence. Find and verify the official company domain if missing, a public official email or explicitly proven WhatsApp route, and where available a named buyer/procurement/merchandising/sourcing decision-maker with role. Never invent contact data. Preserve Human Approval for all outbound.'
+      ),
+      'pending',
+      360,
+      '["chatgpt-web","openai-luna"]'::jsonb,
+      3,
+      'not_required'
+    FROM candidates
+    ON CONFLICT (id) DO NOTHING
+    RETURNING id
+  `;
+
+  if (rows.length) {
+    console.log(
+      "WORKER_CONTACT_ESCALATION_V3_QUEUED",
+      JSON.stringify({ queued: rows.length }),
+    );
+  }
+
+  return { active: 0, queued: rows.length };
+}
+
 async function workerLoop(slot) {
   console.log(
     "WORKER_SLOT_STARTED",
@@ -1410,7 +1485,10 @@ async function workerLoop(slot) {
       if (slot === 1 && Date.now() - lastCoverageCheckAt >= coverageCheckIntervalMs) {
         lastCoverageCheckAt = Date.now();
         try {
-          await ensureContactEnrichmentCoverage();
+          const coverage = await ensureContactEnrichmentCoverage();
+          if (coverage.active === 0 && coverage.queued === 0) {
+            await ensureContactEnrichmentEscalation();
+          }
         } catch (error) {
           console.error(
             "WORKER_SELF_HEAL_CONTACT_QUEUE_FAILED",
