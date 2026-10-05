@@ -256,11 +256,7 @@ if (reEnrichRows.length) {
 const backlogRows = await sql`
   SELECT
     count(*) FILTER (
-      WHERE (
-        type IN ('lead_discovery','lead_verify')
-        OR type = 'contact_enrich'
-      )
-      AND id NOT LIKE 'historical-enrich-%'
+      WHERE type IN ('lead_discovery','lead_verify')
     )::int AS growth_backlog,
     count(*) FILTER (
       WHERE type = 'contact_enrich'
