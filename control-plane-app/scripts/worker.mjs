@@ -1,7 +1,7 @@
 import postgres from "postgres";
 import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
-import { freeOfficialContactEnrich } from "./free-enrich.mjs";
+import { freeOfficialContactEnrich, freeSearchContactEnrich } from "./free-enrich.mjs";
 import { freeDiscovery, freeVerifyCandidate } from "./free-discovery.mjs";
 import { freeMarketingResearch, freeVerifyMarketingResearch } from "./free-marketing.mjs";
 import { freeSiteQualityAudit, freeVerifySiteQualityAudit } from "./free-site-qa.mjs";
@@ -1012,6 +1012,84 @@ async function processJob(job) {
       method: "zero-api",
     });
     return;
+  }
+
+  if (job.type === "contact_enrich" && job.payload?.aiEscalation === true) {
+    const searchEnrich = await freeSearchContactEnrich({
+      company: job.payload?.company,
+      domain: job.payload?.domain,
+      country: job.payload?.country,
+    });
+
+    if (searchEnrich.email || searchEnrich.phoneWhatsapp) {
+      const fallback = {
+        company: job.payload?.company,
+        domain: job.payload?.domain,
+        country: job.payload?.country,
+        category: job.payload?.currentCategory,
+        material: job.payload?.currentMaterial,
+        email: job.payload?.currentEmail,
+        decisionMaker: job.payload?.currentDecisionMaker,
+        role: job.payload?.currentRole,
+        phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+        sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
+        signals: [],
+      };
+
+      const candidate = {
+        ...fallback,
+        email: clean(fallback.email) || clean(searchEnrich.email),
+        phoneWhatsapp: clean(fallback.phoneWhatsapp) || clean(searchEnrich.phoneWhatsapp),
+        sourceUrls: [
+          ...(fallback.sourceUrls || []),
+          ...(searchEnrich.sourceUrls || []),
+        ].filter(Boolean),
+        signals: [
+          "Zero-API indexed search enrichment completed.",
+          searchEnrich.email ? "Verified same-domain public email found." : "No same-domain public email found.",
+          searchEnrich.phoneWhatsapp ? "Explicit public WhatsApp route found." : "No explicit WhatsApp route found.",
+        ],
+      };
+
+      const verification = {
+        ok: true,
+        score: null,
+        reasons: [
+          "Contact enrichment used public indexed pages and official-domain verification without paid AI.",
+          "Only same-domain emails or explicit WhatsApp URLs were accepted.",
+        ],
+      };
+
+      const lead = await upsertLead(job, candidate, verification);
+      await markProvider("zero-api-contact-search", true);
+      await addEvent(job.id, "zero_api_contact_search_success", {
+        canonicalKey: lead.canonical_key,
+        emailFound: Boolean(lead.email),
+        whatsappFound: Boolean(lead.phone_whatsapp),
+        pagesChecked: searchEnrich.pagesChecked,
+        resultCount: searchEnrich.resultCount,
+      });
+      await complete(job, {
+        accepted: true,
+        method: "zero-api-indexed-contact-search",
+        canonicalKey: lead.canonical_key,
+        company: lead.company,
+        contactReady: lead.status === "contact_ready",
+        emailFound: Boolean(lead.email),
+        whatsappFound: Boolean(lead.phone_whatsapp),
+        pagesChecked: searchEnrich.pagesChecked,
+        resultCount: searchEnrich.resultCount,
+      });
+      return;
+    }
+
+    await markProvider("zero-api-contact-search", true);
+    await addEvent(job.id, "zero_api_contact_search_empty", {
+      company: job.payload?.company ?? null,
+      domain: job.payload?.domain ?? null,
+      pagesChecked: searchEnrich.pagesChecked,
+      resultCount: searchEnrich.resultCount,
+    });
   }
 
   if (job.type === "contact_enrich" && job.payload?.aiEscalation !== true) {

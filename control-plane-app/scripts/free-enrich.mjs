@@ -200,3 +200,159 @@ export async function freeOfficialContactEnrich(domain) {
     pagesChecked: pages.length,
   };
 }
+
+
+function stripHtml(text) {
+  return decodeBasicEntities(
+    String(text || "")
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+  ).replace(/\s+/g, " ").trim();
+}
+
+function unwrapDuckUrl(href) {
+  try {
+    const raw = href.startsWith("//") ? "https:" + href : href;
+    const u = new URL(raw, "https://duckduckgo.com");
+    const target = u.searchParams.get("uddg");
+    return target ? decodeURIComponent(target) : u.toString();
+  } catch {
+    return null;
+  }
+}
+
+async function searchDuck(query) {
+  try {
+    const url = "https://html.duckduckgo.com/html/?q=" + encodeURIComponent(query);
+    const response = await fetch(url, {
+      headers: { "user-agent": "Mozilla/5.0 (compatible; OSKA-Contact-Research/1.1)" },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!response.ok) return [];
+    const html = await response.text();
+    const results = [];
+    const blocks = html.split('class="result results_links');
+    for (const block of blocks.slice(1, 13)) {
+      const link = block.match(/class="result__a"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+      if (!link) continue;
+      const target = unwrapDuckUrl(link[1]);
+      if (!target) continue;
+      const snippetMatch = block.match(/class="result__snippet"[^>]*>([\s\S]*?)<\/a>|class="result__snippet"[^>]*>([\s\S]*?)<\/div>/i);
+      results.push({
+        url: target,
+        title: stripHtml(link[2]),
+        snippet: stripHtml(snippetMatch?.[1] || snippetMatch?.[2] || ""),
+        searchUrl: url,
+      });
+    }
+    return results;
+  } catch {
+    return [];
+  }
+}
+
+function hostMatches(url, host) {
+  try {
+    const candidate = new URL(url).hostname.toLowerCase().replace(/^www\./, "");
+    return candidate === host || candidate.endsWith("." + host);
+  } catch {
+    return false;
+  }
+}
+
+function emailMatchesHost(email, host) {
+  const clean = cleanEmail(email);
+  if (!clean || !host) return false;
+  const emailHost = clean.split("@")[1] || "";
+  return emailHost === host || emailHost.endsWith("." + host);
+}
+
+function extractEmailsFromText(text) {
+  const found = new Set();
+  for (const match of String(text || "").matchAll(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi)) {
+    const email = cleanEmail(match[0]);
+    if (email) found.add(email);
+  }
+  return [...found].sort((a,b) => emailRank(a) - emailRank(b));
+}
+
+export async function freeSearchContactEnrich(input = {}) {
+  const host = normalizeDomain(input.domain);
+  const company = String(input.company || "").trim();
+
+  if (!host) {
+    return {
+      live: false,
+      email: null,
+      emails: [],
+      phoneWhatsapp: null,
+      sourceUrls: [],
+      pagesChecked: 0,
+      searchQueries: 0,
+      reason: "missing_domain",
+    };
+  }
+
+  const queries = [
+    `site:${host} contact email`,
+    `site:${host} wholesale contact`,
+    `site:${host} buyer procurement contact`,
+    `site:${host} sales business email`,
+    company ? `"${company}" site:${host} contact` : null,
+  ].filter(Boolean);
+
+  const resultMap = new Map();
+  for (const query of queries) {
+    const results = await searchDuck(query);
+    for (const item of results) {
+      if (!hostMatches(item.url, host)) continue;
+      if (!resultMap.has(item.url)) resultMap.set(item.url, item);
+      if (resultMap.size >= 12) break;
+    }
+    if (resultMap.size >= 12) break;
+  }
+
+  const emails = new Set();
+  let whatsapp = null;
+  const evidence = [];
+  let pagesChecked = 0;
+
+  for (const item of [...resultMap.values()].slice(0, 8)) {
+    for (const email of extractEmailsFromText(`${item.title} ${item.snippet}`)) {
+      if (emailMatchesHost(email, host)) {
+        emails.add(email);
+        evidence.push(item.url);
+      }
+    }
+
+    const page = await fetchHtml(item.url, 10000);
+    if (!page) continue;
+    pagesChecked += 1;
+
+    const pageEmails = extractEmails(page.html);
+    for (const email of pageEmails) {
+      if (emailMatchesHost(email, host)) emails.add(email);
+    }
+
+    const wa = extractWhatsapp(page.html);
+    if (!whatsapp && wa) whatsapp = wa;
+    if (pageEmails.some((email) => emailMatchesHost(email, host)) || wa) {
+      evidence.push(page.url);
+    }
+  }
+
+  const ranked = [...emails].sort((a,b) => emailRank(a) - emailRank(b));
+
+  return {
+    live: resultMap.size > 0 || pagesChecked > 0,
+    email: ranked[0] || null,
+    emails: ranked,
+    phoneWhatsapp: whatsapp,
+    sourceUrls: [...new Set(evidence)],
+    pagesChecked,
+    searchQueries: queries.length,
+    resultCount: resultMap.size,
+    reason: ranked[0] || whatsapp ? "verified_public_contact_found" : "no_verified_public_contact_found",
+  };
+}
