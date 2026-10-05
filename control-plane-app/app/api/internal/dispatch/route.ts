@@ -258,11 +258,16 @@ export async function POST(request: Request) {
 
     return Response.json({ ok: false, provider, error: "UNKNOWN_PROVIDER" }, { status: 400 });
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(
+      "OSKA_DISPATCH_ERROR",
+      JSON.stringify({ provider, jobId: job?.jobId ?? null, type: job?.type ?? null, error: message.slice(0, 1200) }),
+    );
     return Response.json(
       {
         ok: false,
         provider,
-        error: error instanceof Error ? error.message : String(error),
+        error: message,
       },
       { status: 502 },
     );
