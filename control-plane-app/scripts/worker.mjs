@@ -124,10 +124,6 @@ async function claimJob(growthOnly = false) {
         AND (
           ${growthOnly} = false
           OR type IN ('lead_discovery','lead_verify')
-          OR (
-            type = 'contact_enrich'
-            AND COALESCE(payload->>'historicalBackfill','false') <> 'true'
-          )
         )
       ORDER BY priority DESC, created_at ASC
       FOR UPDATE SKIP LOCKED
@@ -1015,39 +1011,55 @@ async function processJob(job) {
   }
 
   if (job.type === "contact_enrich" && job.payload?.aiEscalation === true) {
-    const searchEnrich = await freeSearchContactEnrich({
-      company: job.payload?.company,
-      domain: job.payload?.domain,
-      country: job.payload?.country,
-    });
-
-    if (searchEnrich.email || searchEnrich.phoneWhatsapp) {
-      const fallback = {
+    const [crawl, searchEnrich] = await Promise.all([
+      freeOfficialContactEnrich(job.payload?.domain),
+      freeSearchContactEnrich({
         company: job.payload?.company,
         domain: job.payload?.domain,
         country: job.payload?.country,
-        category: job.payload?.currentCategory,
-        material: job.payload?.currentMaterial,
-        email: job.payload?.currentEmail,
-        decisionMaker: job.payload?.currentDecisionMaker,
-        role: job.payload?.currentRole,
-        phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
-        sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
-        signals: [],
-      };
+      }),
+    ]);
 
+    const fallback = {
+      company: job.payload?.company,
+      domain: job.payload?.domain,
+      country: job.payload?.country,
+      category: job.payload?.currentCategory,
+      material: job.payload?.currentMaterial,
+      email: job.payload?.currentEmail,
+      decisionMaker: job.payload?.currentDecisionMaker,
+      role: job.payload?.currentRole,
+      phoneWhatsapp: job.payload?.currentPhoneWhatsapp,
+      sourceUrls: job.payload?.currentSourceUrl ? [job.payload.currentSourceUrl] : [],
+      signals: [],
+    };
+
+    const discoveredEmail =
+      clean(fallback.email) ||
+      clean(crawl.email) ||
+      clean(searchEnrich.email);
+    const discoveredWhatsapp =
+      clean(fallback.phoneWhatsapp) ||
+      clean(crawl.phoneWhatsapp) ||
+      clean(searchEnrich.phoneWhatsapp);
+
+    const sourceUrls = [
+      ...(fallback.sourceUrls || []),
+      ...(Array.isArray(crawl.sourceUrls) ? crawl.sourceUrls : []),
+      ...(Array.isArray(searchEnrich.sourceUrls) ? searchEnrich.sourceUrls : []),
+    ].filter(Boolean);
+
+    if (discoveredEmail || discoveredWhatsapp || clean(fallback.decisionMaker)) {
       const candidate = {
         ...fallback,
-        email: clean(fallback.email) || clean(searchEnrich.email),
-        phoneWhatsapp: clean(fallback.phoneWhatsapp) || clean(searchEnrich.phoneWhatsapp),
-        sourceUrls: [
-          ...(fallback.sourceUrls || []),
-          ...(searchEnrich.sourceUrls || []),
-        ].filter(Boolean),
+        email: discoveredEmail,
+        phoneWhatsapp: discoveredWhatsapp,
+        sourceUrls: [...new Set(sourceUrls)],
         signals: [
-          "Zero-API indexed search enrichment completed.",
-          searchEnrich.email ? "Verified same-domain public email found." : "No same-domain public email found.",
-          searchEnrich.phoneWhatsapp ? "Explicit public WhatsApp route found." : "No explicit WhatsApp route found.",
+          "Zero-API contact enrichment completed.",
+          crawl.live ? "Official domain reachable." : "Official domain not reachable.",
+          discoveredEmail ? "Public official/same-domain email available." : "No verified public email found.",
+          discoveredWhatsapp ? "Explicit public WhatsApp route available." : "No explicit WhatsApp route found.",
         ],
       };
 
@@ -1055,41 +1067,58 @@ async function processJob(job) {
         ok: true,
         score: null,
         reasons: [
-          "Contact enrichment used public indexed pages and official-domain verification without paid AI.",
-          "Only same-domain emails or explicit WhatsApp URLs were accepted.",
+          "Contact enrichment used only public zero-API sources.",
+          "Existing valid contact fields were preserved and unverified contact data was not invented.",
         ],
       };
 
       const lead = await upsertLead(job, candidate, verification);
+      await markProvider("official-site-crawler", crawl.live === true, crawl.live ? null : "DOMAIN_UNREACHABLE");
       await markProvider("zero-api-contact-search", true);
-      await addEvent(job.id, "zero_api_contact_search_success", {
+      await addEvent(job.id, "zero_api_contact_enrich_completed", {
         canonicalKey: lead.canonical_key,
         emailFound: Boolean(lead.email),
+        decisionMakerFound: Boolean(lead.decision_maker),
         whatsappFound: Boolean(lead.phone_whatsapp),
-        pagesChecked: searchEnrich.pagesChecked,
+        pagesChecked: Number(crawl.pagesChecked || 0) + Number(searchEnrich.pagesChecked || 0),
         resultCount: searchEnrich.resultCount,
       });
       await complete(job, {
         accepted: true,
-        method: "zero-api-indexed-contact-search",
+        method: "zero-api-contact-enrich",
         canonicalKey: lead.canonical_key,
         company: lead.company,
         contactReady: lead.status === "contact_ready",
         emailFound: Boolean(lead.email),
+        decisionMakerFound: Boolean(lead.decision_maker),
         whatsappFound: Boolean(lead.phone_whatsapp),
-        pagesChecked: searchEnrich.pagesChecked,
+        pagesChecked: Number(crawl.pagesChecked || 0) + Number(searchEnrich.pagesChecked || 0),
         resultCount: searchEnrich.resultCount,
       });
       return;
     }
 
+    await markProvider("official-site-crawler", crawl.live === true, crawl.live ? null : "DOMAIN_UNREACHABLE");
     await markProvider("zero-api-contact-search", true);
-    await addEvent(job.id, "zero_api_contact_search_empty", {
+    await addEvent(job.id, "zero_api_contact_enrich_exhausted", {
       company: job.payload?.company ?? null,
       domain: job.payload?.domain ?? null,
-      pagesChecked: searchEnrich.pagesChecked,
+      pagesChecked: Number(crawl.pagesChecked || 0) + Number(searchEnrich.pagesChecked || 0),
       resultCount: searchEnrich.resultCount,
     });
+    await complete(job, {
+      accepted: false,
+      method: "zero-api-contact-enrich",
+      exhausted: true,
+      company: job.payload?.company ?? null,
+      domain: job.payload?.domain ?? null,
+      reason: "no_verified_public_contact_found",
+      pagesChecked: Number(crawl.pagesChecked || 0) + Number(searchEnrich.pagesChecked || 0),
+      resultCount: searchEnrich.resultCount,
+      outboundSent: false,
+      humanApprovalRequiredForExternalActions: true,
+    });
+    return;
   }
 
   if (job.type === "contact_enrich" && job.payload?.aiEscalation !== true) {
