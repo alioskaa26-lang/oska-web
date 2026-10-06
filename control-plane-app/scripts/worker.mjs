@@ -900,32 +900,59 @@ async function processJob(job) {
     );
 
     const evidence = await freeDiscovery(job.payload, knownDomains);
+    let providerResult = null;
 
-    if (!evidence.ok) {
+    if (evidence.ok) {
       await markProvider("zero-api-search", true);
-      await addEvent(job.id, "discovery_empty", {
+      providerResult = {
+        ok: true,
+        provider: "zero-api-search",
+        evidence,
+        failures: [],
+      };
+    } else {
+      await markProvider("zero-api-search", true);
+      await addEvent(job.id, "discovery_zero_api_empty", {
         lane: job.payload?.lane ?? null,
         searchVariant: job.payload?.searchVariant ?? null,
+        summary: evidence.summary ?? null,
       });
-      await complete(job, {
-        accepted: false,
-        provider: "zero-api-search",
-        candidateCount: 0,
-        verificationJobsQueued: 0,
-        reason: "no_new_candidates_this_round",
-        summary: evidence.summary ?? "No new candidate found in this search variant.",
+
+      // Zero-result discovery is not a successful terminal state.
+      // Escalate through the configured provider chain before closing the job.
+      const failover = await runFailover(job);
+      const failoverLeads = Array.isArray(failover?.evidence?.leads)
+        ? failover.evidence.leads
+        : [];
+
+      if (!failover.ok || failoverLeads.length === 0) {
+        await addEvent(job.id, "discovery_exhausted_all_routes", {
+          lane: job.payload?.lane ?? null,
+          zeroApiSummary: evidence.summary ?? null,
+          failoverOk: failover.ok === true,
+          failures: failover.failures ?? [],
+        });
+        await complete(job, {
+          accepted: false,
+          provider: failover.provider ?? "zero-api-search",
+          candidateCount: 0,
+          verificationJobsQueued: 0,
+          reason: failover.ok
+            ? "all_provider_candidates_empty"
+            : "all_providers_failed_after_zero_api_empty",
+          summary: evidence.summary ?? "Zero-API discovery returned no candidates.",
+          failures: failover.failures ?? [],
+        });
+        return;
+      }
+
+      providerResult = failover;
+      await addEvent(job.id, "discovery_failover_recovered", {
+        provider: failover.provider,
+        candidateCount: failoverLeads.length,
+        zeroApiSummary: evidence.summary ?? null,
       });
-      return;
     }
-
-    await markProvider("zero-api-search", true);
-
-    const providerResult = {
-      ok: true,
-      provider: "zero-api-search",
-      evidence,
-      failures: [],
-    };
 
     const children = await enqueueVerificationChildren(job, providerResult);
 
@@ -1188,16 +1215,45 @@ async function processJob(job) {
     );
 
     if (!research.ok) {
-      await addEvent(job.id, "marketing_cycle_empty", {
+      await addEvent(job.id, "marketing_zero_api_empty", {
         backend: research.backend,
         summary: research.summary,
       });
+
+      // Do not treat an empty zero-API scan as a successful terminal outcome.
+      // Use the configured provider chain and independent verifier before giving up.
+      const fallback = await runFailover(job);
+      if (!fallback.ok) {
+        await addEvent(job.id, "marketing_exhausted_all_routes", {
+          failures: fallback.failures ?? [],
+        });
+        await complete(job, {
+          accepted: false,
+          provider: "zero-api-marketing",
+          parentJobId: job.payload?.parentJobId ?? null,
+          output: research,
+          reason: "all_providers_failed_after_zero_api_empty",
+          failures: fallback.failures ?? [],
+          humanApprovalRequiredForExternalActions: true,
+        });
+        return;
+      }
+
+      const fallbackVerification = await verify(job, fallback);
+      const fallbackScore = Number(fallbackVerification?.score || 0);
+      await addEvent(job.id, "marketing_failover_verified", {
+        provider: fallback.provider,
+        score: fallbackScore,
+        ok: fallbackVerification?.ok === true,
+      });
       await complete(job, {
-        accepted: false,
-        provider: "zero-api-marketing",
+        accepted: fallbackVerification?.ok === true,
+        provider: fallback.provider,
+        verificationScore: fallbackScore,
         parentJobId: job.payload?.parentJobId ?? null,
-        output: research,
-        reason: "no_meaningful_signal_this_cycle",
+        output: fallback.evidence,
+        verifier: fallbackVerification,
+        zeroApiOutput: research,
         humanApprovalRequiredForExternalActions: true,
       });
       return;
