@@ -97,6 +97,9 @@ if (transientRecovered.length) {
   );
 }
 
+const watchdogDiscoveryEnabled =
+  String(process.env.OSKA_WATCHDOG_DISCOVERY_ENABLED || "false").toLowerCase() === "true";
+
 const intervalMinutes = Math.max(
   10,
   Number(process.env.OSKA_DISCOVERY_INTERVAL_MINUTES || 20),
@@ -272,7 +275,7 @@ const backlog = Number(backlogRows[0]?.total_backlog || 0);
 
 let scheduled = null;
 
-if (growthBacklog < maxBacklog) {
+if (watchdogDiscoveryEnabled && growthBacklog < maxBacklog) {
   const bucketMs = intervalMinutes * 60_000;
   const bucket = Math.floor(Date.now() / bucketMs);
   const lane = lanes[bucket % lanes.length];
@@ -355,6 +358,15 @@ if (growthBacklog < maxBacklog) {
       }),
     );
   }
+} else if (!watchdogDiscoveryEnabled) {
+  console.log(
+    "DISCOVERY_SCHEDULER_DISABLED_SINGLE_WRITER",
+    JSON.stringify({
+      growthBacklog,
+      historicalBacklog,
+      reason: "OSKA_LEAD_ENGINE_V3_IS_SOLE_PRODUCTION_BUSINESS_WRITER",
+    }),
+  );
 } else {
   console.log(
     "DISCOVERY_SCHEDULER_PAUSED_BACKLOG",
