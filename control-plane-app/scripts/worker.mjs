@@ -36,6 +36,17 @@ const defaultProviders = (
   .map((v) => v.trim())
   .filter(Boolean);
 
+const ownerExecutionPolicy = Object.freeze({
+  resultFirst: true,
+  solveBeforeNotify: true,
+  failoverBeforeNotify: true,
+  researchBeforeNotify: true,
+  notifyOnlyWhenHumanActionRequired: true,
+  suppressRoutineUpdates: true,
+  suppressResolvedProblems: true,
+  rule: process.env.OSKA_OWNER_EXECUTION_POLICY || "ÖNCE ÇÖZ. Sorunu kullanıcıya taşımadan önce güvenli/reversible düzeltmeleri uygula; provider/connector kredi-kota-402-429-auth-timeout-outage hatasında route'u QUARANTINE/STANDBY yap ve sıradaki sağlıklı failover yoluna geç; gerekirse araştırma yap ve çözüm üret. Kullanıcıyı rutin hata, ara durum, çözülebilir blocker, kredi bitişi veya provider arızasıyla rahatsız etme. Yalnız tüm makul çözüm/failover yolları tüketildiğinde ve tek kalan adım gerçekten insan müdahalesi/ödeme/login/2FA/secret/yayın/geri döndürülemez işlem ise kısa net bildir. Kullanıcıya sorunla değil sonuçla gel.",
+});
+
 const directorChildTypes = new Set([
   "market_research",
   "content_brief",
@@ -148,6 +159,11 @@ async function claimJob(growthOnly = false) {
   if (typeof job.preferred_providers === "string") {
     try { job.preferred_providers = JSON.parse(job.preferred_providers); } catch {}
   }
+
+  job.payload = {
+    ...(job.payload && typeof job.payload === "object" ? job.payload : {}),
+    ownerExecutionPolicy,
+  };
 
   return job;
 }
