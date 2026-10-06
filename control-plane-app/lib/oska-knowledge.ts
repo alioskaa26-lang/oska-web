@@ -7,6 +7,12 @@ export type KnowledgeItem = {
 
 export const OSKA_KNOWLEDGE: KnowledgeItem[] = [
   {
+    id: "owner-execution-policy",
+    title: "OSKA çalışma kuralı — sonuçla gel",
+    keywords: ["sonuç","sorun","failover","kredi","kota","quarantine","standby","onay","rahatsız etme","çözüm","araştırma"],
+    summary: "ÖNCE ÇÖZ. Sorunu kullanıcıya taşımadan önce güvenli/reversible düzeltmeleri uygula; provider/connector kredi-kota-402-429-auth-timeout-outage hatasında route'u QUARANTINE/STANDBY yap ve sıradaki sağlıklı failover yoluna geç; gerekirse araştırma yap ve çözüm üret. Kullanıcıyı rutin hata, ara durum, çözülebilir blocker, kredi bitişi veya provider arızasıyla rahatsız etme. Yalnız tüm makul çözüm/failover yolları tüketildiğinde ve tek kalan adım gerçekten insan müdahalesi/ödeme/login/2FA/secret/yayın/geri döndürülemez işlem ise kısa net bildir. Kullanıcıya sorunla değil sonuçla gel."
+  },
+  {
     id: "brand",
     title: "OSKA Silver",
     keywords: ["oska","marka","şirket","silver","kimiz","biz","pozisyon","müşteri"],
