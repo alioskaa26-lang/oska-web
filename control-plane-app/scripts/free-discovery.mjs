@@ -227,7 +227,10 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
     .filter(item => item.preScore >= 35)
     .slice(0, 18);
 
-  const outcomes = await mapConcurrent(screened, 4, async (item) => {
+  // Expand in small waves: don't crawl 18 sites when six usable firms suffice.
+  const candidates = [];
+  for (let offset = 0; offset < screened.length && candidates.length < targetLimit; offset += 4) {
+    const outcomes = await mapConcurrent(screened.slice(offset, offset + 4), 4, async (item) => {
     const contact = await freeOfficialContactEnrich(item.domain);
     if (!contact.live) return null;
     const searchText = `${item.title} ${item.snippet}`;
@@ -266,7 +269,9 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
       },
     };
   });
-  const candidates = outcomes.filter(Boolean).slice(0, targetLimit);
+    candidates.push(...outcomes.filter(Boolean));
+  }
+  candidates.length = Math.min(candidates.length, targetLimit);
 
   return {
     ok: candidates.length > 0,
