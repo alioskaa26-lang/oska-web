@@ -234,8 +234,8 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
     const turkeyConnection = detectTurkeyConnection(searchText);
     return {
       company: item.title
-        .replace(/\\s+[|–—-]\\s+.*$/, "")
-        .replace(/\\bOfficial Site\\b/gi, "")
+        .replace(/\s+[|–—-]\s+.*$/, "")
+        .replace(/\bOfficial Site\b/gi, "")
         .trim() || item.domain,
       domain: item.domain,
       country: payload?.geography || null,
