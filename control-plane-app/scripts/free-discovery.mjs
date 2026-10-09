@@ -191,40 +191,51 @@ function scoreText(text, payload) {
   return Math.min(100, score);
 }
 
+// Read-only bounded fanout; results preserve query order for deterministic dedup.
+async function mapConcurrent(items, limit, mapper) {
+  const out = new Array(items.length);
+  let next = 0;
+  await Promise.all(Array.from({ length: Math.min(items.length, limit) }, async () => {
+    while (next < items.length) {
+      const index = next++;
+      try { out[index] = await mapper(items[index], index); }
+      catch { out[index] = null; }
+    }
+  }));
+  return out;
+}
+
 export async function freeDiscovery(payload, knownDomains = new Set()) {
-  const raw = [];
-  for (const query of queriesFor(payload)) {
-    try {
-      raw.push(...await searchDuck(query));
-    } catch {}
-  }
+  const searchQueries = queriesFor(payload);
+  const searchResults = await mapConcurrent(searchQueries, 3, async (query) => {
+    try { return await searchDuck(query); } catch { return []; }
+  });
+  const raw = searchResults.flatMap((batch) => Array.isArray(batch) ? batch : []);
 
   const byDomain = new Map();
   for (const item of raw) {
     const domain = normalizeDomain(item.url);
-    if (!domain) continue;
-    if (domain.endsWith("duckduckgo.com")) continue;
-    if (EXCLUDED_DOMAINS.has(domain)) continue;
-    if (knownDomains.has(domain)) continue;
+    if (!domain || domain.endsWith("duckduckgo.com")) continue;
+    if (EXCLUDED_DOMAINS.has(domain) || knownDomains.has(domain)) continue;
     if (!byDomain.has(domain)) byDomain.set(domain, { ...item, domain });
   }
 
   const targetLimit = Math.max(1, Math.min(8, Number(payload?.limit || 6)));
-  const candidates = [];
+  // Score before fetching 6-page contact crawls to avoid unnecessary I/O.
+  const screened = [...byDomain.values()]
+    .map(item => ({ ...item, preScore: scoreText(`${item.title} ${item.snippet}`, payload) }))
+    .filter(item => item.preScore >= 35)
+    .slice(0, 18);
 
-  for (const item of [...byDomain.values()].slice(0, 18)) {
+  const outcomes = await mapConcurrent(screened, 4, async (item) => {
     const contact = await freeOfficialContactEnrich(item.domain);
-    if (!contact.live) continue;
-
+    if (!contact.live) return null;
     const searchText = `${item.title} ${item.snippet}`;
     const turkeyConnection = detectTurkeyConnection(searchText);
-    const score = scoreText(searchText, payload);
-    if (score < 35) continue;
-
-    candidates.push({
+    return {
       company: item.title
-        .replace(/\s+[|–—-]\s+.*$/, "")
-        .replace(/\bOfficial Site\b/gi, "")
+        .replace(/\\s+[|–—-]\\s+.*$/, "")
+        .replace(/\\bOfficial Site\\b/gi, "")
         .trim() || item.domain,
       domain: item.domain,
       country: payload?.geography || null,
@@ -237,7 +248,7 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
       signals: [
         "Discovered via zero-API web search.",
         "Official domain reachable.",
-        `Deterministic commercial-fit score: ${score}.`,
+        `Deterministic commercial-fit score: ${item.preScore}.`,
         String(payload?.turkeyPriority || "") === "domestic"
           ? "Turkey domestic priority lane."
           : String(payload?.turkeyPriority || "") === "turkey-linked"
@@ -247,16 +258,15 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
             : "General global lane.",
       ],
       sourceUrls: [...new Set([item.url, ...(contact.sourceUrls || [])])],
-      deterministicScore: score,
+      deterministicScore: item.preScore,
       searchEvidence: {
         title: item.title,
         snippet: item.snippet,
         searchUrl: item.searchUrl,
       },
-    });
-
-    if (candidates.length >= targetLimit) break;
-  }
+    };
+  });
+  const candidates = outcomes.filter(Boolean).slice(0, targetLimit);
 
   return {
     ok: candidates.length > 0,
