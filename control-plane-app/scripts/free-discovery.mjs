@@ -6,6 +6,20 @@ const EXCLUDED_DOMAINS = new Set([
   "grandbazaarjewelers.com",
 ]);
 
+// A platform page is evidence for discovery, never the independent buyer's company domain.
+const NON_COMPANY_HOSTS = new Set([
+  "instagram.com","facebook.com","pinterest.com","tiktok.com","linkedin.com",
+  "youtube.com","google.com","google.com.tr","yandex.com","yandex.com.tr",
+  "duckduckgo.com","bing.com","trendyol.com","hepsiburada.com","amazon.com",
+  "amazon.com.tr","amazon.ae","noon.com","etsy.com","ebay.com",
+  "shopier.com","n11.com","beymen.com","hipicon.com"
+]);
+
+function isBlockedApex(domain) {
+  return [...EXCLUDED_DOMAINS, ...NON_COMPANY_HOSTS]
+    .some(blocked => domain === blocked || domain.endsWith("." + blocked));
+}
+
 function decodeHtml(text) {
   return String(text || "")
     .replace(/&amp;/gi, "&")
@@ -235,7 +249,7 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
   for (const item of raw) {
     const domain = normalizeDomain(item.url);
     if (!domain || domain.endsWith("duckduckgo.com")) continue;
-    if (EXCLUDED_DOMAINS.has(domain) || knownDomains.has(domain)) continue;
+    if (isBlockedApex(domain) || knownDomains.has(domain)) continue;
     if (!byDomain.has(domain)) byDomain.set(domain, { ...item, domain });
   }
 
@@ -260,7 +274,7 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
         .replace(/\bOfficial Site\b/gi, "")
         .trim() || item.domain,
       domain: item.domain,
-      country: payload?.geography || null,
+      country: null, // Search geography is a target, not independently verified company location.
       category: (payload?.customerTypes || []).join(" / ") || null,
       material: payload?.material || null,
       decisionMaker: null,
@@ -270,6 +284,7 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
       signals: [
         "Discovered via zero-API web search.",
         "Official domain reachable.",
+        `Target geography ${payload?.geography || "unknown"} — legal location still unverified.`,
         `Deterministic commercial-fit score: ${item.preScore}.`,
         String(payload?.turkeyPriority || "") === "domestic"
           ? "Turkey domestic priority lane."
