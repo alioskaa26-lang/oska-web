@@ -120,6 +120,25 @@ function queriesFor(payload) {
   ];
 
   const activeRoleSets = turkey ? turkeyRoleSets : roleSets;
+  // Short, localized queries: DDG returned 0-1 results for nested quoted OR,
+  // whereas short Turkish phrases returned ten results in the live read-only canary.
+  if (turkey) {
+    const cities = ["Ankara","İzmir","Bursa","Antalya","Adana","Konya","Gaziantep","Kayseri","Eskişehir","Trabzon"];
+    const city = cities[variant];
+    const terms = brass && silver
+      ? ["925 gümüş takı","pirinç takı","gümüş takı"]
+      : brass
+        ? ["pirinç takı","bronz takı","brass jewelry"]
+        : ["925 gümüş takı","gümüş takı","sterling silver takı"];
+    return [
+      `${terms[0]} mağaza ${city}`,
+      `${terms[1]} butik ${city}`,
+      `${terms[2]} e-ticaret ${city}`,
+      `${terms[0]} ${activeRoleSets[variant][0]} ${city}`,
+      `${terms[1]} toptancı ${city}`,
+    ];
+  }
+
 
   if (turkeyLinked) {
     const connectionTerms = [
@@ -178,8 +197,8 @@ function scoreText(text, payload) {
   let score = 0;
   const terms = materialTerms(payload);
   if (terms.some(t => lower.includes(t))) score += 35;
-  if (/retail|store|shop|stockist|boutique|multibrand|department store|e-commerce|ecommerce/.test(lower)) score += 20;
-  if (/wholesale|distributor|importer|agent|showroom|supplier|vendor|buyer|buying/.test(lower)) score += 20;
+  if (/retail|store|shop|stockist|boutique|multibrand|department store|e-commerce|ecommerce|mağaza|butik|perakende|e-ticaret|online mağaza/.test(lower)) score += 20;
+  if (/wholesale|distributor|importer|agent|showroom|supplier|vendor|buyer|buying|toptan|ithalat|tedarik|satın alma|dağıtım|bayi/.test(lower)) score += 20;
   if (/bracelet|ring|necklace|earring|jewelry|jewellery|takı|mücevher/.test(lower)) score += 15;
   if (/international|shipping|delivery|in stock|add to cart|shop now/.test(lower)) score += 10;
 
