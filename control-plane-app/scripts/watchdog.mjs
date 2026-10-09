@@ -196,6 +196,42 @@ const lanes = [
   },
 ];
 
+// Feature flag defaults OFF: public/no-spend research only, without a second business writer.
+// Runs one Turkey-first lane every 15 minutes; idempotent, bounded backlog.
+if (String(process.env.OSKA_READONLY_RESEARCH_ENABLED || "false").toLowerCase() === "true") {
+  const bucket = Math.floor(Date.now() / (15 * 60_000));
+  const lane = lanes[bucket % 4]; // Turkey first: four domestic market lanes.
+  const jobId = `source-research-${bucket}-${lane.id}`;
+  const open = await sql`
+    SELECT count(*)::int AS n FROM oska_jobs
+    WHERE type = 'source_research' AND status IN ('pending','running','retry')
+  `;
+  if (Number(open[0]?.n || 0) < 2) {
+    const added = await sql`
+      INSERT INTO oska_jobs
+        (id, type, payload, status, priority, preferred_providers, max_attempts, approval_status)
+      VALUES (
+        ${jobId},
+        'source_research',
+        ${sql.json({
+          lane: lane.id,
+          geography: lane.geography,
+          material: lane.material,
+          customerTypes: lane.customerTypes,
+          turkeyPriority: lane.turkeyPriority,
+          searchVariant: bucket % 10,
+          limit: 6,
+          sourceOnly: true,
+          noOutbound: true,
+        })},
+        'pending', 350, '[]'::jsonb, 2, 'not_required'
+      )
+      ON CONFLICT (id) DO NOTHING RETURNING id
+    `;
+    if (added.length) console.log("RESEARCH_ONLY_JOB_ENQUEUED", JSON.stringify({jobId, lane:lane.id}));
+  }
+}
+
 const reEnrichRows = await sql`
   WITH candidates AS (
     SELECT

@@ -6,6 +6,20 @@ const EXCLUDED_DOMAINS = new Set([
   "grandbazaarjewelers.com",
 ]);
 
+// A platform page is evidence for discovery, never the independent buyer's company domain.
+const NON_COMPANY_HOSTS = new Set([
+  "instagram.com","facebook.com","pinterest.com","tiktok.com","linkedin.com",
+  "youtube.com","google.com","google.com.tr","yandex.com","yandex.com.tr",
+  "duckduckgo.com","bing.com","trendyol.com","hepsiburada.com","amazon.com",
+  "amazon.com.tr","amazon.ae","noon.com","etsy.com","ebay.com",
+  "shopier.com","n11.com","beymen.com","hipicon.com"
+]);
+
+function isBlockedApex(domain) {
+  return [...EXCLUDED_DOMAINS, ...NON_COMPANY_HOSTS]
+    .some(blocked => domain === blocked || domain.endsWith("." + blocked));
+}
+
 function decodeHtml(text) {
   return String(text || "")
     .replace(/&amp;/gi, "&")
@@ -120,6 +134,25 @@ function queriesFor(payload) {
   ];
 
   const activeRoleSets = turkey ? turkeyRoleSets : roleSets;
+  // Short, localized queries: DDG returned 0-1 results for nested quoted OR,
+  // whereas short Turkish phrases returned ten results in the live read-only canary.
+  if (turkey) {
+    const cities = ["Ankara","İzmir","Bursa","Antalya","Adana","Konya","Gaziantep","Kayseri","Eskişehir","Trabzon"];
+    const city = cities[variant];
+    const terms = brass && silver
+      ? ["925 gümüş takı","pirinç takı","gümüş takı"]
+      : brass
+        ? ["pirinç takı","bronz takı","brass jewelry"]
+        : ["925 gümüş takı","gümüş takı","sterling silver takı"];
+    return [
+      `${terms[0]} mağaza ${city}`,
+      `${terms[1]} butik ${city}`,
+      `${terms[2]} e-ticaret ${city}`,
+      `${terms[0]} ${activeRoleSets[variant][0]} ${city}`,
+      `${terms[1]} toptancı ${city}`,
+    ];
+  }
+
 
   if (turkeyLinked) {
     const connectionTerms = [
@@ -178,8 +211,8 @@ function scoreText(text, payload) {
   let score = 0;
   const terms = materialTerms(payload);
   if (terms.some(t => lower.includes(t))) score += 35;
-  if (/retail|store|shop|stockist|boutique|multibrand|department store|e-commerce|ecommerce/.test(lower)) score += 20;
-  if (/wholesale|distributor|importer|agent|showroom|supplier|vendor|buyer|buying/.test(lower)) score += 20;
+  if (/retail|store|shop|stockist|boutique|multibrand|department store|e-commerce|ecommerce|mağaza|butik|perakende|e-ticaret|online mağaza/.test(lower)) score += 20;
+  if (/wholesale|distributor|importer|agent|showroom|supplier|vendor|buyer|buying|toptan|ithalat|tedarik|satın alma|dağıtım|bayi/.test(lower)) score += 20;
   if (/bracelet|ring|necklace|earring|jewelry|jewellery|takı|mücevher/.test(lower)) score += 15;
   if (/international|shipping|delivery|in stock|add to cart|shop now/.test(lower)) score += 10;
 
@@ -191,43 +224,57 @@ function scoreText(text, payload) {
   return Math.min(100, score);
 }
 
+// Read-only bounded fanout; results preserve query order for deterministic dedup.
+async function mapConcurrent(items, limit, mapper) {
+  const out = new Array(items.length);
+  let next = 0;
+  await Promise.all(Array.from({ length: Math.min(items.length, limit) }, async () => {
+    while (next < items.length) {
+      const index = next++;
+      try { out[index] = await mapper(items[index], index); }
+      catch { out[index] = null; }
+    }
+  }));
+  return out;
+}
+
 export async function freeDiscovery(payload, knownDomains = new Set()) {
-  const raw = [];
-  for (const query of queriesFor(payload)) {
-    try {
-      raw.push(...await searchDuck(query));
-    } catch {}
-  }
+  const searchQueries = queriesFor(payload);
+  const searchResults = await mapConcurrent(searchQueries, 3, async (query) => {
+    try { return await searchDuck(query); } catch { return []; }
+  });
+  const raw = searchResults.flatMap((batch) => Array.isArray(batch) ? batch : []);
 
   const byDomain = new Map();
   for (const item of raw) {
     const domain = normalizeDomain(item.url);
-    if (!domain) continue;
-    if (domain.endsWith("duckduckgo.com")) continue;
-    if (EXCLUDED_DOMAINS.has(domain)) continue;
-    if (knownDomains.has(domain)) continue;
+    if (!domain || domain.endsWith("duckduckgo.com")) continue;
+    if (isBlockedApex(domain) || knownDomains.has(domain)) continue;
     if (!byDomain.has(domain)) byDomain.set(domain, { ...item, domain });
   }
 
   const targetLimit = Math.max(1, Math.min(8, Number(payload?.limit || 6)));
+  // Score before fetching 6-page contact crawls to avoid unnecessary I/O.
+  const screened = [...byDomain.values()]
+    .map(item => ({ ...item, preScore: scoreText(`${item.title} ${item.snippet}`, payload) }))
+    .filter(item => item.preScore >= 35)
+    .slice(0, 18);
+
+  // Expand in small waves: don't crawl 18 sites when six usable firms suffice.
   const candidates = [];
-
-  for (const item of [...byDomain.values()].slice(0, 18)) {
+  for (let offset = 0; offset < screened.length && candidates.length < targetLimit; offset += 4) {
+    const outcomes = await mapConcurrent(screened.slice(offset, offset + 4), 4, async (item) => {
     const contact = await freeOfficialContactEnrich(item.domain);
-    if (!contact.live) continue;
-
+    if (!contact.live) return null;
     const searchText = `${item.title} ${item.snippet}`;
     const turkeyConnection = detectTurkeyConnection(searchText);
-    const score = scoreText(searchText, payload);
-    if (score < 35) continue;
-
-    candidates.push({
+    return {
       company: item.title
         .replace(/\s+[|–—-]\s+.*$/, "")
         .replace(/\bOfficial Site\b/gi, "")
         .trim() || item.domain,
       domain: item.domain,
-      country: payload?.geography || null,
+      country: null, // Search geography is a target, not independently verified company location.
       category: (payload?.customerTypes || []).join(" / ") || null,
       material: payload?.material || null,
       decisionMaker: null,
@@ -237,7 +284,8 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
       signals: [
         "Discovered via zero-API web search.",
         "Official domain reachable.",
-        `Deterministic commercial-fit score: ${score}.`,
+        `Target geography ${payload?.geography || "unknown"} — legal location still unverified.`,
+        `Deterministic commercial-fit score: ${item.preScore}.`,
         String(payload?.turkeyPriority || "") === "domestic"
           ? "Turkey domestic priority lane."
           : String(payload?.turkeyPriority || "") === "turkey-linked"
@@ -247,16 +295,17 @@ export async function freeDiscovery(payload, knownDomains = new Set()) {
             : "General global lane.",
       ],
       sourceUrls: [...new Set([item.url, ...(contact.sourceUrls || [])])],
-      deterministicScore: score,
+      deterministicScore: item.preScore,
       searchEvidence: {
         title: item.title,
         snippet: item.snippet,
         searchUrl: item.searchUrl,
       },
-    });
-
-    if (candidates.length >= targetLimit) break;
+    };
+  });
+    candidates.push(...outcomes.filter(Boolean));
   }
+  candidates.length = Math.min(candidates.length, targetLimit);
 
   return {
     ok: candidates.length > 0,

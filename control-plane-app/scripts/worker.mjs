@@ -905,6 +905,46 @@ async function processJob(job) {
     return;
   }
 
+  // Source-only research: keep business Queue ownership exclusively with Lead Engine v3.
+  // Only job result JSON is written. Nothing is upserted into oska_leads or Google Sheets.
+  if (job.type === "source_research") {
+    const knownRows = await sql`
+      SELECT domain FROM oska_known_entities WHERE domain IS NOT NULL
+      UNION
+      SELECT domain FROM oska_leads WHERE domain IS NOT NULL
+    `;
+    const knownDomains = new Set(
+      knownRows.map(row => String(row.domain).toLowerCase().replace(/^www\\./, ""))
+    );
+    const research = await freeDiscovery(job.payload, knownDomains);
+    const seeds = (research.leads || []).slice(0, 8).map(lead => ({
+      company: lead.company,
+      domain: lead.domain,
+      sourceUrls: (lead.sourceUrls || []).slice(0, 6),
+      targetGeography: job.payload?.geography || null,
+      verifiedCompanyCountry: null,
+      qualification: "SOURCE_SEED_UNVERIFIED",
+      buyerIntent: "NOT_PROVEN",
+    }));
+    await markProvider("zero-api-public-research", true);
+    await addEvent(job.id, "research_only_completed", {
+      lane: job.payload?.lane || null,
+      candidates: seeds.length,
+      businessQueueWrites: 0,
+    });
+    await complete(job, {
+      accepted: seeds.length > 0,
+      researchOnly: true,
+      candidateCount: seeds.length,
+      verifiedQualifiedCount: 0,
+      businessQueueWrites: 0,
+      source: research.backend || "public-web",
+      observedAt: new Date().toISOString(),
+      seeds,
+    });
+    return;
+  }
+
   if (job.type === "lead_discovery") {
     const knownRows = await sql`
       SELECT domain FROM oska_known_entities WHERE domain IS NOT NULL
