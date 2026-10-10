@@ -61,7 +61,7 @@ try{
       count(*) FILTER (WHERE last_verified_at >= now()-interval '24 hours')::int AS refreshed_24h,
       count(*) FILTER (WHERE lower(coalesce(material,'')) ~ '(gold|altın|altin|14k|18k)')::int AS gold,
       count(*) FILTER (WHERE lower(coalesce(material,'')) ~ '(925|silver|gümüş|sterling)')::int AS silver,
-      count(*) FILTER (WHERE status='contact_ready' AND jsonb_array_length(source_urls)=0)::int AS contact_ready_without_source
+      count(*) FILTER (WHERE status='contact_ready' AND (CASE WHEN jsonb_typeof(source_urls)='array' THEN jsonb_array_length(source_urls)=0 ELSE true END))::int AS contact_ready_without_source
     FROM oska_leads`;
   const [jobCounts] = await sql`
     SELECT count(*) FILTER (WHERE type='source_research' AND status='completed' AND completed_at >= now()-interval '24 hours')::int AS source_jobs_24h,
