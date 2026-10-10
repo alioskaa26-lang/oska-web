@@ -142,6 +142,59 @@ try {
   console.log("Known lead seed file not present; continuing.");
 }
 
+await sql.unsafe(`
+CREATE TABLE IF NOT EXISTS oska_customer_threads (
+  id TEXT PRIMARY KEY,
+  channel TEXT NOT NULL,
+  external_customer_key TEXT,
+  company TEXT,
+  contact_name TEXT,
+  language TEXT,
+  country TEXT,
+  b2b BOOLEAN,
+  status TEXT NOT NULL DEFAULT 'new'
+    CHECK (status IN ('new','qualifying','qualified','rfq_draft','waiting_human','closed')),
+  last_intent TEXT,
+  last_summary TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (channel, external_customer_key)
+);
+
+CREATE INDEX IF NOT EXISTS oska_customer_threads_status_idx
+  ON oska_customer_threads (status, updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS oska_customer_messages (
+  id BIGSERIAL PRIMARY KEY,
+  thread_id TEXT NOT NULL REFERENCES oska_customer_threads(id) ON DELETE CASCADE,
+  direction TEXT NOT NULL
+    CHECK (direction IN ('inbound','assistant_draft','outbound')),
+  channel TEXT NOT NULL,
+  body TEXT NOT NULL,
+  metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS oska_customer_messages_thread_idx
+  ON oska_customer_messages (thread_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS oska_customer_actions (
+  id BIGSERIAL PRIMARY KEY,
+  thread_id TEXT NOT NULL REFERENCES oska_customer_threads(id) ON DELETE CASCADE,
+  action_type TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'draft'
+    CHECK (status IN ('draft','pending_approval','approved','rejected','completed')),
+  approval_required BOOLEAN NOT NULL DEFAULT true,
+  payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS oska_customer_actions_pending_idx
+  ON oska_customer_actions (status, created_at);
+`);
+
+
 
 
 console.log("OSKA Control Plane schema ready");
