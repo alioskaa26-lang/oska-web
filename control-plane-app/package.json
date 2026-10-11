@@ -12,7 +12,8 @@
     "watchdog": "node scripts/watchdog.mjs",
     "test": "vitest run",
     "pilot:route": "node scripts/public-route-canary.mjs",
-    "pilot:quality": "vitest run tests/lead-quality.test.mjs"
+    "pilot:quality": "vitest run tests/lead-quality.test.mjs",
+    "pilot:leadqa": "node scripts/lead-qa-canary.mjs"
   },
   "dependencies": {
     "next": "16.2.6",
