@@ -52,8 +52,8 @@ export function sameFirm(a, b) {
   const aa = actualApex(a.domain);
   const bb = actualApex(b.domain);
   if (aa && bb && aa === bb) return true;
-  const namesA = [a.legalName, a.company, a.brand].map(normalizedFirm).filter(Boolean);
-  const namesB = [b.legalName, b.company, b.brand].map(normalizedFirm).filter(Boolean);
+  const namesA = [a.legalName, a.company].map(normalizedFirm).filter(Boolean);
+  const namesB = [b.legalName, b.company].map(normalizedFirm).filter(Boolean);
   // Name overlap is a review alert, not an automatic merge across countries.
   return Boolean(a.country && b.country &&
     normalizedFirm(a.country) === normalizedFirm(b.country) &&
