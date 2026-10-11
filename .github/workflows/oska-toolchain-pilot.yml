@@ -1,0 +1,36 @@
+name: OSKA Toolchain Pilot QA
+on:
+  push:
+    branches:
+      - oska/quality-observability-research-20261011
+  pull_request:
+    branches:
+      - oska-control-plane-runtime
+    paths:
+      - "control-plane-app/**"
+      - ".github/workflows/oska-toolchain-pilot.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: control-plane-app
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      OSKA_TELEMETRY_ENABLED: "false"
+      OSKA_PUBLIC_CRAWL_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies (no browser download or postinstall side effects)
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: TypeScript check
+        run: npm run typecheck
