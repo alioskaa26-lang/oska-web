@@ -9,18 +9,29 @@
     "typecheck": "tsc --noEmit",
     "migrate": "node scripts/migrate.mjs",
     "worker": "node scripts/worker.mjs",
-    "watchdog": "node scripts/watchdog.mjs"
+    "watchdog": "node scripts/watchdog.mjs",
+    "test": "vitest run",
+    "pilot:route": "node scripts/public-route-canary.mjs",
+    "pilot:quality": "vitest run tests/lead-quality.test.mjs"
   },
   "dependencies": {
     "next": "16.2.6",
     "postgres": "3.4.9",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "@langfuse/otel": "^5.13.1",
+    "@langfuse/tracing": "^5.13.1",
+    "@opentelemetry/sdk-node": "^0.223.0",
+    "@sentry/node": "^11.6.0",
+    "crawlee": "^3.18.1",
+    "playwright": "^1.63.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/node": "24.7.0",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "^5.0.3"
   }
 }
