@@ -9,6 +9,7 @@ this code does not connect a second Queue writer.
 - Zod: fail-closed public lead identity, seller apex, material, evidence QA in `lib/lead-quality.mjs`.
   `VERIFIER_PENDING` **is not** QUALIFIED, NET-NEW, Sales Ready, an order, or a purchase.
   Cross-system true legal firm+own apex dedup and independent verifier remain mandatory.
+- Read-only candidate screening: `npm run pilot:leadqa -- ./local-research.json` (bounded 25 rows, zero writes).
 - Vitest: regression tests in `tests/lead-quality.test.mjs`, `npm test`.
 - Sentry: optional `@sentry/node` error signals for the worker/watchdog.
   **Default OFF**. Only static error category/stage; no raw client details, messages or payloads.
