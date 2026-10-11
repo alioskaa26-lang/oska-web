@@ -19,8 +19,13 @@ export async function initOskaTelemetry(service = "oska-worker") {
       sendDefaultPii:false,
       tracesSampleRate:0,
       beforeSend(event) {
+        // Raw exception messages/stacks may contain URLs, customer data or secrets.
+        const safe = typeof event.message === "string" && /^OSKA_[A-Z0-9_-]+$/.test(event.message)
+          ? event.message : "OSKA_RUNTIME_FAILURE";
+        delete event.exception;
         delete event.request;
         delete event.user;
+        event.message = safe;
         event.breadcrumbs = [];
         event.extra = {};
         event.contexts = {};
