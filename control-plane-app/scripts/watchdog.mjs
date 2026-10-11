@@ -1,4 +1,7 @@
 import postgres from "postgres";
+import { initOskaTelemetry, flushOskaTelemetry } from "../lib/telemetry.mjs";
+
+await initOskaTelemetry("oska-watchdog");
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL_NOT_CONFIGURED");
@@ -512,4 +515,5 @@ console.log(
   }),
 );
 
+await flushOskaTelemetry();
 await sql.end();
