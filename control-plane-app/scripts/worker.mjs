@@ -1,4 +1,5 @@
 import postgres from "postgres";
+import { initOskaTelemetry, reportSafeFailure, flushOskaTelemetry, withOskaObservation } from "../lib/telemetry.mjs";
 import { createHash, randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 import { freeOfficialContactEnrich, freeSearchContactEnrich } from "./free-enrich.mjs";
@@ -1664,8 +1665,9 @@ async function workerLoop(slot) {
     }
 
     try {
-      await processJob(job);
+      await withOskaObservation("job_" + job.type, () => processJob(job));
     } catch (error) {
+      reportSafeFailure("job_failed", job.type);
       await fail(job, error);
     }
   }
@@ -1734,6 +1736,7 @@ async function recoverHistoricalBackfill() {
 }
 
 async function main() {
+  await initOskaTelemetry("oska-worker");
   console.log(
     "OSKA_WORKER_STARTED",
     JSON.stringify({
@@ -1762,6 +1765,7 @@ async function main() {
 
 async function shutdown(signal) {
   console.log("WORKER_SHUTDOWN", signal);
+  await flushOskaTelemetry();
   await sql.end({ timeout: 5 });
   process.exit(0);
 }
@@ -1770,7 +1774,9 @@ process.on("SIGTERM", () => void shutdown("SIGTERM"));
 process.on("SIGINT", () => void shutdown("SIGINT"));
 
 main().catch(async (error) => {
+  reportSafeFailure("fatal", "worker");
   console.error("WORKER_FATAL", error);
+  await flushOskaTelemetry();
   await sql.end({ timeout: 5 });
   process.exit(1);
 });
